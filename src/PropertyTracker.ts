@@ -9,14 +9,10 @@
  * set velocity(value: number) { this.velocityTracker.value = value; }
  */
 export default class PropertyTracker<T> {
-    /**
-     * The most up-to-date value
-     */
+    /** The most up-to-date value */
     value: T;
 
-    /**
-     * The last accepted value
-     */
+    /** The last accepted value */
     oldValue: T;
 
     /**
@@ -28,23 +24,17 @@ export default class PropertyTracker<T> {
         this.oldValue = initValue;
     }
 
-    /**
-     * Has the property changed since it was last accepted?
-     */
+    /** Has the property changed since it was last accepted? */
     get isDirty(): boolean {
         return this.value !== this.oldValue;
     }
 
-    /**
-     * Accept changes made to the property, no longer hang on to the old property value
-     */
+    /** Accept changes made to the property, no longer hang on to the old property value */
     accept(): void {
         this.oldValue = this.value;
     }
 
-    /**
-     * Undo changes made to the property, revert back to the last accepted property value
-     */
+    /** Undo changes made to the property, revert back to the last accepted property value */
     undo(): void {
         this.value = this.oldValue;
     }

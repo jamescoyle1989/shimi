@@ -4,12 +4,21 @@
   "description": "A JS framework for building complex MIDI applications",
   "main": "dist/index.ts",
   "scripts": {
-    "test": "test"
+    "test": "nyc ./node_modules/.bin/_mocha 'test/*.test.ts'"
   },
   "author": "James Coyle",
   "license": "ISC",
   "types": "dist/index.d.ts",
   "files": [
-      "/dist"
-  ]
+    "/dist"
+  ],
+  "dependencies": {
+    "@testdeck/mocha": "^0.1.2",
+    "@types/chai": "^4.2.21",
+    "chai": "^4.3.4",
+    "mocha": "^9.0.2",
+    "nyc": "^15.1.0",
+    "ts-mockito": "^2.6.1",
+    "ts-node": "^10.1.0"
+  }
 }
