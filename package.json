@@ -1,0 +1,15 @@
+{
+  "name": "shimi",
+  "version": "0.0.1",
+  "description": "A JS framework for building complex MIDI applications",
+  "main": "dist/index.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "James Coyle",
+  "license": "ISC",
+  "types": "dist/index.d.ts",
+  "files": [
+      "/dist"
+  ]
+}
