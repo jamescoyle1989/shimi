@@ -1,0 +1,18 @@
+<?xml-stylesheet href="specstyle.css"?>
+<specification>
+    <requirement>
+        <request>Users must be able to get MIDI access which they can use to connect to any available MIDI port by name.</request>
+        <response>The MidiAccess class exposes a static async request() method which calls the requestMIDIAccess browser function. It returns a new instance of the MidiAccess class. The MidiAccess class has methods getInPort and getOutPort, both of which take the port name as parameter.</response>
+    </requirement>
+    <requirement>
+        <request>Users must be able to create a MIDI output which references a MIDI port. This MIDI output must expose functions for all of the Channel Voice Messages as defined in the MIDI 1.0 specification (https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message), each of which send the corresponding MIDI message to the connected port.</request>
+    </requirement>
+    <requirement>
+        <request>Users must be able to pass note objects to a MIDI output, where the MIDI output will send a Note On message as soon as the note object is added, it will then track the note and automatically send a Note Off message as soon as the note object's state gets updated to say it needs to stop.</request>
+        <response>The MidiOut class has an addNote method which takes a note object. It then stores that object. It also implements the IClockChild interface, with an update method that checks if any of the note objects have had their 'on' property changed to false since the previous update.</response>
+    </requirement>
+    <requirement>
+        <request>Users must be able to create an object which sends regular update messages to Midi outputs, metronomes, or any other object which requires frequent updates.</request>
+        <response>Added the Clock object which takes in as a constructor parameter how many milliseconds should be between each update. Has start and stop methods for controlling the running of the clock, as well as a list of children that it should update.</response>
+    </requirement>
+</specification>
