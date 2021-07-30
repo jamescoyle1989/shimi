@@ -1,18 +1,39 @@
 <?xml-stylesheet href="specstyle.css"?>
 <specification>
     <requirement>
-        <request>Users must be able to get MIDI access which they can use to connect to any available MIDI port by name.</request>
-        <response>The MidiAccess class exposes a static async request() method which calls the requestMIDIAccess browser function. It returns a new instance of the MidiAccess class. The MidiAccess class has methods getInPort and getOutPort, both of which take the port name as parameter.</response>
+        <design>Users must be able to get MIDI access which they can use to connect to any available MIDI port by name.</design>
+        <implementation>The MidiAccess class exposes a static async request() method which calls the requestMIDIAccess browser function. It returns a new instance of the MidiAccess class. The MidiAccess class has methods getInPort and getOutPort, both of which take the port name as parameter.</implementation>
     </requirement>
     <requirement>
-        <request>Users must be able to create a MIDI output which references a MIDI port. This MIDI output must expose functions for all of the Channel Voice Messages as defined in the MIDI 1.0 specification (https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message), each of which send the corresponding MIDI message to the connected port.</request>
+        <design>Users must be able to create a MIDI output which references a MIDI port. This MIDI output must expose functions for all of the Channel Voice Messages as defined in the MIDI 1.0 specification (https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message), each of which send the corresponding MIDI message to the connected port.</design>
     </requirement>
     <requirement>
-        <request>Users must be able to pass note objects to a MIDI output, where the MIDI output will send a Note On message as soon as the note object is added, it will then track the note and automatically send a Note Off message as soon as the note object's state gets updated to say it needs to stop.</request>
-        <response>The MidiOut class has an addNote method which takes a note object. It then stores that object. It also implements the IClockChild interface, with an update method that checks if any of the note objects have had their 'on' property changed to false since the previous update.</response>
+        <design>Users must be able to pass note objects to a MIDI output, where the MIDI output will send a Note On message as soon as the note object is added, it will then track the note and automatically send a Note Off message as soon as the note object's state gets updated to say it needs to stop.</design>
+        <implementation>The MidiOut class has an addNote method which takes a note object. It then stores that object. It also implements the IClockChild interface, with an update method that checks if any of the note objects have had their 'on' property changed to false since the previous update.</implementation>
     </requirement>
     <requirement>
-        <request>Users must be able to create an object which sends regular update messages to Midi outputs, metronomes, or any other object which requires frequent updates.</request>
-        <response>Added the Clock object which takes in as a constructor parameter how many milliseconds should be between each update. Has start and stop methods for controlling the running of the clock, as well as a list of children that it should update.</response>
+        <design>Users must be able to create an object which sends regular update messages to Midi outputs, metronomes, or any other object which requires frequent updates.</design>
+        <implementation>Added the Clock object which takes in as a constructor parameter how many milliseconds should be between each update. Has start and stop methods for controlling the running of the clock, as well as a list of children that it should update.</implementation>
     </requirement>
+    <requirement>
+        <design>Users must have an easy way to attach logic to key presses and releases on their computer keyboard. There must be a more readable + consistent mechanism available to them than adding an event listener and comparing event key codes.</design>
+    </requirement>
+    <requirement>
+        <design>Users must have a way to be able to search through all keys on their keyboard. Each key should be able to easily tell them if it's currently pressed, and if so, how long it's been pressed for.</design>
+    </requirement>
+
+    <group name="Metronome">
+        <requirement>
+            <design>Users should be able to create metronomes which don't just count how many quarter notes have passed in a bar, but can also divide a bar into a set of more abstract 'beats'. Where each beat can be of different length to the others. For example, the beat structure of a metronome for the Mission Impossible theme may count 4 beats per bar, despite the theme being in 5/4, where beats 1 + 2 are a dotted quarter note each, while beats 3 + 4 are a quarter note each.</design>
+        </requirement>
+        <requirement>
+            <design>Metronomes should be able to apply swing. This swing can be either universal, or customly set per beat. This would for example, allow fine tune control of how a 4-beat pattern in 4/4 gets played on a 4-beat 11/8 metronome.</design>
+        </requirement>
+        <requirement>
+            <design>Users mustn't be tied to the more abstract irregular-beat driven metronome approach. If they want to use a simple metronome that just counts 1 quarter-note = 1 beat, they must also be able to do that.</design>
+        </requirement>
+        <requirement>
+            <design>If using the more standard, rudimentary form of metronome, then swing can only be applied universally, not differently across various parts of the bar. Also, if the metronome is counting a rhythm with a non-integer number of quarter-notes per bar, then no swing will be applied to the final fractional beat part of the bar.</design>
+        </requirement>
+    </group>
 </specification>
