@@ -15,12 +15,15 @@
         <design>Users must be able to create an object which sends regular update messages to Midi outputs, metronomes, or any other object which requires frequent updates.</design>
         <implementation>Added the Clock object which takes in as a constructor parameter how many milliseconds should be between each update. Has start and stop methods for controlling the running of the clock, as well as a list of children that it should update.</implementation>
     </requirement>
-    <requirement>
-        <design>Users must have an easy way to attach logic to key presses and releases on their computer keyboard. There must be a more readable + consistent mechanism available to them than adding an event listener and comparing event key codes.</design>
-    </requirement>
-    <requirement>
-        <design>Users must have a way to be able to search through all keys on their keyboard. Each key should be able to easily tell them if it's currently pressed, and if so, how long it's been pressed for.</design>
-    </requirement>
+
+    <group name="Input Devices">
+        <requirement>
+            <design>Users must have an easy way to attach logic to key presses and releases on their computer keyboard. There must be a more readable + consistent mechanism available to them than adding an event listener and comparing event key codes.</design>
+        </requirement>
+        <requirement>
+            <design>Users must have a way to be able to search through all keys on their keyboard. Each key should be able to easily tell them if it's currently pressed, and if so, how long it's been pressed for.</design>
+        </requirement>
+    </group>
 
     <group name="Metronome">
         <requirement>
@@ -36,4 +39,20 @@
             <design>If using the more standard, rudimentary form of metronome, then swing can only be applied universally, not differently across various parts of the bar. Also, if the metronome is counting a rhythm with a non-integer number of quarter-notes per bar, then no swing will be applied to the final fractional beat part of the bar.</design>
         </requirement>
     </group>
+
+    <group name="Clips">
+        <requirement>
+            <design>Users must be able to create Clip objects, where a clip has a pre-defined beat count, and specifies a number of notes to be played at specific times, each with their own velocities.</design>
+        </requirement>
+        <requirement>
+            <design>Users must be able to create clip player objects, which define a clip that's to be played, which metronome to base the clip's timing on, what speed to play it at, what channel to play it on, how to modify the pitch of each note, and how to modify the velocity of each note.</design>
+        </requirement>
+        <requirement>
+            <design>Users must be able to pass a clip player into a Midi Output to have the clip it contains be played.</design>
+        </requirement>
+    </group>
+
+    <requirement>
+        <design>Users must be able to create Cue objects, which specify an action, as well as a metronome + beat delay, a millisecond delay, or a condition which determines when the action gets run.</design>
+    </requirement>
 </specification>
