@@ -5,7 +5,7 @@ import MidiOut from './MidiOut';
 import Note from './Note';
 import PropertyTracker from './PropertyTracker';
 
-export {
+export default {
     Clock,
     MidiAccess,
     MidiOut,

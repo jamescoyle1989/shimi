@@ -11,17 +11,21 @@ export default class MidiAccess {
     }
 
     public getOutPort(portName: string): any {
+        let output = null;
         this._baseAccess.outputs.forEach(port => {
             if (port.name === portName)
-                return port;
+                output = port;
         });
+        return output;
     }
 
     public getInPort(portName: string): any {
+        let output = null;
         this._baseAccess.inputs.forEach(port => {
             if (port.name === portName)
-                return port;
+                output = port;
         });
+        return output;
     }
 
     public getOutPorts(): string[] {

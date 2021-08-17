@@ -1,13 +1,18 @@
 <?xml-stylesheet href="specstyle.css"?>
 <specification>
-    <requirement>
-        <design>Users must be able to get MIDI access which they can use to connect to any available MIDI port by name.</design>
-        <implementation>The MidiAccess class exposes a static async request() method which calls the requestMIDIAccess browser function. It returns a new instance of the MidiAccess class. The MidiAccess class has methods getInPort and getOutPort, both of which take the port name as parameter.</implementation>
-    </requirement>
-    <requirement>
-        <design>Users must be able to create a MIDI output which references a MIDI port. This MIDI output must expose functions for all of the Channel Voice Messages as defined in the MIDI 1.0 specification (https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message), each of which send the corresponding MIDI message to the connected port.</design>
-        <implementation>The MidiOut class includes methods for sending each of the Channel Voice messages as defined in the MIDI specification. Since the Pitch Bend Change message is very unfriendly to work with due to the bend value being split over 2 bytes, the sendPitchBend method takes a percent parameter which ranges from -1 to +1, which gets converted into the 2 byte bend value. The MidiOut class also has a sendRawData method which takes an array of data to be sent to the MIDI port as is.</implementation>
-    </requirement>
+    <group name="Setup">
+        <requirement>
+            <design>Users must be able to easily import the library and add it into their code.</design>
+        </requirement>
+        <requirement>
+            <design>Users must be able to get MIDI access which they can use to connect to any available MIDI port by name.</design>
+            <implementation>The MidiAccess class exposes a static async request() method which calls the requestMIDIAccess browser function. It returns a new instance of the MidiAccess class. The MidiAccess class has methods getInPort and getOutPort, both of which take the port name as parameter.</implementation>
+        </requirement>
+        <requirement>
+            <design>Users must be able to create a MIDI output which references a MIDI port. This MIDI output must expose functions for all of the Channel Voice Messages as defined in the MIDI 1.0 specification (https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message), each of which send the corresponding MIDI message to the connected port.</design>
+            <implementation>The MidiOut class includes methods for sending each of the Channel Voice messages as defined in the MIDI specification. Since the Pitch Bend Change message is very unfriendly to work with due to the bend value being split over 2 bytes, the sendPitchBend method takes a percent parameter which ranges from -1 to +1, which gets converted into the 2 byte bend value. The MidiOut class also has a sendRawData method which takes an array of data to be sent to the MIDI port as is.</implementation>
+        </requirement>
+    </group>
     <requirement>
         <design>Users must be able to pass note objects to a MIDI output, where the MIDI output will send a Note On message as soon as the note object is added, it will then track the note and automatically send a Note Off message as soon as the note object's state gets updated to say it needs to stop.</design>
         <implementation>The MidiOut class has an addNote method which takes a note object. It then stores that object. It also implements the IClockChild interface, with an update method that checks if any of the note objects have had their 'on' property changed to false since the previous update.</implementation>
