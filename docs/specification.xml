@@ -25,9 +25,11 @@
     <group name="Input Devices">
         <requirement>
             <design>Users must have an easy way to attach logic to key presses and releases on their computer keyboard. There must be a more readable + consistent mechanism available to them than adding an event listener and comparing event key codes.</design>
+            <implementation>The Keyboard class manages all key state tracking. The user can then just add logic like: keyboard.q.pressed.add(() => ...);</implementation>
         </requirement>
         <requirement>
             <design>Users must have a way to be able to search through all keys on their keyboard. Each key should be able to easily tell them if it's currently pressed, and if so, how long it's been pressed for.</design>
+            <implementation>The Keyboard class has a buttons array, which contains all of the ButtonInput objects that it also holds as properties. So you can do stuff like keyboard.buttons.filter(b => b.activeMs > 500)</implementation>
         </requirement>
     </group>
 
