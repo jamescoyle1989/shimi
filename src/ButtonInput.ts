@@ -21,6 +21,9 @@ export default class ButtonInput {
     /** Returns whether the button is pressed or not */
     get state(): boolean { return this.stateTracker.value; }
 
+    get name(): string { return this._name; }
+    private _name: string;
+
     /** Returns how many consecutive milliseconds the button has been held pressed */
     get activeMs(): number { return this._activeMs; }
     private _activeMs: number = 0;
@@ -31,8 +34,9 @@ export default class ButtonInput {
     /** Contains logic to run when the button is released */
     released: ButtonEvent = new ButtonEvent();
 
-    constructor() {
+    constructor(name: string) {
         this.stateTracker = new PropertyTracker(false);
+        this._name = name;
     }
 
     /**
