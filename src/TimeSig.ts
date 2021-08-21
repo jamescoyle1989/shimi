@@ -55,6 +55,25 @@ export default class TimeSig {
         return countSum * multiplier;
     }
 
+    applySwing(position: number, swing: number = null): number {
+        let swingAmount = swing ?? this.swing;
+        if (swingAmount == 0)
+            return position;
+        
+        let output = Math.floor(position);
+        position = position % 1;
+
+        //Get a swing value that goes from 0.01 to 0.99
+        //This corresponds to the percent through the division where the midpoint is
+        swingAmount = 0.5 + (Math.max(-0.98, Math.min(0.98, swingAmount)) / 2);
+        const swingMid = swingAmount;
+        if (position <= swingMid)
+            output += (position / swingMid) * 0.5;
+        else
+            output += 0.5 + (((position - swingMid) / (1 - swingMid)) * 0.5);
+        return output;
+    }
+
     /** Takes in a quarter note position within a bar and returns the corresponding bar beat position */
     quarterNoteToBeat(quarterNote: number): number {
         const bpb = this.beatsPerBar;
@@ -119,5 +138,10 @@ export default class TimeSig {
             }
         }
         return quarterNotesFromFullBars + quarterNote;
+    }
+    
+
+    static commonTime(swing: number = 0) {
+        return new TimeSig([1,1,1,1], 4, swing);
     }
 }

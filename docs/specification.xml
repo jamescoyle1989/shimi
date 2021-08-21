@@ -42,9 +42,11 @@
         </requirement>
         <requirement>
             <design>Users mustn't be tied to the more abstract irregular-beat driven metronome approach. If they want to use a simple metronome that just counts 1 quarter-note = 1 beat, they must also be able to do that.</design>
+            <implementation>Added Metronome class which implements the IMetronome interface. The interface allows for both quarterNote &amp; beat properties to be exposed, though in this case the they both essentially just tracker quarter notes, with minor difference being that the beat property will also expose any swing.</implementation>
         </requirement>
         <requirement>
             <design>If using the more standard, rudimentary form of metronome, then swing can only be applied universally, not differently across various parts of the bar. Also, if the metronome is counting a rhythm with a non-integer number of quarter-notes per bar, then no swing will be applied to the final fractional beat part of the bar.</design>
+            <implementation>The simple Metronome class just uses TimeSig's swing property for determining its swing, it doesn't use swing defined at the division level. If it's at the end of a bar where the last quarter note is incomplete, then it ignores any swing for that little bit only.</implementation>
         </requirement>
     </group>
 

@@ -32,6 +32,22 @@ import TimeSig from '../src/TimeSig';
         expect(() => new TimeSig([1,-1], 4)).to.throw();
     }
 
+    @test 'applySwing returns correct values'() {
+        const timeSig = TimeSig.commonTime(0.33333);
+        expect(timeSig.applySwing(0)).to.equal(0);
+        expect(timeSig.applySwing(0.5)).to.be.closeTo(0.375, 0.001)
+        expect(timeSig.applySwing(1)).to.equal(1);
+        expect(timeSig.applySwing(1.5)).to.be.closeTo(1.375, 0.001);
+        expect(timeSig.applySwing(2)).to.equal(2);
+        expect(timeSig.applySwing(2.5)).to.be.closeTo(2.375, 0.001);
+        expect(timeSig.applySwing(3)).to.equal(3);
+        expect(timeSig.applySwing(3.5)).to.be.closeTo(3.375, 0.001);
+        expect(timeSig.applySwing(4)).to.equal(4);
+        expect(timeSig.applySwing(4.5)).to.be.closeTo(4.375, 0.001);
+
+        expect(timeSig.applySwing(12)).to.equal(12);
+    }
+
     @test 'quarterNoteToBeat returns correct values'() {
         const timeSig = new TimeSig(
             [{count:1.5, swing:0.33333}, {count:1.5, swing:0.33333}, 1, 1],
