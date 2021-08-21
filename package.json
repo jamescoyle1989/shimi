@@ -2,9 +2,10 @@
   "name": "shimi",
   "version": "0.0.2",
   "description": "A JS framework for building complex MIDI applications",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "nyc ./node_modules/.bin/_mocha 'test/*.test.ts'"
+    "test": "nyc ./node_modules/.bin/_mocha 'test/*.test.ts'",
+    "build": "tsc && npx webpack"
   },
   "author": "James Coyle",
   "license": "ISC",
@@ -20,5 +21,9 @@
     "nyc": "^15.1.0",
     "ts-mockito": "^2.6.1",
     "ts-node": "^10.1.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   }
 }
