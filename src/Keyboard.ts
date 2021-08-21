@@ -373,7 +373,7 @@ export default class Keyboard implements IClockChild {
         return true;
     }
 
-    private _onKeyDown(event: KeyboardEvent) {
+    private _onKeyDown = (event: KeyboardEvent) => {
         const button = this._getButtonByEventCode(event.code);
         if (button) {
             button.stateTracker.value = true;
@@ -381,7 +381,7 @@ export default class Keyboard implements IClockChild {
         }
     }
 
-    private _onKeyUp(event: KeyboardEvent) {
+    private _onKeyUp = (event: KeyboardEvent) => {
         const button = this._getButtonByEventCode(event.code);
         if (button) {
             button.stateTracker.value = false;
