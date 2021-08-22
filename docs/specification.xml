@@ -36,9 +36,11 @@
     <group name="Metronome">
         <requirement>
             <design>Users should be able to create metronomes which don't just count how many quarter notes have passed in a bar, but can also divide a bar into a set of more abstract 'beats'. Where each beat can be of different length to the others. For example, the beat structure of a metronome for the Mission Impossible theme may count 4 beats per bar, despite the theme being in 5/4, where beats 1 + 2 are a dotted quarter note each, while beats 3 + 4 are a quarter note each.</design>
+            <implementation>The TimeSig class takes an array of 'divisions', where each division is one beat of the bar, defining its own count and optional swing. The Flexinome class implements the IMetronome interface much like the regular Metronome class but its implementation takes full advantage of the TimeSig's divisions.</implementation>
         </requirement>
         <requirement>
             <design>Metronomes should be able to apply swing. This swing can be either universal, or customly set per beat. This would for example, allow fine tune control of how a 4-beat pattern in 4/4 gets played on a 4-beat 11/8 metronome.</design>
+            <implementation>The fine-grain, per-beat control of swing is only available to the Flexinome. If a TimeSig defines a swing value on one of its divisions, then that swing value will be taken over whatever overall swing value the TimeSig has.</implementation>
         </requirement>
         <requirement>
             <design>Users mustn't be tied to the more abstract irregular-beat driven metronome approach. If they want to use a simple metronome that just counts 1 quarter-note = 1 beat, they must also be able to do that.</design>

@@ -2,6 +2,7 @@
 import ButtonInput, { ButtonEvent, ButtonEventData } from './ButtonInput';
 import Clock from './Clock';
 import EventSubscriber from './EventSubscriber';
+import Flexinome from './Flexinome';
 import Keyboard from './Keyboard';
 import Metronome from './Metronome';
 import MidiAccess from './MidiAccess';
@@ -15,6 +16,7 @@ export default {
     ButtonInput, ButtonEvent, ButtonEventData,
     Clock,
     EventSubscriber,
+    Flexinome,
     Keyboard,
     Metronome,
     MidiAccess,
