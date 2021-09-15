@@ -118,3 +118,16 @@ export class ClipBend extends Range {
         this.channel = channel;
     }
 }
+
+
+export class Clip extends Range {
+    notes: ClipNote[] = [];
+
+    controlChanges: ClipCC[] = [];
+
+    bends: ClipBend[] = [];
+
+    constructor(duration: number) {
+        super(0, duration);
+    }
+}
