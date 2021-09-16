@@ -1,6 +1,6 @@
 'use strict';
 
-import { Clip } from './Clip';
+import { Clip, ClipNote } from './Clip';
 import IMetronome from './Metronome';
 import Note from './Note';
 import { IMidiOut } from './MidiOut';
@@ -107,9 +107,17 @@ export default class ClipPlayer {
 
         //Update beatsPassed, if it's greater or equal to beatCount, then the player is finished
         this._beatsPassed += beatDiff;
-        if (!isNaN(this.beatCount) && this.beatsPassed >= this.beatCount) {
+        if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount) {
             this._finished = true;
             this._endAllNotes();
+        }
+
+        //Loop through each existing note that the player has started
+        //Update velocity of any that need it
+        for (const note of this._notes) {
+            const clipNote: ClipNote = note['clipNote'];
+            if (typeof(clipNote.velocity) == 'function')
+                note.velocity = clipNote.velocity(newClipBeat - clipNote.start);
         }
 
         //Loop through each clip note in the current range and add a new note for each one
@@ -117,6 +125,8 @@ export default class ClipPlayer {
         for (const clipNote of this.clip.getNotesStartingInRange(oldClipBeat, newClipBeat)) {
             const note = clipNote.createNote(this.channel);
             note['clipNote'] = clipNote;
+            if (this.noteModifier)
+                this.noteModifier(note);
             this._notes.push(note);
             midiOut.addNote(note);
         }

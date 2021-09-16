@@ -55,9 +55,14 @@
     <group name="Clips">
         <requirement>
             <design>Users must be able to create Clip objects, where a clip has a pre-defined beat count, and specifies a number of notes to be played at specific times, each with their own velocities.</design>
+            <implementation>The Clip class extends the Range class which specifies the duration. Clip contains an array of ClipNotes, where each one defines the start, duration, pitch, velocity &amp; optionally channel of a note to be played.</implementation>
+        </requirement>
+        <requirement>
+            <design>Clips must be able to support information for control changes and pitch bends, whether that be a single value, or some set of calculated/recorded values that morph over time.</design>
         </requirement>
         <requirement>
             <design>Users must be able to create clip player objects, which define a clip that's to be played, which metronome to base the clip's timing on, what speed to play it at, what channel to play it on, how to modify the pitch of each note, and how to modify the velocity of each note.</design>
+            <implementation>The ClipPlayer class has clip, channel, metronome, speed, startBeat, beatCount &amp; noteModifier properties. Where noteModifier gets called for each new note that's created by the player.</implementation>
         </requirement>
         <requirement>
             <design>Users must be able to pass a clip player into a Midi Output to have the clip it contains be played.</design>

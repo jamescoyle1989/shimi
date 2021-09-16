@@ -6,6 +6,10 @@ import PropertyTracker from './PropertyTracker';
 export default class Note {
     /** The MIDI pitch of the note, valid values range from 0 - 127 */
     get pitch(): number { return this._pitch; }
+    /** The MIDI pitch of the note, valid values range from 0 - 127
+     * WARNING! Even though you can set this at any time, if you set it while the note has already started being played, it's not going to have much effect
+     */
+    set pitch(value: number) { this._pitch = value; }
     private _pitch: number;
 
     /** Tracks changes to the note velocity */
@@ -27,6 +31,10 @@ export default class Note {
 
     /** Which channel should the note play on, valid values range from 0 - 15 */
     get channel(): number { return this._channel; }
+    /** Which channel should the note play on, valid values range from 0 - 15
+     * WARNING! Even though you can set this at any time, if you set it while the note has already started being played, it's not going to have much effect
+     */
+    set channel(value: number) { this._channel = value; }
     private _channel: number;
 
     /** Provides way of identifying notes so they can be retrieved later */

@@ -62,6 +62,7 @@ import MidiOut from '../src/MidiOut';
 
         clipPlayer.update(midiOut, 10);
         expect(midiOut.notes.length).to.equal(1);
+        expect(midiOut.notes[0].on).to.be.true;
     }
 
     @test 'Update stops notes which should be ended'() {
@@ -99,12 +100,45 @@ import MidiOut from '../src/MidiOut';
     @test 'Update sets finished if beatsPassed exceeds beatCount'() {
         //Setup
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(new Clip(1), metronome);
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome);
+        clipPlayer.beatCount = 1;
         const midiOut = new MidiOut(new DummyPort());
 
         metronome.update(510);
         expect(clipPlayer.finished).to.be.false;
         clipPlayer.update(midiOut, 10);
         expect(clipPlayer.finished).to.be.true;
+    }
+
+    @test 'noteModifier gets called for each new note thats created'() {
+        const clip = new Clip(16);
+        clip.notes.push(new ClipNote(0, 1, 60, 100));
+        const metronome = new Metronome(120);
+        const clipPlayer = new ClipPlayer(clip, metronome);
+        clipPlayer.noteModifier = n => n.pitch += 2;
+        const midiOut = new MidiOut(new DummyPort());
+
+        metronome.update(10);
+        clipPlayer.update(midiOut, 10);
+        expect(midiOut.notes.length).to.equal(1);
+        expect(midiOut.notes[0].pitch).to.equal(62);
+    }
+
+    @test 'If ClipNote velocity is a function it gets called with each update'() {
+        const clip = new Clip(16);
+        clip.notes.push(new ClipNote(0, 1, 60, b => b < 0.5 ? 100 : 50));
+        const metronome = new Metronome(120);
+        const clipPlayer = new ClipPlayer(clip, metronome);
+        const midiOut = new MidiOut(new DummyPort());
+
+        metronome.update(10);
+        clipPlayer.update(midiOut, 10);
+        expect(midiOut.notes.length).to.equal(1);
+        expect(midiOut.notes[0].on).to.be.true;
+        expect(midiOut.notes[0].velocity).to.equal(100);
+
+        metronome.update(250);
+        clipPlayer.update(midiOut, 10);
+        expect(midiOut.notes[0].velocity).to.equal(50);
     }
 }
