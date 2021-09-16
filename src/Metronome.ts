@@ -13,12 +13,17 @@ export interface IMetronome {
     set timeSig(value: TimeSig);
 
     get totalBeat(): number;
+    get totalBeatTracker(): PropertyTracker<number>;
     get totalQuarterNote(): number;
+    get totalQuarterNoteTracker(): PropertyTracker<number>;
 
     get bar(): number;
+    get barTracker(): PropertyTracker<number>;
 
     get barBeat(): number;
+    get barBeatTracker(): PropertyTracker<number>;
     get barQuarterNote(): number;
+    get barQuarterNoteTracker(): PropertyTracker<number>;
 
     get enabled(): boolean;
     set enabled(value: boolean);
@@ -65,18 +70,23 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
 
     private _totalQuarterNote: PropertyTracker<number> = new PropertyTracker(0);
     get totalQuarterNote(): number { return this._totalQuarterNote.value; }
+    get totalQuarterNoteTracker(): PropertyTracker<number> { return this._totalQuarterNote; }
 
     private _totalBeat: PropertyTracker<number> = new PropertyTracker(0);
     get totalBeat(): number { return this._totalBeat.value; }
+    get totalBeatTracker(): PropertyTracker<number> { return this._totalBeat; }
 
     private _bar: PropertyTracker<number> = new PropertyTracker(1);
     get bar(): number { return this._bar.value; }
+    get barTracker(): PropertyTracker<number> { return this._bar; }
 
     private _barQuarterNote: PropertyTracker<number> = new PropertyTracker(0);
     get barQuarterNote(): number { return this._barQuarterNote.value; }
+    get barQuarterNoteTracker(): PropertyTracker<number> { return this._barQuarterNote; }
 
     private _barBeat: PropertyTracker<number> = new PropertyTracker(0);
     get barBeat(): number { return this._barBeat.value; }
+    get barBeatTracker(): PropertyTracker<number> { return this._barBeat; }
 
     private _enabled: PropertyTracker<boolean> = new PropertyTracker(true);
     get enabled(): boolean { return this._enabled.value; }

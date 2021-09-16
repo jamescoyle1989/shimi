@@ -1,6 +1,7 @@
 'use strict';
 
 import Range from './Range';
+import Note from './Note';
 
 
 export class ClipNote extends Range {
@@ -41,6 +42,16 @@ export class ClipNote extends Range {
         this.pitch = pitch;
         this.velocity = velocity;
         this.channel = channel;
+    }
+
+    createNote(channel: number): Note {
+        return new Note(
+            this.pitch, 
+            (typeof(this.velocity) == 'number') ? 
+                this.velocity : 
+                this.velocity(0), 
+            this.channel ?? channel
+        );
     }
 }
 
@@ -129,5 +140,25 @@ export class Clip extends Range {
 
     constructor(duration: number) {
         super(0, duration);
+    }
+
+    getNotesStartingInRange(start: number, end: number): ClipNote[] {
+        return this._getChildrenStartingInRange<ClipNote>(this.notes, start, end);
+    }
+
+    getNotesEndingInRange(start: number, end: number): ClipNote[] {
+        return this._getChildrenEndingInRange<ClipNote>(this.notes, start, end);
+    }
+
+    private _getChildrenStartingInRange<T extends Range>(array: T[], start: number, end: number): T[] {
+        //It's better to compare >= to start & < to end
+        //otherwise anything set to trigger on 0 would always be skipped
+        return array.filter(x => x.start >= start && x.start < end);
+    }
+
+    private _getChildrenEndingInRange<T extends Range>(array: T[], start: number, end: number): T[] {
+        //It's better to compare >= to start & < to end
+        //otherwise anything set to trigger on 0 would always be skipped
+        return array.filter(x => x.end >= start && x.end < end);
     }
 }
