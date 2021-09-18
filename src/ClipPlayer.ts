@@ -3,10 +3,10 @@
 import { Clip, ClipNote } from './Clip';
 import IMetronome from './Metronome';
 import Note from './Note';
-import { IMidiOut } from './MidiOut';
+import { IMidiOut, IMidiOutChild } from './MidiOut';
 
 
-export default class ClipPlayer {
+export default class ClipPlayer implements IMidiOutChild {
     /** Which clip to play */
     get clip(): Clip { return this._clip; }
     /** Which clip to play */
@@ -107,10 +107,8 @@ export default class ClipPlayer {
 
         //Update beatsPassed, if it's greater or equal to beatCount, then the player is finished
         this._beatsPassed += beatDiff;
-        if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount) {
-            this._finished = true;
-            this._endAllNotes();
-        }
+        if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount)
+            this.finish(midiOut);
 
         //Loop through each existing note that the player has started
         //Update velocity of any that need it
@@ -138,6 +136,11 @@ export default class ClipPlayer {
                 note.stop();
         }
         this._notes = this._notes.filter(n => n.on);
+    }
+
+    finish(midiOut: IMidiOut): void {
+        this._finished = true;
+        this._endAllNotes();
     }
 
     private _endAllNotes(): void {

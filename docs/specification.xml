@@ -66,6 +66,7 @@
         </requirement>
         <requirement>
             <design>Users must be able to pass a clip player into a Midi Output to have the clip it contains be played.</design>
+            <implementation>ClipPlayer implements the IMidiOutChild interface. IMidiOut contains addProcess &amp; stopProcesses methods. When a ClipPlayer instance is added to the MidiOut, it will receive update messages from the MidiOut, which it will use to add notes, send messages etc through the MidiOut.</implementation>
         </requirement>
     </group>
 

@@ -11,6 +11,9 @@ export default class MidiOut implements IMidiOut, IClockChild {
     get notes(): Array<Note> { return this._notes; }
     private _notes: Array<Note> = [];
 
+    get processes(): Array<IMidiOutChild> { return this._processes; }
+    private _processes: Array<IMidiOutChild> = [];
+
     constructor(port: any) {
         this.port = port;
     }
@@ -24,6 +27,18 @@ export default class MidiOut implements IMidiOut, IClockChild {
         for (const n of this._notes) {
             if (filter(n))
                 n.stop();
+        }
+    }
+
+    addProcess(process: IMidiOutChild): IMidiOutChild {
+        this._processes.push(process);
+        return process;
+    }
+
+    stopProcesses(filter: (process: IMidiOutChild) => boolean): void {
+        for (const p of this._processes) {
+            if (filter(p))
+                p.finish(this);
         }
     }
 
@@ -151,6 +166,12 @@ export default class MidiOut implements IMidiOut, IClockChild {
     update(deltaMs: number): void {
         let anyNotesStopped = false;
 
+        for (const process of this.processes) {
+            if (!process.finished)
+                process.update(this, deltaMs);
+        }
+        this._processes = this._processes.filter(p => !p.finished);
+
         //Send Note Off events for any stopped notes
         //Don't actually send the note off message if there is a more recent note that is still on
         for (let i = 0; i < this._notes.length; i++) {
@@ -201,6 +222,10 @@ export interface IMidiOut {
 
     stopNotes(filter: (note: Note) => boolean): void;
 
+    addProcess(process: IMidiOutChild): IMidiOutChild;
+
+    stopProcesses(filter: (process: IMidiOutChild) => boolean): void;
+
     sendNoteOff(pitch: number, velocity: number, channel: number): void;
 
     sendNoteOn(pitch: number, velocity: number, channel: number): void;
@@ -216,4 +241,15 @@ export interface IMidiOut {
     sendPitchBend(percent: number, channel: number): void;
 
     sendRawData(data: number[]): void;
+}
+
+
+export interface IMidiOutChild {
+    get ref(): string;
+
+    get finished(): boolean;
+
+    update(midiOut: IMidiOut, deltaMs: number): void;
+
+    finish(midiOut: IMidiOut): void;
 }
