@@ -70,6 +70,24 @@
         </requirement>
     </group>
 
+    <group name="Keys">
+        <requirement>
+            <design>Have templates for the common key types (major, natural minor, melodic minor, dorian, phrygian, etc.) which specify the intervals that make up any key of that type. Allow users to also create their own custom key types.</design>
+        </requirement>
+        <requirement>
+            <design>Allow users to create a key with a spcific root pitch from one of these key types.</design>
+        </requirement>
+        <requirement>
+            <design>Each key should allow users to find out if a given pitch is in or out of key, and what scale degree it is.</design>
+        </requirement>
+        <requirement>
+            <design>For any pitch, regardless of whether it's in or out of key, the key object should be able to tell you how to express it, eg. F# or Gb.</design>
+        </requirement>
+        <requirement>
+            <design>Each key should allow you to get related keys, specifically dominant, subdominant, relative (with key type) and parallel (with key type).</design>
+        </requirement>
+    </group>
+
     <requirement>
         <design>Users must be able to create Cue objects, which specify an action, as well as a metronome + beat delay, a millisecond delay, or a condition which determines when the action gets run.</design>
     </requirement>
