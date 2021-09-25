@@ -1,6 +1,6 @@
 {
   "name": "shimi",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "A JS framework for building complex MIDI applications",
   "main": "dist/index.js",
   "scripts": {
