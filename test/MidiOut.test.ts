@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import DummyMidiOutChild from './DummyMidiOutChild';
 import MidiOut from '../src/MidiOut';
 import Note from '../src/Note';
+import * as messages from '../src/MidiMessages';
 
 class MockPort {
     data: number[];
@@ -124,24 +125,24 @@ class MockPort {
 
     @test 'sendNoteOff validates port'() {
         const midiOut = new MidiOut(null);
-        expect(() => midiOut.sendNoteOff(0,0,0)).to.throw();
+        expect(() => midiOut.sendNoteOff(new messages.NoteOffMessage(0,0,0))).to.throw();
     }
 
     @test 'sendNoteOff validates parameters'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        expect(() => midiOut.sendNoteOff(-1,0,0)).to.throw('pitch cannot be less than 0');
-        expect(() => midiOut.sendNoteOff(128,0,0)).to.throw('pitch cannot be greater than 127');
-        expect(() => midiOut.sendNoteOff(0,-1,0)).to.throw('velocity cannot be less than 0');
-        expect(() => midiOut.sendNoteOff(0,128,0)).to.throw('velocity cannot be greater than 127');
-        expect(() => midiOut.sendNoteOff(0,0,-1)).to.throw('channel cannot be less than 0');
-        expect(() => midiOut.sendNoteOff(0,0,16)).to.throw('channel cannot be greater than 15');
+        expect(() => midiOut.sendNoteOff(new messages.NoteOffMessage(-1,0,0))).to.throw('pitch cannot be less than 0');
+        expect(() => midiOut.sendNoteOff(new messages.NoteOffMessage(128,0,0))).to.throw('pitch cannot be greater than 127');
+        expect(() => midiOut.sendNoteOff(new messages.NoteOffMessage(0,-1,0))).to.throw('velocity cannot be less than 0');
+        expect(() => midiOut.sendNoteOff(new messages.NoteOffMessage(0,128,0))).to.throw('velocity cannot be greater than 127');
+        expect(() => midiOut.sendNoteOff(new messages.NoteOffMessage(0,0,-1))).to.throw('channel cannot be less than 0');
+        expect(() => midiOut.sendNoteOff(new messages.NoteOffMessage(0,0,16))).to.throw('channel cannot be greater than 15');
     }
 
     @test 'sendNoteOff sends correct data'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        midiOut.sendNoteOff(15, 73, 4);
+        midiOut.sendNoteOff(new messages.NoteOffMessage(15, 73, 4));
         expect(port.data.length).to.equal(3);
         expect(port.data[0]).to.equal(0x80 + 4);
         expect(port.data[1]).to.equal(15);
@@ -150,24 +151,24 @@ class MockPort {
 
     @test 'sendNoteOn validates port'() {
         const midiOut = new MidiOut(null);
-        expect(() => midiOut.sendNoteOn(0,0,0)).to.throw();
+        expect(() => midiOut.sendNoteOn(new messages.NoteOnMessage(0,0,0))).to.throw();
     }
 
     @test 'sendNoteOn validates parameters'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        expect(() => midiOut.sendNoteOn(-1,0,0)).to.throw('pitch cannot be less than 0');
-        expect(() => midiOut.sendNoteOn(128,0,0)).to.throw('pitch cannot be greater than 127');
-        expect(() => midiOut.sendNoteOn(0,-1,0)).to.throw('velocity cannot be less than 0');
-        expect(() => midiOut.sendNoteOn(0,128,0)).to.throw('velocity cannot be greater than 127');
-        expect(() => midiOut.sendNoteOn(0,0,-1)).to.throw('channel cannot be less than 0');
-        expect(() => midiOut.sendNoteOn(0,0,16)).to.throw('channel cannot be greater than 15');
+        expect(() => midiOut.sendNoteOn(new messages.NoteOnMessage(-1,0,0))).to.throw('pitch cannot be less than 0');
+        expect(() => midiOut.sendNoteOn(new messages.NoteOnMessage(128,0,0))).to.throw('pitch cannot be greater than 127');
+        expect(() => midiOut.sendNoteOn(new messages.NoteOnMessage(0,-1,0))).to.throw('velocity cannot be less than 0');
+        expect(() => midiOut.sendNoteOn(new messages.NoteOnMessage(0,128,0))).to.throw('velocity cannot be greater than 127');
+        expect(() => midiOut.sendNoteOn(new messages.NoteOnMessage(0,0,-1))).to.throw('channel cannot be less than 0');
+        expect(() => midiOut.sendNoteOn(new messages.NoteOnMessage(0,0,16))).to.throw('channel cannot be greater than 15');
     }
 
     @test 'sendNoteOn sends correct data'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        midiOut.sendNoteOn(15, 73, 4);
+        midiOut.sendNoteOn(new messages.NoteOnMessage(15, 73, 4));
         expect(port.data.length).to.equal(3);
         expect(port.data[0]).to.equal(0x90 + 4);
         expect(port.data[1]).to.equal(15);
@@ -176,24 +177,24 @@ class MockPort {
 
     @test 'sendNotePressure validates port'() {
         const midiOut = new MidiOut(null);
-        expect(() => midiOut.sendNotePressure(0,0,0)).to.throw();
+        expect(() => midiOut.sendNotePressure(new messages.NotePressureMessage(0,0,0))).to.throw();
     }
 
     @test 'sendNotePressure validates parameters'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        expect(() => midiOut.sendNotePressure(-1,0,0)).to.throw('pitch cannot be less than 0');
-        expect(() => midiOut.sendNotePressure(128,0,0)).to.throw('pitch cannot be greater than 127');
-        expect(() => midiOut.sendNotePressure(0,-1,0)).to.throw('velocity cannot be less than 0');
-        expect(() => midiOut.sendNotePressure(0,128,0)).to.throw('velocity cannot be greater than 127');
-        expect(() => midiOut.sendNotePressure(0,0,-1)).to.throw('channel cannot be less than 0');
-        expect(() => midiOut.sendNotePressure(0,0,16)).to.throw('channel cannot be greater than 15');
+        expect(() => midiOut.sendNotePressure(new messages.NotePressureMessage(-1,0,0))).to.throw('pitch cannot be less than 0');
+        expect(() => midiOut.sendNotePressure(new messages.NotePressureMessage(128,0,0))).to.throw('pitch cannot be greater than 127');
+        expect(() => midiOut.sendNotePressure(new messages.NotePressureMessage(0,-1,0))).to.throw('velocity cannot be less than 0');
+        expect(() => midiOut.sendNotePressure(new messages.NotePressureMessage(0,128,0))).to.throw('velocity cannot be greater than 127');
+        expect(() => midiOut.sendNotePressure(new messages.NotePressureMessage(0,0,-1))).to.throw('channel cannot be less than 0');
+        expect(() => midiOut.sendNotePressure(new messages.NotePressureMessage(0,0,16))).to.throw('channel cannot be greater than 15');
     }
 
     @test 'sendNotePressure sends correct data'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        midiOut.sendNotePressure(15, 73, 4);
+        midiOut.sendNotePressure(new messages.NotePressureMessage(15, 73, 4));
         expect(port.data.length).to.equal(3);
         expect(port.data[0]).to.equal(0xA0 + 4);
         expect(port.data[1]).to.equal(15);
@@ -202,24 +203,24 @@ class MockPort {
 
     @test 'sendControlChange validates port'() {
         const midiOut = new MidiOut(null);
-        expect(() => midiOut.sendControlChange(0,0,0)).to.throw();
+        expect(() => midiOut.sendControlChange(new messages.ControlChangeMessage(0,0,0))).to.throw();
     }
 
     @test 'sendControlChange validates parameters'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        expect(() => midiOut.sendControlChange(-1,0,0)).to.throw('controller cannot be less than 0');
-        expect(() => midiOut.sendControlChange(128,0,0)).to.throw('controller cannot be greater than 127');
-        expect(() => midiOut.sendControlChange(0,-1,0)).to.throw('value cannot be less than 0');
-        expect(() => midiOut.sendControlChange(0,128,0)).to.throw('value cannot be greater than 127');
-        expect(() => midiOut.sendControlChange(0,0,-1)).to.throw('channel cannot be less than 0');
-        expect(() => midiOut.sendControlChange(0,0,16)).to.throw('channel cannot be greater than 15');
+        expect(() => midiOut.sendControlChange(new messages.ControlChangeMessage(-1,0,0))).to.throw('controller cannot be less than 0');
+        expect(() => midiOut.sendControlChange(new messages.ControlChangeMessage(128,0,0))).to.throw('controller cannot be greater than 127');
+        expect(() => midiOut.sendControlChange(new messages.ControlChangeMessage(0,-1,0))).to.throw('value cannot be less than 0');
+        expect(() => midiOut.sendControlChange(new messages.ControlChangeMessage(0,128,0))).to.throw('value cannot be greater than 127');
+        expect(() => midiOut.sendControlChange(new messages.ControlChangeMessage(0,0,-1))).to.throw('channel cannot be less than 0');
+        expect(() => midiOut.sendControlChange(new messages.ControlChangeMessage(0,0,16))).to.throw('channel cannot be greater than 15');
     }
 
     @test 'sendControlChange sends correct data'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        midiOut.sendControlChange(15, 73, 4);
+        midiOut.sendControlChange(new messages.ControlChangeMessage(15, 73, 4));
         expect(port.data.length).to.equal(3);
         expect(port.data[0]).to.equal(0xB0 + 4);
         expect(port.data[1]).to.equal(15);
@@ -228,22 +229,22 @@ class MockPort {
 
     @test 'sendProgramChange validates port'() {
         const midiOut = new MidiOut(null);
-        expect(() => midiOut.sendProgramChange(0,0)).to.throw();
+        expect(() => midiOut.sendProgramChange(new messages.ProgramChangeMessage(0,0))).to.throw();
     }
 
     @test 'sendProgramChange validates parameters'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        expect(() => midiOut.sendProgramChange(-1,0)).to.throw('program cannot be less than 0');
-        expect(() => midiOut.sendProgramChange(128,0)).to.throw('program cannot be greater than 127');
-        expect(() => midiOut.sendProgramChange(0,-1)).to.throw('channel cannot be less than 0');
-        expect(() => midiOut.sendProgramChange(0,16)).to.throw('channel cannot be greater than 15');
+        expect(() => midiOut.sendProgramChange(new messages.ProgramChangeMessage(-1,0))).to.throw('program cannot be less than 0');
+        expect(() => midiOut.sendProgramChange(new messages.ProgramChangeMessage(128,0))).to.throw('program cannot be greater than 127');
+        expect(() => midiOut.sendProgramChange(new messages.ProgramChangeMessage(0,-1))).to.throw('channel cannot be less than 0');
+        expect(() => midiOut.sendProgramChange(new messages.ProgramChangeMessage(0,16))).to.throw('channel cannot be greater than 15');
     }
 
     @test 'sendProgramChange sends correct data'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        midiOut.sendProgramChange(15, 4);
+        midiOut.sendProgramChange(new messages.ProgramChangeMessage(15, 4));
         expect(port.data.length).to.equal(2);
         expect(port.data[0]).to.equal(0xC0 + 4);
         expect(port.data[1]).to.equal(15);
@@ -251,22 +252,22 @@ class MockPort {
 
     @test 'sendChannelPressure validates port'() {
         const midiOut = new MidiOut(null);
-        expect(() => midiOut.sendChannelPressure(0,0)).to.throw();
+        expect(() => midiOut.sendChannelPressure(new messages.ChannelPressureMessage(0,0))).to.throw();
     }
 
     @test 'sendChannelPressure validates parameters'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        expect(() => midiOut.sendChannelPressure(-1,0)).to.throw('value cannot be less than 0');
-        expect(() => midiOut.sendChannelPressure(128,0)).to.throw('value cannot be greater than 127');
-        expect(() => midiOut.sendChannelPressure(0,-1)).to.throw('channel cannot be less than 0');
-        expect(() => midiOut.sendChannelPressure(0,16)).to.throw('channel cannot be greater than 15');
+        expect(() => midiOut.sendChannelPressure(new messages.ChannelPressureMessage(-1,0))).to.throw('value cannot be less than 0');
+        expect(() => midiOut.sendChannelPressure(new messages.ChannelPressureMessage(128,0))).to.throw('value cannot be greater than 127');
+        expect(() => midiOut.sendChannelPressure(new messages.ChannelPressureMessage(0,-1))).to.throw('channel cannot be less than 0');
+        expect(() => midiOut.sendChannelPressure(new messages.ChannelPressureMessage(0,16))).to.throw('channel cannot be greater than 15');
     }
 
     @test 'sendChannelPressure sends correct data'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        midiOut.sendChannelPressure(15, 4);
+        midiOut.sendChannelPressure(new messages.ChannelPressureMessage(15, 4));
         expect(port.data.length).to.equal(2);
         expect(port.data[0]).to.equal(0xD0 + 4);
         expect(port.data[1]).to.equal(15);
@@ -274,23 +275,23 @@ class MockPort {
 
     @test 'sendPitchBend validates port'() {
         const midiOut = new MidiOut(null);
-        expect(() => midiOut.sendPitchBend(0,0)).to.throw();
+        expect(() => midiOut.sendPitchBend(new messages.PitchBendMessage(0,0))).to.throw();
     }
 
     @test 'sendPitchBend validates parameters'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
-        expect(() => midiOut.sendPitchBend(-1.1,0)).to.throw('percent cannot be less than -1');
-        expect(() => midiOut.sendPitchBend(1.1,0)).to.throw('percent cannot be greater than 1');
-        expect(() => midiOut.sendPitchBend(0,-1)).to.throw('channel cannot be less than 0');
-        expect(() => midiOut.sendPitchBend(0,16)).to.throw('channel cannot be greater than 15');
+        expect(() => midiOut.sendPitchBend(new messages.PitchBendMessage(-1.1,0))).to.throw('percent cannot be less than -1');
+        expect(() => midiOut.sendPitchBend(new messages.PitchBendMessage(1.1,0))).to.throw('percent cannot be greater than 1');
+        expect(() => midiOut.sendPitchBend(new messages.PitchBendMessage(0,-1))).to.throw('channel cannot be less than 0');
+        expect(() => midiOut.sendPitchBend(new messages.PitchBendMessage(0,16))).to.throw('channel cannot be greater than 15');
     }
 
     @test 'sendPitchBend sends correct data'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
         const percent = (Math.random() * 2) - 1;
-        midiOut.sendPitchBend(percent, 4);
+        midiOut.sendPitchBend(new messages.PitchBendMessage(percent, 4));
         expect(port.data.length).to.equal(3);
         expect(port.data[0]).to.equal(0xE0 + 4);
         const bendVal = Math.round((percent * 8192) + 8192);

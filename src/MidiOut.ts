@@ -2,6 +2,7 @@
 
 import { IClockChild } from './Clock';
 import Note from './Note';
+import * as messages from './MidiMessages';
 
 export default class MidiOut implements IMidiOut, IClockChild {
     /** The MIDI port which data gets sent to, see MidiAccess class */
@@ -44,97 +45,80 @@ export default class MidiOut implements IMidiOut, IClockChild {
 
     /**
      * Sends a Note Off message to the connected MIDI port
-     * @param pitch Acceptable values range from 0 to 127
-     * @param velocity Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
      */
-    sendNoteOff(pitch: number, velocity: number, channel: number): void {
+    sendNoteOff(message: messages.NoteOffMessage): void {
         this.validatePort();
-        pitch = this.validateIntInRange(pitch, 0, 127, 'pitch');
-        velocity = this.validateIntInRange(velocity, 0, 127, 'velocity');
-        channel = this.validateIntInRange(channel, 0, 15, 'channel');
+        const pitch = this.validateIntInRange(message.pitch, 0, 127, 'pitch');
+        const velocity = this.validateIntInRange(message.velocity, 0, 127, 'velocity');
+        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
         this.port.send([0x80 + channel, pitch, velocity]);
     }
 
     /**
      * Sends a Note On message to the connected MIDI port
-     * @param pitch Acceptable values range from 0 to 127
-     * @param velocity Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
      */
-    sendNoteOn(pitch: number, velocity: number, channel: number): void {
+    sendNoteOn(message: messages.NoteOnMessage): void {
         this.validatePort();
-        pitch = this.validateIntInRange(pitch, 0, 127, 'pitch');
-        velocity = this.validateIntInRange(velocity, 0, 127, 'velocity');
-        channel = this.validateIntInRange(channel, 0, 15, 'channel');
+        const pitch = this.validateIntInRange(message.pitch, 0, 127, 'pitch');
+        const velocity = this.validateIntInRange(message.velocity, 0, 127, 'velocity');
+        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
         this.port.send([0x90 + channel, pitch, velocity]);
     }
 
     /**
      * Sends a Polyphonic Key Pressure message to the connected MIDI port
-     * @param pitch Acceptable values range from 0 to 127
-     * @param velocity Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
      */
-    sendNotePressure(pitch: number, velocity: number, channel: number): void {
+    sendNotePressure(message: messages.NotePressureMessage): void {
         this.validatePort();
-        pitch = this.validateIntInRange(pitch, 0, 127, 'pitch');
-        velocity = this.validateIntInRange(velocity, 0, 127, 'velocity');
-        channel = this.validateIntInRange(channel, 0, 15, 'channel');
+        const pitch = this.validateIntInRange(message.pitch, 0, 127, 'pitch');
+        const velocity = this.validateIntInRange(message.velocity, 0, 127, 'velocity');
+        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
         this.port.send([0xA0 + channel, pitch, velocity]);
     }
 
     /**
      * Sends a Control Change message to the connected MIDI port
-     * @param controller Acceptable values range from 0 to 127
-     * @param value Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
      */
-    sendControlChange(controller: number, value: number, channel: number): void {
+    sendControlChange(message: messages.ControlChangeMessage): void {
         this.validatePort();
-        controller = this.validateIntInRange(controller, 0, 127, 'controller');
-        value = this.validateIntInRange(value, 0, 127, 'value');
-        channel = this.validateIntInRange(channel, 0, 15, 'channel');
+        const controller = this.validateIntInRange(message.controller, 0, 127, 'controller');
+        const value = this.validateIntInRange(message.value, 0, 127, 'value');
+        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
         this.port.send([0xB0 + channel, controller, value]);
     }
 
     /**
      * Sends a Program Change message to the connected MIDI port
-     * @param program Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
      */
-    sendProgramChange(program: number, channel: number): void {
+    sendProgramChange(message: messages.ProgramChangeMessage): void {
         this.validatePort();
-        program = this.validateIntInRange(program, 0, 127, 'program');
-        channel = this.validateIntInRange(channel, 0, 15, 'channel');
+        const program = this.validateIntInRange(message.program, 0, 127, 'program');
+        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
         this.port.send([0xC0 + channel, program]);
     }
 
     /**
      * Sends a Channel Pressure message to the connected MIDI port
-     * @param value Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
      */
-    sendChannelPressure(value: number, channel: number): void {
+    sendChannelPressure(message: messages.ChannelPressureMessage): void {
         this.validatePort();
-        value = this.validateIntInRange(value, 0, 127, 'value');
-        channel = this.validateIntInRange(channel, 0, 15, 'channel');
+        const value = this.validateIntInRange(message.value, 0, 127, 'value');
+        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
         this.port.send([0xD0 + channel, value]);
     }
 
     /**
      * Sends a Pitch Bend Change message to the connected MIDI port
-     * @param percent Acceptable values range from -1 to +1, with 0 being no bend
-     * @param channel Acceptable values range from 0 to 15
      */
-    sendPitchBend(percent: number, channel: number): void {
+    sendPitchBend(message: messages.PitchBendMessage): void {
         this.validatePort();
-        channel = this.validateIntInRange(channel, 0, 15, 'channel');
+        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
+        const percent = message.percent;
         if (percent < -1)
             throw new Error('percent cannot be less than -1');
         if (percent > 1)
             throw new Error('percent cannot be greater than 1');
-        const bendVal = this.validateIntInRange((percent * 8192) + 8192, 0, 16383, 'bend');
+        const bendVal = this.validateIntInRange((message.percent * 8192) + 8192, 0, 16383, 'bend');
         this.port.send([0xE0 + channel, bendVal % 128, Math.floor(bendVal / 128)]);
     }
 
@@ -187,7 +171,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
                         }
                     }
                     if (sendNoteOff)
-                        this.sendNoteOff(note.pitch, note.velocity, note.channel);
+                        this.sendNoteOff(new messages.NoteOffMessage(note.pitch, note.velocity, note.channel));
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;
@@ -198,12 +182,12 @@ export default class MidiOut implements IMidiOut, IClockChild {
         for (const note of this._notes) {
             if (note.on) {
                 if (note.onTracker.isDirty) {
-                    this.sendNoteOn(note.pitch, note.velocity, note.channel);
+                    this.sendNoteOn(new messages.NoteOnMessage(note.pitch, note.velocity, note.channel));
                     note.onTracker.accept();
                     note.velocityTracker.accept();
                 }
                 else if (note.velocityTracker.isDirty) {
-                    this.sendNotePressure(note.pitch, note.velocity, note.channel);
+                    this.sendNotePressure(new messages.NotePressureMessage(note.pitch, note.velocity, note.channel));
                     note.velocityTracker.accept();
                 }
             }
@@ -226,19 +210,19 @@ export interface IMidiOut {
 
     stopProcesses(filter: (process: IMidiOutChild) => boolean): void;
 
-    sendNoteOff(pitch: number, velocity: number, channel: number): void;
+    sendNoteOff(message: messages.NoteOffMessage): void;
 
-    sendNoteOn(pitch: number, velocity: number, channel: number): void;
+    sendNoteOn(message: messages.NoteOnMessage): void;
 
-    sendNotePressure(pitch: number, velocity: number, channel: number): void;
+    sendNotePressure(message: messages.NotePressureMessage): void;
 
-    sendControlChange(controller: number, value: number, channel: number): void;
+    sendControlChange(message: messages.ControlChangeMessage): void;
 
-    sendProgramChange(program: number, channel: number): void;
+    sendProgramChange(message: messages.ProgramChangeMessage): void;
 
-    sendChannelPressure(value: number, channel: number): void;
+    sendChannelPressure(message: messages.ChannelPressureMessage): void;
 
-    sendPitchBend(percent: number, channel: number): void;
+    sendPitchBend(message: messages.PitchBendMessage): void;
 
     sendRawData(data: number[]): void;
 }
