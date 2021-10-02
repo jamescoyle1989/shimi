@@ -150,15 +150,31 @@ export class Clip extends Range {
         return this._getChildrenEndingInRange<ClipNote>(this.notes, start, end);
     }
 
+    /**
+     * Get items from the passed in array whos start is within the start & end points
+     * Note: If end arg is less than start arg then it assumes that the range to be searched is wrapping around
+     * So in this case, it will actually search for anything whos end is greater than the start arg, OR less than the end arg
+     */
     private _getChildrenStartingInRange<T extends Range>(array: T[], start: number, end: number): T[] {
         //It's better to compare >= to start & < to end
         //otherwise anything set to trigger on 0 would always be skipped
-        return array.filter(x => x.start >= start && x.start < end);
+        if (start <= end)
+            return array.filter(x => x.start >= start && x.start < end);
+        else
+            return array.filter(x => x.start >= start || x.start < end);
     }
 
+    /**
+     * Get items from the passed in array whos end is within the start & end points
+     * Note: If end arg is less than start arg then it assumes that the range to be searched is wrapping around
+     * So in this case, it will actually search for anything whos start is greater than the start arg, OR less than the end arg
+     */
     private _getChildrenEndingInRange<T extends Range>(array: T[], start: number, end: number): T[] {
         //It's better to compare >= to start & < to end
         //otherwise anything set to trigger on 0 would always be skipped
-        return array.filter(x => x.end >= start && x.end < end);
+        if (start <= end)
+            return array.filter(x => x.end >= start && x.end < end);
+        else
+            return array.filter(x => x.end >= start || x.end < end);
     }
 }
