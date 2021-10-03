@@ -3,7 +3,8 @@
 		"module": "esnext",
 		"target": "es2015",
 		"declaration": true,
-		"outDir": "./raw"
+		"outDir": "./raw",
+        "declarationDir": "./dist/types"
 	},
 	"include": [
 		"src/*"

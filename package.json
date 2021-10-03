@@ -9,7 +9,7 @@
   },
   "author": "James Coyle",
   "license": "ISC",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
     "/dist"
   ],
