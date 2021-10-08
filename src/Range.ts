@@ -27,4 +27,8 @@ export default class Range {
             return 0;
         return (value - this.start) / this.duration;
     }
+
+    contains(point: number): boolean {
+        return point >= this.start && point <= this.end;
+    }
 }

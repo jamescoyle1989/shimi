@@ -111,12 +111,15 @@ export default class ClipPlayer implements IMidiOutChild {
             this.finish(midiOut);
 
         //Loop through each existing note that the player has started
-        //Update velocity of any that need it
+        //Stop notes that need to end, and update velocity of any others need it
         for (const note of this._notes) {
             const clipNote: ClipNote = note['clipNote'];
-            if (typeof(clipNote.velocity) == 'function')
+            if (!clipNote.contains(newClipBeat))
+                note.stop();
+            else if (typeof(clipNote.velocity) == 'function')
                 note.velocity = clipNote.velocity(newClipBeat - clipNote.start);
         }
+        this._notes = this._notes.filter(n => n.on);
 
         //Loop through each clip note in the current range and add a new note for each one
         //Store the clipNote that each note came from, so we can track down notes when it's time to stop them
@@ -128,14 +131,6 @@ export default class ClipPlayer implements IMidiOutChild {
             this._notes.push(note);
             midiOut.addNote(note);
         }
-
-        //Loop through ending each clip note in the current range that needs to be stopped
-        for (const clipNote of this.clip.getNotesEndingInRange(oldClipBeat, newClipBeat)) {
-            const note = this._notes.find(n => n['clipNote'] === clipNote);
-            if (note)
-                note.stop();
-        }
-        this._notes = this._notes.filter(n => n.on);
     }
 
     finish(midiOut: IMidiOut): void {

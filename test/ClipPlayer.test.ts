@@ -141,4 +141,23 @@ import MidiOut from '../src/MidiOut';
         clipPlayer.update(midiOut, 10);
         expect(midiOut.notes[0].velocity).to.equal(50);
     }
+
+    @test 'Player can end notes from old clip if clip gets changed'() {
+        const clip1 = new Clip(4);
+        clip1.notes.push(new ClipNote(0, 1, 60, 80));
+        const clip2 = new Clip(4);
+        const metronome = new Metronome(120);
+        const clipPlayer = new ClipPlayer(clip1, metronome);
+        const midiOut = new MidiOut(new DummyPort());
+
+        metronome.update(10);
+        clipPlayer.update(midiOut, 10);
+        expect(clipPlayer['_notes'].length).to.equal(1);
+
+        clipPlayer.clip = clip2;
+
+        metronome.update(1000);
+        clipPlayer.update(midiOut, 1000);
+        expect(clipPlayer['_notes'].length).to.equal(0);
+    }
 }
