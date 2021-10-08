@@ -70,21 +70,21 @@
         </requirement>
     </group>
 
-    <group name="Keys">
+    <group name="Sales">
         <requirement>
-            <design>Have templates for the common key types (major, natural minor, melodic minor, dorian, phrygian, etc.) which specify the intervals that make up any key of that type. Allow users to also create their own custom key types.</design>
+            <design>Have templates for the common scale types (major, natural minor, melodic minor, dorian, phrygian, etc.) which specify the intervals that make up any specific scale of that type. Allow users to also create their own custom scale templates.</design>
         </requirement>
         <requirement>
-            <design>Allow users to create a key with a spcific root pitch from one of these key types.</design>
+            <design>Allow users to create a scale with a spcific root pitch from one of these scale templates.</design>
         </requirement>
         <requirement>
-            <design>Each key should allow users to find out if a given pitch is in or out of key, and what scale degree it is.</design>
+            <design>Each scale should allow users to find out if a given pitch is in or out of scale, and what scale degree it is.</design>
         </requirement>
         <requirement>
-            <design>For any pitch, regardless of whether it's in or out of key, the key object should be able to tell you how to express it, eg. F# or Gb.</design>
+            <design>For any pitch, regardless of whether it's in or out of the scale, the scale object should be able to tell you how to express it, eg. F# or Gb.</design>
         </requirement>
         <requirement>
-            <design>Each key should allow you to get related keys, specifically dominant, subdominant, relative (with key type) and parallel (with key type).</design>
+            <design>Each scale should allow you to get related scales, specifically dominant, subdominant, relative (with scale template) and parallel (with scale template).</design>
         </requirement>
     </group>
 
