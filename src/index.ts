@@ -15,7 +15,7 @@ import PropertyTracker from './PropertyTracker';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 
-export default {
+export {
     ButtonInput, ButtonEvent, ButtonEventData,
     Clip, ClipBend, ClipCC, ClipNote,
     ClipPlayer,
