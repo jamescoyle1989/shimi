@@ -150,6 +150,14 @@ export class Clip extends Range {
         return this._getChildrenEndingInRange<ClipNote>(this.notes, start, end);
     }
 
+    getControlChangesIntersectingRange(start: number, end: number): ClipCC[] {
+        return this._getChildrenIntersectingRange<ClipCC>(this.controlChanges, start, end);
+    }
+
+    getBendsIntersectingRange(start: number, end: number): ClipBend[] {
+        return this._getChildrenIntersectingRange<ClipBend>(this.bends, start, end);
+    }
+
     /**
      * Get items from the passed in array whos start is within the start & end points
      * Note: If end arg is less than start arg then it assumes that the range to be searched is wrapping around
@@ -176,5 +184,15 @@ export class Clip extends Range {
             return array.filter(x => x.end >= start && x.end < end);
         else
             return array.filter(x => x.end >= start || x.end < end);
+    }
+
+    /**
+     * Get items from the passed in array which in any way intersect with the start & end points
+     */
+    private _getChildrenIntersectingRange<T extends Range>(array: T[], start: number, end: number): T[] {
+        if (start <= end)
+            return array.filter(x => Math.min(end, x.end) >= Math.max(start, x.start));
+        else
+            return array.filter(x => x.end >= start || x.start <= end);
     }
 }

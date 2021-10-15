@@ -4,6 +4,7 @@ import { Clip, ClipNote } from './Clip';
 import IMetronome from './Metronome';
 import Note from './Note';
 import { IMidiOut, IMidiOutChild } from './MidiOut';
+import { ControlChangeMessage, PitchBendMessage } from './MidiMessages';
 
 
 export default class ClipPlayer implements IMidiOutChild {
@@ -130,6 +131,33 @@ export default class ClipPlayer implements IMidiOutChild {
                 this.noteModifier(note);
             this._notes.push(note);
             midiOut.addNote(note);
+        }
+
+        //Trigger any control change messages that need to be sent
+        for (const clipCC of this.clip.getControlChangesIntersectingRange(oldClipBeat, newClipBeat)) {
+            const clipValueIsFunction = typeof(clipCC.value) == 'function';
+            if (newClipBeat > clipCC.end && clipCC.start < oldClipBeat && !clipValueIsFunction)
+                continue;
+            midiOut.sendControlChange(new ControlChangeMessage(
+                clipCC.controller, 
+                (typeof(clipCC.value) == 'function') ? 
+                    clipCC.value(Math.min(newClipBeat - clipCC.start, clipCC.duration)) : 
+                    clipCC.value, 
+                clipCC.channel ?? this.channel
+            ));
+        }
+
+        //Trigger any bend messages that need to be sent
+        for (const clipBend of this.clip.getBendsIntersectingRange(oldClipBeat, newClipBeat)) {
+            const percentIsFunction = typeof(clipBend.percent) == 'function';
+            if (newClipBeat > clipBend.end && clipBend.start < oldClipBeat && !percentIsFunction)
+                continue;
+            midiOut.sendPitchBend(new PitchBendMessage(
+                (typeof(clipBend.percent) == 'function') ?
+                    clipBend.percent(Math.min(newClipBeat - clipBend.start, clipBend.duration)) :
+                    clipBend.percent,
+                clipBend.channel ?? this.channel
+            ));
         }
     }
 

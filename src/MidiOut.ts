@@ -118,7 +118,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
             throw new Error('percent cannot be less than -1');
         if (percent > 1)
             throw new Error('percent cannot be greater than 1');
-        const bendVal = this.validateIntInRange((message.percent * 8192) + 8192, 0, 16383, 'bend');
+        const bendVal = Math.min(16383, this.validateIntInRange((message.percent * 8192) + 8192, 0, 16384, 'bend'));
         this.port.send([0xE0 + channel, bendVal % 128, Math.floor(bendVal / 128)]);
     }
 
