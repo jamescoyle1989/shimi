@@ -75,6 +75,7 @@
     <group name="Scales">
         <requirement>
             <design>Have templates for the common scale types (major, natural minor, melodic minor, dorian, phrygian, etc.) which specify the intervals that make up any specific scale of that type. Allow users to also create their own custom scale templates.</design>
+            <implementation>ScaleTemplate class stores name, shape (array of intervals) &amp; relativityToMajor. It has static getters on it for retrieving instances of the common scale types.</implementation>
         </requirement>
         <requirement>
             <design>Allow users to create a scale with a specific root pitch from one of these scale templates.</design>
