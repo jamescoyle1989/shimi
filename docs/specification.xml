@@ -60,6 +60,7 @@
         </requirement>
         <requirement>
             <design>Clips must be able to support information for control changes and pitch bends, whether that be a single value, or some set of calculated/recorded values that morph over time.</design>
+            <implementation>Clips have ClipCCs &amp; ClipBends. The ClipCC value &amp; ClipBend percent properties can take either a simple value, or a function which takes a parameter of how far through the CC/bend automation we currently are.</implementation>
         </requirement>
         <requirement>
             <design>Users must be able to create clip player objects, which define a clip that's to be played, which metronome to base the clip's timing on, what speed to play it at, what channel to play it on, how to modify the pitch of each note, and how to modify the velocity of each note.</design>
@@ -71,12 +72,12 @@
         </requirement>
     </group>
 
-    <group name="Sales">
+    <group name="Scales">
         <requirement>
             <design>Have templates for the common scale types (major, natural minor, melodic minor, dorian, phrygian, etc.) which specify the intervals that make up any specific scale of that type. Allow users to also create their own custom scale templates.</design>
         </requirement>
         <requirement>
-            <design>Allow users to create a scale with a spcific root pitch from one of these scale templates.</design>
+            <design>Allow users to create a scale with a specific root pitch from one of these scale templates.</design>
         </requirement>
         <requirement>
             <design>Each scale should allow users to find out if a given pitch is in or out of scale, and what scale degree it is.</design>
