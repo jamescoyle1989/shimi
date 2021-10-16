@@ -1,5 +1,7 @@
 'use strict';
 
+import Scale from './Scale';
+
 
 export default class ScaleTemplate {
     /** The name of the scale type, e.g. 'Major', 'Harmonic Minor', 'Phrygian', etc. */
@@ -38,6 +40,10 @@ export default class ScaleTemplate {
         this.name = name;
         this._shape = shape;
         this.relativityToMajor = relativityToMajor;
+    }
+
+    create(root: number): Scale {
+        return new Scale(this, root);
     }
 
     static get major(): ScaleTemplate { return ScaleTemplate._major; }

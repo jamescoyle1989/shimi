@@ -79,9 +79,11 @@
         </requirement>
         <requirement>
             <design>Allow users to create a scale with a specific root pitch from one of these scale templates.</design>
+            <implementation>ScaleTemplate class has create() function which takes in a root and uses that to build a new scale</implementation>
         </requirement>
         <requirement>
             <design>Each scale should allow users to find out if a given pitch is in or out of scale, and what scale degree it is.</design>
+            <implementation>Scale class has contains() function which returns whether the scale contains a passed in pitch. It also has indexOf() function which returns the 0-based index of the pitch within the scale, or -1 if it's not contained.</implementation>
         </requirement>
         <requirement>
             <design>For any pitch, regardless of whether it's in or out of the scale, the scale object should be able to tell you how to express it, eg. F# or Gb.</design>
