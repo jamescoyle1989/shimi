@@ -1,6 +1,7 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import ScaleTemplate from '../src/ScaleTemplate';
+import Scale, { PitchName } from '../src/Scale';
 
 
 @suite class ScaleTests {
@@ -42,5 +43,80 @@ import ScaleTemplate from '../src/ScaleTemplate';
         expect(scale.indexOf(1)).to.equal(-1);
         expect(scale.indexOf(6)).to.equal(-1);
         expect(scale.indexOf(10)).to.equal(-1);
+    }
+
+    @test 'PitchName.toString returns correct name'() {
+        expect(new PitchName(60, 'C').toString()).to.equal('C');
+        expect(new PitchName(61, 'C', 1).toString()).to.equal('C#');
+        expect(new PitchName(61, 'D', -1).toString()).to.equal('Db');
+        expect(new PitchName(60, 'D', -2).toString()).to.equal('Dbb');
+        expect(new PitchName(62, 'C', 2).toString()).to.equal('C##');
+    }
+
+    @test 'getPitchNamesForMajorRoot returns correct values for C'() {
+        const results = Scale['_getPitchNamesForMajorRoot'](0);
+        expect(results.length).to.equal(12);
+        expect(results[0].toString()).to.equal('C');
+        expect(results[1].toString()).to.equal('C#');
+        expect(results[2].toString()).to.equal('D');
+        expect(results[3].toString()).to.equal('Eb');
+        expect(results[4].toString()).to.equal('E');
+        expect(results[5].toString()).to.equal('F');
+        expect(results[6].toString()).to.equal('F#');
+        expect(results[7].toString()).to.equal('G');
+        expect(results[8].toString()).to.equal('G#');
+        expect(results[9].toString()).to.equal('A');
+        expect(results[10].toString()).to.equal('Bb');
+        expect(results[11].toString()).to.equal('B');
+    }
+
+    @test 'getPitchNamesForMajorRoot returns correct values for F#'() {
+        const results = Scale['_getPitchNamesForMajorRoot'](6);
+        expect(results.length).to.equal(12);
+        expect(results[0].toString()).to.equal('B#');
+        expect(results[1].toString()).to.equal('C#');
+        expect(results[2].toString()).to.equal('D♮');
+        expect(results[3].toString()).to.equal('D#');
+        expect(results[4].toString()).to.equal('E♮');
+        expect(results[5].toString()).to.equal('E#');
+        expect(results[6].toString()).to.equal('F#');
+        expect(results[7].toString()).to.equal('G♮');
+        expect(results[8].toString()).to.equal('G#');
+        expect(results[9].toString()).to.equal('A♮');
+        expect(results[10].toString()).to.equal('A#');
+        expect(results[11].toString()).to.equal('B');
+    }
+
+    @test 'getPitchNamesForMajorRoot returns correct values for Db'() {
+        const results = Scale['_getPitchNamesForMajorRoot'](1);
+        expect(results.length).to.equal(12);
+        expect(results[0].toString()).to.equal('C');
+        expect(results[1].toString()).to.equal('Db');
+        expect(results[2].toString()).to.equal('D♮');
+        expect(results[3].toString()).to.equal('Eb');
+        expect(results[4].toString()).to.equal('Fb');
+        expect(results[5].toString()).to.equal('F');
+        expect(results[6].toString()).to.equal('Gb');
+        expect(results[7].toString()).to.equal('G♮');
+        expect(results[8].toString()).to.equal('Ab');
+        expect(results[9].toString()).to.equal('A♮');
+        expect(results[10].toString()).to.equal('Bb');
+        expect(results[11].toString()).to.equal('Cb');
+    }
+
+    @test 'getPitchName returns correct values for melodic minor'() {
+        const scale = ScaleTemplate.harmonicMinor.create(-3);
+        expect(scale.getPitchName(0)).to.equal('C');
+        expect(scale.getPitchName(1)).to.equal('C#');
+        expect(scale.getPitchName(2)).to.equal('D');
+        expect(scale.getPitchName(3)).to.equal('Eb');
+        expect(scale.getPitchName(4)).to.equal('E');
+        expect(scale.getPitchName(5)).to.equal('F');
+        expect(scale.getPitchName(6)).to.equal('F#');
+        expect(scale.getPitchName(7)).to.equal('G');
+        expect(scale.getPitchName(8)).to.equal('G#');
+        expect(scale.getPitchName(9)).to.equal('A');
+        expect(scale.getPitchName(10)).to.equal('Bb');
+        expect(scale.getPitchName(11)).to.equal('B');
     }
 }
