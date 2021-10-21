@@ -19,8 +19,12 @@ export class PitchName {
             return this.letter;
         if (this.accidental == 0)
             return this.letter + '♮';
-        const accSymbol = (this.accidental > 0) ? '#' : 'b';
-        return this.letter + accSymbol.repeat(Math.abs(this.accidental));
+        let output = this.letter;
+        if (Math.abs(this.accidental) >= 2)
+            output += ((this.accidental > 0) ? '𝄪' : '𝄫').repeat(Math.abs(this.accidental / 2));
+        if (Math.abs(this.accidental) % 2 == 1)
+            output += (this.accidental > 0) ? '♯' : '♭';
+        return output;
     }
 }
 
