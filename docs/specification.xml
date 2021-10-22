@@ -10,22 +10,24 @@
             <design>Users must be able to get MIDI access which they can use to connect to any available MIDI port by name.</design>
             <implementation>The MidiAccess class exposes a static async request() method which calls the requestMIDIAccess browser function. It returns a new instance of the MidiAccess class. The MidiAccess class has methods getInPort and getOutPort, both of which take the port name as parameter.</implementation>
         </requirement>
+    </group>
 
+    <group name="Midi Out">
         <requirement>
             <design>Users must be able to create a MIDI output which references a MIDI port. This MIDI output must expose functions for all of the Channel Voice Messages as defined in the MIDI 1.0 specification (https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message), each of which send the corresponding MIDI message to the connected port.</design>
             <implementation>The MidiOut class includes methods for sending each of the Channel Voice messages as defined in the MIDI specification. Since the Pitch Bend Change message is very unfriendly to work with due to the bend value being split over 2 bytes, the sendPitchBend method takes a percent parameter which ranges from -1 to +1, which gets converted into the 2 byte bend value. The MidiOut class also has a sendRawData method which takes an array of data to be sent to the MIDI port as is.</implementation>
         </requirement>
+
+        <requirement>
+            <design>Users must be able to pass note objects to a MIDI output, where the MIDI output will send a Note On message as soon as the note object is added, it will then track the note and automatically send a Note Off message as soon as the note object's state gets updated to say it needs to stop.</design>
+            <implementation>The MidiOut class has an addNote method which takes a note object. It then stores that object. It also implements the IClockChild interface, with an update method that checks if any of the note objects have had their 'on' property changed to false since the previous update.</implementation>
+        </requirement>
+
+        <requirement>
+            <design>Users must be able to create an object which sends regular update messages to Midi outputs, metronomes, or any other object which requires frequent updates.</design>
+            <implementation>Added the Clock object which takes in as a constructor parameter how many milliseconds should be between each update. Has start and stop methods for controlling the running of the clock, as well as a list of children that it should update.</implementation>
+        </requirement>
     </group>
-
-    <requirement>
-        <design>Users must be able to pass note objects to a MIDI output, where the MIDI output will send a Note On message as soon as the note object is added, it will then track the note and automatically send a Note Off message as soon as the note object's state gets updated to say it needs to stop.</design>
-        <implementation>The MidiOut class has an addNote method which takes a note object. It then stores that object. It also implements the IClockChild interface, with an update method that checks if any of the note objects have had their 'on' property changed to false since the previous update.</implementation>
-    </requirement>
-
-    <requirement>
-        <design>Users must be able to create an object which sends regular update messages to Midi outputs, metronomes, or any other object which requires frequent updates.</design>
-        <implementation>Added the Clock object which takes in as a constructor parameter how many milliseconds should be between each update. Has start and stop methods for controlling the running of the clock, as well as a list of children that it should update.</implementation>
-    </requirement>
 
     <group name="Input Devices">
         <requirement>
@@ -101,6 +103,7 @@
 
         <requirement>
             <design>For any pitch, regardless of whether it's in or out of the scale, the scale object should be able to tell you how to express it, eg. F# or Gb.</design>
+            <implementation>Added getPitchName function to Scale class, which uses a cache of pre-calculated names based on the scale's relative major.</implementation>
         </requirement>
 
         <requirement>
@@ -110,6 +113,7 @@
 
     <requirement>
         <design>Users must be able to create Cue objects, which specify an action, as well as a metronome + beat delay, a millisecond delay, or a condition which determines when the action gets run.</design>
+        <implementation>Added ConditionalCue for cuing something up when a certain condition is met, MsCue for cuing something up after a set number of milliseconds &amp; BeatCue for cuing something up after a certain number of beats have passed on a linked metronome. Added Cue.when(condition, action), Cue.afterMs(msCount, action) &amp; Cue.afterBeats(metronome, beatCount, action) for easy creation of these objects.</implementation>
     </requirement>
 
     <group name="Midi Inputs">
@@ -119,6 +123,30 @@
 
         <requirement>
             <design>Messages from midi inputs must be easily duplicatable to allow for easily forwarding messages to an output with slight modifications.</design>
+        </requirement>
+    </group>
+
+    <group name="Clip Recorder">
+        <requirement>
+            <design>Users must be able to create a clip recorder, which receives MIDI messages and uses them to build up a clip of pre-defined length.</design>
+        </requirement>
+
+        <requirement>
+            <design>The recorder must have a way of alerting the rest of the program the moment that the new clip is finished so it can be handled without delay</design>
+        </requirement>
+    </group>
+
+    <group name="Midi Bus">
+        <requirement>
+            <design>Users must be able to create a Midi Bus, which allows you to send data to it like a MidiOut, and also receive data from it like a MidiIn</design>
+        </requirement>
+
+        <requirement>
+            <design>When you send data to a Midi Bus, it should immediately send it out again.</design>
+        </requirement>
+
+        <requirement>
+            <design>When you send notes to a Midi Bus, it should output the exact events that a regular Midi Out would.</design>
         </requirement>
     </group>
 </specification>
