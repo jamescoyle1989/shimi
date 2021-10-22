@@ -5,19 +5,23 @@
             <design>Users must be able to easily import the library and add it into their code.</design>
             <implementation>Supports html script tag, or simply just require('shimi'). Second option gives full intellisense support</implementation>
         </requirement>
+
         <requirement>
             <design>Users must be able to get MIDI access which they can use to connect to any available MIDI port by name.</design>
             <implementation>The MidiAccess class exposes a static async request() method which calls the requestMIDIAccess browser function. It returns a new instance of the MidiAccess class. The MidiAccess class has methods getInPort and getOutPort, both of which take the port name as parameter.</implementation>
         </requirement>
+
         <requirement>
             <design>Users must be able to create a MIDI output which references a MIDI port. This MIDI output must expose functions for all of the Channel Voice Messages as defined in the MIDI 1.0 specification (https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message), each of which send the corresponding MIDI message to the connected port.</design>
             <implementation>The MidiOut class includes methods for sending each of the Channel Voice messages as defined in the MIDI specification. Since the Pitch Bend Change message is very unfriendly to work with due to the bend value being split over 2 bytes, the sendPitchBend method takes a percent parameter which ranges from -1 to +1, which gets converted into the 2 byte bend value. The MidiOut class also has a sendRawData method which takes an array of data to be sent to the MIDI port as is.</implementation>
         </requirement>
     </group>
+
     <requirement>
         <design>Users must be able to pass note objects to a MIDI output, where the MIDI output will send a Note On message as soon as the note object is added, it will then track the note and automatically send a Note Off message as soon as the note object's state gets updated to say it needs to stop.</design>
         <implementation>The MidiOut class has an addNote method which takes a note object. It then stores that object. It also implements the IClockChild interface, with an update method that checks if any of the note objects have had their 'on' property changed to false since the previous update.</implementation>
     </requirement>
+
     <requirement>
         <design>Users must be able to create an object which sends regular update messages to Midi outputs, metronomes, or any other object which requires frequent updates.</design>
         <implementation>Added the Clock object which takes in as a constructor parameter how many milliseconds should be between each update. Has start and stop methods for controlling the running of the clock, as well as a list of children that it should update.</implementation>
@@ -28,6 +32,7 @@
             <design>Users must have an easy way to attach logic to key presses and releases on their computer keyboard. There must be a more readable + consistent mechanism available to them than adding an event listener and comparing event key codes.</design>
             <implementation>The Keyboard class manages all key state tracking. The user can then just add logic like: keyboard.q.pressed.add(() => ...);</implementation>
         </requirement>
+
         <requirement>
             <design>Users must have a way to be able to search through all keys on their keyboard. Each key should be able to easily tell them if it's currently pressed, and if so, how long it's been pressed for.</design>
             <implementation>The Keyboard class has a buttons array, which contains all of the ButtonInput objects that it also holds as properties. So you can do stuff like keyboard.buttons.filter(b => b.activeMs > 500)</implementation>
@@ -39,14 +44,17 @@
             <design>Users should be able to create metronomes which don't just count how many quarter notes have passed in a bar, but can also divide a bar into a set of more abstract 'beats'. Where each beat can be of different length to the others. For example, the beat structure of a metronome for the Mission Impossible theme may count 4 beats per bar, despite the theme being in 5/4, where beats 1 + 2 are a dotted quarter note each, while beats 3 + 4 are a quarter note each.</design>
             <implementation>The TimeSig class takes an array of 'divisions', where each division is one beat of the bar, defining its own count and optional swing. The Flexinome class implements the IMetronome interface much like the regular Metronome class but its implementation takes full advantage of the TimeSig's divisions.</implementation>
         </requirement>
+
         <requirement>
             <design>Metronomes should be able to apply swing. This swing can be either universal, or customly set per beat. This would for example, allow fine tune control of how a 4-beat pattern in 4/4 gets played on a 4-beat 11/8 metronome.</design>
             <implementation>The fine-grain, per-beat control of swing is only available to the Flexinome. If a TimeSig defines a swing value on one of its divisions, then that swing value will be taken over whatever overall swing value the TimeSig has.</implementation>
         </requirement>
+
         <requirement>
             <design>Users mustn't be tied to the more abstract irregular-beat driven metronome approach. If they want to use a simple metronome that just counts 1 quarter-note = 1 beat, they must also be able to do that.</design>
             <implementation>Added Metronome class which implements the IMetronome interface. The interface allows for both quarterNote &amp; beat properties to be exposed, though in this case the they both essentially just tracker quarter notes, with minor difference being that the beat property will also expose any swing.</implementation>
         </requirement>
+
         <requirement>
             <design>If using the more standard, rudimentary form of metronome, then swing can only be applied universally, not differently across various parts of the bar. Also, if the metronome is counting a rhythm with a non-integer number of quarter-notes per bar, then no swing will be applied to the final fractional beat part of the bar.</design>
             <implementation>The simple Metronome class just uses TimeSig's swing property for determining its swing, it doesn't use swing defined at the division level. If it's at the end of a bar where the last quarter note is incomplete, then it ignores any swing for that little bit only.</implementation>
@@ -58,14 +66,17 @@
             <design>Users must be able to create Clip objects, where a clip has a pre-defined beat count, and specifies a number of notes to be played at specific times, each with their own velocities.</design>
             <implementation>The Clip class extends the Range class which specifies the duration. Clip contains an array of ClipNotes, where each one defines the start, duration, pitch, velocity &amp; optionally channel of a note to be played.</implementation>
         </requirement>
+
         <requirement>
             <design>Clips must be able to support information for control changes and pitch bends, whether that be a single value, or some set of calculated/recorded values that morph over time.</design>
             <implementation>Clips have ClipCCs &amp; ClipBends. The ClipCC value &amp; ClipBend percent properties can take either a simple value, or a function which takes a parameter of how far through the CC/bend automation we currently are.</implementation>
         </requirement>
+
         <requirement>
             <design>Users must be able to create clip player objects, which define a clip that's to be played, which metronome to base the clip's timing on, what speed to play it at, what channel to play it on, how to modify the pitch of each note, and how to modify the velocity of each note.</design>
             <implementation>The ClipPlayer class has clip, channel, metronome, speed, startBeat, beatCount &amp; noteModifier properties. Where noteModifier gets called for each new note that's created by the player.</implementation>
         </requirement>
+
         <requirement>
             <design>Users must be able to pass a clip player into a Midi Output to have the clip it contains be played.</design>
             <implementation>ClipPlayer implements the IMidiOutChild interface. IMidiOut contains addProcess &amp; stopProcesses methods. When a ClipPlayer instance is added to the MidiOut, it will receive update messages from the MidiOut, which it will use to add notes, send messages etc through the MidiOut.</implementation>
@@ -77,17 +88,21 @@
             <design>Have templates for the common scale types (major, natural minor, melodic minor, dorian, phrygian, etc.) which specify the intervals that make up any specific scale of that type. Allow users to also create their own custom scale templates.</design>
             <implementation>ScaleTemplate class stores name, shape (array of intervals) &amp; relativityToMajor. It has static getters on it for retrieving instances of the common scale types.</implementation>
         </requirement>
+
         <requirement>
             <design>Allow users to create a scale with a specific root pitch from one of these scale templates.</design>
             <implementation>ScaleTemplate class has create() function which takes in a root and uses that to build a new scale</implementation>
         </requirement>
+
         <requirement>
             <design>Each scale should allow users to find out if a given pitch is in or out of scale, and what scale degree it is.</design>
             <implementation>Scale class has contains() function which returns whether the scale contains a passed in pitch. It also has indexOf() function which returns the 0-based index of the pitch within the scale, or -1 if it's not contained.</implementation>
         </requirement>
+
         <requirement>
             <design>For any pitch, regardless of whether it's in or out of the scale, the scale object should be able to tell you how to express it, eg. F# or Gb.</design>
         </requirement>
+
         <requirement>
             <design>Each scale should allow you to get related scales, specifically dominant, subdominant, relative (with scale template) and parallel (with scale template).</design>
         </requirement>
@@ -96,4 +111,14 @@
     <requirement>
         <design>Users must be able to create Cue objects, which specify an action, as well as a metronome + beat delay, a millisecond delay, or a condition which determines when the action gets run.</design>
     </requirement>
+
+    <group name="Midi Inputs">
+        <requirement>
+            <design>Users must be able to receive messages from a MIDI input which they can use as triggers for other actions within the program.</design>
+        </requirement>
+
+        <requirement>
+            <design>Messages from midi inputs must be easily duplicatable to allow for easily forwarding messages to an output with slight modifications.</design>
+        </requirement>
+    </group>
 </specification>
