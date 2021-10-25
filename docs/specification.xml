@@ -108,6 +108,7 @@
 
         <requirement>
             <design>Each scale should allow you to get related scales, specifically dominant, subdominant, relative (with scale template) and parallel (with scale template).</design>
+            <implementation>Added getDominantScale(), getSubdominantScale(), getRelativeScale(template) &amp; getParallelScale(template) methods to Scale class.</implementation>
         </requirement>
     </group>
 

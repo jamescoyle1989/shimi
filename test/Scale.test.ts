@@ -119,4 +119,44 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale.getPitchName(10)).to.equal('B♭');
         expect(scale.getPitchName(11)).to.equal('B');
     }
+
+    @test 'getDominantScale returns scale perfect 5th above'() {
+        const scale1 = ScaleTemplate.major.create(0);
+        const scale2 = scale1.getDominantScale();
+        expect(scale2.root).to.equal(7);
+        expect(scale2.template).to.equal(scale1.template);
+    }
+
+    @test 'getSubdominantScale returns scale perfect 4th above'() {
+        const scale1 = ScaleTemplate.major.create(0);
+        const scale2 = scale1.getSubdominantScale();
+        expect(scale2.root).to.equal(5);
+        expect(scale2.template).to.equal(scale1.template);
+    }
+
+    @test 'getRelativeScale uses relativityToMajor correctly'() {
+        const scale1 = ScaleTemplate.lydian.create(5);
+        const scale2 = scale1.getRelativeScale(ScaleTemplate.harmonicMinor);
+        expect(scale2.root).to.equal(9);
+        expect(scale2.template).to.equal(ScaleTemplate.harmonicMinor);
+    }
+
+    @test 'getRelativeScale returns this if template matches template of current scale'() {
+        const scale1 = ScaleTemplate.mixolydian.create(7);
+        const scale2 = scale1.getRelativeScale(ScaleTemplate.mixolydian);
+        expect(scale1).to.equal(scale2);
+    }
+
+    @test 'getParallelScale returns new scale with same root'() {
+        const scale1 = ScaleTemplate.lydian.create(5);
+        const scale2 = scale1.getParallelScale(ScaleTemplate.harmonicMinor);
+        expect(scale2.root).to.equal(5);
+        expect(scale2.template).to.equal(ScaleTemplate.harmonicMinor);
+    }
+
+    @test 'getParallelScale returns this if template matches template of current scale'() {
+        const scale1 = ScaleTemplate.mixolydian.create(7);
+        const scale2 = scale1.getParallelScale(ScaleTemplate.mixolydian);
+        expect(scale1).to.equal(scale2);
+    }
 }

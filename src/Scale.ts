@@ -106,4 +106,24 @@ export default class Scale {
             case 11: return [n(0,'B',1), n(1,'C',1), n(2,'D',0), n(3,'D',1), n(4,'E'), n(5,'E',1), n(6,'F',1), n(7,'G',0), n(8,'G',1), n(9,'A',0), n(10,'A',1), n(11,'B')];
         }
     }
+
+    getDominantScale(): Scale {
+        return new Scale(this.template, this.root + 7);
+    }
+
+    getSubdominantScale(): Scale {
+        return new Scale(this.template, this.root + 5);
+    }
+
+    getRelativeScale(template: ScaleTemplate): Scale {
+        if (template == this.template)
+            return this;
+        return new Scale(template, this.root - this.template.relativityToMajor + template.relativityToMajor);
+    }
+
+    getParallelScale(template: ScaleTemplate): Scale {
+        if (template == this.template)
+            return this;
+        return new Scale(template, this.root);
+    }
 }
