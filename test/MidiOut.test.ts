@@ -1,11 +1,10 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import DummyMidiOutChild from './DummyMidiOutChild';
 import MidiOut from '../src/MidiOut';
 import Note from '../src/Note';
 import * as messages from '../src/MidiMessages';
 
-class MockPort {
+export class MockPort {
     data: number[];
 
     send(data: number[]) {
@@ -90,37 +89,6 @@ class MockPort {
         expect(port.data[0]).to.equal(0xA0 + 1);
         expect(port.data[1]).to.equal(60);
         expect(port.data[2]).to.equal(90);
-    }
-
-    @test 'update runs child processes'() {
-        const port = new MockPort();
-        const midiOut = new MidiOut(port);
-        const process = new DummyMidiOutChild();
-        midiOut.addProcess(process);
-        expect(process.totalDeltaMs).to.equal(0);
-        midiOut.update(5);
-        expect(process.totalDeltaMs).to.equal(5);
-    }
-
-    @test 'update removes finished child processes'() {
-        const port = new MockPort();
-        const midiOut = new MidiOut(port);
-        const process = new DummyMidiOutChild();
-        midiOut.addProcess(process);
-        midiOut.stopProcesses(p => true);
-        expect(midiOut.processes.length).to.equal(1);
-        midiOut.update(5);
-        expect(midiOut.processes.length).to.equal(0);
-    }
-
-    @test 'stopProcesses finishes targetted processes, doesnt remove them'() {
-        const port = new MockPort();
-        const midiOut = new MidiOut(port);
-        const process = new DummyMidiOutChild();
-        midiOut.addProcess(process);
-        expect(process.finished).to.be.false;
-        midiOut.stopProcesses(p => true);
-        expect(process.finished).to.be.true;
     }
 
     @test 'sendNoteOff validates port'() {

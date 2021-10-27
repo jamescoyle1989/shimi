@@ -11,11 +11,11 @@ import MidiOut from '../src/MidiOut';
         const midiOut = new MidiOut(new DummyPort());
         let updateValue: number = 0;
         const cue = Cue.afterMs(100, () => updateValue = 59);
-        cue.update(midiOut, 80);
+        cue.update(80);
         expect(updateValue).to.equal(0);
-        cue.update(midiOut, 19);
+        cue.update(19);
         expect(updateValue).to.equal(0);
-        cue.update(midiOut, 1);
+        cue.update(1);
         expect(updateValue).to.equal(59);
     }
 
@@ -23,9 +23,9 @@ import MidiOut from '../src/MidiOut';
         const midiOut = new MidiOut(new DummyPort());
         let updateValue: number = 0;
         const cue = Cue.afterMs(100, () => updateValue = 59);
-        cue.update(midiOut, 80);
+        cue.update(80);
         expect(cue.finished).to.be.false;
-        cue.update(midiOut, 20);
+        cue.update(20);
         expect(cue.finished).to.be.true;
     }
 
@@ -34,10 +34,10 @@ import MidiOut from '../src/MidiOut';
         let trigger: boolean = false;
         let updateValue: number = 0;
         const cue = Cue.when(() => trigger, () => updateValue = 59);
-        cue.update(midiOut, 100000);
+        cue.update(100000);
         expect(updateValue).to.equal(0);
         trigger = true;
-        cue.update(midiOut, 10);
+        cue.update(10);
         expect(updateValue).to.equal(59);
     }
 
@@ -46,10 +46,10 @@ import MidiOut from '../src/MidiOut';
         let trigger: boolean = false;
         let updateValue: number = 0;
         const cue = Cue.when(() => trigger, () => updateValue = 59);
-        cue.update(midiOut, 100000);
+        cue.update(100000);
         expect(cue.finished).to.be.false;
         trigger = true;
-        cue.update(midiOut, 10);
+        cue.update(10);
         expect(cue.finished).to.be.true;
     }
 
@@ -60,10 +60,10 @@ import MidiOut from '../src/MidiOut';
         const cue = Cue.afterBeats(metronome, 1, () => updateValue = 59);
 
         metronome.update(900);
-        cue.update(midiOut, 900);
+        cue.update(900);
         expect(updateValue).to.equal(0);
         metronome.update(101);
-        cue.update(midiOut, 101);
+        cue.update(101);
         expect(updateValue).to.equal(59);
     }
 
@@ -74,10 +74,10 @@ import MidiOut from '../src/MidiOut';
         const cue = Cue.afterBeats(metronome, 1, () => updateValue = 59);
 
         metronome.update(900);
-        cue.update(midiOut, 900);
+        cue.update(900);
         expect(cue.finished).to.be.false;
         metronome.update(101);
-        cue.update(midiOut, 101);
+        cue.update(101);
         expect(cue.finished).to.be.true;
     }
 }

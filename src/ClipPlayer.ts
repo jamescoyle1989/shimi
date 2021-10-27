@@ -3,11 +3,12 @@
 import { Clip, ClipNote } from './Clip';
 import IMetronome from './Metronome';
 import Note from './Note';
-import { IMidiOut, IMidiOutChild } from './MidiOut';
+import { IClockChild } from './Clock';
+import { IMidiOut } from './MidiOut';
 import { ControlChangeMessage, PitchBendMessage } from './MidiMessages';
 
 
-export default class ClipPlayer implements IMidiOutChild {
+export default class ClipPlayer implements IClockChild {
     /** Which clip to play */
     get clip(): Clip { return this._clip; }
     /** Which clip to play */
@@ -31,6 +32,12 @@ export default class ClipPlayer implements IMidiOutChild {
     /** The metronome which the player uses for tracking passed beats */
     set metronome(value: IMetronome) { this._metronome = value; }
     private _metronome: IMetronome;
+
+    /** The MidiOut which data from the clip gets played on */
+    get midiOut(): IMidiOut { return this._midiOut; }
+    /** The MidiOut which data from the clip gets played on */
+    set midiOut(value: IMidiOut) { this._midiOut = value; }
+    private _midiOut: IMidiOut;
 
     /** How many beats in the clip to play for every beat that passes in actual time */
     get speed(): number { return this._speed; }
@@ -70,9 +77,10 @@ export default class ClipPlayer implements IMidiOutChild {
 
     private _notes: Note[] = [];
 
-    constructor(clip: Clip, metronome: IMetronome) {
+    constructor(clip: Clip, metronome: IMetronome, midiOut: IMidiOut) {
         this.clip = clip;
         this.metronome = metronome;
+        this.midiOut = midiOut;
     }
 
     start() {
@@ -88,7 +96,7 @@ export default class ClipPlayer implements IMidiOutChild {
         this._beatsPassed = 0;
     }
 
-    update(midiOut: IMidiOut, deltaMs: number): void {
+    update(deltaMs: number): void {
         if (!this.running || !this.clip || !this.metronome)
             return;
 
@@ -109,7 +117,7 @@ export default class ClipPlayer implements IMidiOutChild {
         //Update beatsPassed, if it's greater or equal to beatCount, then the player is finished
         this._beatsPassed += beatDiff;
         if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount)
-            this.finish(midiOut);
+            this.finish();
 
         //Loop through each existing note that the player has started
         //Stop notes that need to end, and update velocity of any others need it
@@ -130,7 +138,7 @@ export default class ClipPlayer implements IMidiOutChild {
             if (this.noteModifier)
                 this.noteModifier(note);
             this._notes.push(note);
-            midiOut.addNote(note);
+            this.midiOut.addNote(note);
         }
 
         //Trigger any control change messages that need to be sent
@@ -138,7 +146,7 @@ export default class ClipPlayer implements IMidiOutChild {
             const clipValueIsFunction = typeof(clipCC.value) == 'function';
             if (newClipBeat > clipCC.end && clipCC.start < oldClipBeat && !clipValueIsFunction)
                 continue;
-            midiOut.sendControlChange(new ControlChangeMessage(
+            this.midiOut.sendControlChange(new ControlChangeMessage(
                 clipCC.controller, 
                 (typeof(clipCC.value) == 'function') ? 
                     clipCC.value(Math.min(newClipBeat - clipCC.start, clipCC.duration)) : 
@@ -152,7 +160,7 @@ export default class ClipPlayer implements IMidiOutChild {
             const percentIsFunction = typeof(clipBend.percent) == 'function';
             if (newClipBeat > clipBend.end && clipBend.start < oldClipBeat && !percentIsFunction)
                 continue;
-            midiOut.sendPitchBend(new PitchBendMessage(
+            this.midiOut.sendPitchBend(new PitchBendMessage(
                 (typeof(clipBend.percent) == 'function') ?
                     clipBend.percent(Math.min(newClipBeat - clipBend.start, clipBend.duration)) :
                     clipBend.percent,
@@ -161,7 +169,7 @@ export default class ClipPlayer implements IMidiOutChild {
         }
     }
 
-    finish(midiOut: IMidiOut): void {
+    finish(): void {
         this._finished = true;
         this._endAllNotes();
     }

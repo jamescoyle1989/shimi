@@ -9,6 +9,15 @@ export default class Keyboard implements IClockChild {
     get buttons(): ButtonInput[] { return this._buttons; }
     private _buttons: ButtonInput[] = [];
 
+    /** Provides a way of identifying keyboards so they can be retrieved later */
+    get ref(): string { return this._ref; }
+    /** Provides a way of identifying keyboards so they can be retrieved later */
+    set ref(value: string) { this._ref = value; }
+    private _ref: string;
+
+    get finished(): boolean { return this._finished; }
+    private _finished: boolean = false;
+
 
     get escape(): ButtonInput { return this._escape; }
     private _escape: ButtonInput = new ButtonInput('escape');
@@ -371,6 +380,11 @@ export default class Keyboard implements IClockChild {
         this._eventSubscriber.unsubscribe('keyup', this._onKeyUp);
         this._activated = false;
         return true;
+    }
+
+    finish(): void {
+        this._finished = true;
+        this.deactivate();
     }
 
     private _onKeyDown = (event: KeyboardEvent) => {

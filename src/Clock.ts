@@ -39,17 +39,38 @@ export default class Clock {
         return true;
     }
 
+    addChild(child: IClockChild): IClockChild {
+        this._children.push(child);
+        return child;
+    }
+
+    stopChildren(filter: (child: IClockChild) => boolean): void {
+        for (const c of this._children) {
+            if (filter(c))
+                c.finish();
+        }
+    }
+
     updateChildren() {
         const newTime = new Date().getTime();
         const deltaMs = newTime - this._lastUpdateTime;
         this._lastUpdateTime = newTime;
 
-        for (const child of this._children)
-            child.update(deltaMs);
+        for (const child of this._children) {
+            if (!child.finished)
+                child.update(deltaMs);
+        }
+        this._children = this._children.filter(c => !c.finished);
     }
 }
 
 
 export interface IClockChild {
+    get ref(): string;
+
+    get finished(): boolean;
+
     update(deltaMs: number): void;
+
+    finish(): void;
 }

@@ -12,11 +12,22 @@ export default class MidiOut implements IMidiOut, IClockChild {
     get notes(): Array<Note> { return this._notes; }
     private _notes: Array<Note> = [];
 
-    get processes(): Array<IMidiOutChild> { return this._processes; }
-    private _processes: Array<IMidiOutChild> = [];
+    /** Provides a way of identifying MidiOut so it can be retrieved later */
+    get ref(): string { return this._ref; }
+    /** Provides a way of identifying MidiOut so it can be retrieved later */
+    set ref(value: string) { this._ref = value; }
+    private _ref: string;
+
+    get finished(): boolean { return this._finished; }
+    private _finished: boolean = false;
 
     constructor(port: any) {
         this.port = port;
+    }
+
+    finish(): void {
+        this._finished = true;
+        this.stopNotes(n => true);
     }
 
     addNote(note: Note): Note {
@@ -28,18 +39,6 @@ export default class MidiOut implements IMidiOut, IClockChild {
         for (const n of this._notes) {
             if (filter(n))
                 n.stop();
-        }
-    }
-
-    addProcess(process: IMidiOutChild): IMidiOutChild {
-        this._processes.push(process);
-        return process;
-    }
-
-    stopProcesses(filter: (process: IMidiOutChild) => boolean): void {
-        for (const p of this._processes) {
-            if (filter(p))
-                p.finish(this);
         }
     }
 
@@ -150,12 +149,6 @@ export default class MidiOut implements IMidiOut, IClockChild {
     update(deltaMs: number): void {
         let anyNotesStopped = false;
 
-        for (const process of this.processes) {
-            if (!process.finished)
-                process.update(this, deltaMs);
-        }
-        this._processes = this._processes.filter(p => !p.finished);
-
         //Send Note Off events for any stopped notes
         //Don't actually send the note off message if there is a more recent note that is still on
         for (let i = 0; i < this._notes.length; i++) {
@@ -206,10 +199,6 @@ export interface IMidiOut {
 
     stopNotes(filter: (note: Note) => boolean): void;
 
-    addProcess(process: IMidiOutChild): IMidiOutChild;
-
-    stopProcesses(filter: (process: IMidiOutChild) => boolean): void;
-
     sendNoteOff(message: messages.NoteOffMessage): void;
 
     sendNoteOn(message: messages.NoteOnMessage): void;
@@ -225,15 +214,4 @@ export interface IMidiOut {
     sendPitchBend(message: messages.PitchBendMessage): void;
 
     sendRawData(data: number[]): void;
-}
-
-
-export interface IMidiOutChild {
-    get ref(): string;
-
-    get finished(): boolean;
-
-    update(midiOut: IMidiOut, deltaMs: number): void;
-
-    finish(midiOut: IMidiOut): void;
 }

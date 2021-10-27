@@ -4,7 +4,7 @@ import ButtonInput from '../src/ButtonInput';
 
 @suite class ButtonInputTests {
     @test 'Update runs pressed event if state changed to true'() {
-        const btn = new ButtonInput();
+        const btn = new ButtonInput('a');
         const results: number[] = [];
         btn.pressed.add(data => results.push(13));
         btn.released.add(data => results.push(17));
@@ -15,7 +15,7 @@ import ButtonInput from '../src/ButtonInput';
     }
 
     @test 'Update runs released event if state changed to false'() {
-        const btn = new ButtonInput();
+        const btn = new ButtonInput('a');
         const results: number[] = [];
         btn.pressed.add(data => results.push(13));
         btn.released.add(data => results.push(17));
@@ -27,7 +27,7 @@ import ButtonInput from '../src/ButtonInput';
     }
 
     @test 'Update doesnt run anything if state not changed'() {
-        const btn = new ButtonInput();
+        const btn = new ButtonInput('a');
         const results: number[] = [];
         btn.pressed.add(data => results.push(13));
         btn.released.add(data => results.push(17));
@@ -36,7 +36,7 @@ import ButtonInput from '../src/ButtonInput';
     }
 
     @test 'Update increases activeMs if pressed'() {
-        const btn = new ButtonInput();
+        const btn = new ButtonInput('a');
         btn.stateTracker.value = true;
         expect(btn.activeMs).to.equal(0);
         btn.update(15);
@@ -44,7 +44,7 @@ import ButtonInput from '../src/ButtonInput';
     }
 
     @test 'Update doesnt increase activeMs if not pressed'() {
-        const btn = new ButtonInput();
+        const btn = new ButtonInput('a');
         expect(btn.activeMs).to.equal(0);
         expect(btn.state).to.be.false;
         btn.update(15);
@@ -52,7 +52,7 @@ import ButtonInput from '../src/ButtonInput';
     }
 
     @test 'Update resets activeMs if released'() {
-        const btn = new ButtonInput();
+        const btn = new ButtonInput('a');
         btn.stateTracker.oldValue = true;
         btn.stateTracker.value = false;
         btn['_activeMs'] = 100;
@@ -62,7 +62,7 @@ import ButtonInput from '../src/ButtonInput';
     }
 
     @test 'State is cleaned after update'() {
-        const btn = new ButtonInput();
+        const btn = new ButtonInput('a');
         btn.stateTracker.oldValue = false;
         btn.stateTracker.value = true;
         btn.update(15);

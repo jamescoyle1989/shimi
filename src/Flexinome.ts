@@ -11,6 +11,12 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
     get tempo(): number { return this._tempo; }
     set tempo(value: number) { this._tempo = value; }
 
+    /** Provides a way of identifying metronomes so they can be retrieved later */
+    get ref(): string { return this._ref; }
+    /** Provides a way of identifying metronomes so they can be retrieved later */
+    set ref(value: string) { this._ref = value; }
+    private _ref: string;
+
     private _timeSig: PropertyTracker<TimeSig> = new PropertyTracker();
     //Return the old value, so that if the user changes the time sig
     //we can prevent from applying it until the start of the next bar
@@ -40,6 +46,9 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
     private _enabled: PropertyTracker<boolean> = new PropertyTracker(true);
     get enabled(): boolean { return this._enabled.value; }
     set enabled(value: boolean) { this._enabled.value = value; }
+
+    get finished(): boolean { return this._finished; }
+    private _finished: boolean = false;
 
     constructor(tempo: number, timeSig: TimeSig = null) {
         super();
@@ -83,5 +92,10 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
         this._totalBeat.accept();
         this._barBeat.value = this.timeSig.quarterNoteToBeat(this.barQuarterNote);
         this._totalBeat.value = this.totalBeat - this._barBeat.oldValue + this.barBeat;
+    }
+
+    finish(): void {
+        this._finished = true;
+        this._enabled.value = false;
     }
 }

@@ -1,10 +1,10 @@
 'use strict';
 
 import { IMetronome } from './Metronome';
-import { IMidiOut, IMidiOutChild } from './MidiOut';
+import { IClockChild } from './Clock';
 
 
-class CueBase implements IMidiOutChild {
+class CueBase implements IClockChild {
     /** Provides a way of identifying cues so they can be retrieved later */
     get ref(): string { return this._ref; }
     /** Provides a way of identifying cues so they can be retrieved later */
@@ -21,10 +21,10 @@ class CueBase implements IMidiOutChild {
         this._action = action;
     }
 
-    update(midiOut: IMidiOut, deltaMs: number): void {
+    update(deltaMs: number): void {
     }
 
-    finish(midiOut: IMidiOut): void {
+    finish(): void {
         this._finished = true;
     }
 }
@@ -41,11 +41,11 @@ export class MsCue extends CueBase {
         this._msCount = msCount;
     }
 
-    update(midiOut: IMidiOut, deltaMs: number): void {
+    update(deltaMs: number): void {
         this._countPassed += deltaMs;
         if (this._countPassed >= this.msCount) {
             this.action();
-            this.finish(midiOut);
+            this.finish();
         }
     }
 }
@@ -60,10 +60,10 @@ export class ConditionalCue extends CueBase {
         this._condition = condition;
     }
     
-    update(midiOut: IMidiOut, deltaMs: number): void {
+    update(deltaMs: number): void {
         if (this.condition()) {
             this.action();
-            this.finish(midiOut);
+            this.finish();
         }
     }
 }
@@ -84,11 +84,11 @@ export class BeatCue extends CueBase {
         this._beatCount = beatCount;
     }
     
-    update(midiOut: IMidiOut, deltaMs: number): void {
+    update(deltaMs: number): void {
         this._beatsPassed += this.metronome.totalBeatTracker.value - this.metronome.totalBeatTracker.oldValue;
         if (this._beatsPassed >= this.beatCount) {
             this.action();
-            this.finish(midiOut);
+            this.finish();
         }
     }
 }

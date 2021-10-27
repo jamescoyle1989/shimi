@@ -20,42 +20,55 @@ function getBendValFromPercent(percent: number): number[] {
     @test 'Update doesnt do anything if running is false'() {
         //Setup
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(new Clip(16), metronome);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut);
 
         //Update metronome so it has some difference between old and new beat values
         metronome.update(10);
 
         clipPlayer.running = false;
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(clipPlayer.beatsPassed).to.equal(0);
     }
 
     @test 'Update doesnt do anything if metronome isnt set'() {
         //Setup
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(new Clip(16), null);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), null, midiOut);
 
         //Update metronome so it has some difference between old and new beat values
         metronome.update(10);
 
         clipPlayer.running = false;
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(clipPlayer.beatsPassed).to.equal(0);
     }
 
     @test 'Update doesnt do anything if clip isnt set'() {
         //Setup
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(null, metronome);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(null, metronome, midiOut);
 
         //Update metronome so it has some difference between old and new beat values
         metronome.update(10);
 
         clipPlayer.running = false;
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
+        expect(clipPlayer.beatsPassed).to.equal(0);
+    }
+
+    @test 'Update doesnt do anything if midiOut isnt set'() {
+        //Setup
+        const metronome = new Metronome(120);
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, null);
+
+        //Update metronome so it has some difference between old and new beat values
+        metronome.update(10);
+
+        clipPlayer.running = false;
+        clipPlayer.update(10);
         expect(clipPlayer.beatsPassed).to.equal(0);
     }
 
@@ -63,13 +76,13 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(16);
         clip.notes.push(new ClipNote(0, 1, 60, 100));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         //Update metronome so it has some difference between old and new beat values
         metronome.update(10);
 
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].on).to.be.true;
     }
@@ -78,44 +91,44 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(16);
         clip.notes.push(new ClipNote(0, 1, 60, 100));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].on).to.be.true;
 
         metronome.update(500);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiOut.notes[0].on).to.be.false;
     }
 
     @test 'Update increases beatsPassed property'() {
         //Setup
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(new Clip(16), metronome);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut);
 
         //Update metronome so it has some difference between old and new beat values
         metronome.update(10);
 
         expect(clipPlayer.running).to.be.true;
         expect(clipPlayer.beatsPassed).to.equal(0);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(clipPlayer.beatsPassed).to.be.greaterThan(0);
     }
 
     @test 'Update sets finished if beatsPassed exceeds beatCount'() {
         //Setup
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(new Clip(16), metronome);
-        clipPlayer.beatCount = 1;
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut);
+        clipPlayer.beatCount = 1;
 
         metronome.update(510);
         expect(clipPlayer.finished).to.be.false;
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(clipPlayer.finished).to.be.true;
     }
 
@@ -123,12 +136,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(16);
         clip.notes.push(new ClipNote(0, 1, 60, 100));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
-        clipPlayer.noteModifier = n => n.pitch += 2;
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
+        clipPlayer.noteModifier = n => n.pitch += 2;
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].pitch).to.equal(62);
     }
@@ -137,17 +150,17 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(16);
         clip.notes.push(new ClipNote(0, 1, 60, b => b < 0.5 ? 100 : 50));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].on).to.be.true;
         expect(midiOut.notes[0].velocity).to.equal(100);
 
         metronome.update(250);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiOut.notes[0].velocity).to.equal(50);
     }
 
@@ -156,17 +169,17 @@ function getBendValFromPercent(percent: number): number[] {
         clip1.notes.push(new ClipNote(0, 1, 60, 80));
         const clip2 = new Clip(4);
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip1, metronome);
         const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(clip1, metronome, midiOut);
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(clipPlayer['_notes'].length).to.equal(1);
 
         clipPlayer.clip = clip2;
 
         metronome.update(1000);
-        clipPlayer.update(midiOut, 1000);
+        clipPlayer.update(1000);
         expect(clipPlayer['_notes'].length).to.equal(0);
     }
 
@@ -174,12 +187,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.controlChanges.push(new ClipCC(0, 0, 10, 15));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xB0);
         expect(midiPort.messages[0][1]).to.equal(10);
@@ -190,12 +203,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.controlChanges.push(new ClipCC(0, 1, 10, b => b * 126));
         const metronome = new Metronome(60);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(500);
-        clipPlayer.update(midiOut, 500);
+        clipPlayer.update(500);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xB0);
         expect(midiPort.messages[0][1]).to.equal(10);
@@ -206,15 +219,15 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.controlChanges.push(new ClipCC(0, 1, 10, 20));
         const metronome = new Metronome(60);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(500);
-        clipPlayer.update(midiOut, 500);
+        clipPlayer.update(500);
         midiPort.messages = [];
         metronome.update(550);
-        clipPlayer.update(midiOut, 550);
+        clipPlayer.update(550);
         expect(midiPort.messages.length).to.equal(0);
     }
 
@@ -222,12 +235,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.controlChanges.push(new ClipCC(0, 1, 10, 20, 7));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xB0 + 7);
         expect(midiPort.messages[0][1]).to.equal(10);
@@ -238,12 +251,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.controlChanges.push(new ClipCC(0, 1, 10, b => b * 126));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(1500);
-        clipPlayer.update(midiOut, 1500);
+        clipPlayer.update(1500);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xB0);
         expect(midiPort.messages[0][1]).to.equal(10);
@@ -254,12 +267,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.bends.push(new ClipBend(0, 0, 0.5));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xE0);
         expect(midiPort.messages[0][1]).to.equal(getBendValFromPercent(0.5)[0]);
@@ -270,12 +283,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.bends.push(new ClipBend(0, 1, b => b));
         const metronome = new Metronome(60);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(750);
-        clipPlayer.update(midiOut, 750);
+        clipPlayer.update(750);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xE0);
         expect(midiPort.messages[0][1]).to.equal(getBendValFromPercent(0.75)[0]);
@@ -286,15 +299,15 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.bends.push(new ClipBend(0, 1, 0.5));
         const metronome = new Metronome(60);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(500);
-        clipPlayer.update(midiOut, 500);
+        clipPlayer.update(500);
         midiPort.messages = [];
         metronome.update(550);
-        clipPlayer.update(midiOut, 550);
+        clipPlayer.update(550);
         expect(midiPort.messages.length).to.equal(0);
     }
 
@@ -302,12 +315,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.bends.push(new ClipBend(0, 1, 0.5, 7));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(10);
-        clipPlayer.update(midiOut, 10);
+        clipPlayer.update(10);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xE0 + 7);
         expect(midiPort.messages[0][1]).to.equal(getBendValFromPercent(0.5)[0]);
@@ -318,12 +331,12 @@ function getBendValFromPercent(percent: number): number[] {
         const clip = new Clip(4);
         clip.bends.push(new ClipBend(0, 1, b => b));
         const metronome = new Metronome(120);
-        const clipPlayer = new ClipPlayer(clip, metronome);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
         metronome.update(1500);
-        clipPlayer.update(midiOut, 1500);
+        clipPlayer.update(1500);
         expect(midiPort.messages.length).to.equal(1);
         expect(midiPort.messages[0][0]).to.equal(0xE0);
         expect(midiPort.messages[0][1]).to.equal(getBendValFromPercent(1)[0]);
