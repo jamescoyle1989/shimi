@@ -116,8 +116,10 @@ export default class ClipPlayer implements IClockChild {
 
         //Update beatsPassed, if it's greater or equal to beatCount, then the player is finished
         this._beatsPassed += beatDiff;
-        if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount)
+        if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount) {
             this.finish();
+            return;
+        }
 
         //Loop through each existing note that the player has started
         //Stop notes that need to end, and update velocity of any others need it

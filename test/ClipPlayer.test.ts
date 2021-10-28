@@ -342,4 +342,23 @@ function getBendValFromPercent(percent: number): number[] {
         expect(midiPort.messages[0][1]).to.equal(getBendValFromPercent(1)[0]);
         expect(midiPort.messages[0][2]).to.equal(getBendValFromPercent(1)[1]);
     }
+
+    @test 'Clip player doesnt start new notes if its about to end'() {
+        const clip = new Clip(4);
+        clip.notes.push(new ClipNote(3.99, 1, 60, 80));
+        const metronome = new Metronome(60);
+        const midiPort = new DummyPort();
+        const midiOut = new MidiOut(midiPort);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
+        clipPlayer.beatCount = 4;
+
+        metronome.update(3950);
+        clipPlayer.update(3950);
+        expect(midiOut.notes.length).to.equal(0);
+
+        metronome.update(100);
+        clipPlayer.update(100);
+        expect(midiOut.notes.length).to.equal(0);
+        expect(clipPlayer.finished).to.be.true;
+    }
 }
