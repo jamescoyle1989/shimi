@@ -110,6 +110,28 @@
             <design>Each scale should allow you to get related scales, specifically dominant, subdominant, relative (with scale template) and parallel (with scale template).</design>
             <implementation>Added getDominantScale(), getSubdominantScale(), getRelativeScale(template) &amp; getParallelScale(template) methods to Scale class.</implementation>
         </requirement>
+
+        <requirement>
+            <design>A scale must be able to move a pitch up/down to the nearest pitch which is in it, or at least doesnt clash with it.</design>
+        </requirement>
+    </group>
+
+    <group name="Chords">
+        <requirement>
+            <design>Users must be able to create a chord object which they can set the pitch and add or remove pitches to.</design>
+        </requirement>
+
+        <requirement>
+            <design>Chord must have a way of calculating a good estimate of what its name is.</design>
+        </requirement>
+
+        <requirement>
+            <design>A chord must be able to tell you whether a given pitch is in or out of it.</design>
+        </requirement>
+
+        <requirement>
+            <design>A chord must be able to move a pitch up/down to the nearest pitch which is in it, or at least doesnt clash with it.</design>
+        </requirement>
     </group>
 
     <requirement>
