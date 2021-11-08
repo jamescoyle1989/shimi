@@ -120,6 +120,22 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale.getPitchName(11)).to.equal('B');
     }
 
+    @test 'getPitchName returns correct values for Db with octaves'() {
+        const scale = ScaleTemplate.major.create(1);
+        expect(scale.getPitchName(0, true)).to.equal('C-1');
+        expect(scale.getPitchName(1, true)).to.equal('D♭-1');
+        expect(scale.getPitchName(14, true)).to.equal('D♮0');
+        expect(scale.getPitchName(15, true)).to.equal('E♭0');
+        expect(scale.getPitchName(28, true)).to.equal('F♭1');
+        expect(scale.getPitchName(29, true)).to.equal('F1');
+        expect(scale.getPitchName(42, true)).to.equal('G♭2');
+        expect(scale.getPitchName(43, true)).to.equal('G♮2');
+        expect(scale.getPitchName(56, true)).to.equal('A♭3');
+        expect(scale.getPitchName(57, true)).to.equal('A♮3');
+        expect(scale.getPitchName(70, true)).to.equal('B♭4');
+        expect(scale.getPitchName(71, true)).to.equal('C♭4');
+    }
+
     @test 'getDominantScale returns scale perfect 5th above'() {
         const scale1 = ScaleTemplate.major.create(0);
         const scale2 = scale1.getDominantScale();

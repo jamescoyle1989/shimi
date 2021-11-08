@@ -80,8 +80,11 @@ export default class Scale {
         return -1;
     }
 
-    getPitchName(pitch: number): string {
-        return this._pitchNames[((pitch % 12) + 12) % 12].toString();
+    getPitchName(pitch: number, showOctave: boolean = false): string {
+        let output = this._pitchNames[((pitch % 12) + 12) % 12].toString();
+        if (showOctave)
+            output += Math.floor(pitch / 12) - 1;
+        return output;
     }
 
     /**
