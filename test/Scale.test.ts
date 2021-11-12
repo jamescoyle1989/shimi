@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import ScaleTemplate from '../src/ScaleTemplate';
 import Scale, { PitchName } from '../src/Scale';
+import { FitDirection } from '../src/IPitchContainer';
 
 
 @suite class ScaleTests {
@@ -174,5 +175,45 @@ import Scale, { PitchName } from '../src/Scale';
         const scale1 = ScaleTemplate.mixolydian.create(7);
         const scale2 = scale1.getParallelScale(ScaleTemplate.mixolydian);
         expect(scale1).to.equal(scale2);
+    }
+
+    @test 'fitPitch retains integers in scale'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.fitPitch(40)).to.equal(40);
+    }
+
+    @test 'fitPitch corrects integers out of scale'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect([38, 40]).to.contain(scale.fitPitch(39));
+    }
+
+    @test 'fitPitch corrects equidistant decimals'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect([40, 41]).to.contain(scale.fitPitch(40.5));
+    }
+
+    @test 'fitPitch corrects unequidistant decimals'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.fitPitch(40.4)).to.equal(40);
+    }
+
+    @test 'fitPitch can prefer moving downwards'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.fitPitch(39, {preferredDirection: FitDirection.down})).to.equal(38);
+    }
+
+    @test 'fitPitch can prefer moving upwards'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.fitPitch(39, {preferredDirection: FitDirection.up})).to.equal(40);
+    }
+
+    @test 'fitPitch can prefer moving to root'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.fitPitch(37, {preferRoot: true})).to.equal(36);
+    }
+
+    @test 'fitPitch will return input pitch rounded if nothing within maxMovement range'() {
+        const scale = ScaleTemplate.majorPentatonic.create(0);
+        expect(scale.fitPitch(41.5, {maxMovement: 1})).to.equal(42);
     }
 }

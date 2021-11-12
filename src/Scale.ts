@@ -1,6 +1,8 @@
 'use strict';
 
+import { IPitchContainer, FitPitchOptions, FitDirection } from './IPitchContainer';
 import ScaleTemplate from './ScaleTemplate';
+import { safeMod } from './utils';
 
 
 export class PitchName {
@@ -29,7 +31,7 @@ export class PitchName {
 }
 
 
-export default class Scale {
+export default class Scale implements IPitchContainer {
     /** The name of the scale */
     get name(): string { return this._name; }
     /** The name of the scale */
@@ -85,6 +87,59 @@ export default class Scale {
         if (showOctave)
             output += Math.floor(pitch / 12) - 1;
         return output;
+    }
+
+    /** Returns a pitch number which is guaranteed to fit with the notes of the scale */
+    fitPitch(pitch: number, options?: Partial<FitPitchOptions>): number {
+        options = new FitPitchOptions(options);
+
+        //Set direction to either 1 or -1, 1 means prefer upward motion, -1 means prefer downward motion
+        let direction = 1;
+        if (options.preferredDirection == FitDirection.down)
+            direction = -1;
+        else if (options.preferredDirection == FitDirection.random)
+            direction = (Math.random() >= 0.5) ? 1 : -1;
+
+        //Set starting positions for pitch1 & pitch2, these will move in opposite directions
+        //pitch1 will move in the preferred direction
+        //If pitch is an integer, they both start at the same position
+        //Otherwise they start on the integer positions surrounding pitch
+        let pitch1 = pitch;
+        let pitch2 = pitch;
+        if (pitch % 1 != 0) {
+            pitch1 = (direction > 0) ? Math.ceil(pitch) : Math.floor(pitch);
+            pitch2 = (direction > 0) ? Math.floor(pitch) : Math.ceil(pitch);
+        }
+
+        //Enter the main loop of the function, continue while either pitch1 or pitch2 are within the movement range
+        while (Math.abs(pitch1 - pitch) <= options.maxMovement || Math.abs(pitch2 - pitch) <= options.maxMovement) {
+            const pitch1Valid = Math.abs(pitch1 - pitch) <= options.maxMovement;
+            const pitch2Valid = Math.abs(pitch2 - pitch) <= options.maxMovement;
+            //If we prefer the root, if either pitch1 or pitch2 are the scale root, then just instantly return that
+            if (options.preferRoot) {
+                if (pitch1Valid && safeMod(pitch1, 12) == this.root)
+                    return pitch1;
+                if (pitch2Valid && safeMod(pitch2, 12) == this.root)
+                    return pitch2;
+            }
+            //Otherwise, check if either pitch1 or pitch2 are contained in the scale
+            const pitch1Fits = pitch1Valid && this.contains(pitch1);
+            const pitch2Fits = pitch2Valid && this.contains(pitch2);
+            if (pitch1Fits || pitch2Fits) {
+                //If both fit, return whichever is closest, favouring pitch1 if equal distance
+                if (pitch1Fits && pitch2Fits) {
+                    if (Math.abs(pitch1 - pitch ) <= Math.abs(pitch2 - pitch))
+                        return pitch1;
+                    return pitch2;
+                }
+                if (pitch1Fits)
+                    return pitch1;
+                return pitch2;
+            }
+            pitch1 += direction;
+            pitch2 -= direction;
+        }
+        return Math.round(pitch)
     }
 
     /**

@@ -76,7 +76,7 @@ export default class ScaleTemplate {
     private static _locrian: ScaleTemplate = new ScaleTemplate('Locrian', [1, 3, 5, 6, 8, 10], -1);
 
     static get majorPentatonic(): ScaleTemplate { return ScaleTemplate._majorPentatonic; }
-    private static _majorPentatonic: ScaleTemplate = new ScaleTemplate('Major Pentatonic', [2, 5, 7, 9], 0);
+    private static _majorPentatonic: ScaleTemplate = new ScaleTemplate('Major Pentatonic', [2, 4, 7, 9], 0);
 
     static get minorPentatonic(): ScaleTemplate { return ScaleTemplate._minorPentatonic; }
     private static _minorPentatonic: ScaleTemplate = new ScaleTemplate('Minor Pentatonic', [3, 5, 8, 10], -3);
