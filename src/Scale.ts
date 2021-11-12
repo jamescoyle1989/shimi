@@ -111,10 +111,12 @@ export default class Scale implements IPitchContainer {
             pitch2 = (direction > 0) ? Math.floor(pitch) : Math.ceil(pitch);
         }
 
-        //Enter the main loop of the function, continue while either pitch1 or pitch2 are within the movement range
-        while (Math.abs(pitch1 - pitch) <= options.maxMovement || Math.abs(pitch2 - pitch) <= options.maxMovement) {
+        //Enter the main loop of the function, continue while at least one of pitch1 or pitch2 are within the movement range
+        while (true) {
             const pitch1Valid = Math.abs(pitch1 - pitch) <= options.maxMovement;
             const pitch2Valid = Math.abs(pitch2 - pitch) <= options.maxMovement;
+            if (!pitch1Valid && !pitch2Valid)
+                break;
             //If we prefer the root, if either pitch1 or pitch2 are the scale root, then just instantly return that
             if (options.preferRoot) {
                 if (pitch1Valid && safeMod(pitch1, 12) == this.root)
