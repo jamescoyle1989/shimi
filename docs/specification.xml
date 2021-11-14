@@ -113,6 +113,7 @@
 
         <requirement>
             <design>A scale must be able to move a pitch up/down to the nearest pitch which is in it, or at least doesnt clash with it.</design>
+            <implementation>Added fitPitch function to Scale class which takes in a pitch, and attempts to move it to the nearest note in the scale.</implementation>
         </requirement>
     </group>
 
