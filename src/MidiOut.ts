@@ -2,7 +2,7 @@
 
 import { IClockChild } from './Clock';
 import Note from './Note';
-import * as messages from './MidiMessages';
+import { IMidiMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage } from './MidiMessages';
 
 export default class MidiOut implements IMidiOut, IClockChild {
     /** The MIDI port which data gets sent to, see MidiAccess class */
@@ -42,83 +42,10 @@ export default class MidiOut implements IMidiOut, IClockChild {
         }
     }
 
-    /**
-     * Sends a Note Off message to the connected MIDI port
-     */
-    sendNoteOff(message: messages.NoteOffMessage): void {
+    /** Sends data from the passed in MIDI message to the connected MIDI port */
+    sendMessage(message: IMidiMessage): void {
         this.validatePort();
-        const pitch = this.validateIntInRange(message.pitch, 0, 127, 'pitch');
-        const velocity = this.validateIntInRange(message.velocity, 0, 127, 'velocity');
-        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
-        this.port.send([0x80 + channel, pitch, velocity]);
-    }
-
-    /**
-     * Sends a Note On message to the connected MIDI port
-     */
-    sendNoteOn(message: messages.NoteOnMessage): void {
-        this.validatePort();
-        const pitch = this.validateIntInRange(message.pitch, 0, 127, 'pitch');
-        const velocity = this.validateIntInRange(message.velocity, 0, 127, 'velocity');
-        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
-        this.port.send([0x90 + channel, pitch, velocity]);
-    }
-
-    /**
-     * Sends a Polyphonic Key Pressure message to the connected MIDI port
-     */
-    sendNotePressure(message: messages.NotePressureMessage): void {
-        this.validatePort();
-        const pitch = this.validateIntInRange(message.pitch, 0, 127, 'pitch');
-        const velocity = this.validateIntInRange(message.velocity, 0, 127, 'velocity');
-        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
-        this.port.send([0xA0 + channel, pitch, velocity]);
-    }
-
-    /**
-     * Sends a Control Change message to the connected MIDI port
-     */
-    sendControlChange(message: messages.ControlChangeMessage): void {
-        this.validatePort();
-        const controller = this.validateIntInRange(message.controller, 0, 127, 'controller');
-        const value = this.validateIntInRange(message.value, 0, 127, 'value');
-        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
-        this.port.send([0xB0 + channel, controller, value]);
-    }
-
-    /**
-     * Sends a Program Change message to the connected MIDI port
-     */
-    sendProgramChange(message: messages.ProgramChangeMessage): void {
-        this.validatePort();
-        const program = this.validateIntInRange(message.program, 0, 127, 'program');
-        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
-        this.port.send([0xC0 + channel, program]);
-    }
-
-    /**
-     * Sends a Channel Pressure message to the connected MIDI port
-     */
-    sendChannelPressure(message: messages.ChannelPressureMessage): void {
-        this.validatePort();
-        const value = this.validateIntInRange(message.value, 0, 127, 'value');
-        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
-        this.port.send([0xD0 + channel, value]);
-    }
-
-    /**
-     * Sends a Pitch Bend Change message to the connected MIDI port
-     */
-    sendPitchBend(message: messages.PitchBendMessage): void {
-        this.validatePort();
-        const channel = this.validateIntInRange(message.channel, 0, 15, 'channel');
-        const percent = message.percent;
-        if (percent < -1)
-            throw new Error('percent cannot be less than -1');
-        if (percent > 1)
-            throw new Error('percent cannot be greater than 1');
-        const bendVal = Math.min(16383, this.validateIntInRange((message.percent * 8192) + 8192, 0, 16384, 'bend'));
-        this.port.send([0xE0 + channel, bendVal % 128, Math.floor(bendVal / 128)]);
+        this.port.send(message.toArray());
     }
 
     /**
@@ -135,15 +62,6 @@ export default class MidiOut implements IMidiOut, IClockChild {
     private validatePort(): void {
         if (!this.port)
             throw new Error('MidiOut has no port connected');
-    }
-
-    private validateIntInRange(value: number, min: number, max: number, name: string): number {
-        value = Math.round(value);
-        if (value < min)
-            throw new Error(name + ' cannot be less than ' + min);
-        if (value > max)
-            throw new Error(name + ' cannot be greater than ' + max);
-        return value;
     }
 
     update(deltaMs: number): void {
@@ -164,7 +82,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
                         }
                     }
                     if (sendNoteOff)
-                        this.sendNoteOff(new messages.NoteOffMessage(note.pitch, note.velocity, note.channel));
+                        this.sendMessage(new NoteOffMessage(note.pitch, note.velocity, note.channel));
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;
@@ -175,12 +93,12 @@ export default class MidiOut implements IMidiOut, IClockChild {
         for (const note of this._notes) {
             if (note.on) {
                 if (note.onTracker.isDirty) {
-                    this.sendNoteOn(new messages.NoteOnMessage(note.pitch, note.velocity, note.channel));
+                    this.sendMessage(new NoteOnMessage(note.pitch, note.velocity, note.channel));
                     note.onTracker.accept();
                     note.velocityTracker.accept();
                 }
                 else if (note.velocityTracker.isDirty) {
-                    this.sendNotePressure(new messages.NotePressureMessage(note.pitch, note.velocity, note.channel));
+                    this.sendMessage(new NotePressureMessage(note.pitch, note.velocity, note.channel));
                     note.velocityTracker.accept();
                 }
             }
@@ -199,19 +117,7 @@ export interface IMidiOut {
 
     stopNotes(filter: (note: Note) => boolean): void;
 
-    sendNoteOff(message: messages.NoteOffMessage): void;
-
-    sendNoteOn(message: messages.NoteOnMessage): void;
-
-    sendNotePressure(message: messages.NotePressureMessage): void;
-
-    sendControlChange(message: messages.ControlChangeMessage): void;
-
-    sendProgramChange(message: messages.ProgramChangeMessage): void;
-
-    sendChannelPressure(message: messages.ChannelPressureMessage): void;
-
-    sendPitchBend(message: messages.PitchBendMessage): void;
+    sendMessage(message: IMidiMessage): void;
 
     sendRawData(data: number[]): void;
 }

@@ -148,7 +148,7 @@ export default class ClipPlayer implements IClockChild {
             const clipValueIsFunction = typeof(clipCC.value) == 'function';
             if (newClipBeat > clipCC.end && clipCC.start < oldClipBeat && !clipValueIsFunction)
                 continue;
-            this.midiOut.sendControlChange(new ControlChangeMessage(
+            this.midiOut.sendMessage(new ControlChangeMessage(
                 clipCC.controller, 
                 (typeof(clipCC.value) == 'function') ? 
                     clipCC.value(Math.min(newClipBeat - clipCC.start, clipCC.duration)) : 
@@ -162,7 +162,7 @@ export default class ClipPlayer implements IClockChild {
             const percentIsFunction = typeof(clipBend.percent) == 'function';
             if (newClipBeat > clipBend.end && clipBend.start < oldClipBeat && !percentIsFunction)
                 continue;
-            this.midiOut.sendPitchBend(new PitchBendMessage(
+            this.midiOut.sendMessage(new PitchBendMessage(
                 (typeof(clipBend.percent) == 'function') ?
                     clipBend.percent(Math.min(newClipBeat - clipBend.start, clipBend.duration)) :
                     clipBend.percent,

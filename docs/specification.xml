@@ -151,6 +151,7 @@
 
         <requirement>
             <design>Messages from midi inputs must be easily duplicatable to allow for easily forwarding messages to an output with slight modifications.</design>
+            <implementation>All the midi message classes now implement from a common IMidiMessage interface which defines a duplicate() method. Each of the individual messages have their own implementations of this method to create a copy of themselves.</implementation>
         </requirement>
     </group>
 
