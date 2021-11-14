@@ -68,13 +68,13 @@ export default class Scale implements IPitchContainer {
 
     /** Returns true if the passed in note belongs to the scale */
     contains(pitch: number): boolean {
-        pitch = ((pitch % 12) + 12) % 12;
+        pitch = safeMod(pitch, 12);
         return this.pitches.find(p => p == pitch) != undefined;
     }
 
     /** Returns the index of the passed in note, or -1 if it's not contained */
     indexOf(pitch: number): number {
-        pitch = ((pitch % 12) + 12) % 12;
+        pitch = safeMod(pitch, 12);
         for (let i = 0; i < this.pitches.length; i++) {
             if (this.pitches[i] == pitch)
                 return i;
@@ -83,7 +83,7 @@ export default class Scale implements IPitchContainer {
     }
 
     getPitchName(pitch: number, showOctave: boolean = false): string {
-        let output = this._pitchNames[((pitch % 12) + 12) % 12].toString();
+        let output = this._pitchNames[safeMod(pitch, 12)].toString();
         if (showOctave)
             output += Math.floor(pitch / 12) - 1;
         return output;
@@ -141,7 +141,7 @@ export default class Scale implements IPitchContainer {
             pitch1 += direction;
             pitch2 -= direction;
         }
-        return Math.round(pitch)
+        return Math.round(pitch);
     }
 
     /**

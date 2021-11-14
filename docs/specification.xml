@@ -120,6 +120,7 @@
     <group name="Chords">
         <requirement>
             <design>Users must be able to create a chord object which they can set the pitch and add or remove pitches to.</design>
+            <implementation>Chord class has addPitch, addPitches, removePitches &amp; setRoot methods.</implementation>
         </requirement>
 
         <requirement>
@@ -128,10 +129,12 @@
 
         <requirement>
             <design>A chord must be able to tell you whether a given pitch is in or out of it.</design>
+            <implementation>Chord implements IPitchContainer interface, which includes contains method.</implementation>
         </requirement>
 
         <requirement>
             <design>A chord must be able to move a pitch up/down to the nearest pitch which is in it, or at least doesnt clash with it.</design>
+            <implementation>Chord implements IPitchContainer interface, which includes fitPitch method.</implementation>
         </requirement>
     </group>
 
