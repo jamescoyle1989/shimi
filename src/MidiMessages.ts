@@ -108,4 +108,12 @@ export class PitchBendMessage {
         this.percent = percent;
         this.channel = channel;
     }
+
+    /** Takes in the LSB & MSB values of the pitch bend MIDI message and returns a number in range [-1, +1] */
+    static calculatePercent(lsb: number, msb: number): number {
+        let fullValue = (msb * 128) + lsb;
+        if (fullValue >= 16383 && fullValue < 16384)
+            fullValue = 16384;
+        return (fullValue - 8192) / 8192;
+    }
 }

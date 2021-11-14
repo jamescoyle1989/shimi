@@ -146,6 +146,7 @@
     <group name="Midi Inputs">
         <requirement>
             <design>Users must be able to receive messages from a MIDI input which they can use as triggers for other actions within the program.</design>
+            <implementation>MidiIn class takes a MIDI port as constructor parameter which it automatically subscribes to. Its receiveData method interprets incoming data to see what kind of message is being received and triggers the appropriate event.</implementation>
         </requirement>
 
         <requirement>
