@@ -162,10 +162,12 @@
     <group name="Clip Recorder">
         <requirement>
             <design>Users must be able to create a clip recorder, which receives MIDI messages and uses them to build up a clip of pre-defined length.</design>
+            <implementation>Users can create a ClipRecorder object which they add to the clock. This has a defined beat count and listens for messages from a MidiIn.</implementation>
         </requirement>
 
         <requirement>
-            <design>The recorder must have a way of alerting the rest of the program the moment that the new clip is finished so it can be handled without delay</design>
+            <design>The recorder must have a way of alerting the rest of the program the moment that the new clip is finished so it can be handled without delay.</design>
+            <implementation>Once the recorder has finished, it dispatches a newClip event which can be subscribed to.</implementation>
         </requirement>
     </group>
 
