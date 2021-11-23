@@ -43,6 +43,14 @@
             <design>Users must have a way to be able to search through all keys on their keyboard. Each key should be able to easily tell them if it's currently pressed, and if so, how long it's been pressed for.</design>
             <implementation>The Keyboard class has a buttons array, which contains all of the ButtonInput objects that it also holds as properties. So you can do stuff like keyboard.buttons.filter(b => b.activeMs > 500)</implementation>
         </requirement>
+
+        <requirement>
+            <design>Users must have an easy way to attach logic to events on one or more connected game controllers.</design>
+        </requirement>
+
+        <requirement>
+            <design>Users must have a way to be able to search through all game controllers, and all inputs on each game controller. Each input should be able to easily tell them what its current state is, also how long its been active for.</design>
+        </requirement>
     </group>
 
     <group name="Metronome">
@@ -86,6 +94,14 @@
         <requirement>
             <design>Users must be able to pass a clip player into a Midi Output to have the clip it contains be played.</design>
             <implementation>ClipPlayer implements the IMidiOutChild interface. IMidiOut contains addProcess &amp; stopProcesses methods. When a ClipPlayer instance is added to the MidiOut, it will receive update messages from the MidiOut, which it will use to add notes, send messages etc through the MidiOut.</implementation>
+        </requirement>
+
+        <requirement>
+            <design>Users must be able to duplicate clips.</design>
+        </requirement>
+
+        <requirement>
+            <design>Users must be able to quantize the events of a clip to some desired level of precision.</design>
         </requirement>
     </group>
 
@@ -139,6 +155,10 @@
         <requirement>
             <design>A chord must be able to move a pitch up/down to the nearest pitch which is in it, or at least doesnt clash with it.</design>
             <implementation>Chord implements IPitchContainer interface, which includes fitPitch method.</implementation>
+        </requirement>
+
+        <requirement>
+            <design>Users must have a way of calculating the note that best fits to the chord. They must be able to choose between exact fitting and close fitting, where the scale is also taken into account in considering what would be the best fit.</design>
         </requirement>
     </group>
 
