@@ -160,6 +160,10 @@
         <requirement>
             <design>Users must have a way of calculating the note that best fits to the chord. They must be able to choose between exact fitting and close fitting, where the scale is also taken into account in considering what would be the best fit.</design>
         </requirement>
+
+        <requirement>
+            <design>There must be a way of passing in some pitches, optionally a scale, and some allowable chord shapes, which then get used to return chord recommendations.</design>
+        </requirement>
     </group>
 
     <requirement>
