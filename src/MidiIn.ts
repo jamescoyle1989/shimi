@@ -1,6 +1,5 @@
 'use strict';
 
-import { IEventSubscriber } from './EventSubscriber';
 import * as messages from './MidiMessages';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
