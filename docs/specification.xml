@@ -51,6 +51,14 @@
         <requirement>
             <design>Users must have a way to be able to search through all game controllers, and all inputs on each game controller. Each input should be able to easily tell them what its current state is, also how long its been active for.</design>
         </requirement>
+
+        <requirement>
+            <design>Users must be able to toggle if actions are on or off. An off action will be ignored by the input event it's attached to.</design>
+        </requirement>
+
+        <requirement>
+            <design>Users must be able to identify actions by reference so they can modify them later if needed.</design>
+        </requirement>
     </group>
 
     <group name="Metronome">
