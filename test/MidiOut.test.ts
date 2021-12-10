@@ -63,14 +63,29 @@ export class MockPort {
         note1.onTracker.accept();
         note1.on = false;
         note2.onTracker.accept();
+        port.data = undefined;
         midiOut.update(5);
         expect(port.data).to.be.undefined;
     }
 
-    @test 'update sends start messages'() {
+    @test 'addNote sends start message if note is on'() {
         const port = new MockPort();
         const midiOut = new MidiOut(port);
         const note1 = midiOut.addNote(new Note(60, 80, 1));
+        expect(port.data.length).to.equal(3);
+        expect(port.data[0]).to.equal(0x90 + 1);
+        expect(port.data[1]).to.equal(60);
+        expect(port.data[2]).to.equal(80);
+    }
+
+    @test 'update sends start messages only if not sent when note added'() {
+        const port = new MockPort();
+        const midiOut = new MidiOut(port);
+        const note1 = new Note(60, 80, 1);
+        note1.on = false;
+        midiOut.addNote(note1);
+        expect(port.data).to.be.undefined;
+        note1.on = true;
         midiOut.update(5);
         expect(port.data.length).to.equal(3);
         expect(port.data[0]).to.equal(0x90 + 1);
