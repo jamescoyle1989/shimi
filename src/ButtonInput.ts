@@ -17,9 +17,11 @@ export class ButtonEvent extends ShimiEvent<ButtonEventData, ButtonInput> {
 
 export default class ButtonInput {
     /** Tracks changes to the button's state */
-    stateTracker: PropertyTracker<boolean>;
+    valueTracker: PropertyTracker<number>;
+    /** Returns the current value of the button */
+    get value(): number { return this.valueTracker.value; }
     /** Returns whether the button is pressed or not */
-    get state(): boolean { return this.stateTracker.value; }
+    get state(): boolean { return this.valueTracker.value != 0; }
 
     get name(): string { return this._name; }
     private _name: string;
@@ -34,8 +36,11 @@ export default class ButtonInput {
     /** Contains logic to run when the button is released */
     released: ButtonEvent = new ButtonEvent();
 
+    /** Contains logic to run when the button's value is changed from one on state to another */
+    changed: ButtonEvent = new ButtonEvent();
+
     constructor(name: string) {
-        this.stateTracker = new PropertyTracker(false);
+        this.valueTracker = new PropertyTracker(0);
         this._name = name;
     }
 
@@ -47,14 +52,18 @@ export default class ButtonInput {
     update(deltaMs: number) {
         if (this.state)
             this._activeMs += deltaMs;
-        if (this.stateTracker.isDirty) {
-            if (this.state)
-                this.pressed.trigger(new ButtonEventData(this));
+        if (this.valueTracker.isDirty) {
+            if (this.state) {
+                if (this.valueTracker.oldValue == 0)
+                    this.pressed.trigger(new ButtonEventData(this));
+                else
+                    this.changed.trigger(new ButtonEventData(this));
+            }
             else {
                 this.released.trigger(new ButtonEventData(this));
                 this._activeMs = 0;
             }
         }
-        this.stateTracker.accept();
+        this.valueTracker.accept();
     }
 }

@@ -8,9 +8,9 @@ import TestEventSubscriber from './TestEventSubscriber';
     @test 'buttons allows querying the whole keyboard'() {
         const keyboard = new Keyboard(new TestEventSubscriber());
         expect(keyboard.buttons.filter(b => b.state).length).to.equal(0);
-        keyboard.q.stateTracker.value = true;
+        keyboard.q.valueTracker.value = 1;
         expect(keyboard.buttons.filter(b => b.state).length).to.equal(1);
-        keyboard.g.stateTracker.value = true;
+        keyboard.g.valueTracker.value = 1;
         expect(keyboard.buttons.filter(b => b.state).length).to.equal(2);
     }
 

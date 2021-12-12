@@ -8,7 +8,7 @@ import ButtonInput from '../src/ButtonInput';
         const results: number[] = [];
         btn.pressed.add(data => results.push(13));
         btn.released.add(data => results.push(17));
-        btn.stateTracker.value = true;
+        btn.valueTracker.value = 1;
         btn.update(15);
         expect(results.length).to.equal(1);
         expect(results[0]).to.equal(13);
@@ -19,8 +19,8 @@ import ButtonInput from '../src/ButtonInput';
         const results: number[] = [];
         btn.pressed.add(data => results.push(13));
         btn.released.add(data => results.push(17));
-        btn.stateTracker.oldValue = true;
-        btn.stateTracker.value = false;
+        btn.valueTracker.oldValue = 1;
+        btn.valueTracker.value = 0;
         btn.update(15);
         expect(results.length).to.equal(1);
         expect(results[0]).to.equal(17);
@@ -37,7 +37,7 @@ import ButtonInput from '../src/ButtonInput';
 
     @test 'Update increases activeMs if pressed'() {
         const btn = new ButtonInput('a');
-        btn.stateTracker.value = true;
+        btn.valueTracker.value = 1;
         expect(btn.activeMs).to.equal(0);
         btn.update(15);
         expect(btn.activeMs).to.equal(15);
@@ -53,8 +53,8 @@ import ButtonInput from '../src/ButtonInput';
 
     @test 'Update resets activeMs if released'() {
         const btn = new ButtonInput('a');
-        btn.stateTracker.oldValue = true;
-        btn.stateTracker.value = false;
+        btn.valueTracker.oldValue = 1;
+        btn.valueTracker.value = 0;
         btn['_activeMs'] = 100;
         expect(btn.activeMs).to.equal(100);
         btn.update(15);
@@ -63,10 +63,22 @@ import ButtonInput from '../src/ButtonInput';
 
     @test 'State is cleaned after update'() {
         const btn = new ButtonInput('a');
-        btn.stateTracker.oldValue = false;
-        btn.stateTracker.value = true;
+        btn.valueTracker.oldValue = 0;
+        btn.valueTracker.value = 1;
         btn.update(15);
-        expect(btn.stateTracker.oldValue).to.be.true;
-        expect(btn.stateTracker.value).to.be.true;
+        expect(btn.valueTracker.oldValue).to.equal(1);
+        expect(btn.valueTracker.value).to.equal(1);
+    }
+
+    @test 'Update runs changed event if value changed between non zero values'() {
+        const btn = new ButtonInput('a');
+        const results: number[] = [];
+        btn.changed.add(data => results.push(data.source.value));
+        btn.valueTracker.value = 1;
+        btn.valueTracker.accept();
+        btn.valueTracker.value = 0.5;
+        btn.update(15);
+        expect(results.length).to.equal(1);
+        expect(results[0]).to.equal(0.5);
     }
 }
