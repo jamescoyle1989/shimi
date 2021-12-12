@@ -2,24 +2,15 @@
 
 import ButtonInput from './ButtonInput';
 import SliderInput from './SliderInput';
-import { IClockChild } from './Clock';
+import { IGamepad } from './Gamepads';
 
 
-export default class PS4Controller implements IClockChild {
+export default class PS4Controller implements IGamepad {
     get buttons(): ButtonInput[] { return this._buttons; }
     private _buttons: ButtonInput[];
 
     get axes(): SliderInput[] { return this._axes; }
     private _axes: SliderInput[];
-    
-    /** Provides a way of identifying keyboards so they can be retrieved later */
-    get ref(): string { return this._ref; }
-    /** Provides a way of identifying keyboards so they can be retrieved later */
-    set ref(value: string) { this._ref = value; }
-    private _ref: string;
-
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
 
 
     get L1(): ButtonInput { return this._l1; }
@@ -111,15 +102,19 @@ export default class PS4Controller implements IClockChild {
         ];
     }
 
-    finish(): void {
-        this._finished = true;
-    }
-
-    /** IClockChild implementation */
+    /**
+     * Automatically called by the system, shouldn't be called by consumers of the library
+     * Checks the state of the button and conditionally runs the logic attached to its events
+     * @param deltaMs How many milliseconds since the last update cycle
+     */
     update(deltaMs: number): void {
         for (const button of this.buttons)
             button.update(deltaMs);
         for (const axis of this.axes)
             axis.update(deltaMs);
+    }
+
+    match(gamepadObject: Gamepad): boolean {
+        return gamepadObject.buttons.length == 16 || gamepadObject.axes.length == 4;
     }
 }
