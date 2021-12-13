@@ -93,4 +93,11 @@ function getTestInputs(): any[] {
         expect(ps4Controller.buttons.find(x => x.state)).to.not.be.undefined;
         expect(ps4Controller.axes.find(x => x.value != 0)).to.not.be.undefined;
     }
+
+    @test 'activeGamepads returns collection of all gamepads which have been matched up'() {
+        const gamepads = new Gamepads(getTestInputs);
+        gamepads.add(new PS4Controller());
+        gamepads.update(10);
+        expect(gamepads.activeGamepads.length).to.equal(1);
+    }
 }

@@ -30,6 +30,7 @@
 
         <requirement>
             <design>Note objects added to the MIDI out must immediately have their note on messages sent, then subsequent note pressure &amp; note off messages must be sent from the update loop.</design>
+            <implementation>MidiOut.addNote method sends note on message if the note has its 'on' property set to true.</implementation>
         </requirement>
     </group>
 
@@ -46,10 +47,12 @@
 
         <requirement>
             <design>Users must have an easy way to attach logic to events on one or more connected game controllers.</design>
+            <implementation>Each gamepad uses a ButtonInput or SliderInput for each input it has so that functionality can be easily added to them. Each gamepad gets added to a Gamepads class which handles the logic of updating button states and matching gamepad objects to incoming gamepad data.</implementation>
         </requirement>
 
         <requirement>
             <design>Users must have a way to be able to search through all game controllers, and all inputs on each game controller. Each input should be able to easily tell them what its current state is, also how long its been active for.</design>
+            <implementation>The Gamepads class has an activeGamepads property that returns all gamepads currently able to receive incoming data. Each gamepad has buttons &amp; axes properties for getting the inputs on it.</implementation>
         </requirement>
 
         <requirement>

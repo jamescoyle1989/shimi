@@ -12,6 +12,8 @@ export default class Gamepads implements IClockChild {
     // The gamepads which have been matched to an input
     private _matched: IGamepad[] = [ null, null, null, null ];
 
+    get activeGamepads(): IGamepad[] { return this._matched.filter(x => x !== null); }
+
     private _updateProvider: () => Gamepad[];
 
     constructor(updateProvider: () => Gamepad[]) {
