@@ -57,10 +57,12 @@
 
         <requirement>
             <design>Users must be able to toggle if actions are on or off. An off action will be ignored by the input event it's attached to.</design>
+            <implementation>ShimiHandler has on property, which if false, prevents the handler's logic from being called</implementation>
         </requirement>
 
         <requirement>
             <design>Users must be able to identify actions by reference so they can modify them later if needed.</design>
+            <implementation>ShimiHandler has optional ref string property for identification purposes</implementation>
         </requirement>
     </group>
 
