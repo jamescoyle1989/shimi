@@ -157,4 +157,19 @@ import { Clip } from '../src/Clip';
         clipRecorder.update(2001);
         expect(recordedClips.length).to.equal(1);
     }
+
+    @test 'midiIn event subscriptions get set'() {
+        const midiBus = new MidiBus();
+        const clipRecorder = new ClipRecorder(null, midiBus);
+        expect(midiBus.noteOn.handlers.length).to.equal(1);
+        expect(midiBus.noteOff.handlers.length).to.equal(1);
+        expect(midiBus.controlChange.handlers.length).to.equal(1);
+        expect(midiBus.pitchBend.handlers.length).to.equal(1);
+        
+        clipRecorder.midiIn = null;
+        expect(midiBus.noteOn.handlers.length).to.equal(0);
+        expect(midiBus.noteOff.handlers.length).to.equal(0);
+        expect(midiBus.controlChange.handlers.length).to.equal(0);
+        expect(midiBus.pitchBend.handlers.length).to.equal(0);
+    }
 }

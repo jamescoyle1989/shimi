@@ -37,10 +37,10 @@ export default class ClipRecorder implements IClockChild {
         if (this._midiIn == value)
             return;
         if (this._midiIn) {
-            this._midiIn.noteOn.remove(this._onNoteOn);
-            this._midiIn.noteOff.remove(this._onNoteOff);
-            this._midiIn.controlChange.remove(this._onControlChange);
-            this._midiIn.pitchBend.remove(this._onPitchBend);
+            this._midiIn.noteOn.remove(x => x.logic == this._onNoteOn);
+            this._midiIn.noteOff.remove(x => x.logic == this._onNoteOff);
+            this._midiIn.controlChange.remove(x => x.logic == this._onControlChange);
+            this._midiIn.pitchBend.remove(x => x.logic == this._onPitchBend);
         }
         this._midiIn = value;
         if (this._midiIn) {
