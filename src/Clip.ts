@@ -142,6 +142,20 @@ export class Clip extends Range {
         super(0, duration);
     }
 
+    duplicate(): Clip {
+        const newClip = new Clip(this.duration);
+        newClip.notes.push(...this.notes.map(
+            x => new ClipNote(x.start, x.duration, x.pitch, x.velocity, x.channel)
+        ));
+        newClip.controlChanges.push(...this.controlChanges.map(
+            x => new ClipCC(x.start, x.duration, x.controller, x.value, x.channel)
+        ));
+        newClip.bends.push(...this.bends.map(
+            x => new ClipBend(x.start, x.duration, x.percent, x.channel)
+        ));
+        return newClip;
+    }
+
     getNotesStartingInRange(start: number, end: number): ClipNote[] {
         return this._getChildrenStartingInRange<ClipNote>(this.notes, start, end);
     }

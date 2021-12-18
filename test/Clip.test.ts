@@ -164,4 +164,82 @@ import { Clip, ClipCC, ClipBend, ClipNote } from '../src/Clip';
         expect(inRange.length).to.equal(1);
         expect(inRange[0].percent).to.equal(-1);
     }
+
+    @test 'duplicate copies clip length'() {
+        const clip = new Clip((Math.random() * 7) + 1);
+        const clip2 = clip.duplicate();
+        expect(clip2.start).to.equal(clip.start);
+        expect(clip2.duration).to.equal(clip.duration);
+        expect(clip2.end).to.equal(clip.end);
+    }
+
+    @test 'duplicate copies clip notes'() {
+        const clip = new Clip(8);
+        for (let i = 0; i < 5; i++) {
+            clip.notes.push(new ClipNote(
+                Math.random() * 8,
+                Math.random() * 2,
+                Math.floor(Math.random() * 127),
+                Math.floor(Math.random() * 127)
+            ));
+        }
+
+        const clip2 = clip.duplicate();
+        expect(clip2.notes.length).to.equal(clip.notes.length);
+        for (let i = 0; i < clip2.notes.length; i++) {
+            const note = clip.notes[i];
+            const note2 = clip2.notes[i];
+            expect(note2.start).to.equal(note.start);
+            expect(note2.duration).to.equal(note.duration);
+            expect(note2.pitch).to.equal(note.pitch);
+            expect(note2.velocity).to.equal(note.velocity);
+            expect(note2.channel).to.equal(note.channel);
+        }
+    }
+
+    @test 'duplicate copies clip control changes'() {
+        const clip = new Clip(8);
+        for (let i = 0; i < 5; i++) {
+            clip.controlChanges.push(new ClipCC(
+                Math.random() * 8,
+                Math.random() * 2,
+                Math.floor(Math.random() * 127),
+                Math.floor(Math.random() * 127)
+            ));
+        }
+
+        const clip2 = clip.duplicate();
+        expect(clip2.controlChanges.length).to.equal(clip.controlChanges.length);
+        for (let i = 0; i < clip2.controlChanges.length; i++) {
+            const cc = clip.controlChanges[i];
+            const cc2 = clip2.controlChanges[i];
+            expect(cc2.start).to.equal(cc.start);
+            expect(cc2.duration).to.equal(cc.duration);
+            expect(cc2.controller).to.equal(cc.controller);
+            expect(cc2.value).to.equal(cc.value);
+            expect(cc2.channel).to.equal(cc.channel);
+        }
+    }
+
+    @test 'duplicate copies clip bends'() {
+        const clip = new Clip(8);
+        for (let i = 0; i < 5; i++) {
+            clip.bends.push(new ClipBend(
+                Math.random() * 8,
+                Math.random() * 2,
+                (Math.random() * 2) - 1
+            ));
+        }
+
+        const clip2 = clip.duplicate();
+        expect(clip2.bends.length).to.equal(clip.bends.length);
+        for (let i = 0; i < clip2.bends.length; i++) {
+            const bend = clip.bends[i];
+            const bend2 = clip2.bends[i];
+            expect(bend2.start).to.equal(bend.start);
+            expect(bend2.duration).to.equal(bend.duration);
+            expect(bend2.percent).to.equal(bend.percent);
+            expect(bend2.channel).to.equal(bend.channel);
+        }
+    }
 }

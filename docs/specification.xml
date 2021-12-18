@@ -111,6 +111,7 @@
 
         <requirement>
             <design>Users must be able to duplicate clips.</design>
+            <implementation>Clip contains duplicate() method, which creates an exact copy of the clip which the method was called on.</implementation>
         </requirement>
 
         <requirement>
