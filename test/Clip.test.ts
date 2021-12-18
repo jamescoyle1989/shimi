@@ -242,4 +242,50 @@ import { Clip, ClipCC, ClipBend, ClipNote } from '../src/Clip';
             expect(bend2.channel).to.equal(bend.channel);
         }
     }
+
+    @test 'quantize validates that rhythm must be provided'() {
+        const clip = new Clip(4);
+        expect(() => clip.quantize(null)).to.throw();
+        expect(() => clip.quantize([])).to.throw();
+    }
+
+    @test 'quantize validates that rhythm must contain only positive values'() {
+        const clip = new Clip(4);
+        expect(() => clip.quantize([-1])).to.throw();
+        expect(() => clip.quantize([0])).to.throw();
+    }
+
+    @test 'quantize moves notes to nearest quantize target'() {
+        const clip = new Clip(4);
+        clip.notes.push(new ClipNote(3.3, 0.5, 60, 80));
+        clip.quantize([1], 1);
+        expect(clip.notes[0].start).to.equal(3);
+    }
+
+    @test 'quantize can wrap notes round to the start of the clip'() {
+        const clip = new Clip(4);
+        clip.notes.push(new ClipNote(3.7, 0.25, 60, 80));
+        clip.quantize([1], 1);
+        expect(clip.notes[0].start).to.equal(0);
+    }
+
+    @test 'quantize works with complex rhythms'() {
+        const clip = new Clip(4);
+        clip.notes.push(
+            new ClipNote(0.1, 0.25, 60, 80),
+            new ClipNote(0.4, 0.25, 62, 80),
+            new ClipNote(0.7, 0.25, 64, 80)
+        );
+        clip.quantize([0.5, 0.25, 0.25], 1);
+        expect(clip.notes[0].start).to.equal(0);
+        expect(clip.notes[1].start).to.equal(0.5);
+        expect(clip.notes[2].start).to.equal(0.75);
+    }
+
+    @test 'quantize can partially move notes to target'() {
+        const clip = new Clip(4);
+        clip.notes.push(new ClipNote(1.4, 0.5, 60, 80));
+        clip.quantize([1], 0.5);
+        expect(clip.notes[0].start).to.equal(1.2);
+    }
 }

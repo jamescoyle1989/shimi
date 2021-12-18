@@ -116,6 +116,7 @@
 
         <requirement>
             <design>Users must be able to quantize the events of a clip to some desired level of precision.</design>
+            <implementation>Clip contains quantize method, which takes a rhythm parameter of the rhythm which the clip should be quantized to, and a strength parameter of how much to move notes towards the quantize rhythm.</implementation>
         </requirement>
     </group>
 

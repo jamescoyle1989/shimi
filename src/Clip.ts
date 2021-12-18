@@ -2,6 +2,7 @@
 
 import Range from './Range';
 import Note from './Note';
+import { sum } from './IterationUtils';
 
 
 export class ClipNote extends Range {
@@ -154,6 +155,37 @@ export class Clip extends Range {
             x => new ClipBend(x.start, x.duration, x.percent, x.channel)
         ));
         return newClip;
+    }
+
+    /**
+     * Modify the start times of notes in the clip to be more in time
+     * @param rhythm An array of numbers that specify a rhythm to quantize to
+     * For example [0.5, 0.25, 0.25] means that the clip should be quantized to a heavy metal gallop rhythm
+     * Eg. one eigth note, followed by 2 sixteenth notes
+     * @param strength A number from 0 to 1, 1 means full quantization to the target rhythm
+     * 0.5 will move notes half way towards the target rhythm, while 0 will do nothing
+     */
+    quantize(rhythm: number[], strength: number = 1): void {
+        if (!rhythm || rhythm.length == 0)
+            throw new Error('You must provide a rhythm to quantize notes to');
+        if (rhythm.find(x => x <= 0) != undefined)
+            throw new Error('Quantize rhythm must contain only positive non-zero values');
+        
+        strength = Math.min(1, Math.max(0, strength));
+        const rhythmLength = sum(rhythm, x => x);
+
+        for (const note of this.notes) {
+            let currentBeat = Math.floor(note.start / rhythmLength) * rhythmLength;
+            let nearestBeat = currentBeat;
+            for (const r of rhythm) {
+                currentBeat += r;
+                if (Math.abs(currentBeat - note.start) < Math.abs(nearestBeat - note.start))
+                    nearestBeat = currentBeat;
+            }
+            nearestBeat %= this.duration;
+            //Move note start closer to nearestBeat
+            note.start += strength * (nearestBeat - note.start);
+        }
     }
 
     getNotesStartingInRange(start: number, end: number): ClipNote[] {
