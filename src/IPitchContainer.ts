@@ -1,7 +1,15 @@
+import Scale from "./Scale";
+
 export enum FitDirection {
     'up' = 1,
     'down' = -1,
     'random' = 0
+}
+
+export enum FitPrecision {
+    'loose' = 1,
+    'medium' = 2,
+    'tight' = 3
 }
 
 
@@ -11,6 +19,10 @@ export class FitPitchOptions {
     preferRoot: boolean = true;
 
     preferredDirection: FitDirection = FitDirection.down;
+
+    precision: FitPrecision = FitPrecision.tight;
+
+    scale: Scale = null;
 
     constructor(init: Partial<FitPitchOptions>) {
         if (init)

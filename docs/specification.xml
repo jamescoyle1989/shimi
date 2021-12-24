@@ -174,6 +174,7 @@
 
         <requirement>
             <design>Users must have a way of calculating the note that best fits to the chord. They must be able to choose between exact fitting and close fitting, where the scale is also taken into account in considering what would be the best fit.</design>
+            <implementation>FitPitchOptions includes precision &amp; scale properties. The chord's fitPitch method will alter its fitting logic if these are passed interface. Tight means that it will only fit to pitches in the chord. Medium will fit to chord pitches, or other pitches that are at least 2 half steps away from any of the chord's pitches, with optional extra requirement that non-chord pitches must be in the scale. Loose will fit to chord pitches, or any other pitch, with the optional extra requirement that non-chord pitches must be in the scale.</implementation>
         </requirement>
 
         <requirement>

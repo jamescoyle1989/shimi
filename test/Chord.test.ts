@@ -1,7 +1,9 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Chord from '../src/Chord';
-import { FitDirection } from '../src/IPitchContainer';
+import { FitDirection, FitPitchOptions, FitPrecision } from '../src/IPitchContainer';
+import Scale from '../src/Scale';
+import ScaleTemplate from '../src/ScaleTemplate';
 
 
 @suite class ChordTests {
@@ -100,5 +102,97 @@ import { FitDirection } from '../src/IPitchContainer';
     @test 'fitPitch will return input pitch rounded if nothing within maxMovement range'() {
         const chord = new Chord().addPitches([12, 16, 19]);
         expect(chord.fitPitch(17.5, {maxMovement: 1})).to.equal(18);
+    }
+
+    @test 'fitPitch can do medium fit with scale'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        const scale = ScaleTemplate.major.create(0);
+        expect(chord.fitPitch(12.5, {precision: FitPrecision.medium, scale: scale})).to.equal(12);
+        expect(chord.fitPitch(13, {precision: FitPrecision.medium, scale: scale})).to.equal(12);
+        expect(chord.fitPitch(13.5, {precision: FitPrecision.medium, scale: scale})).to.equal(14);
+    }
+
+    @test '_isTightFit returns expected results'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        expect(chord['_isTightFit'](24, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isTightFit'](25, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](26, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](27, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](28, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isTightFit'](29, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](30, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](31, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isTightFit'](32, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](33, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](34, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isTightFit'](35, new FitPitchOptions({}))).to.equal(0);
+    }
+
+    @test '_isMediumFit returns expected results without scale'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        expect(chord['_isMediumFit'](24, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isMediumFit'](25, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isMediumFit'](26, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isMediumFit'](27, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isMediumFit'](28, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isMediumFit'](29, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isMediumFit'](30, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isMediumFit'](31, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isMediumFit'](32, new FitPitchOptions({}))).to.equal(0);
+        expect(chord['_isMediumFit'](33, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isMediumFit'](34, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isMediumFit'](35, new FitPitchOptions({}))).to.equal(0);
+    }
+
+    @test '_isMediumFit returns expected results with scale'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        const scale = ScaleTemplate.major.create(2);
+        const fitPitchOptions = new FitPitchOptions({scale: scale});
+        expect(chord['_isMediumFit'](24, fitPitchOptions)).to.equal(1);
+        expect(chord['_isMediumFit'](25, fitPitchOptions)).to.equal(0);
+        expect(chord['_isMediumFit'](26, fitPitchOptions)).to.equal(0.5);
+        expect(chord['_isMediumFit'](27, fitPitchOptions)).to.equal(0);
+        expect(chord['_isMediumFit'](28, fitPitchOptions)).to.equal(1);
+        expect(chord['_isMediumFit'](29, fitPitchOptions)).to.equal(0);
+        expect(chord['_isMediumFit'](30, fitPitchOptions)).to.equal(0);
+        expect(chord['_isMediumFit'](31, fitPitchOptions)).to.equal(1);
+        expect(chord['_isMediumFit'](32, fitPitchOptions)).to.equal(0);
+        expect(chord['_isMediumFit'](33, fitPitchOptions)).to.equal(0.5);
+        expect(chord['_isMediumFit'](34, fitPitchOptions)).to.equal(0);
+        expect(chord['_isMediumFit'](35, fitPitchOptions)).to.equal(0);
+    }
+
+    @test '_isLooseFit returns expected results without scale'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        expect(chord['_isLooseFit'](24, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isLooseFit'](25, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](26, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](27, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](28, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isLooseFit'](29, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](30, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](31, new FitPitchOptions({}))).to.equal(1);
+        expect(chord['_isLooseFit'](32, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](33, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](34, new FitPitchOptions({}))).to.equal(0.5);
+        expect(chord['_isLooseFit'](35, new FitPitchOptions({}))).to.equal(0.5);
+    }
+
+    @test '_isLooseFit returns expected results with scale'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        const scale = ScaleTemplate.major.create(2);
+        const fitPitchOptions = new FitPitchOptions({scale: scale});
+        expect(chord['_isLooseFit'](24, fitPitchOptions)).to.equal(1);
+        expect(chord['_isLooseFit'](25, fitPitchOptions)).to.equal(0.5);
+        expect(chord['_isLooseFit'](26, fitPitchOptions)).to.equal(0.5);
+        expect(chord['_isLooseFit'](27, fitPitchOptions)).to.equal(0);
+        expect(chord['_isLooseFit'](28, fitPitchOptions)).to.equal(1);
+        expect(chord['_isLooseFit'](29, fitPitchOptions)).to.equal(0);
+        expect(chord['_isLooseFit'](30, fitPitchOptions)).to.equal(0.5);
+        expect(chord['_isLooseFit'](31, fitPitchOptions)).to.equal(1);
+        expect(chord['_isLooseFit'](32, fitPitchOptions)).to.equal(0);
+        expect(chord['_isLooseFit'](33, fitPitchOptions)).to.equal(0.5);
+        expect(chord['_isLooseFit'](34, fitPitchOptions)).to.equal(0);
+        expect(chord['_isLooseFit'](35, fitPitchOptions)).to.equal(0.5);
     }
 }

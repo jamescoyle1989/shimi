@@ -1,6 +1,6 @@
 'use strict';
 
-import { IPitchContainer, FitPitchOptions, FitDirection } from './IPitchContainer';
+import { IPitchContainer, FitPitchOptions, FitDirection, FitPrecision } from './IPitchContainer';
 import { safeMod } from './utils';
 
 
@@ -60,13 +60,17 @@ export default class Chord implements IPitchContainer {
 
     /** Returns a pitch number which should fit with the notes of the chord */
     fitPitch(pitch: number, options?: Partial<FitPitchOptions>): number {
-        options = new FitPitchOptions(options);
+        const fullOptions = new FitPitchOptions(options);
+
+        let fitFunction = p => this._isTightFit(p, fullOptions);
+        if (fullOptions.precision == FitPrecision.medium) fitFunction = p => this._isMediumFit(p, fullOptions);
+        if (fullOptions.precision == FitPrecision.loose) fitFunction = p => this._isLooseFit(p, fullOptions);
 
         //Set direction to either 1 or -1, 1 means prefer upward motion, -1 means prefer downward motion
         let direction = 1;
-        if (options.preferredDirection == FitDirection.down)
+        if (fullOptions.preferredDirection == FitDirection.down)
             direction = -1;
-        else if (options.preferredDirection == FitDirection.random)
+        else if (fullOptions.preferredDirection == FitDirection.random)
             direction = (Math.random() >= 0.5) ? 1 : -1;
 
         //Set starting positions for pitch1 & pitch2, these will move in opposite directions
@@ -82,28 +86,23 @@ export default class Chord implements IPitchContainer {
 
         //Enter the main loop of the function, continue while at least one of pitch1 or pitch2 are within the movement range
         while (true) {
-            const pitch1Valid = Math.abs(pitch1 - pitch) <= options.maxMovement;
-            const pitch2Valid = Math.abs(pitch2 - pitch) <= options.maxMovement;
+            const pitch1Valid = Math.abs(pitch1 - pitch) <= fullOptions.maxMovement;
+            const pitch2Valid = Math.abs(pitch2 - pitch) <= fullOptions.maxMovement;
             if (!pitch1Valid && !pitch2Valid)
                 break;
-            //If we prefer the root, if either pitch1 or pitch2 are the scale root, then just instantly return that
-            if (options.preferRoot) {
-                if (pitch1Valid && safeMod(pitch1, 12) == this.root)
-                    return pitch1;
-                if (pitch2Valid && safeMod(pitch2, 12) == this.root)
-                    return pitch2;
-            }
-            //Otherwise, check if either pitch1 or pitch2 are contained in the scale
-            const pitch1Fits = pitch1Valid && this.contains(pitch1);
-            const pitch2Fits = pitch2Valid && this.contains(pitch2);
-            if (pitch1Fits || pitch2Fits) {
-                //If both fit, return whichever is closest, favouring pitch1 if equal distance
-                if (pitch1Fits && pitch2Fits) {
-                    if (Math.abs(pitch1 - pitch ) <= Math.abs(pitch2 - pitch))
+            const fit1 = pitch1Valid ? fitFunction(pitch1) : 0;
+            const fit2 = pitch2Valid ? fitFunction(pitch2) : 0;
+            if (fit1 + fit2 > 0) {
+                if (fit1 > fit2) return pitch1;
+                if (fit2 > fit1) return pitch2;
+                //If we prefer the root, if either pitch1 or pitch2 are the scale root, then just instantly return that
+                if (fullOptions.preferRoot) {
+                    if (pitch1Valid && safeMod(pitch1, 12) == this.root)
                         return pitch1;
-                    return pitch2;
+                    if (pitch2Valid && safeMod(pitch2, 12) == this.root)
+                        return pitch2;
                 }
-                if (pitch1Fits)
+                if (Math.abs(pitch1 - pitch) <= Math.abs(pitch2 - pitch))
                     return pitch1;
                 return pitch2;
             }
@@ -111,5 +110,50 @@ export default class Chord implements IPitchContainer {
             pitch2 -= direction;
         }
         return Math.round(pitch);
+    }
+
+    /** The pitch is part of the chord, returns 1 if in chord, 0 if not */
+    private _isTightFit(pitch: number, options: FitPitchOptions): number {
+        if (this.contains(pitch))
+            return 1;
+        return 0;
+    }
+
+    /**
+     * Same as strict, but also allows pitches which belong to the scale
+     * if they're at least 2 steps away from all of the chord pitches
+     * Returns 1 if in chord, 0.5 if in scale and at least 2 steps from chord, 0 if neither
+     */
+    private _isMediumFit(pitch: number, options: FitPitchOptions): number {
+        if (this.contains(pitch))
+            return 1;
+        const scale = options.scale;
+        if (scale) {
+            if (!scale.contains(pitch))
+                return 0;
+        }
+        if (this.contains(pitch + 1) || this.contains(pitch - 1))
+            return 0;
+        return 0.5;
+    }
+
+    /**
+     * The pitch belongs to either the chord, or the scale
+     * Returns 1 if in chord, 0.5 if in scale, 0 if in neither
+     * @param pitch 
+     * @param options 
+     * @returns 
+     */
+    private _isLooseFit(pitch: number, options: FitPitchOptions): number {
+        if (this.contains(pitch))
+            return 1;
+        const scale = options.scale;
+        if (scale) {
+            if (scale.contains(pitch))
+                return 0.5;
+            else
+                return 0;
+        }
+        return 0.5;
     }
 }
