@@ -1,9 +1,22 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Chord from '../src/Chord';
+import ChordSuggester from '../src/ChordSuggester';
 import { FitDirection, FitPitchOptions, FitPrecision } from '../src/IPitchContainer';
-import Scale from '../src/Scale';
 import ScaleTemplate from '../src/ScaleTemplate';
+
+
+//Setup
+const scale = ScaleTemplate.major.create(0);
+const suggester = new ChordSuggester();
+Chord.nameGenerator = (chord: Chord) => {
+    const result = suggester.lookupChord(chord.pitches, chord.root, null, scale);
+    if (result == null)
+        return null;
+    return result.name
+        .replace('{r}', scale.getPitchName(result.root))
+        .replace('{b}', scale.getPitchName(result.bass));
+};
 
 
 @suite class ChordTests {
@@ -194,5 +207,33 @@ import ScaleTemplate from '../src/ScaleTemplate';
         expect(chord['_isLooseFit'](33, fitPitchOptions)).to.equal(0.5);
         expect(chord['_isLooseFit'](34, fitPitchOptions)).to.equal(0);
         expect(chord['_isLooseFit'](35, fitPitchOptions)).to.equal(0.5);
+    }
+
+    @test 'name gets set only when calling getter'() {
+        const chord = new Chord().addPitches([15, 18, 22]);
+        expect(chord['_name']).to.be.null;
+        expect(chord.name).to.equal('E♭m');
+        expect(chord['_name']).to.equal('E♭m');
+    }
+
+    @test 'name gets cleared when new pitches added'() {
+        const chord = new Chord().addPitches([13, 17, 20]);
+        expect(chord.name).to.equal('C♯');
+        chord.addPitch(23);
+        expect(chord['_name']).to.be.null;
+    }
+
+    @test 'name gets cleared when pitches removed'() {
+        const chord = new Chord().addPitches([17, 21, 24]);
+        expect(chord.name).to.equal('F');
+        chord.removePitches(p => p == 21);
+        expect(chord['_name']).to.be.null;
+    }
+
+    @test 'name gets cleared when setting root'() {
+        const chord = new Chord().addPitches([19, 23, 26]);
+        expect(chord.name).to.equal('G');
+        chord.root = 19;
+        expect(chord['_name']).to.be.null;
     }
 }

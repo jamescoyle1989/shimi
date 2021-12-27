@@ -160,6 +160,7 @@
 
         <requirement>
             <design>Chord must have a way of calculating a good estimate of what its name is.</design>
+            <implementation>Chord class has static nameGenerator function defined. ChordSuggester class has been added which takes in a set of pitches and does a best effort approach of determining the best chord fit for them. See Chord.test.ts for a simple example if using ChordSuggester with Chord.nameGenerator.</implementation>
         </requirement>
 
         <requirement>
@@ -179,6 +180,7 @@
 
         <requirement>
             <design>There must be a way of passing in some pitches, optionally a scale, and some allowable chord shapes, which then get used to return chord recommendations.</design>
+            <implementation>The ChordSuggester class, added as part of the work for getting chord names, provides this exact functionality with its lookupChord method.</implementation>
         </requirement>
     </group>
 

@@ -15,14 +15,26 @@ export default class Chord implements IPitchContainer {
         this.setRoot(pitch);
     }
     private _root: number = null;
+
+    get name(): string {
+        if (this._name == null && Chord.nameGenerator != null)
+            this._name = Chord.nameGenerator(this);
+        return this._name;
+    }
+    private _name: string = null;
+
+    /** Used for automatically generating chord names */
+    static nameGenerator: (Chord) => string = null;
     
     constructor() {
     }
 
     /** Adds a new pitch to the chord, if it's not already contained */
     addPitch(pitch: number): Chord {
-        if (!this._pitches.find(x => x == pitch))
+        if (!this._pitches.find(x => x == pitch)) {
             this._pitches.push(pitch);
+            this._name = null;
+        }
         return this;
     }
 
@@ -35,7 +47,10 @@ export default class Chord implements IPitchContainer {
 
     /** Removes pitches from the chord that match the passed in condition */
     removePitches(condition: (pitch: number) => boolean): Chord {
+        const beforeCount = this._pitches.length;
         this._pitches = this._pitches.filter(p => !condition(p));
+        if (this._pitches.length < beforeCount)
+            this._name = null;
         if (this.root && !this._pitches.find(x => x == this.root))
             this.root = null;
         return this;
@@ -43,11 +58,14 @@ export default class Chord implements IPitchContainer {
 
     /** Sets the root of the chord, also adds to pitches property if not already present */
     setRoot(pitch: number): Chord {
-        if (pitch == undefined || pitch == null)
-            this._root = null;
-        else {
-            this._root = pitch;
-            this.addPitch(pitch);
+        if (this._root != pitch) {
+            if (pitch == undefined || pitch == null)
+                this._root = null;
+            else {
+                this._root = pitch;
+                this.addPitch(pitch);
+            }
+            this._name = null;
         }
         return this;
     }
