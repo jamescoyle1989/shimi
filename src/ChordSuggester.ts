@@ -143,7 +143,7 @@ export default class ChordSuggester {
         for (const interval of suggestion.chord.intervals) {
             if (!lookupResult.pitches.find(x => safeMod(x, 12) == safeMod(suggestion.chord.root + interval, 12))) {
                 //Take vote on best pitch to add for interval
-                const votes = [];
+                const votes: number[] = [];
                 for (const im of intervalMap) {
                     const intervalDiff = interval - im.interval;
                     votes.push(im.pitch + intervalDiff);
