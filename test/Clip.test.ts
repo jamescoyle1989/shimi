@@ -288,4 +288,59 @@ import { Clip, ClipCC, ClipBend, ClipNote } from '../src/Clip';
         clip.quantize([1], 0.5);
         expect(clip.notes[0].start).to.equal(1.2);
     }
+
+    @test 'transpose moves pitches up'() {
+        const clip = new Clip(4);
+        clip.notes.push(
+            new ClipNote(0, 1, 60, 80),
+            new ClipNote(1, 1, 62, 80)
+        );
+        clip.transpose(12);
+        expect(clip.notes[0].pitch).to.equal(72);
+        expect(clip.notes[1].pitch).to.equal(74);
+    }
+
+    @test 'invert reflects pitches'() {
+        const clip = new Clip(4);
+        clip.notes.push(
+            new ClipNote(0, 1, 60, 80),
+            new ClipNote(1, 1, 62, 80)
+        );
+        clip.invert(66);
+        expect(clip.notes[0].pitch).to.equal(72);
+        expect(clip.notes[1].pitch).to.equal(70);
+    }
+
+    @test 'reverse swaps note positions'() {
+        const clip = new Clip(4);
+        clip.notes.push(
+            new ClipNote(0, 1, 60, 80),
+            new ClipNote(1, 0.5, 62, 80)
+        );
+        clip.reverse();
+        expect(clip.notes[0].start).to.equal(3);
+        expect(clip.notes[1].start).to.equal(2.5);
+    }
+
+    @test 'reverse swaps bend positions'() {
+        const clip = new Clip(4);
+        clip.bends.push(
+            new ClipBend(0, 1, 0.5),
+            new ClipBend(1.5, 0, 0.5)
+        );
+        clip.reverse();
+        expect(clip.bends[0].start).to.equal(3);
+        expect(clip.bends[1].start).to.equal(2.5);
+    }
+
+    @test 'reverse swaps CC positions'() {
+        const clip = new Clip(4);
+        clip.controlChanges.push(
+            new ClipCC(0, 1, 15, 15),
+            new ClipCC(1.5, 0, 15, 15)
+        );
+        clip.reverse();
+        expect(clip.controlChanges[0].start).to.equal(3);
+        expect(clip.controlChanges[1].start).to.equal(2.5);
+    }
 }

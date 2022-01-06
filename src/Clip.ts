@@ -188,6 +188,36 @@ export class Clip extends Range {
         }
     }
 
+    /**
+     * Transposes the notes in the clip up/down
+     * @param semitones How many semitones to transpose the clip by
+     */
+    transpose(semitones: number): void {
+        for (const note of this.notes)
+            note.pitch += semitones;
+    }
+
+    /**
+     * Reflects the clip vertically around a center pitch
+     * @param reflectionPitch The pitch which notes in the clip are reflected around
+     */
+    invert(reflectionPitch: number): void {
+        for (const note of this.notes)
+            note.pitch = (reflectionPitch * 2) - note.pitch;
+    }
+
+    /**
+     * Reflects the clip horizontally, with events from the start reflected to the end
+     */
+    reverse(): void {
+        for (const note of this.notes)
+            note.start = this.end - note.end;
+        for (const cc of this.controlChanges)
+            cc.start = this.end - cc.end;
+        for (const bend of this.bends)
+            bend.start = this.end - bend.end;
+    }
+
     getNotesStartingInRange(start: number, end: number): ClipNote[] {
         return this._getChildrenStartingInRange<ClipNote>(this.notes, start, end);
     }
