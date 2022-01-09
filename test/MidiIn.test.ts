@@ -95,4 +95,18 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
         expect(message.channel).to.equal(2);
         expect(message.percent).to.equal(0.5);
     }
+
+    @test 'port.onmidimessage results in receiveData being called'() {
+        const port = new MockPort();
+        const midiIn = new MidiIn(port);
+        const midiMessages: any[] = [];
+        midiIn.noteOn.add(data => midiMessages.push(data.message));
+        port['onmidimessage']({data:[0x90 + 2, 65, 45]});
+        expect(midiMessages.length).to.equal(1);
+        expect(midiMessages[0]).to.be.instanceOf(NoteOnMessage);
+        const message: NoteOnMessage = midiMessages[0];
+        expect(message.pitch).to.equal(65);
+        expect(message.velocity).to.equal(45);
+        expect(message.channel).to.equal(2);
+    }
 }

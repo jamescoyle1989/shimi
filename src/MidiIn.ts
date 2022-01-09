@@ -46,7 +46,7 @@ export default class MidiIn {
 
     constructor(port: any) {
         this.port = port;
-        port.onmidimessage = this._receiveMessage;
+        port.onmidimessage = (message) => this._receiveMessage(message);
     }
 
     //Used for handling running status messages
