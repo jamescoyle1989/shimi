@@ -86,6 +86,10 @@
             <design>If using the more standard, rudimentary form of metronome, then swing can only be applied universally, not differently across various parts of the bar. Also, if the metronome is counting a rhythm with a non-integer number of quarter-notes per bar, then no swing will be applied to the final fractional beat part of the bar.</design>
             <implementation>The simple Metronome class just uses TimeSig's swing property for determining its swing, it doesn't use swing defined at the division level. If it's at the end of a bar where the last quarter note is incomplete, then it ignores any swing for that little bit only.</implementation>
         </requirement>
+
+        <requirement>
+            <design>Users should be able to define a sequence of time sigs that get cycled through by the metronome.</design>
+        </requirement>
     </group>
 
     <group name="Clips">
@@ -181,6 +185,10 @@
         <requirement>
             <design>There must be a way of passing in some pitches, optionally a scale, and some allowable chord shapes, which then get used to return chord recommendations.</design>
             <implementation>The ChordSuggester class, added as part of the work for getting chord names, provides this exact functionality with its lookupChord method.</implementation>
+        </requirement>
+
+        <requirement>
+            <design>Users must be able to customise which chord types are allowed to be looked up for them, and set their own preferences for which chord shapes get used over others.</design>
         </requirement>
     </group>
 
