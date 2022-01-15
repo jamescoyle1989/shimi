@@ -189,6 +189,7 @@
 
         <requirement>
             <design>Users must be able to customise which chord types are allowed to be looked up for them, and set their own preferences for which chord shapes get used over others.</design>
+            <implementation>The ChordSuggester class now only uses the default setup if you call .withDefaultChordLookups(). It has addChordLookup, removeChordLookup &amp; replaceChordLookup methods for customising the setup.</implementation>
         </requirement>
     </group>
 

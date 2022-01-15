@@ -8,7 +8,7 @@ import ScaleTemplate from '../src/ScaleTemplate';
 
 //Setup
 const scale = ScaleTemplate.major.create(0);
-const suggester = new ChordSuggester();
+const suggester = new ChordSuggester().withDefaultChordLookups();
 Chord.nameGenerator = (chord: Chord) => {
     const result = suggester.lookupChord(chord.pitches, chord.root, null, scale);
     if (result == null)

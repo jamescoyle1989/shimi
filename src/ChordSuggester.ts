@@ -57,37 +57,59 @@ export class ChordLookupResult {
 export default class ChordSuggester {
     lookupData: ChordLookupData[] = [];
 
-    private _addChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): void {
+    addChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordSuggester {
+        if (!intervals || intervals.length == 0)
+            throw new Error('No intervals specified in chord lookup');
+        if (intervals.find(x => x == 0) == undefined)
+            throw new Error('Chord lookup intervals parameter must contain 0');
+        if (this.lookupData.find(x => x.shapeName == shapeName))
+            throw new Error('Attempted to add duplicate chord lookup');
         for (let i = 0; i < 12; i++)
             this.lookupData.push(new ChordLookupData(shapeName, intervals, name, inverseName, preference, i));
+        return this;
+    }
+
+    removeChordLookup(shapeName: string): ChordSuggester {
+        this.lookupData = this.lookupData.filter(x => x.shapeName != shapeName);
+        return this;
+    }
+
+    replaceChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordSuggester {
+        this.removeChordLookup(shapeName);
+        this.addChordLookup(shapeName, intervals, name, inverseName, preference);
+        return this;
+    }
+
+    withDefaultChordLookups(): ChordSuggester {
+        this.addChordLookup('M', [0, 4, 7], '{r}', '{r}/{b}', 10);
+        this.addChordLookup('m', [0, 3, 7], '{r}m', '{r}m/{b}', 9);
+        this.addChordLookup('M7', [0, 4, 7, 11], '{r}M7', '{r}M7/{b}', 8);
+        this.addChordLookup('7', [0, 4, 7, 10], '{r}7', '{r}7/{b}', 8);
+        this.addChordLookup('m7', [0, 3, 7, 10], '{r}m7', '{r}m7/{b}', 8);
+        this.addChordLookup('dim', [0, 3, 6], '{r}dim', '{r}dim/{b}', 7);
+        this.addChordLookup('aug', [0, 4, 8], '{r}aug', '{r}aug/{b}', 7);
+        this.addChordLookup('5', [0, 7], '{r}5', '{r}5', 6);
+        this.addChordLookup('sus2', [0, 2, 7], '{r}sus2', '{r}sus2/{b}', 6);
+        this.addChordLookup('sus4', [0, 5, 7], '{r}sus4', '{r}sus4/{b}', 6);
+        this.addChordLookup('dim7', [0, 3, 6, 9], '{r}dim7', '{r}dim7/{b}', 5);
+        this.addChordLookup('m7b5', [0, 3, 6, 10], '{r}m7b5', '{r}m7b5/{b}', 5);
+        this.addChordLookup('M9', [0, 4, 7, 11, 14], '{r}M9', '{r}M9/{b}', 4);
+        this.addChordLookup('9', [0, 4, 7, 10, 14], '{r}9', '{r}9/{b}', 4);
+        this.addChordLookup('m9', [0, 3, 7, 10, 14], '{r}m9', '{r}m9/{b}', 4);
+        this.addChordLookup('add9', [0, 4, 7, 14], '{r}add9', '{r}add9/{b}', 4);
+        this.addChordLookup('madd9', [0, 3, 7, 14], '{r}madd9', '{r}madd9/{b}', 4);
+        this.addChordLookup('M11', [0, 4, 7, 11, 14, 17], '{r}M11', '{r}M11/{b}', 3);
+        this.addChordLookup('11', [0, 4, 7, 10, 14, 17], '{r}11', '{r}11/{b}', 3);
+        this.addChordLookup('m11', [0, 3, 7, 10, 14, 17], '{r}m11', '{r}m11/{b}', 3);
+        this.addChordLookup('add11', [0, 4, 7, 17], '{r}add11', '{r}add11/{b}', 3);
+        this.addChordLookup('madd11', [0, 3, 7, 17], '{r}madd11', '{r}madd11/{b}', 3);
+        this.addChordLookup('mM7', [0, 3, 7, 11], '{r}mM7', '{r}mM7/{b}', 2);
+        this.addChordLookup('7#5', [0, 4, 8, 10], '{r}7#5', '{r}7#5/{b}', 2);
+        this.addChordLookup('7#9', [0, 4, 7, 10, 15], '{r}7#9', '{r}7#9/{b}', 2);
+        return this;
     }
 
     constructor() {
-        this._addChordLookup('M', [0, 4, 7], '{r}', '{r}/{b}', 10);
-        this._addChordLookup('m', [0, 3, 7], '{r}m', '{r}m/{b}', 9);
-        this._addChordLookup('M7', [0, 4, 7, 11], '{r}M7', '{r}M7/{b}', 8);
-        this._addChordLookup('7', [0, 4, 7, 10], '{r}7', '{r}7/{b}', 8);
-        this._addChordLookup('m7', [0, 3, 7, 10], '{r}m7', '{r}m7/{b}', 8);
-        this._addChordLookup('dim', [0, 3, 6], '{r}dim', '{r}dim/{b}', 7);
-        this._addChordLookup('aug', [0, 4, 8], '{r}aug', '{r}aug/{b}', 7);
-        this._addChordLookup('5', [0, 7], '{r}5', '{r}5', 6);
-        this._addChordLookup('sus2', [0, 2, 7], '{r}sus2', '{r}sus2/{b}', 6);
-        this._addChordLookup('sus4', [0, 5, 7], '{r}sus4', '{r}sus4/{b}', 6);
-        this._addChordLookup('dim7', [0, 3, 6, 9], '{r}dim7', '{r}dim7/{b}', 5);
-        this._addChordLookup('m7b5', [0, 3, 6, 10], '{r}m7b5', '{r}m7b5/{b}', 5);
-        this._addChordLookup('M9', [0, 4, 7, 11, 14], '{r}M9', '{r}M9/{b}', 4);
-        this._addChordLookup('9', [0, 4, 7, 10, 14], '{r}9', '{r}9/{b}', 4);
-        this._addChordLookup('m9', [0, 3, 7, 10, 14], '{r}m9', '{r}m9/{b}', 4);
-        this._addChordLookup('add9', [0, 4, 7, 14], '{r}add9', '{r}add9/{b}', 4);
-        this._addChordLookup('madd9', [0, 3, 7, 14], '{r}madd9', '{r}madd9/{b}', 4);
-        this._addChordLookup('M11', [0, 4, 7, 11, 14, 17], '{r}M11', '{r}M11/{b}', 3);
-        this._addChordLookup('11', [0, 4, 7, 10, 14, 17], '{r}11', '{r}11/{b}', 3);
-        this._addChordLookup('m11', [0, 3, 7, 10, 14, 17], '{r}m11', '{r}m11/{b}', 3);
-        this._addChordLookup('add11', [0, 4, 7, 17], '{r}add11', '{r}add11/{b}', 3);
-        this._addChordLookup('madd11', [0, 3, 7, 17], '{r}madd11', '{r}madd11/{b}', 3);
-        this._addChordLookup('mM7', [0, 3, 7, 11], '{r}mM7', '{r}mM7/{b}', 2);
-        this._addChordLookup('7#5', [0, 4, 8, 10], '{r}7#5', '{r}7#5/{b}', 2);
-        this._addChordLookup('7#9', [0, 4, 7, 10, 15], '{r}7#9', '{r}7#9/{b}', 2);
     }
 
     /**
