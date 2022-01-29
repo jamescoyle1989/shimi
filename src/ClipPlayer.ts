@@ -97,7 +97,7 @@ export default class ClipPlayer implements IClockChild {
     }
 
     update(deltaMs: number): void {
-        if (!this.running || !this.clip || !this.metronome)
+        if (!this.running || !this.clip || !this.metronome || !this.midiOut)
             return;
 
         const beatDiff = (this.metronome.totalBeat - this.metronome.totalBeatTracker.oldValue) * this.speed;

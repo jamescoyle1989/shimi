@@ -65,7 +65,6 @@ function getBendValFromPercent(percent: number): number[] {
         //Update metronome so it has some difference between old and new beat values
         metronome.update(10);
 
-        clipPlayer.running = false;
         clipPlayer.update(10);
         expect(clipPlayer.beatsPassed).to.equal(0);
     }
