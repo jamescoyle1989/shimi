@@ -32,8 +32,14 @@ export default class Chord implements IPitchContainer {
     /** Adds a new pitch to the chord, if it's not already contained */
     addPitch(pitch: number): Chord {
         if (!this._pitches.find(x => x == pitch)) {
-            this._pitches.push(pitch);
             this._name = null;
+            for (let i = 0; i < this._pitches.length; i++) {
+                if (this._pitches[i] > pitch) {
+                    this._pitches.splice(i, 0, pitch);
+                    return this;
+                }
+            }
+            this._pitches.push(pitch);
         }
         return this;
     }
@@ -68,6 +74,14 @@ export default class Chord implements IPitchContainer {
             this._name = null;
         }
         return this;
+    }
+
+    /** Returns a pitch from the chord based on its index. Allows indices below zero or above pitches.length to fetch pitches from additional registers */
+    getPitch(index: number): number {
+        index = Math.round(index);
+        const octaveShift = Math.floor(index / this.pitches.length);
+        index -= octaveShift * this.pitches.length;
+        return this.pitches[index] + (octaveShift * 12);
     }
 
     /** Returns true if the chord contains the passed in pitch. Doesn't care if pitches are in different octaves */

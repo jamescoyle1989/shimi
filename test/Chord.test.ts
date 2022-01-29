@@ -236,4 +236,45 @@ Chord.nameGenerator = (chord: Chord) => {
         chord.root = 19;
         expect(chord['_name']).to.be.null;
     }
+
+    @test 'getPitch returns same as index for 0 - length - 1'() {
+        const chord = new Chord().addPitches([5, 9, 12, 15]);
+        for (let i = 0; i < chord.pitches.length; i++)
+            expect(chord.pitches[i]).to.equal(chord.getPitch(i));
+    }
+
+    @test 'getPitch returns stuff up octaves if index above length - 1'() {
+        const chord = new Chord().addPitches([5, 9, 12, 15]);
+        for (let i = 0; i < chord.pitches.length; i++) {
+            expect(chord.getPitch(i + 4)).to.equal(chord.pitches[i] + 12);
+            expect(chord.getPitch(i + 8)).to.equal(chord.pitches[i] + 24);
+        }
+    }
+
+    @test 'getPitch returns stuff down octaves if index less than 0'() {
+        const chord = new Chord().addPitches([5, 9, 12, 15]);
+        for (let i = 0; i < chord.pitches.length; i++) {
+            expect(chord.getPitch(i - 4)).to.equal(chord.pitches[i] - 12);
+            expect(chord.getPitch(i - 8)).to.equal(chord.pitches[i] - 24);
+        }
+    }
+
+    @test 'addPitch places new pitches in ascending order'() {
+        const chord = new Chord().addPitches([10, 12]);
+        chord.addPitch(11);
+        expect(chord.pitches[0]).to.equal(10);
+        expect(chord.pitches[1]).to.equal(11);
+        expect(chord.pitches[2]).to.equal(12);
+    }
+
+    @test 'addPitches places new pitches in ascending order'() {
+        const chord = new Chord().addPitches([12, 10]);
+        expect(chord.pitches[0]).to.equal(10);
+        expect(chord.pitches[1]).to.equal(12);
+        chord.addPitches([13, 11]);
+        expect(chord.pitches[0]).to.equal(10);
+        expect(chord.pitches[1]).to.equal(11);
+        expect(chord.pitches[2]).to.equal(12);
+        expect(chord.pitches[3]).to.equal(13);
+    }
 }
