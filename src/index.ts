@@ -1,4 +1,6 @@
 
+import Arpeggiator from './Arpeggiator';
+import { Arpeggio, ArpeggioNote } from './Arpeggio';
 import ButtonInput, { ButtonEvent, ButtonEventData } from './ButtonInput';
 import Chord from './Chord';
 import ChordSuggester from './ChordSuggester';
@@ -9,7 +11,7 @@ import Clock from './Clock';
 import Cue from './Cue';
 import EventSubscriber from './EventSubscriber';
 import Flexinome from './Flexinome';
-import { FitDirection } from './IPitchContainer';
+import { FitDirection, FitPrecision } from './IPitchContainer';
 import Gamepads from './Gamepads';
 import Keyboard from './Keyboard';
 import Metronome from './Metronome';
@@ -27,6 +29,8 @@ import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 
 export {
+    Arpeggiator,
+    Arpeggio, ArpeggioNote,
     ButtonInput, ButtonEvent, ButtonEventData,
     Chord,
     ChordSuggester,
@@ -37,7 +41,7 @@ export {
     Cue,
     EventSubscriber,
     Flexinome,
-    FitDirection,
+    FitDirection, FitPrecision,
     Gamepads,
     Keyboard,
     messages,
