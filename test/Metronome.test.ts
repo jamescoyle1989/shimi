@@ -101,4 +101,14 @@ import Metronome from '../src/Metronome';
         expect(m.totalQuarterNote).to.be.closeTo(3.75, 0.001);
         expect(m.totalBeat).to.be.closeTo(3.75, 0.001);
     }
+
+    @test 'constructor throws error if no tempo provided'() {
+        expect(() => { const m = new Metronome(undefined); }).to.throw();
+        expect(() => { const m = new Metronome(null); }).to.throw();
+        expect(() => { const m = new Metronome(0); }).to.throw();
+    }
+
+    @test 'constructor throws error if negative tempo provided'() {
+        expect(() => { const m = new Metronome(-1); }).to.throw();
+    }
 }

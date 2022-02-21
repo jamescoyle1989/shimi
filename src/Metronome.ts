@@ -103,6 +103,8 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
 
     constructor(tempo: number, timeSig: TimeSig = null) {
         super();
+        if (!tempo || tempo < 0)
+            throw new Error('Invalid tempo provided');
         if (timeSig)
             this.timeSig = timeSig;
         else
