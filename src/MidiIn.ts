@@ -21,7 +21,15 @@ export class MidiInEvent<TMessage> extends ShimiEvent<MidiInEventData<TMessage>,
 
 export default class MidiIn {
     /** The MIDI port which data gets received from, see MidiAccess class */
-    port: any;
+    get port(): any { return this._port; }
+    set port(value) {
+        if (this._port)
+            this._port.onmidimessage = undefined;
+        this._port = value;
+        if (this._port)
+            this._port.onmidimessage = (message) => this._receiveMessage(message);
+    }
+    private _port: any;
 
     get noteOff(): MidiInEvent<messages.NoteOffMessage> { return this._noteOff; }
     private _noteOff: MidiInEvent<messages.NoteOffMessage> = new MidiInEvent<messages.NoteOffMessage>();
@@ -44,9 +52,8 @@ export default class MidiIn {
     get pitchBend(): MidiInEvent<messages.PitchBendMessage> { return this._pitchBend; }
     private _pitchBend: MidiInEvent<messages.PitchBendMessage> = new MidiInEvent<messages.PitchBendMessage>();
 
-    constructor(port: any) {
+    constructor(port?: any) {
         this.port = port;
-        port.onmidimessage = (message) => this._receiveMessage(message);
     }
 
     //Used for handling running status messages
