@@ -54,87 +54,100 @@ import { FitDirection } from '../src/IPitchContainer';
         expect(new PitchName(62, 'C', 2).toString()).to.equal('C𝄪');
     }
 
-    @test 'getPitchNamesForMajorRoot returns correct values for C'() {
-        const results = Scale['_getPitchNamesForMajorRoot'](0);
-        expect(results.length).to.equal(12);
-        expect(results[0].toString()).to.equal('C');
-        expect(results[1].toString()).to.equal('C♯');
-        expect(results[2].toString()).to.equal('D');
-        expect(results[3].toString()).to.equal('E♭');
-        expect(results[4].toString()).to.equal('E');
-        expect(results[5].toString()).to.equal('F');
-        expect(results[6].toString()).to.equal('F♯');
-        expect(results[7].toString()).to.equal('G');
-        expect(results[8].toString()).to.equal('G♯');
-        expect(results[9].toString()).to.equal('A');
-        expect(results[10].toString()).to.equal('B♭');
-        expect(results[11].toString()).to.equal('B');
-    }
-
-    @test 'getPitchNamesForMajorRoot returns correct values for F#'() {
-        const results = Scale['_getPitchNamesForMajorRoot'](6);
-        expect(results.length).to.equal(12);
-        expect(results[0].toString()).to.equal('B♯');
-        expect(results[1].toString()).to.equal('C♯');
-        expect(results[2].toString()).to.equal('D♮');
-        expect(results[3].toString()).to.equal('D♯');
-        expect(results[4].toString()).to.equal('E♮');
-        expect(results[5].toString()).to.equal('E♯');
-        expect(results[6].toString()).to.equal('F♯');
-        expect(results[7].toString()).to.equal('G♮');
-        expect(results[8].toString()).to.equal('G♯');
-        expect(results[9].toString()).to.equal('A♮');
-        expect(results[10].toString()).to.equal('A♯');
-        expect(results[11].toString()).to.equal('B');
-    }
-
-    @test 'getPitchNamesForMajorRoot returns correct values for Db'() {
-        const results = Scale['_getPitchNamesForMajorRoot'](1);
-        expect(results.length).to.equal(12);
-        expect(results[0].toString()).to.equal('C');
-        expect(results[1].toString()).to.equal('D♭');
-        expect(results[2].toString()).to.equal('D♮');
-        expect(results[3].toString()).to.equal('E♭');
-        expect(results[4].toString()).to.equal('F♭');
-        expect(results[5].toString()).to.equal('F');
-        expect(results[6].toString()).to.equal('G♭');
-        expect(results[7].toString()).to.equal('G♮');
-        expect(results[8].toString()).to.equal('A♭');
-        expect(results[9].toString()).to.equal('A♮');
-        expect(results[10].toString()).to.equal('B♭');
-        expect(results[11].toString()).to.equal('C♭');
-    }
-
-    @test 'getPitchName returns correct values for melodic minor'() {
-        const scale = ScaleTemplate.harmonicMinor.create(-3);
+    @test 'C major has correct pitch names'() {
+        const scale = ScaleTemplate.major.create(0);
         expect(scale.getPitchName(0)).to.equal('C');
-        expect(scale.getPitchName(1)).to.equal('C♯');
+        expect(scale.getPitchName(1)).to.equal('D♭');
         expect(scale.getPitchName(2)).to.equal('D');
         expect(scale.getPitchName(3)).to.equal('E♭');
         expect(scale.getPitchName(4)).to.equal('E');
         expect(scale.getPitchName(5)).to.equal('F');
         expect(scale.getPitchName(6)).to.equal('F♯');
         expect(scale.getPitchName(7)).to.equal('G');
+        expect(scale.getPitchName(8)).to.equal('A♭');
+        expect(scale.getPitchName(9)).to.equal('A');
+        expect(scale.getPitchName(10)).to.equal('B♭');
+        expect(scale.getPitchName(11)).to.equal('B');
+    }
+
+    @test 'F# major has correct pitch names'() {
+        const scale = ScaleTemplate.major.create(6);
+        expect(scale.getPitchName(0)).to.equal('C♮');
+        expect(scale.getPitchName(1)).to.equal('C♯');
+        expect(scale.getPitchName(2)).to.equal('D♮');
+        expect(scale.getPitchName(3)).to.equal('D♯');
+        expect(scale.getPitchName(4)).to.equal('E♮');
+        expect(scale.getPitchName(5)).to.equal('E♯');
+        expect(scale.getPitchName(6)).to.equal('F♯');
+        expect(scale.getPitchName(7)).to.equal('G♮');
+        expect(scale.getPitchName(8)).to.equal('G♯');
+        expect(scale.getPitchName(9)).to.equal('A♮');
+        expect(scale.getPitchName(10)).to.equal('A♯');
+        expect(scale.getPitchName(11)).to.equal('B');
+    }
+
+    @test 'Db major has correct pitch names'() {
+        const scale = ScaleTemplate.major.create(1);
+        expect(scale.getPitchName(0)).to.equal('C');
+        expect(scale.getPitchName(1)).to.equal('D♭');
+        expect(scale.getPitchName(2)).to.equal('D♮');
+        expect(scale.getPitchName(3)).to.equal('E♭');
+        expect(scale.getPitchName(4)).to.equal('E♮');
+        expect(scale.getPitchName(5)).to.equal('F');
+        expect(scale.getPitchName(6)).to.equal('G♭');
+        expect(scale.getPitchName(7)).to.equal('G♮');
+        expect(scale.getPitchName(8)).to.equal('A♭');
+        expect(scale.getPitchName(9)).to.equal('A♮');
+        expect(scale.getPitchName(10)).to.equal('B♭');
+        expect(scale.getPitchName(11)).to.equal('B♮');
+    }
+
+    @test 'A harmonic minor has correct pitch names'() {
+        const scale = ScaleTemplate.harmonicMinor.create(-3);
+        expect(scale.getPitchName(0)).to.equal('C');
+        expect(scale.getPitchName(1)).to.equal('C♯');
+        expect(scale.getPitchName(2)).to.equal('D');
+        expect(scale.getPitchName(3)).to.equal('D♯');
+        expect(scale.getPitchName(4)).to.equal('E');
+        expect(scale.getPitchName(5)).to.equal('F');
+        expect(scale.getPitchName(6)).to.equal('F♯');
+        expect(scale.getPitchName(7)).to.equal('G♮');
         expect(scale.getPitchName(8)).to.equal('G♯');
         expect(scale.getPitchName(9)).to.equal('A');
         expect(scale.getPitchName(10)).to.equal('B♭');
         expect(scale.getPitchName(11)).to.equal('B');
     }
 
-    @test 'getPitchName returns correct values for Db with octaves'() {
+    @test 'G harmonic minor has correct pitch names'() {
+        const scale = ScaleTemplate.harmonicMinor.create(7);
+        expect(scale.getPitchName(0)).to.equal('C');
+        expect(scale.getPitchName(1)).to.equal('D♭');
+        expect(scale.getPitchName(2)).to.equal('D');
+        expect(scale.getPitchName(3)).to.equal('E♭');
+        expect(scale.getPitchName(4)).to.equal('E♮');
+        expect(scale.getPitchName(5)).to.equal('F♮');
+        expect(scale.getPitchName(6)).to.equal('F♯');
+        expect(scale.getPitchName(7)).to.equal('G');
+        expect(scale.getPitchName(8)).to.equal('A♭');
+        expect(scale.getPitchName(9)).to.equal('A');
+        expect(scale.getPitchName(10)).to.equal('B♭');
+        expect(scale.getPitchName(11)).to.equal('B♮');
+    }
+
+    @test 'Db major has correct pitch names with octaves'() {
         const scale = ScaleTemplate.major.create(1);
         expect(scale.getPitchName(0, true)).to.equal('C-1');
         expect(scale.getPitchName(1, true)).to.equal('D♭-1');
         expect(scale.getPitchName(14, true)).to.equal('D♮0');
         expect(scale.getPitchName(15, true)).to.equal('E♭0');
-        expect(scale.getPitchName(28, true)).to.equal('F♭1');
+        expect(scale.getPitchName(28, true)).to.equal('E♮1');
         expect(scale.getPitchName(29, true)).to.equal('F1');
         expect(scale.getPitchName(42, true)).to.equal('G♭2');
         expect(scale.getPitchName(43, true)).to.equal('G♮2');
         expect(scale.getPitchName(56, true)).to.equal('A♭3');
         expect(scale.getPitchName(57, true)).to.equal('A♮3');
         expect(scale.getPitchName(70, true)).to.equal('B♭4');
-        expect(scale.getPitchName(71, true)).to.equal('C♭4');
+        expect(scale.getPitchName(71, true)).to.equal('B♮4');
     }
 
     @test 'getDominantScale returns scale perfect 5th above'() {

@@ -2,7 +2,7 @@
 
 import { IPitchContainer, FitPitchOptions, FitDirection } from './IPitchContainer';
 import ScaleTemplate from './ScaleTemplate';
-import { safeMod } from './utils';
+import { safeMod, sortComparison } from './utils';
 
 
 export class PitchName {
@@ -61,7 +61,7 @@ export default class Scale implements IPitchContainer {
 
         this._template = template;
 
-        this._pitchNames = Scale._getPitchNamesForMajorRoot(this.root - template.relativityToMajor);
+        this._generatePitchNames();
 
         this.name = this.getPitchName(this.root) + ' ' + template.name;
     }
@@ -145,26 +145,96 @@ export default class Scale implements IPitchContainer {
     }
 
     /**
-     * Returns an array which specifies how each note (both in & out of the specified
-     * major key) should be named
+     * Generates an array which specifies how each note (both in & out of the scale should be named
      */
-    private static _getPitchNamesForMajorRoot(root: number): PitchName[] {
+    private _generatePitchNames(): void {
+        const relativeMajorRoot = safeMod(this.root - this.template.relativityToMajor, 12);
+
+        //1 = prefer sharps, -1 = prefer flats
+        const scalePreference = ([0, 7, 2, 9, 4, 11, 6].find(x => x == relativeMajorRoot) != undefined) ? 1 : -1;
+
+        //Build a 2D array of possible names that can be used for each of the 12 pitches
         const n = (pitch: number, letter: string, accidental?: number) => new PitchName(pitch, letter, accidental);
-        root = ((root % 12) + 12) % 12;
-        switch (root) {
-            case 0: return [n(0,'C'), n(1,'C',1), n(2,'D'), n(3,'E',-1), n(4,'E'), n(5,'F'), n(6,'F',1), n(7,'G'), n(8,'G',1), n(9,'A'), n(10,'B',-1), n(11,'B')];
-            case 1: return [n(0,'C'), n(1,'D',-1), n(2,'D',0), n(3,'E',-1), n(4,'F',-1), n(5,'F'), n(6,'G',-1), n(7,'G',0), n(8,'A',-1), n(9,'A',0), n(10,'B',-1), n(11,'C',-1)];
-            case 2: return [n(0,'C',0), n(1,'C',1), n(2,'D'), n(3,'D',1), n(4,'E'), n(5,'F',0), n(6,'F',1), n(7,'G'), n(8,'G',1), n(9,'A'), n(10,'A',1), n(11,'B')];
-            case 3: return [n(0,'C'), n(1,'D',-1), n(2,'D'), n(3,'E',-1), n(4,'E',0), n(5,'F'), n(6,'G',-1), n(7,'G'), n(8,'A',-1), n(9,'A',0), n(10,'B',-1), n(11,'B',0)];
-            case 4: return [n(0,'C',0), n(1,'C',1), n(2,'D',0), n(3,'D',1), n(4,'E'), n(5,'E',1), n(6,'F',1), n(7,'G',0), n(8,'G',1), n(9,'A'), n(10,'A',1), n(11,'B')];
-            case 5: return [n(0,'C'), n(1,'D',-1), n(2,'D'), n(3,'E',-1), n(4,'E'), n(5,'F'), n(6,'F',1), n(7,'G'), n(8,'A',-1), n(9,'A'), n(10,'B',-1), n(11,'B',0)];
-            case 6: return [n(0,'B',1), n(1,'C',1), n(2,'D',0), n(3,'D',1), n(4,'E',0), n(5,'E',1), n(6,'F',1), n(7,'G',0), n(8,'G',1), n(9,'A',0), n(10,'A',1), n(11,'B')];
-            case 7: return [n(0,'C'), n(1,'C',1), n(2,'D'), n(3,'D',1), n(4,'E'), n(5,'F',0), n(6,'F',1), n(7,'G'), n(8,'G',1), n(9,'A'), n(10,'B',-1), n(11,'B')];
-            case 8: return [n(0,'C'), n(1,'D',-1), n(2,'D',0), n(3,'E',-1), n(4,'E',0), n(5,'F'), n(6,'G',-1), n(7,'G'), n(8,'A',-1), n(9,'A',0), n(10,'B',-1), n(11,'C',-1)];
-            case 9: return [n(0,'C',0), n(1,'C',1), n(2,'D'), n(3,'D',1), n(4,'E'), n(5,'F',0), n(6,'F',1), n(7,'G',0), n(8,'G',1), n(9,'A'), n(10,'A',1), n(11,'B')];
-            case 10: return [n(0,'C'), n(1,'D',-1), n(2,'D'), n(3,'E',-1), n(4,'E',0), n(5,'F'), n(6,'G',-1), n(7,'G'), n(8,'A',-1), n(9,'A'), n(10,'B',-1), n(11,'B',0)];
-            case 11: return [n(0,'B',1), n(1,'C',1), n(2,'D',0), n(3,'D',1), n(4,'E'), n(5,'E',1), n(6,'F',1), n(7,'G',0), n(8,'G',1), n(9,'A',0), n(10,'A',1), n(11,'B')];
+        const pitchNames = [
+            [n(0, 'B', 1), n(0, 'C', 0), n(0, 'D', -2)],    //C
+            [n(1, 'B', 2), n(1, 'C', 1), n(1, 'D', -1)],
+            [n(2, 'C', 2), n(2, 'D', 0), n(2, 'E', -2)],    //D
+            [n(3, 'D', 1), n(3, 'E', -1), n(3, 'F', -2)],
+            [n(4, 'D', 2), n(4, 'E', 0), n(4, 'F', -2)],    //E
+            [n(5, 'E', 1), n(5, 'F', 0), n(5, 'G', -2)],    //F
+            [n(6, 'E', 2), n(6, 'F', 1), n(6, 'G', -1)],
+            [n(7, 'F', 2), n(7, 'G', 0), n(7, 'A', -2)],    //G
+            [n(8, 'G', 1), n(8, 'A', -1)],
+            [n(9, 'G', 2), n(9, 'A', 0), n(9, 'B', -2)],    //A
+            [n(10, 'A', 1), n(10, 'B', -1), n(10, 'C', -2)],
+            [n(11, 'A', 2), n(11, 'B', 0), n(11, 'C', -1)]  //B
+        ];
+
+        //Indices 2, 4, 9 & 11 are 1, that means notes which are those amounts above the root prefer to go sharp
+        //Indices 1, 3, 8 & 10 are -1, that means notes which are those amounts above the root prefer to go flat
+        //Indices 0, 5, 6 & 7 are null, that means notes which are those amounts above the root defer to the scale preference
+        const degreePreferences = [null, -1, 1, -1, 1, null, null, null, -1, 1, -1, 1];
+
+        const results: PitchName[] = [];
+
+        //First of all, select names for the notes which are inside the scale
+        let scalePitches = [0];
+        scalePitches.push(...this.template.shape);
+        scalePitches = scalePitches.map(x => safeMod(x + this.root, 12));
+
+        for (const pitch of scalePitches) {
+            let nameOptions = pitchNames[pitch];
+
+            //If there's an option to go natural, always take it if it hasn't already been used
+            const naturalName = nameOptions.find(x => x.accidental == 0 && this._notInUsedNames(x, results));
+            if (naturalName) {
+                results.push(n(pitch, naturalName.letter));
+                continue;
+            }
+
+            //Go through process of applying different filters until a satisfactory result is found
+            const preference = degreePreferences[safeMod(pitch - this.root, 12)] ?? scalePreference;
+
+            let filteredOptions = nameOptions
+                .filter(x => this._matchesPreference(x, preference) && this._notInUsedNames(x, results));
+            if (filteredOptions.length == 0) {
+                filteredOptions = nameOptions.filter(x => this._notInUsedNames(x, results));
+                if (filteredOptions.length == 0)
+                    filteredOptions = nameOptions.filter(x => this._matchesPreference(x, preference));
+            }
+
+            results.push(filteredOptions.sort((a, b) => sortComparison(a, b, x => Math.abs(x.accidental)))[0]);
         }
+
+        const outOfScalePitches = [...Array(12).keys()].filter(x => scalePitches.find(y => x == y) == undefined);
+        for (const pitch of outOfScalePitches) {
+            let nameOptions = pitchNames[pitch];
+
+            //If there's any option to go natural, always take it
+            const naturalName = nameOptions.find(x => x.accidental == 0);
+            if (naturalName) {
+                results.push(naturalName);
+                continue;
+            }
+
+            const preference = degreePreferences[safeMod(pitch - this.root, 12)] ?? scalePreference;
+            results.push(
+                nameOptions
+                .filter(x => this._matchesPreference(x, preference))
+                .sort((a, b) => sortComparison(a, b, x => Math.abs(x.accidental)))
+                [0]
+            );
+        }
+
+        this._pitchNames = results.sort((a, b) => sortComparison(a, b, x => x.pitch))
+    }
+
+    private _notInUsedNames(name: PitchName, usedNames: PitchName[]): boolean {
+        return !usedNames.find(x => x.letter == name.letter);
+    }
+
+    private _matchesPreference(name: PitchName, preference: number): boolean {
+        return name.accidental * preference >= 0;
     }
 
     getDominantScale(): Scale {

@@ -218,7 +218,7 @@ Chord.nameGenerator = (chord: Chord) => {
 
     @test 'name gets cleared when new pitches added'() {
         const chord = new Chord().addPitches([13, 17, 20]);
-        expect(chord.name).to.equal('C♯');
+        expect(chord.name).to.equal('D♭');
         chord.addPitch(23);
         expect(chord['_name']).to.be.null;
     }
