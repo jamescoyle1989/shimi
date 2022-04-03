@@ -1,6 +1,6 @@
 {
   "name": "shimi",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A JS framework for building complex MIDI applications",
   "main": "dist/index.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "ts-node": "^10.1.0"
   },
   "devDependencies": {
+    "terser-webpack-plugin": "^5.3.1",
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0"
   }
