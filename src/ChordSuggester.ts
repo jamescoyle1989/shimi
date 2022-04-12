@@ -92,7 +92,7 @@ export default class ChordSuggester {
         this.addChordLookup('sus2', [0, 2, 7], '{r}sus2', '{r}sus2/{b}', 6);
         this.addChordLookup('sus4', [0, 5, 7], '{r}sus4', '{r}sus4/{b}', 6);
         this.addChordLookup('dim7', [0, 3, 6, 9], '{r}dim7', '{r}dim7/{b}', 5);
-        this.addChordLookup('m7b5', [0, 3, 6, 10], '{r}m7b5', '{r}m7b5/{b}', 5);
+        this.addChordLookup('m7♭5', [0, 3, 6, 10], '{r}m7♭5', '{r}m7♭5/{b}', 5);
         this.addChordLookup('M9', [0, 4, 7, 11, 14], '{r}M9', '{r}M9/{b}', 4);
         this.addChordLookup('9', [0, 4, 7, 10, 14], '{r}9', '{r}9/{b}', 4);
         this.addChordLookup('m9', [0, 3, 7, 10, 14], '{r}m9', '{r}m9/{b}', 4);
@@ -104,8 +104,8 @@ export default class ChordSuggester {
         this.addChordLookup('add11', [0, 4, 7, 17], '{r}add11', '{r}add11/{b}', 3);
         this.addChordLookup('madd11', [0, 3, 7, 17], '{r}madd11', '{r}madd11/{b}', 3);
         this.addChordLookup('mM7', [0, 3, 7, 11], '{r}mM7', '{r}mM7/{b}', 2);
-        this.addChordLookup('7#5', [0, 4, 8, 10], '{r}7#5', '{r}7#5/{b}', 2);
-        this.addChordLookup('7#9', [0, 4, 7, 10, 15], '{r}7#9', '{r}7#9/{b}', 2);
+        this.addChordLookup('7♯5', [0, 4, 8, 10], '{r}7♯5', '{r}7♯5/{b}', 2);
+        this.addChordLookup('7♯9', [0, 4, 7, 10, 15], '{r}7♯9', '{r}7♯9/{b}', 2);
         return this;
     }
 
