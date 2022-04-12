@@ -238,4 +238,14 @@
             <implementation>MidiBus doesn't share the note object with downstream processes. Instead it broadcasts NoteOn, NoteOff &amp; NotePressure messages, just like a MidiOut object sends to its port.</implementation>
         </requirement>
     </group>
+
+    <group name="Pitches Selection">
+        <requirement>
+            <design>Users should have a way to get pitches by name, rather than just by MIDI number.</design>
+        </requirement>
+
+        <requirement>
+            <design>Once users have fetched a pitch from a scale, they should be able to specify another pitch which it should be nearby. The pitch will then be transposed to the nearest octave to that pitch.</design>
+        </requirement>
+    </group>
 </specification>
