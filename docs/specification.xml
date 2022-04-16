@@ -242,6 +242,7 @@
     <group name="Pitches Selection">
         <requirement>
             <design>Users should have a way to get pitches by name, rather than just by MIDI number.</design>
+            <implementation>Users can call shimi.pitch('C#2') for example, to get the numerical value of that MIDI note.</implementation>
         </requirement>
 
         <requirement>

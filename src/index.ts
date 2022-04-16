@@ -21,6 +21,7 @@ import MidiIn, { MidiInEvent, MidiInEventData } from './MidiIn';
 import * as messages from './MidiMessages';
 import MidiOut from './MidiOut';
 import Note from './Note';
+import { parsePitch as pitch } from './utils';
 import PropertyTracker from './PropertyTracker';
 import PS4Controller from './PS4Controller';
 import Scale from './Scale';
@@ -51,6 +52,7 @@ export {
     MidiIn, MidiInEvent, MidiInEventData,
     MidiOut,
     Note,
+    pitch,
     PropertyTracker,
     PS4Controller,
     Scale,
