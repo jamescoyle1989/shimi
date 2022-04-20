@@ -42,7 +42,6 @@ group:before {
 }
 
 group {
-    content: 'Hello!!';
     display: block;
     border-left-color: black;
     border-left-style: solid;

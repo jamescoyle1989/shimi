@@ -247,6 +247,7 @@
 
         <requirement>
             <design>Once users have fetched a pitch from a scale, they should be able to specify another pitch which it should be nearby. The pitch will then be transposed to the nearest octave to that pitch.</design>
+            <implementation>Users can do scale.degree(3).near(50).pitch, which in the case of C major, would get the 3rd degree (E), then find the nearest E to MIDI pitch 50 (E4), returning 52.</implementation>
         </requirement>
     </group>
 </specification>

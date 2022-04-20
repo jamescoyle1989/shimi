@@ -31,6 +31,21 @@ export class PitchName {
 }
 
 
+export class PitchBuilder {
+    pitch: number;
+
+    constructor(pitch: number) {
+        this.pitch = pitch;
+    }
+
+    near(pitch: number): PitchBuilder {
+        const octaveDiff = Math.round((pitch - this.pitch) / 12);
+        this.pitch = this.pitch + (octaveDiff * 12);
+        return this;
+    }
+}
+
+
 export default class Scale implements IPitchContainer {
     /** The name of the scale */
     get name(): string { return this._name; }
@@ -86,6 +101,31 @@ export default class Scale implements IPitchContainer {
         let output = this._pitchNames[safeMod(pitch, 12)].toString();
         if (showOctave)
             output += Math.floor(pitch / 12) - 1;
+        return output;
+    }
+
+    degree(degree: number, octave: number = -1): PitchBuilder {
+        return new PitchBuilder(
+            this.pitches[safeMod(degree - 1, this.pitches.length)] +
+            ((octave + 1) * 12)
+        );
+    }
+
+    pitchesInRange(lowPitch: number, highPitch: number): Array<number> {
+        if (lowPitch > highPitch)
+            return this.pitchesInRange(highPitch, lowPitch);
+
+        let output = [];
+        const scalePitches = this.pitches.sort((a, b) => sortComparison(a, b, x => x));
+        for (let octave = Math.floor(lowPitch / 12) * 12; true; octave += 12) {
+            for (const p of scalePitches) {
+                const pitch = p + octave;
+                if (pitch >= lowPitch && pitch <= highPitch)
+                    output.push(pitch);
+            }
+            if (octave > highPitch)
+                break;
+        }
         return output;
     }
 

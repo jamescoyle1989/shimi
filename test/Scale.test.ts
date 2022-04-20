@@ -229,4 +229,63 @@ import { FitDirection } from '../src/IPitchContainer';
         const scale = ScaleTemplate.majorPentatonic.create(0);
         expect(scale.fitPitch(41.5, {maxMovement: 1})).to.equal(42);
     }
+
+    @test 'degree allows fetching pitch of scale degree with non-zero indexing'() {
+        const scale = ScaleTemplate.major.create(7);
+        expect(scale.degree(2).pitch).to.equal(9);
+    }
+
+    @test 'degree maps degrees outside of the scale range to within the scale range'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.degree(0).pitch).to.equal(scale.degree(7).pitch);
+    }
+
+    @test 'degree allows 2nd param to specify octave'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.degree(2, 1).pitch).to.equal(26);
+    }
+
+    @test 'degree().near() allows fetching a pitch of the same class near another pitch'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.degree(3).near(50).pitch).to.equal(52);
+    }
+
+    @test 'pitchesInRange returns all pitches in the scale within the given pitch inclusive range'() {
+        const scale = ScaleTemplate.major.create(0);
+        const pitches = scale.pitchesInRange(0, 11);
+        expect(pitches.length).to.equal(7);
+        expect(pitches[0]).to.equal(0);
+        expect(pitches[1]).to.equal(2);
+        expect(pitches[2]).to.equal(4);
+        expect(pitches[3]).to.equal(5);
+        expect(pitches[4]).to.equal(7);
+        expect(pitches[5]).to.equal(9);
+        expect(pitches[6]).to.equal(11);
+    }
+
+    @test 'pitchesInRange works the same if parameter order is swapped'() {
+        const scale = ScaleTemplate.major.create(0);
+        const pitches = scale.pitchesInRange(11, 0);
+        expect(pitches.length).to.equal(7);
+        expect(pitches[0]).to.equal(0);
+        expect(pitches[1]).to.equal(2);
+        expect(pitches[2]).to.equal(4);
+        expect(pitches[3]).to.equal(5);
+        expect(pitches[4]).to.equal(7);
+        expect(pitches[5]).to.equal(9);
+        expect(pitches[6]).to.equal(11);
+    }
+
+    @test 'pitchesInRange returns pitches in ascending order'() {
+        const scale = ScaleTemplate.major.create(7);
+        const pitches = scale.pitchesInRange(16, 27);
+        expect(pitches.length).to.equal(7);
+        expect(pitches[0]).to.equal(16);
+        expect(pitches[1]).to.equal(18);
+        expect(pitches[2]).to.equal(19);
+        expect(pitches[3]).to.equal(21);
+        expect(pitches[4]).to.equal(23);
+        expect(pitches[5]).to.equal(24);
+        expect(pitches[6]).to.equal(26);
+    }
 }
