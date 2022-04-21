@@ -116,7 +116,7 @@ export default class Scale implements IPitchContainer {
             return this.pitchesInRange(highPitch, lowPitch);
 
         let output = [];
-        const scalePitches = this.pitches.sort((a, b) => sortComparison(a, b, x => x));
+        const scalePitches = this.pitches.slice().sort((a, b) => sortComparison(a, b, x => x));
         for (let octave = Math.floor(lowPitch / 12) * 12; true; octave += 12) {
             for (const p of scalePitches) {
                 const pitch = p + octave;

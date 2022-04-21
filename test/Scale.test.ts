@@ -288,4 +288,17 @@ import { FitDirection } from '../src/IPitchContainer';
         expect(pitches[5]).to.equal(24);
         expect(pitches[6]).to.equal(26);
     }
+
+    @test 'pitchesInRange doesnt mutate pitches array'() {
+        const scale1 = ScaleTemplate.major.create(7);
+        const scale2 = ScaleTemplate.major.create(7);
+        scale1.pitchesInRange(0, 11);
+        expect(scale1.pitches[0]).to.equal(scale2.pitches[0]);
+        expect(scale1.pitches[1]).to.equal(scale2.pitches[1]);
+        expect(scale1.pitches[2]).to.equal(scale2.pitches[2]);
+        expect(scale1.pitches[3]).to.equal(scale2.pitches[3]);
+        expect(scale1.pitches[4]).to.equal(scale2.pitches[4]);
+        expect(scale1.pitches[5]).to.equal(scale2.pitches[5]);
+        expect(scale1.pitches[6]).to.equal(scale2.pitches[6]);
+    }
 }
