@@ -143,4 +143,16 @@ export class MockPort {
         expect(port.data[2]).to.equal(139);
         expect(port.data[3]).to.equal(77);
     }
+
+    @test 'suppressPortValidationErrors prevents validation error from being thrown on sendMessage'() {
+        const midiOut = new MidiOut(null);
+        midiOut.suppressPortValidationErrors = true;
+        expect(midiOut.sendMessage(new NoteOffMessage(0,0,0))).to.be.false;
+    }
+
+    @test 'suppressPortValidationErrors prevents validation error from being thrown on sendRawData'() {
+        const midiOut = new MidiOut(null);
+        midiOut.suppressPortValidationErrors = true;
+        expect(midiOut.sendRawData([99, 48, 139, 77])).to.be.false;
+    }
 }

@@ -21,6 +21,8 @@ export default class MidiOut implements IMidiOut, IClockChild {
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 
+    suppressPortValidationErrors: boolean = false;
+
     constructor(port: any) {
         this.port = port;
     }
@@ -47,25 +49,34 @@ export default class MidiOut implements IMidiOut, IClockChild {
     }
 
     /** Sends data from the passed in MIDI message to the connected MIDI port */
-    sendMessage(message: IMidiMessage): void {
+    sendMessage(message: IMidiMessage): boolean {
+        if (!this.validatePort())
+            return false;
         this.validatePort();
         this.port.send(message.toArray());
+        return true;
     }
 
     /**
      * Sends a custom MIDI message to the connected MIDI port
      * @param data An array of the data to be sent
      */
-    sendRawData(data: number[]): void {
-        this.validatePort();
+    sendRawData(data: number[]): boolean {
+        if (!this.validatePort())
+            return false;
         if (!data || data.length === 0)
             throw new Error('No data specified to send');
         this.port.send(data);
+        return true;
     }
 
-    private validatePort(): void {
-        if (!this.port)
+    private validatePort(): boolean {
+        if (!this.port) {
+            if (this.suppressPortValidationErrors)
+                return false;
             throw new Error('MidiOut has no port connected');
+        }
+        return true;
     }
 
     update(deltaMs: number): void {
