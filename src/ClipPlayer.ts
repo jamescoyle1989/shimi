@@ -12,7 +12,12 @@ export default class ClipPlayer implements IClockChild {
     /** Which clip to play */
     get clip(): Clip { return this._clip; }
     /** Which clip to play */
-    set clip(value: Clip) { this._clip = value; }
+    set clip(value: Clip) {
+        if (this._clip === value)
+            return;
+        this._endAllNotes();
+        this._clip = value;
+    }
     private _clip: Clip;
 
     /** Which channel to play the clip on */
@@ -125,7 +130,7 @@ export default class ClipPlayer implements IClockChild {
         //Stop notes that need to end, and update velocity of any others need it
         for (const note of this._notes) {
             const clipNote: ClipNote = note['clipNote'];
-            if (!clipNote.contains(newClipBeat))
+            if (!clipNote.contains(newClipBeat) || !this.clip.notes.find(x => x === clipNote))
                 note.stop();
             else if (typeof(clipNote.velocity) == 'function')
                 note.velocity = clipNote.velocity(newClipBeat - clipNote.start);

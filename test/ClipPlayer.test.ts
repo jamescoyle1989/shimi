@@ -175,8 +175,26 @@ function getBendValFromPercent(percent: number): number[] {
 
         clipPlayer.clip = clip2;
 
-        metronome.update(1000);
-        clipPlayer.update(1000);
+        metronome.update(10);
+        clipPlayer.update(10);
+        expect(clipPlayer['_notes'].length).to.equal(0);
+    }
+
+    @test 'Player can end notes if they get removed from the clip'() {
+        const clip = new Clip(4);
+        clip.notes.push(new ClipNote(0, 1, 60, 80));
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
+
+        metronome.update(10);
+        clipPlayer.update(10);
+        expect(clipPlayer['_notes'].length).to.equal(1);
+
+        clip.notes = [];
+
+        metronome.update(10);
+        clipPlayer.update(10);
         expect(clipPlayer['_notes'].length).to.equal(0);
     }
 
