@@ -17,7 +17,7 @@ class WebSynthChannel {
         this.gain.connect(this.audioContext.destination);
     }
 
-    createOscillator(note): OscillatorNode {
+    createOscillator(note, frequency): OscillatorNode {
         const oscillator = this.audioContext.createOscillator();
         oscillator.type = 'sawtooth';
         oscillator.connect(this.gain);
@@ -53,7 +53,14 @@ export default class WebSynth implements IMidiOut, IClockChild {
     }
 
     stopNotes(filter: (note: Note) => boolean): void {
-
+        for (const n of this._notes) {
+            if (filter(n)) {
+                n['oscillator'].stop();
+                delete n['oscillator'];
+                n.stop();
+            }
+        }
+        this._notes = this._notes.filter(n => n.on);
     }
 
     sendMessage(message: IMidiMessage): void {
@@ -61,7 +68,7 @@ export default class WebSynth implements IMidiOut, IClockChild {
     }
 
     sendRawData(data: number[]): void {
-
+        
     }
 
     //IMidiOut implementation end
@@ -113,8 +120,12 @@ export default class WebSynth implements IMidiOut, IClockChild {
     //IClockChild implementation end
 
 
+    private _pitchToFrequency(pitch: number) {
+        return Math.pow(2, ((pitch - 69) / 12)) * 440;
+    }
+
     private _createOscillator(note: Note) {
         const channel = this.channels[note.channel];
-        note['oscillator'] = channel.createOscillator(note);
+        note['oscillator'] = channel.createOscillator(note, this._pitchToFrequency(note.pitch));
     }
 }

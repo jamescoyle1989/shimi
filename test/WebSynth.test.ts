@@ -57,4 +57,18 @@ class DummyAudioContext {
         synth.update(10);
         expect(note['oscillator']).to.be.undefined;
     }
+
+    @test 'pitchToFrequency returns correct value'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext);
+        expect(synth['_pitchToFrequency'](69)).to.equal(440);
+    }
+
+    @test 'stopNotes ends notes'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext);
+        synth.addNote(new Note(47, 28, 9));
+        synth.stopNotes(n => true);
+        expect(synth.notes.length).to.equal(0);
+    }
 }
