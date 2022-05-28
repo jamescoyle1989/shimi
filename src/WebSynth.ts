@@ -4,6 +4,7 @@ import { IClockChild } from './Clock';
 import { IMidiMessage } from './MidiMessages';
 import { IMidiOut } from './MidiOut';
 import Note from './Note';
+import * as messages from './MidiMessages';
 
 
 class WebSynthChannel {
@@ -17,13 +18,13 @@ class WebSynthChannel {
         this.gain.connect(this.audioContext.destination);
     }
 
-    createOscillator(note, frequency): OscillatorNode {
+    createOscillators(note, frequency): Array<OscillatorNode> {
         const oscillator = this.audioContext.createOscillator();
         oscillator.type = 'sawtooth';
         oscillator.connect(this.gain);
         oscillator.frequency.value = 440;
         oscillator.start();
-        return oscillator;
+        return [oscillator];
     };
 }
 
@@ -55,8 +56,9 @@ export default class WebSynth implements IMidiOut, IClockChild {
     stopNotes(filter: (note: Note) => boolean): void {
         for (const n of this._notes) {
             if (filter(n)) {
-                n['oscillator'].stop();
-                delete n['oscillator'];
+                for (const osc of n['oscillators'])
+                    osc.stop();
+                delete n['oscillators'];
                 n.stop();
             }
         }
@@ -64,11 +66,47 @@ export default class WebSynth implements IMidiOut, IClockChild {
     }
 
     sendMessage(message: IMidiMessage): void {
-
+        if (message instanceof messages.NoteOffMessage) {
+            this.stopNotes(n => n.pitch == message.pitch && n.channel == message.channel);
+        }
+        else if (message instanceof messages.NoteOnMessage) {
+            const note = new Note(message.pitch, message.velocity, message.channel);
+            this.addNote(note);
+        }
     }
 
+    //Used for handling running status messages
+    private _previousStatus: number = null;
+
     sendRawData(data: number[]): void {
-        
+        if (data.length == 0 || data[0] == 0xF8)
+            return;
+
+        if (data[0] >= 128)
+            this._previousStatus = data[0];
+        else {
+            if (this._previousStatus)
+                data.unshift(this._previousStatus)
+            else
+                return;
+        }
+
+        const messageId = Math.floor(data[0] / 16) * 16;
+        const channel = data[0] - messageId;
+        if (messageId == 0x80)
+            this.sendMessage(new messages.NoteOffMessage(data[1], data[2], channel));
+        else if (messageId == 0x90)
+            this.sendMessage(new messages.NoteOnMessage(data[1], data[2], channel));
+        else if (messageId == 0xA0)
+            this.sendMessage(new messages.NotePressureMessage(data[1], data[2], channel));
+        else if (messageId == 0xB0)
+            this.sendMessage(new messages.ControlChangeMessage(data[1], data[2], channel));
+        else if (messageId == 0xC0)
+            this.sendMessage(new messages.ProgramChangeMessage(data[1], channel));
+        else if (messageId == 0xD0)
+            this.sendMessage(new messages.ChannelPressureMessage(data[1], channel));
+        else if (messageId == 0xE0)
+            this.sendMessage(new messages.PitchBendMessage(messages.PitchBendMessage.calculatePercent(data[1], data[2]), channel));
     }
 
     //IMidiOut implementation end
@@ -101,8 +139,9 @@ export default class WebSynth implements IMidiOut, IClockChild {
                         }
                     }
                     if (sendNoteOff) {
-                        note['oscillator'].stop();
-                        delete note['oscillator'];
+                        for (const osc of note['oscillators'])
+                            osc.stop();
+                        delete note['oscillators'];
                     }
                     note.onTracker.accept();
                 }
@@ -126,6 +165,6 @@ export default class WebSynth implements IMidiOut, IClockChild {
 
     private _createOscillator(note: Note) {
         const channel = this.channels[note.channel];
-        note['oscillator'] = channel.createOscillator(note, this._pitchToFrequency(note.pitch));
+        note['oscillators'] = channel.createOscillators(note, this._pitchToFrequency(note.pitch));
     }
 }

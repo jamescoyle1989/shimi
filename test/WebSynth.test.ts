@@ -42,9 +42,9 @@ class DummyAudioContext {
         const synth = new WebSynth(audioContext);
         const note = new Note(70, 38, 2);
         expect(note.on).to.be.true;
-        expect(note['oscillator']).to.be.undefined;
+        expect(note['oscillators']).to.be.undefined;
         synth.addNote(note);
-        expect(note['oscillator']).to.be.not.undefined;
+        expect(note['oscillators']).to.be.not.undefined;
     }
 
     @test 'oscillator stops on update if note is turned off'() {
@@ -52,10 +52,10 @@ class DummyAudioContext {
         const synth = new WebSynth(audioContext);
         const note = new Note(57, 89, 8);
         synth.addNote(note);
-        expect(note['oscillator']).to.be.not.undefined;
+        expect(note['oscillators']).to.be.not.undefined;
         note.on = false;
         synth.update(10);
-        expect(note['oscillator']).to.be.undefined;
+        expect(note['oscillators']).to.be.undefined;
     }
 
     @test 'pitchToFrequency returns correct value'() {
