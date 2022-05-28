@@ -19,7 +19,7 @@ export class MidiInEvent<TMessage> extends ShimiEvent<MidiInEventData<TMessage>,
 }
 
 
-export default class MidiIn {
+export default class MidiIn implements IMidiIn {
     /** The MIDI port which data gets received from, see MidiAccess class */
     get port(): any { return this._port; }
     set port(value) {
