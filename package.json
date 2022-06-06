@@ -9,7 +9,7 @@
     "doc": "npx typedoc"
   },
   "author": "James Coyle",
-  "license": "ISC",
+  "license": "MIT",
   "types": "dist/types/index.d.ts",
   "files": [
     "/dist"
