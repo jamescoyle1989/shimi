@@ -27,32 +27,32 @@ async function run() {
     const keyboard = new shimi.Keyboard(new shimi.EventSubscriber(document));
     keyboard.activate();
 	
-	const metronome = new shimi.Metronome(120);
+    const metronome = new shimi.Metronome(120);
 
     const clock = new shimi.Clock();
     clock.children.push(keyboard);
-	clock.children.push(metronome);
-	clock.children.push(midiOut);
+    clock.children.push(metronome);
+    clock.children.push(midiOut);
     clock.start();
 
-	//Twinkle Twinkle Little Star
+    //Twinkle Twinkle Little Star
     const clip = new shimi.Clip(8);
-	clip.notes.push(
-		new shimi.ClipNote(0, 1, shimi.pitch('C4'), 80),
-		new shimi.ClipNote(1, 1, shimi.pitch('C4'), 80),
-		new shimi.ClipNote(2, 1, shimi.pitch('G4'), 80),
-		new shimi.ClipNote(3, 1, shimi.pitch('G4'), 80),
-		new shimi.ClipNote(4, 1, shimi.pitch('A4'), 80),
-		new shimi.ClipNote(5, 1, shimi.pitch('A4'), 80),
-		new shimi.ClipNote(6, 2, shimi.pitch('G4'), 80)
-	);
+    clip.notes.push(
+        new shimi.ClipNote(0, 1, shimi.pitch('C4'), 80),
+        new shimi.ClipNote(1, 1, shimi.pitch('C4'), 80),
+        new shimi.ClipNote(2, 1, shimi.pitch('G4'), 80),
+        new shimi.ClipNote(3, 1, shimi.pitch('G4'), 80),
+        new shimi.ClipNote(4, 1, shimi.pitch('A4'), 80),
+        new shimi.ClipNote(5, 1, shimi.pitch('A4'), 80),
+        new shimi.ClipNote(6, 2, shimi.pitch('G4'), 80)
+    );
 	
-	//Start a new playthrough of the clip each time the spacebar is pressed
-	keyboard.space.pressed.add(() => {
-		const clipPlayer = new shimi.ClipPlayer(clip, metronome, midiOut);
-		clipPlayer.beatCount = clip.duration;
-		clock.addChild(clipPlayer);
-	});
+    //Start a new playthrough of the clip each time the spacebar is pressed
+    keyboard.space.pressed.add(() => {
+        const clipPlayer = new shimi.ClipPlayer(clip, metronome, midiOut);
+        clipPlayer.beatCount = clip.duration;
+        clock.addChild(clipPlayer);
+    });
 }
 run();
 ```
