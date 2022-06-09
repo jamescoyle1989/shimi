@@ -28,6 +28,7 @@ import Scale from './Scale';
 import ScaleTemplate from './ScaleTemplate';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TimeSig, { TimeSigDivision } from './TimeSig';
+import WebSynth, { WebSynthChannel } from './WebSynth';
 
 export {
     Arpeggiator,
@@ -58,5 +59,6 @@ export {
     Scale,
     ScaleTemplate,
     SliderInput, SliderEvent, SliderEventData,
-    TimeSig, TimeSigDivision
+    TimeSig, TimeSigDivision,
+    WebSynth, WebSynthChannel
 }

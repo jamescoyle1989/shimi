@@ -162,19 +162,9 @@ export default class WebSynth implements IMidiOut, IClockChild {
             const note = this._notes[i];
             if (!note.on) {
                 if (note.onTracker.isDirty) {
-                    let sendNoteOff = true;
-                    for (let j = i + 1; j < this.notes.length; j++) {
-                        const note2 = this.notes[j];
-                        if (note.pitch === note2.pitch && note.channel === note2.channel && note2.on && !note2.onTracker.isDirty) {
-                            sendNoteOff = false;
-                            break;
-                        }
-                    }
-                    if (sendNoteOff) {
-                        for (const osc of note['oscillators'])
-                            osc.stop();
-                        delete note['oscillators'];
-                    }
+                    for (const osc of note['oscillators'])
+                        osc.stop();
+                    delete note['oscillators'];
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;

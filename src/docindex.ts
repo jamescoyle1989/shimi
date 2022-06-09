@@ -31,6 +31,7 @@ import Scale, { PitchBuilder } from './Scale';
 import ScaleTemplate from './ScaleTemplate';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TimeSig, { TimeSigDivision } from './TimeSig';
+import WebSynth, { WebSynthChannel, IWebSynthChannel } from './WebSynth';
 
 export {
     Arpeggiator,
@@ -61,5 +62,6 @@ export {
     Scale, PitchBuilder,
     ScaleTemplate,
     SliderInput, SliderEvent, SliderEventData,
-    TimeSig, TimeSigDivision
+    TimeSig, TimeSigDivision,
+    WebSynth, WebSynthChannel, IWebSynthChannel
 }

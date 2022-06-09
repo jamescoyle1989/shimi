@@ -96,4 +96,16 @@ class DummyAudioContext {
         synth.withChannel(5, channel).withDefaultChannels();
         expect(synth['_channels'][5]).to.equal(channel);
     }
+
+    @test 'when stopping a note, it doesnt matter if another one already started'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const note1 = synth.addNote(new Note(60, 80, 1));
+        const note2 = synth.addNote(new Note(60, 80, 1));
+        expect(note1['oscillators']).to.be.not.undefined;
+        expect(note2['oscillators']).to.be.not.undefined;
+        note1.stop();
+        synth.update(10);
+        expect(note1['oscillators']).to.be.undefined;
+    }
 }
