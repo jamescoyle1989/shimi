@@ -2,7 +2,11 @@
 
 import PropertyTracker from './PropertyTracker';
 
-/** Stores note information for the lifetime of a note */
+/**
+ * Stores note information for the lifetime of a note 
+ * 
+ * @category Midi IO
+ */
 export default class Note {
     /** The MIDI pitch of the note, valid values range from 0 - 127 */
     get pitch(): number { return this._pitch; }

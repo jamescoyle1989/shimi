@@ -8,6 +8,9 @@ import { IMidiOut } from './MidiOut';
 import { ControlChangeMessage, PitchBendMessage } from './MidiMessages';
 
 
+/**
+ * @category Clips
+ */
 export default class ClipPlayer implements IClockChild {
     /** Which clip to play */
     get clip(): Clip { return this._clip; }

@@ -5,6 +5,9 @@ import ButtonInput from './ButtonInput';
 import SliderInput from './SliderInput';
 
 
+/**
+ * @category User Inputs
+ */
 export default class Gamepads implements IClockChild {
     // The gamepads which have been added but not matched to an input yet
     private _unmatched: IGamepad[] = [];

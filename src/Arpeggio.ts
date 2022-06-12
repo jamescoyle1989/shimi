@@ -5,6 +5,9 @@ import Chord from './Chord';
 import Note from './Note';
 
 
+/**
+ * @category Chords & Scales
+ */
 export class ArpeggioNote extends Range {
     /** Stores a function that takes chord as a parameter and returns a pitch value */
     get pitch(): (c: Chord) => number { return this._pitch; }
@@ -57,6 +60,9 @@ export class ArpeggioNote extends Range {
 }
 
 
+/**
+ * @category Chords & Scales
+ */
 export class Arpeggio extends Range {
     notes: ArpeggioNote[] = [];
 

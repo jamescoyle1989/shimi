@@ -1,6 +1,9 @@
 'use strict';
 
 
+/**
+ * @category Midi IO
+ */
 export interface IMidiMessage {
     /** Returns an array of numbers that can be sent to the MIDI port */
     toArray(): number[];
@@ -9,6 +12,9 @@ export interface IMidiMessage {
 }
 
 
+/**
+ * @category Midi IO
+ */
 export abstract class MidiMessageBase {
     protected validateIntInRange(value: number, min: number, max: number, name: string): number {
         value = Math.round(value);
@@ -20,6 +26,9 @@ export abstract class MidiMessageBase {
     }
 }
 
+/**
+ * @category Midi IO
+ */
 export class NoteOffMessage extends MidiMessageBase implements IMidiMessage {
     pitch: number = 0;
     velocity: number = 0;
@@ -50,6 +59,9 @@ export class NoteOffMessage extends MidiMessageBase implements IMidiMessage {
     }
 }
 
+/**
+ * @category Midi IO
+ */
 export class NoteOnMessage extends MidiMessageBase implements IMidiMessage {
     pitch: number = 0;
     velocity: number = 0;
@@ -80,6 +92,9 @@ export class NoteOnMessage extends MidiMessageBase implements IMidiMessage {
     }
 }
 
+/**
+ * @category Midi IO
+ */
 export class NotePressureMessage extends MidiMessageBase implements IMidiMessage {
     pitch: number = 0;
     velocity: number = 0;
@@ -110,6 +125,9 @@ export class NotePressureMessage extends MidiMessageBase implements IMidiMessage
     }
 }
 
+/**
+ * @category Midi IO
+ */
 export class ControlChangeMessage extends MidiMessageBase implements IMidiMessage {
     controller: number = 0;
     value: number = 0;
@@ -140,6 +158,9 @@ export class ControlChangeMessage extends MidiMessageBase implements IMidiMessag
     }
 }
 
+/**
+ * @category Midi IO
+ */
 export class ProgramChangeMessage extends MidiMessageBase implements IMidiMessage {
     program: number = 0;
     channel: number = 0;
@@ -166,6 +187,9 @@ export class ProgramChangeMessage extends MidiMessageBase implements IMidiMessag
     }
 }
 
+/**
+ * @category Midi IO
+ */
 export class ChannelPressureMessage extends MidiMessageBase implements IMidiMessage {
     value: number;
     channel: number;
@@ -192,6 +216,9 @@ export class ChannelPressureMessage extends MidiMessageBase implements IMidiMess
     }
 }
 
+/**
+ * @category Midi IO
+ */
 export class PitchBendMessage extends MidiMessageBase implements IMidiMessage {
     percent: number;
     channel: number;

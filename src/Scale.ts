@@ -46,6 +46,9 @@ export class PitchBuilder {
 }
 
 
+/**
+ * @category Chords & Scales
+ */
 export default class Scale implements IPitchContainer {
     /** The name of the scale */
     get name(): string { return this._name; }

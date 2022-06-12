@@ -3,6 +3,9 @@
 import Scale from './Scale';
 
 
+/**
+ * @category Chords & Scales
+ */
 export default class ScaleTemplate {
     /** The name of the scale type, e.g. 'Major', 'Harmonic Minor', 'Phrygian', etc. */
     get name(): string { return this._name; }

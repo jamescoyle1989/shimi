@@ -4,6 +4,9 @@ import PropertyTracker from './PropertyTracker';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
+/**
+ * @category User Inputs
+ */
 export class SliderEventData extends ShimiEventData<SliderInput> {
     constructor(source: SliderInput) {
         super(source);
@@ -11,10 +14,16 @@ export class SliderEventData extends ShimiEventData<SliderInput> {
 }
 
 
+/**
+ * @category User Inputs
+ */
 export class SliderEvent extends ShimiEvent<SliderEventData, SliderInput> {
 }
 
 
+/**
+ * @category User Inputs
+ */
 export default class SliderInput {
     /** Tracks changes to the sliders value */
     valueTracker: PropertyTracker<number>;

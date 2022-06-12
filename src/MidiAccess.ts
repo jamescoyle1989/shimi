@@ -1,3 +1,7 @@
+
+/**
+ * @category Midi IO
+ */
 export default class MidiAccess {
     public static async request(): Promise<MidiAccess> {
         const access = await navigator['requestMIDIAccess']();

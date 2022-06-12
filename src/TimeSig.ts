@@ -3,6 +3,9 @@
 import { sum } from './IterationUtils';
 
 
+/**
+ * @category Timing
+ */
 export class TimeSigDivision {
     count: number = 1;
 
@@ -15,6 +18,9 @@ export class TimeSigDivision {
 }
 
 
+/**
+ * @category Timing
+ */
 export default class TimeSig {
     divisions: TimeSigDivision[] = [];
 

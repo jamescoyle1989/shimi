@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * @category Timing
+ */
 export default class Clock {
     /** How many milliseconds from one tick to the next */
     get msPerTick(): number { return this._msPerTick; }
@@ -65,6 +68,9 @@ export default class Clock {
 }
 
 
+/**
+ * @category Timing
+ */
 export interface IClockChild {
     get ref(): string;
 

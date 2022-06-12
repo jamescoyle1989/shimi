@@ -7,6 +7,9 @@ import Note from './Note';
 import { IClockChild } from './Clock';
 
 
+/**
+ * @category Midi IO
+ */
 export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     /*  
         ----------------------

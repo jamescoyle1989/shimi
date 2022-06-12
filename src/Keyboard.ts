@@ -5,6 +5,9 @@ import { IClockChild } from './Clock';
 import { IEventSubscriber } from './EventSubscriber';
 
 
+/**
+ * @category User Inputs
+ */
 export default class Keyboard implements IClockChild {
     get buttons(): ButtonInput[] { return this._buttons; }
     private _buttons: ButtonInput[] = [];

@@ -4,6 +4,9 @@ import * as messages from './MidiMessages';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
+/**
+ * @category Midi IO
+ */
 export class MidiInEventData<TMessage> extends ShimiEventData<IMidiIn> {
     get message(): TMessage { return this._message; }
     private _message: TMessage;
@@ -15,10 +18,16 @@ export class MidiInEventData<TMessage> extends ShimiEventData<IMidiIn> {
 }
 
 
+/**
+ * @category Midi IO
+ */
 export class MidiInEvent<TMessage> extends ShimiEvent<MidiInEventData<TMessage>, IMidiIn> {
 }
 
 
+/**
+ * @category Midi IO
+ */
 export default class MidiIn implements IMidiIn {
     /** The MIDI port which data gets received from, see MidiAccess class */
     get port(): any { return this._port; }
@@ -97,6 +106,9 @@ export default class MidiIn implements IMidiIn {
 }
 
 
+/**
+ * @category Midi IO
+ */
 export interface IMidiIn {
     receiveData(data: number[]): void;
 

@@ -5,6 +5,9 @@ import SliderInput from './SliderInput';
 import { IGamepad } from './Gamepads';
 
 
+/**
+ * @category User Inputs
+ */
 export default class PS4Controller implements IGamepad {
     get buttons(): ButtonInput[] { return this._buttons; }
     private _buttons: ButtonInput[];

@@ -4,6 +4,9 @@ import { IMetronome } from './Metronome';
 import { IClockChild } from './Clock';
 
 
+/**
+ * @category Timing
+ */
 class CueBase implements IClockChild {
     /** Provides a way of identifying cues so they can be retrieved later */
     get ref(): string { return this._ref; }
@@ -30,6 +33,9 @@ class CueBase implements IClockChild {
 }
 
 
+/**
+ * @category Timing
+ */
 export class MsCue extends CueBase {
     get msCount(): number { return this._msCount; }
     private _msCount: number;
@@ -51,6 +57,9 @@ export class MsCue extends CueBase {
 }
 
 
+/**
+ * @category Timing
+ */
 export class ConditionalCue extends CueBase {
     get condition(): () => boolean { return this._condition; }
     private _condition: () => boolean;
@@ -69,6 +78,9 @@ export class ConditionalCue extends CueBase {
 }
 
 
+/**
+ * @category Timing
+ */
 export class BeatCue extends CueBase {
     get metronome(): IMetronome { return this._metronome; }
     private _metronome: IMetronome;
@@ -94,6 +106,9 @@ export class BeatCue extends CueBase {
 }
 
 
+/**
+ * @category Timing
+ */
 export default class Cue {
     static when(condition: () => boolean, action: () => void): ConditionalCue {
         return new ConditionalCue(condition, action);

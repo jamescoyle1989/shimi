@@ -1,11 +1,19 @@
 import Scale from "./Scale";
 
+
+/**
+ * @category Chords & Scales
+ */
 export enum FitDirection {
     'up' = 1,
     'down' = -1,
     'random' = 0
 }
 
+
+/**
+ * @category Chords & Scales
+ */
 export enum FitPrecision {
     'loose' = 1,
     'medium' = 2,
@@ -13,6 +21,9 @@ export enum FitPrecision {
 }
 
 
+/**
+ * @category Chords & Scales
+ */
 export class FitPitchOptions {
     maxMovement: number = 2;
 
@@ -31,6 +42,9 @@ export class FitPitchOptions {
 }
 
 
+/**
+ * @category Chords & Scales
+ */
 export interface IPitchContainer {
     /** Returns true if the passed in note belongs to the scale */
     contains(pitch: number): boolean;

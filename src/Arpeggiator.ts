@@ -9,6 +9,9 @@ import { IMidiOut } from './MidiOut';
 import PropertyTracker from './PropertyTracker';
 
 
+/**
+ * @category Chords & Scales
+ */
 export default class Arpeggiator implements IClockChild {
     /** Which arpeggio to play */
     get arpeggio(): Arpeggio { return this._arpeggio; }

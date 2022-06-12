@@ -4,6 +4,9 @@ import { IPitchContainer, FitPitchOptions, FitDirection, FitPrecision } from './
 import { safeMod } from './utils';
 
 
+/**
+ * @category Chords & Scales
+ */
 export default class Chord implements IPitchContainer {
     /** Intended for read use only. To modify the chord, use addPitch, addPitches & removePitches methods */
     get pitches(): number[] { return this._pitches; }

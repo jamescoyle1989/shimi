@@ -8,6 +8,9 @@ import * as messages from './MidiMessages';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
+/**
+ * @category Clips
+ */
 export class ClipRecorderEventData extends ShimiEventData<ClipRecorder> {
     get clip(): Clip { return this._clip; }
     private _clip: Clip;
@@ -19,10 +22,16 @@ export class ClipRecorderEventData extends ShimiEventData<ClipRecorder> {
 }
 
 
+/**
+ * @category Clips
+ */
 export class ClipRecorderEvent extends ShimiEvent<ClipRecorderEventData, ClipRecorder> {
 }
 
 
+/**
+ * @category Clips
+ */
 export default class ClipRecorder implements IClockChild {
     /** The metronome which the recorder uses for tracking passed beats */
     get metronome(): IMetronome { return this._metronome; }

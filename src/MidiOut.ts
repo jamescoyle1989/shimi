@@ -4,6 +4,10 @@ import { IClockChild } from './Clock';
 import Note from './Note';
 import { IMidiMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage } from './MidiMessages';
 
+
+/**
+ * @category Midi IO
+ */
 export default class MidiOut implements IMidiOut, IClockChild {
     /** The MIDI port which data gets sent to, see MidiAccess class */
     port: any;
@@ -125,6 +129,9 @@ export default class MidiOut implements IMidiOut, IClockChild {
 }
 
 
+/**
+ * @category Midi IO
+ */
 export interface IMidiOut {
     get notes(): Array<Note>;
 

@@ -7,12 +7,20 @@ import Note from './Note';
 import * as messages from './MidiMessages';
 
 
-/** An interface for defining a how notes are played for a specific MIDI channel */
+/** 
+ * An interface for defining a how notes are played for a specific MIDI channel 
+ * 
+ * @category Midi IO
+ */
 export interface IWebSynthChannel {
     createOscillators(note: Note, frequency: number): Array<OscillatorNode>;
 }
 
-/** The default implementation of IWebSynthChannel */
+/**
+ * The default implementation of IWebSynthChannel 
+ * 
+ * @category Midi IO
+ */
 export class WebSynthChannel {
     audioContext: AudioContext;
     gain: GainNode;
@@ -38,7 +46,11 @@ export class WebSynthChannel {
 }
 
 
-/** Can be used in place of MidiOut as a simple synth to play notes in the browser, rather than sending MIDI data externally */
+/** 
+ * Can be used in place of MidiOut as a simple synth to play notes in the browser, rather than sending MIDI data externally 
+ * 
+ * @category Midi IO
+ */
 export default class WebSynth implements IMidiOut, IClockChild {
     private _audioContext: AudioContext;
     get audioContext() { return this._audioContext; }

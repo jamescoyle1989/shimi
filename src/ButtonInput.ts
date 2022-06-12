@@ -4,6 +4,9 @@ import PropertyTracker from './PropertyTracker';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
+/**
+ * @category User Inputs
+ */
 export class ButtonEventData extends ShimiEventData<ButtonInput> {
     constructor(source: ButtonInput) {
         super(source);
@@ -11,10 +14,16 @@ export class ButtonEventData extends ShimiEventData<ButtonInput> {
 }
 
 
+/**
+ * @category User Inputs
+ */
 export class ButtonEvent extends ShimiEvent<ButtonEventData, ButtonInput> {
 }
 
 
+/**
+ * @category User Inputs
+ */
 export default class ButtonInput {
     /** Tracks changes to the button's state */
     valueTracker: PropertyTracker<number>;

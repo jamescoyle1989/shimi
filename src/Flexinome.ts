@@ -6,6 +6,9 @@ import { IClockChild } from './Clock';
 import { IMetronome, MetronomeBase } from './Metronome';
 
 
+/**
+ * @category Timing
+ */
 export default class Flexinome extends MetronomeBase implements IMetronome, IClockChild {
     private _tempo: number = 120;
     get tempo(): number { return this._tempo; }

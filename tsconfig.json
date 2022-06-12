@@ -13,6 +13,8 @@
         "entryPoints": ["src/docindex.ts"],
         "out": "docs",
         "excludePrivate": true,
-        "excludeProtected": true
+        "excludeProtected": true,
+        "categorizeByGroup": false,
+        "categoryOrder": ["Chords & Scales", "Clips", "Midi IO", "Timing", "User Inputs", "Other"]
     }
 }

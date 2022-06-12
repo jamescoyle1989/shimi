@@ -5,6 +5,9 @@ import Note from './Note';
 import { sum } from './IterationUtils';
 
 
+/**
+ * @category Clips
+ */
 export class ClipNote extends Range {
     /** The MIDI pitch of the note, valid values range from 0 - 127 */
     get pitch(): number { return this._pitch; }
@@ -57,6 +60,9 @@ export class ClipNote extends Range {
 }
 
 
+/**
+ * @category Clips
+ */
 export class ClipCC extends Range {
     /** The MIDI controller to modify, valid values range from 0 - 127 */
     get controller(): number { return this._controller; }
@@ -99,6 +105,9 @@ export class ClipCC extends Range {
 }
 
 
+/**
+ * @category Clips
+ */
 export class ClipBend extends Range {
     /** How much bend to apply, valid values range from -1 to +1, or a function that maps beats to values */
     get percent(): number | ((beat: number) => number) { return this._percent; }
@@ -132,6 +141,9 @@ export class ClipBend extends Range {
 }
 
 
+/**
+ * @category Clips
+ */
 export class Clip extends Range {
     notes: ClipNote[] = [];
 

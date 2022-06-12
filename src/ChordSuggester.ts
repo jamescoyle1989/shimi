@@ -5,6 +5,9 @@ import Scale from './Scale';
 import { distinct, mode } from './IterationUtils';
 
 
+/**
+ * @category Chords & Scales
+ */
 export class ChordLookupData {
     //The name to use when refering to the shape rather than a note-specific instance of the chord
     shapeName: string = '';
@@ -36,6 +39,9 @@ export class ChordLookupData {
 }
 
 
+/**
+ * @category Chords & Scales
+ */
 export class ChordLookupResult {
     //The name to use when refering to the shape rather than a note-specific instance of the chord
     shapeName: string = '';
@@ -54,6 +60,9 @@ export class ChordLookupResult {
 }
 
 
+/**
+ * @category Chords & Scales
+ */
 export default class ChordSuggester {
     lookupData: ChordLookupData[] = [];
 

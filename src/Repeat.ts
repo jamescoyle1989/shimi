@@ -4,6 +4,9 @@ import { IClockChild } from './Clock';
 import { IMetronome } from './Metronome';
 
 
+/**
+ * @category Timing
+ */
 class RepeatBase<TArgs> implements IClockChild {
     /** Provides a way of identifying cues so they can be retrieved later */
     get ref(): string { return this._ref; }
@@ -30,6 +33,9 @@ class RepeatBase<TArgs> implements IClockChild {
 }
 
 
+/**
+ * @category Timing
+ */
 export class RepeatArgs {
     get ms() { return this._ms; }
     private _ms: number;
@@ -40,6 +46,9 @@ export class RepeatArgs {
 }
 
 
+/**
+ * @category Timing
+ */
 export class ConditionalRepeat extends RepeatBase<RepeatArgs> {
     get condition(): () => boolean { return this._condition; }
     private _condition: () => boolean;
@@ -61,6 +70,9 @@ export class ConditionalRepeat extends RepeatBase<RepeatArgs> {
 }
 
 
+/**
+ * @category Timing
+ */
 export class FiniteRepeatArgs extends RepeatArgs {
     get percent() { return this._percent; }
     private _percent: number;
@@ -72,6 +84,9 @@ export class FiniteRepeatArgs extends RepeatArgs {
 }
 
 
+/**
+ * @category Timing
+ */
 export class MsRepeat extends RepeatBase<FiniteRepeatArgs> {
     get msCount(): number { return this._msCount; }
     private _msCount: number;
@@ -93,6 +108,9 @@ export class MsRepeat extends RepeatBase<FiniteRepeatArgs> {
 }
 
 
+/**
+ * @category Timing
+ */
 export class BeatRepeatArgs extends FiniteRepeatArgs {
     get beat() { return this._beat; }
     private _beat: number;
@@ -104,6 +122,9 @@ export class BeatRepeatArgs extends FiniteRepeatArgs {
 }
 
 
+/**
+ * @category Timing
+ */
 export class BeatRepeat extends RepeatBase<BeatRepeatArgs> {
     get metronome(): IMetronome { return this._metronome; }
     private _metronome: IMetronome;
@@ -132,6 +153,9 @@ export class BeatRepeat extends RepeatBase<BeatRepeatArgs> {
 }
 
 
+/**
+ * @category Timing
+ */
 export default class Repeat {
     static until(condition: () => boolean, action: (args: RepeatArgs) => void): ConditionalRepeat {
         return new ConditionalRepeat(condition, action);

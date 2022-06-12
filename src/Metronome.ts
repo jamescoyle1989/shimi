@@ -5,6 +5,9 @@ import PropertyTracker from './PropertyTracker';
 import { IClockChild } from './Clock';
 
 
+/**
+ * @category Timing
+ */
 export interface IMetronome {
     get tempo(): number;
     set tempo(value: number);
@@ -36,6 +39,9 @@ export interface IMetronome {
 }
 
 
+/**
+ * @category Timing
+ */
 export class MetronomeBase {
     protected _atBarPosition(target: number, tracker: PropertyTracker<number>): boolean {
         if (tracker.oldValue === tracker.value) {
@@ -57,6 +63,9 @@ export class MetronomeBase {
 }
 
 
+/**
+ * @category Timing
+ */
 export default class Metronome extends MetronomeBase implements IMetronome, IClockChild {
     private _tempo: number = 120;
     get tempo(): number { return this._tempo; }
