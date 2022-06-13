@@ -1,6 +1,6 @@
 # Shimi
 
-![logo](assets/logo180px.png)
+![logo](https://raw.githubusercontent.com/jamescoyle1989/shimi/master/assets/logo180px.png)
 
 
 ## Overview

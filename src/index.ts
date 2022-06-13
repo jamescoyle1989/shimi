@@ -18,7 +18,11 @@ import Metronome from './Metronome';
 import MidiAccess from './MidiAccess';
 import MidiBus from './MidiBus';
 import MidiIn, { MidiInEvent, MidiInEventData } from './MidiIn';
-import * as messages from './MidiMessages';
+import { 
+    IMidiMessage, MidiMessageBase, NoteOffMessage, NoteOnMessage, 
+    NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
+    ChannelPressureMessage, PitchBendMessage 
+} from './MidiMessages';
 import MidiOut from './MidiOut';
 import Note from './Note';
 import { parsePitch as pitch } from './utils';
@@ -46,7 +50,9 @@ export {
     FitDirection, FitPrecision,
     Gamepads,
     Keyboard,
-    messages,
+    IMidiMessage, MidiMessageBase, NoteOffMessage, NoteOnMessage, 
+    NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
+    ChannelPressureMessage, PitchBendMessage,
     Metronome,
     MidiAccess,
     MidiBus,
