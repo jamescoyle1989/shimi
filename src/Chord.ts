@@ -5,20 +5,42 @@ import { safeMod } from './utils';
 
 
 /**
+ * The Chord class holds a collection of pitches that represent a chord.
+ * 
+ * Examples:
+ * ```
+ * const chord = new Chord().setRoot(36).addPitches([40, 43]);
+ * chord.contains(40)   //Returns true
+ * chord.contains(41)   //Returns false
+ * chord.fitPitch(44)   //Returns 43
+ * chord.getPitch(1)    //Returns 40
+ * ```
+ * 
  * @category Chords & Scales
  */
 export default class Chord implements IPitchContainer {
-    /** Intended for read use only. To modify the chord, use addPitch, addPitches & removePitches methods */
+    /** 
+     * Contains the pitches that make up the chord.
+     * 
+     * Intended for read use only. To modify the chord, use addPitch, addPitches & removePitches methods.
+     */
     get pitches(): number[] { return this._pitches; }
     private _pitches: number[] = [];
 
-    /** The root note of the chord */
+    /** 
+     * The root note of the chord.
+     * 
+     * Setting this property is the same as calling the setRoot method.
+     */
     get root(): number { return this._root; }
-    set root(pitch: number) {
-        this.setRoot(pitch);
-    }
+    set root(pitch: number) { this.setRoot(pitch); }
     private _root: number = null;
 
+    /**
+     * Holds the name of the chord.
+     * 
+     * Each time a pitch on the chord gets changed, the name property gets wiped out. So long as the static nameGenerator property has been set, then the next time an attempt is made to get the name, it will be automatically recalculated.
+     */
     get name(): string {
         if (this._name == null && Chord.nameGenerator != null)
             this._name = Chord.nameGenerator(this);
@@ -26,13 +48,34 @@ export default class Chord implements IPitchContainer {
     }
     private _name: string = null;
 
-    /** Used for automatically generating chord names */
+    /** 
+     * Holds a function which will be used for any chord that needs to recalculate what its name is.
+     * 
+     * Example: 
+     * ```
+     * const scale = shimi.ScaleTemplate.major.create(shimi.pitch('Eb'));
+     * const finder = new shimi.ChordFinder().withDefaultChordLookups();
+     * shimi.Chord.nameGenerator = (chord) => {
+     *     const result = finder.lookupChord(chord.pitches, chord.root, null, scale);
+     *     if (result == null)
+     *         return null;
+     *     return result.name
+     *         .replace('{r}', scale.getPitchName(result.root))
+     *         .replace('{r}', scale.getPitchName(result.bass));
+     * };
+     * ```
+     */
     static nameGenerator: (Chord) => string = null;
     
     constructor() {
     }
 
-    /** Adds a new pitch to the chord, if it's not already contained */
+    /**
+     * Adds a new pitch to the chord. 
+     * 
+     * @param pitch The pitch to add to the chord. This is only added if the chord doesn't already contain the pitch.
+     * @returns Returns the chord instance, so that method calls can be chained together.
+     */
     addPitch(pitch: number): Chord {
         if (!this._pitches.find(x => x == pitch)) {
             this._name = null;
@@ -47,14 +90,24 @@ export default class Chord implements IPitchContainer {
         return this;
     }
 
-    /** Adds new pitches to the chord, if they're not already contained */
+    /**
+     * Adds multiple new pitches to the chord.
+     * 
+     * @param pitches The pitches to add to the chord. Each one will only be added if the chord doesn't already contain the pitch.
+     * @returns Returns the chord instance, so that method calls can be chained together.
+     */
     addPitches(pitches: number[]): Chord {
         for (const p of pitches)
             this.addPitch(p);
         return this;
     }
 
-    /** Removes pitches from the chord that match the passed in condition */
+    /**
+     * Removes pitches from the chord that match the passed in condition.
+     * 
+     * @param condition The condition to determine how to remove pitches, for example: `pitch => pitch % 2 == 0` would remove all even numbered pitches from the chord.
+     * @returns Returns the chord instance, so that method calls can be chained together.
+     */
     removePitches(condition: (pitch: number) => boolean): Chord {
         const beforeCount = this._pitches.length;
         this._pitches = this._pitches.filter(p => !condition(p));
@@ -65,7 +118,12 @@ export default class Chord implements IPitchContainer {
         return this;
     }
 
-    /** Sets the root of the chord, also adds to pitches property if not already present */
+    /**
+     * Sets the root pitch of the chord, also adds the root pitch to the list of pitches if the chord doesn't already contain it.
+     * 
+     * @param pitch The pitch to be set as the new chord root.
+     * @returns Returns the chord instance, so that method calls can be chained together.
+     */
     setRoot(pitch: number): Chord {
         if (this._root != pitch) {
             if (pitch == undefined || pitch == null)
@@ -79,7 +137,20 @@ export default class Chord implements IPitchContainer {
         return this;
     }
 
-    /** Returns a pitch from the chord based on its index. Allows indices below zero or above pitches.length to fetch pitches from additional registers */
+    /**
+     * Returns a pitch from the chord based on its index. Allows indices below zero or above pitches.length to fetch pitches from additional registers.
+     * 
+     * Example:
+     * ```
+     * new shimi.Chord().addPitches([36, 40, 43]).getPitch(2) => 43
+     * new shimi.Chord().addPitches([36, 40, 43]).getPitch(3) => 48
+     * new shimi.Chord().addPitches([36, 40, 43, 47, 50]).getPitch(5) => 60 (because the chord spans more than 1 octave, we instead skip 2 octaves up)
+     * new shimi.Chord().addPitches([36, 40, 43]).getPitch(-1) => 31
+     * ```
+     * 
+     * @param index The index of the pitch withing the chord to fetch
+     * @returns Returns a number representing the pitch at the specified index
+     */
     getPitch(index: number): number {
         index = Math.round(index);
         const octaveShift = Math.floor(index / this.pitches.length);
@@ -87,13 +158,23 @@ export default class Chord implements IPitchContainer {
         return this.pitches[index] + (octaveShift * 12);
     }
 
-    /** Returns true if the chord contains the passed in pitch. Doesn't care if pitches are in different octaves */
+    /**
+     * Returns true if the chord contains the passed in pitch. The method doesn't care if the pitches are in different octaves.
+     * 
+     * @param pitch The pitch to check if contained by the chord.
+     */
     contains(pitch: number): boolean {
         pitch = safeMod(pitch, 12);
         return this.pitches.find(p => safeMod(p, 12) == pitch) != undefined;
     }
 
-    /** Returns a pitch number which should fit with the notes of the chord */
+    /**
+     * Returns a pitch near to the passed in pitch, but which should fit better with the notes within the chord.
+     * 
+     * @param pitch The pitch which we want to fit to the chord
+     * @param options The options allow us to configure how we want the pitch to be fitted to the chord
+     * @returns Returns a new pitch number
+     */
     fitPitch(pitch: number, options?: Partial<FitPitchOptions>): number {
         const fullOptions = new FitPitchOptions(options);
 
