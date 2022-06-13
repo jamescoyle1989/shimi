@@ -130,11 +130,11 @@ export default class Chord implements IPitchContainer {
             if (fit1 + fit2 > 0) {
                 if (fit1 > fit2) return pitch1;
                 if (fit2 > fit1) return pitch2;
-                //If we prefer the root, if either pitch1 or pitch2 are the scale root, then just instantly return that
+                //If we prefer the root, if either pitch1 or pitch2 are the chord root, then just instantly return that
                 if (fullOptions.preferRoot) {
-                    if (pitch1Valid && safeMod(pitch1, 12) == this.root)
+                    if (pitch1Valid && safeMod(pitch1, 12) == safeMod(this.root, 12))
                         return pitch1;
-                    if (pitch2Valid && safeMod(pitch2, 12) == this.root)
+                    if (pitch2Valid && safeMod(pitch2, 12) == safeMod(this.root, 12))
                         return pitch2;
                 }
                 if (Math.abs(pitch1 - pitch) <= Math.abs(pitch2 - pitch))
