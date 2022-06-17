@@ -69,14 +69,50 @@ export default class Clock {
 
 
 /**
+ * The IClockChild defines an interface which every class that must be able to be added to the Clock should implement.
+ * 
  * @category Timing
  */
 export interface IClockChild {
+    /**
+     * Many shimi classes support using string references so that they're easier to retrieve at a later point in time.
+     * 
+     * An example of where this can be useful for clock children is when you want to stop some processes:
+     * ```
+     *  ...
+     *  const clip = new shimi.Clip(1);
+     *  clip.notes.push(new shimi.ClipNote(0, 1, shimi.pitch('C4'), 80));
+     *  
+     *  //Whenever the spacebar is pressed, add a new clip player to start playing the clip indefinitely
+     *  keyboard.space.pressed.add(() => {
+     *      const clipPlayer = new shimi.ClipPlayer(clip, metronome, midiOut);
+     *      clipPlayer.ref = 'spacebar clips';
+     *      clock.addChild(clipPlayer);
+     *  });
+     *  //Whenever the backspace button is pressed, stop all players which were started by the spacebar
+     *  keyboard.backspace.pressed.add(() => {
+     *      clock.stopChildren(x => x.ref == 'spacebar clips');
+     *  });
+     * ```
+     */
     get ref(): string;
 
+    /**
+     * When this property is true, on the next update cycle, the clock will automatically remove the object from its list of children.
+     */
     get finished(): boolean;
 
+    /**
+     * The update method gets called by Clock each cycle to allow the implementing object to update itself, there should be no reason for consumers of the library to call this.
+     * 
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
+     */
     update(deltaMs: number): void;
 
+    /**
+     * This method should contain any logic that needs to be performed to wrap up the running of the object, and also ensure that the finished property returns true.
+     * 
+     * In implementations which naturally only last a finite amount of time, calling finish from the update method will ensure that the object is automatically dropped by the clock when no longer needed.
+     */
     finish(): void;
 }

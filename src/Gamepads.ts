@@ -36,7 +36,7 @@ export default class Gamepads implements IClockChild {
             if (this._matched[i] == null) {
                 for (let j = 0; j < this._unmatched.length; j++) {
                     const unmatched = this._unmatched[j];
-                    if (unmatched.match(newGamepads[i])) {
+                    if (unmatched.canMatch(newGamepads[i])) {
                         this._matched[i] = unmatched;
                         this._unmatched = this._unmatched.filter(x => x !== unmatched);
                         break;
@@ -89,13 +89,55 @@ export default class Gamepads implements IClockChild {
 }
 
 
+/**
+ * IGamepad provides an interface which any shimi gamepad class should implement in order to be easily managed by the [Gamepads](https://jamescoyle1989.github.io/shimi/classes/Gamepads.html) class.
+ * 
+ * @category User Inputs
+ */
 export interface IGamepad {
-    /** Used for matching a gamepad to one of the objects retrieved from the update call */
-    match(gamepadObject: Gamepad): boolean;
+    /**
+     * Allows each implementation of IGamepad to define which Gamepad API objects it is able to be matched with. 
+     * 
+     * As an example, the PS4Controller implementation returns true only if the passed in gamepad has 16 buttons and 4 axes.
+     * 
+     * This method shouldn't need to be called by consumers of the library. It is expected that only the Gamepads class will make calls to this when trying to automatically pair shimi gamepad objects to Gamepad API objects.
+     * 
+     * @param gamepadObject The Gamepad API object to test whether it would be a good match
+     */
+    canMatch(gamepadObject: Gamepad): boolean;
 
+    /**
+     * The collection of all buttons on the gamepad.
+     * 
+     * These are expected to be defined in the same order that they're contained on the linked Gamepad API object.
+     * 
+     * Unlike the Gamepad API objects, the collection of buttons here each track their state and provide events for subscribing to.
+     */
     get buttons(): ButtonInput[];
 
+    /**
+     * The collection of all axes on the gamepad. An example of an axis would be the Y-direction on an analog stick.
+     * 
+     * These are expected to be defined in the same order that they're contained on the linked Gamepad API object.
+     * 
+     * Unlike the Gamepad API objects, the collection of axes here each track their state and provide events for subscribing to.
+     */
     get axes(): SliderInput[];
 
+    /**
+     * This method should only be called by the Gamepads class. There should be no reason for consumers of the library to call it.
+     * 
+     * If designing your own IGamepad implementation, unless you have very good reason to do otherwise, implement this method as:
+     * ```
+     *  update(deltaMs: number): void {
+     *      for (const button of this.buttons)
+     *          button.update(deltaMs);
+     *      for (const axis of this.axes)
+     *          axis.update(deltaMs);
+     *  }
+     * ```
+     * 
+     * @param deltaMs How many milliseconds have passed since the last update
+     */
     update(deltaMs: number): void;
 }

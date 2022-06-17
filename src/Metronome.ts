@@ -6,35 +6,114 @@ import { IClockChild } from './Clock';
 
 
 /**
+ * As you might expect, IMetronome defines an interface for metronomes, though the interface may have many more properties than you'd initially expect to be required for a simple metronome.
+ * 
+ * In much music, especially that written in 4/4 or 3/4, the concepts of quarter note and beat can often be treated as pretty much synonymous to each other. However, these are in fact quite different. A quarter note is exactly one quarter of a whole note, yet beats are far more free-flowing. For example, the Mission Impossible intro is at this point an over-used example of a piece of music written in 5/4, yet if you tap along, you'll almost certainly find yourself tapping 4 uneven beats per bar.
+ * 
+ * For this reason, shimi expects that most musical objects which use the metronome will use its beat properties, though quarter notes can still also be incredibly useful, so are provided as well.
+ * 
+ * To better understand how shimi supports irregular beat patterns, take a look at the [TimeSig](https://jamescoyle1989.github.io/shimi/classes/TimeSig.html) class.
+ * 
+ * **Note:** Shimi's counts of beats and quarter notes are both zero-based, whereas musicians typically count from one. This break from convention has been done because it makes many things significantly simpler from a programming perspective. For example, if we have 4 beats per bar, then the beat value will range from 0 to 3.99999...., then back to 0 at the start of the next bar. If the traditional method of counting was adopted, then the beat would range from 1 to 4.99999...., then back to 1 at the start of the next bar.
+ * 
  * @category Timing
  */
 export interface IMetronome {
+    /**
+     * Get the current metronome tempo.
+     */
     get tempo(): number;
+    /**
+     * Set the current metronome tempo.
+     */
     set tempo(value: number);
 
+    /**
+     * Get the current metronome time signature.
+     */
     get timeSig(): TimeSig;
+
+    /**
+     * Set the metronome time signature.
+     * 
+     * **Note:** It's expected that implementations of this shouldn't actually change the time signature straight away, but instead store it so that the time signature changes on the start of the next bar.
+     */
     set timeSig(value: TimeSig);
 
+    /**
+     * How many beats have passed in total since the metronome started.
+     * 
+     * This should just return `totalBeatTracker.value`.
+     */
     get totalBeat(): number;
+
+    /**
+     * Records the difference in total beats passed, enabling inspection of the total beat change from one update cycle to the next.
+     */
     get totalBeatTracker(): PropertyTracker<number>;
+
+    /**
+     * How many quarter notes have passed in total since the metronome started.
+     * 
+     * This should just return `totalQuarterNoteTracker.value`.
+     */
     get totalQuarterNote(): number;
+
+    /**
+     * Records the difference in total quarter notes passed, enabling inspection of the total quarter note change from one update cycle to the next.
+     */
     get totalQuarterNoteTracker(): PropertyTracker<number>;
 
+    /**
+     * Records what bar the metronome is currently on.
+     * 
+     * This should just return `barTracker.value`.
+     */
     get bar(): number;
+
+    /**
+     * Records the bar number in the previous update vs the current one.
+     */
     get barTracker(): PropertyTracker<number>;
 
+    /**
+     * Records how many beats have passed within the current bar.
+     * 
+     * This should just return `barBeatTracker.value`.
+     */
     get barBeat(): number;
+
+    /**
+     * Records the difference in bar beat values, enabling inspection of the beat within the current bar from one update cycle to the next.
+     */
     get barBeatTracker(): PropertyTracker<number>;
+
+    /**
+     * Records how many quarter notes have passed within the current bar
+     * 
+     * This should just return `barQuarterNoteTracker.value`.
+     */
     get barQuarterNote(): number;
+
+    /**
+     * Records the difference in bar quarter note values, enabling inspection of the quarter note within the current bar from one update cycle to the next.
+     */
     get barQuarterNoteTracker(): PropertyTracker<number>;
 
+    /** Gets whether the metronome is currently enabled to run. */
     get enabled(): boolean;
+
+    /** Sets whether the metronome is currently enabled to run. */
     set enabled(value: boolean);
 
-    /** Returns true if the metronome has just passed the beat in question */
+    /**
+     * This takes in a beat and returns true if the metronome is currently at it, or has only just passed it in the bar within the last update cycle.
+     */
     atBarBeat(beat: number): boolean;
 
-    /** Returns true if the metronome has just passed the quarter note in question */
+    /**
+     * This takes a quarter note and returns true if the metronome is currently at it, or has only just passed it in the bar within the last update cycle.
+     */
     atBarQuarterNote(quarterNote: number): boolean;
 }
 

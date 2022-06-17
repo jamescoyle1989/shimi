@@ -107,16 +107,36 @@ export default class MidiIn implements IMidiIn {
 
 
 /**
+ * IMidiIn defines an interface for any MIDI object which other shimi objects can receive MIDI data from.
+ * 
  * @category Midi IO
  */
 export interface IMidiIn {
+    /**
+     * The receiveData method allows for raw MIDI message data to be passed in, which will then be analysed, and trigger an event for whichever MIDI event type it corresponds to.
+     * 
+     * @param data The data parameter should be a MIDI-compliant byte-array, see here for more information [Summary of MIDI 1.0 Messages](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message).
+     */
     receiveData(data: number[]): void;
 
+    /** The noteOff property can be subscribed to, to receive all Note Off messages that pass through the MidiIn object. */
     get noteOff(): MidiInEvent<messages.NoteOffMessage>;
+
+    /** The noteOn property can be subscribed to, to receive all Note On messages that pass through the MidiIn object. */
     get noteOn(): MidiInEvent<messages.NoteOnMessage>;
+
+    /** The notePressure property can be subscribed to, to receive all Note Pressure messages that pass through the MidiIn object. */
     get notePressure(): MidiInEvent<messages.NotePressureMessage>;
+
+    /** The controlChange property can be subscribed to, to receive all Control Change messages that pass through the MidiIn object. */
     get controlChange(): MidiInEvent<messages.ControlChangeMessage>;
+
+    /** The programChange property can be subscribed to, to receive all Program Change messages that pass through the MidiIn object. */
     get programChange(): MidiInEvent<messages.ProgramChangeMessage>;
+
+    /** The channelPressure property can be subscribed to, to receive all Channel Pressure messages that pass through the MidiIn object. */
     get channelPressure(): MidiInEvent<messages.ChannelPressureMessage>;
+
+    /** The pitchBend property can be subscribed to, to receive all Pitch Bend messages that pass through the MidiIn object. */
     get pitchBend(): MidiInEvent<messages.PitchBendMessage>;
 }

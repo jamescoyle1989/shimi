@@ -2,12 +2,19 @@
 
 
 /**
+ * IMidiMessage defines an interface which all MIDI message objects should implement in order to be widely useable with the MIDI inputs/outputs that consume them.
+ * 
  * @category Midi IO
  */
 export interface IMidiMessage {
-    /** Returns an array of numbers that can be sent to the MIDI port */
+    /**
+     * The toArray method converts a MIDI message object into it's byte-array form which can be sent through a MIDI port to a connected piece of MIDI technology.
+     */
     toArray(): number[];
 
+    /**
+     * The duplicate method returns an exact copy of the MIDI message object on which it was called.
+     */
     duplicate(): IMidiMessage;
 }
 

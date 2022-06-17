@@ -8,11 +8,18 @@ import * as messages from './MidiMessages';
 
 
 /** 
- * An interface for defining a how notes are played for a specific MIDI channel 
+ * IWebSynthChannel defines an interface for how to play notes on a specific channel of the WebSynth.
  * 
  * @category Midi IO
  */
 export interface IWebSynthChannel {
+    /**
+     * This method gets called whenever a new note is to be played on one of the WebSynth's channels.
+     * 
+     * It is expected to return an array of one or more osciallators for each note to be played on the channel.
+     * @param note This is the note that is due to begin being played.
+     * @param frequency This is the frequency of the note being played.
+     */
     createOscillators(note: Note, frequency: number): Array<OscillatorNode>;
 }
 

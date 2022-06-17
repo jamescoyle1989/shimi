@@ -130,16 +130,35 @@ export default class MidiOut implements IMidiOut, IClockChild {
 
 
 /**
+ * IMidiOut defines an interface for any MIDI object which other shimi objects can send data to, for that data to be converted to valid MIDI messages and sent out.
+ * 
  * @category Midi IO
  */
 export interface IMidiOut {
+    /**
+     * This defines the collection of note objects which are in the process of being sent by the MIDI out.
+     */
     get notes(): Array<Note>;
 
+    /**
+     * The addNote method adds a new note to begin being sent by the MIDI out.
+     */
     addNote(note: Note): Note;
 
+    /**
+     * The stopNotes method allows for stopping any number of notes currently being sent by the MIDI out.
+     * @param filter The filter parameter is a function that runs against each note on the MIDI out. Notes for which the function returns true are stopped.
+     */
     stopNotes(filter: (note: Note) => boolean): void;
 
+    /**
+     * The sendMessage method allows sending individual messages. This is not recommended to be used for note messages, though still supported. Its primary use is for control changes, bend messages, etc.
+     */
     sendMessage(message: IMidiMessage): void;
 
+    /**
+     * 
+     * @param data The data parameter should be a MIDI-compliant byte-array, see here for more information [Summary of MIDI 1.0 Messages](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message).
+     */
     sendRawData(data: number[]): void;
 }
