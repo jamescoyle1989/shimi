@@ -98,13 +98,13 @@ Chord.nameGenerator = (chord: Chord) => {
     }
 
     @test 'fitPitch can prefer moving downwards'() {
-        const chord = new Chord().addPitches([12, 16, 19]);
-        expect(chord.fitPitch(14, {preferredDirection: FitDirection.down})).to.equal(12);
+        const chord = new Chord().addPitches([12, 15, 19]);
+        expect(chord.fitPitch(17, {preferredDirection: FitDirection.down})).to.equal(15);
     }
 
     @test 'fitPitch can prefer moving upwards'() {
-        const chord = new Chord().addPitches([12, 16, 19]);
-        expect(chord.fitPitch(14, {preferredDirection: FitDirection.up})).to.equal(16);
+        const chord = new Chord().addPitches([12, 15, 19]);
+        expect(chord.fitPitch(17, {preferredDirection: FitDirection.up})).to.equal(19);
     }
 
     @test 'fitPitch can prefer moving to root'() {

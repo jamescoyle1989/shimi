@@ -232,22 +232,22 @@ import { FitDirection } from '../src/IPitchContainer';
 
     @test 'degree allows fetching pitch of scale degree with non-zero indexing'() {
         const scale = ScaleTemplate.major.create(7);
-        expect(scale.degree(2).pitch).to.equal(9);
+        expect(scale.degree(2)).to.equal(9);
     }
 
     @test 'degree maps degrees outside of the scale range to within the scale range'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(0).pitch).to.equal(scale.degree(7).pitch);
+        expect(scale.degree(0)).to.equal(scale.degree(7));
     }
 
     @test 'degree allows 2nd param to specify octave'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(2, 1).pitch).to.equal(26);
+        expect(scale.degree(2, 1)).to.equal(26);
     }
 
     @test 'degree().near() allows fetching a pitch of the same class near another pitch'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(3).near(50).pitch).to.equal(52);
+        expect(scale.degree(3).near(50)).to.equal(52);
     }
 
     @test 'pitchesInRange returns all pitches in the scale within the given pitch inclusive range'() {

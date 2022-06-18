@@ -31,21 +31,6 @@ export class PitchName {
 }
 
 
-export class PitchBuilder {
-    pitch: number;
-
-    constructor(pitch: number) {
-        this.pitch = pitch;
-    }
-
-    near(pitch: number): PitchBuilder {
-        const octaveDiff = Math.round((pitch - this.pitch) / 12);
-        this.pitch = this.pitch + (octaveDiff * 12);
-        return this;
-    }
-}
-
-
 /**
  * @category Chords & Scales
  */
@@ -107,11 +92,9 @@ export default class Scale implements IPitchContainer {
         return output;
     }
 
-    degree(degree: number, octave: number = -1): PitchBuilder {
-        return new PitchBuilder(
-            this.pitches[safeMod(degree - 1, this.pitches.length)] +
-            ((octave + 1) * 12)
-        );
+    degree(degree: number, octave: number = -1): number {
+        const degreePitch = this.pitches[safeMod(degree - 1, this.pitches.length)];
+        return degreePitch + ((octave + 1) * 12);
     }
 
     pitchesInRange(lowPitch: number, highPitch: number): Array<number> {

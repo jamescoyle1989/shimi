@@ -1,12 +1,13 @@
 {
   "name": "shimi",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A JS framework for building complex MIDI applications",
   "main": "dist/index.js",
   "scripts": {
     "test": "nyc ./node_modules/.bin/_mocha 'test/*.test.ts'",
     "build": "tsc && npx webpack",
-    "doc": "npx typedoc"
+    "doc": "npx typedoc",
+    "pub": "tsc && npx webpack && npm publish"
   },
   "author": "James Coyle",
   "license": "MIT",

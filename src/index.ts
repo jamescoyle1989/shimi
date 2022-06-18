@@ -9,6 +9,7 @@ import ClipPlayer from './ClipPlayer';
 import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRecorder';
 import Clock from './Clock';
 import Cue from './Cue';
+import './Extensions';
 import EventSubscriber from './EventSubscriber';
 import Flexinome from './Flexinome';
 import { FitDirection, FitPrecision } from './IPitchContainer';
