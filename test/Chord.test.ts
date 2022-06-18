@@ -1,16 +1,16 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Chord from '../src/Chord';
-import ChordSuggester from '../src/ChordSuggester';
+import ChordFinder from '../src/ChordFinder';
 import { FitDirection, FitPitchOptions, FitPrecision } from '../src/IPitchContainer';
 import ScaleTemplate from '../src/ScaleTemplate';
 
 
 //Setup
 const scale = ScaleTemplate.major.create(0);
-const suggester = new ChordSuggester().withDefaultChordLookups();
+const suggester = new ChordFinder().withDefaultChordLookups();
 Chord.nameGenerator = (chord: Chord) => {
-    const result = suggester.lookupChord(chord.pitches, chord.root, null, scale);
+    const result = suggester.findChord(chord.pitches, chord.root, null, scale);
     if (result == null)
         return null;
     return result.name

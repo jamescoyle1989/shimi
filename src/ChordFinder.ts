@@ -63,10 +63,10 @@ export class ChordLookupResult {
 /**
  * @category Chords & Scales
  */
-export default class ChordSuggester {
+export default class ChordFinder {
     lookupData: ChordLookupData[] = [];
 
-    addChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordSuggester {
+    addChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordFinder {
         if (!intervals || intervals.length == 0)
             throw new Error('No intervals specified in chord lookup');
         if (intervals.find(x => x == 0) == undefined)
@@ -78,18 +78,18 @@ export default class ChordSuggester {
         return this;
     }
 
-    removeChordLookup(shapeName: string): ChordSuggester {
+    removeChordLookup(shapeName: string): ChordFinder {
         this.lookupData = this.lookupData.filter(x => x.shapeName != shapeName);
         return this;
     }
 
-    replaceChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordSuggester {
+    replaceChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordFinder {
         this.removeChordLookup(shapeName);
         this.addChordLookup(shapeName, intervals, name, inverseName, preference);
         return this;
     }
 
-    withDefaultChordLookups(): ChordSuggester {
+    withDefaultChordLookups(): ChordFinder {
         this.addChordLookup('M', [0, 4, 7], '{r}', '{r}/{b}', 10);
         this.addChordLookup('m', [0, 3, 7], '{r}m', '{r}m/{b}', 9);
         this.addChordLookup('M7', [0, 4, 7, 11], '{r}M7', '{r}M7/{b}', 8);
@@ -129,7 +129,7 @@ export default class ChordSuggester {
      * @param scale Optional, the scale which any notes that need to be added for its suggestion must belong to
      * @returns 
      */
-    lookupChord(pitches: number[], root: number = null, shapeFilter: string[] = null, scale: Scale = null): ChordLookupResult {
+    findChord(pitches: number[], root: number = null, shapeFilter: string[] = null, scale: Scale = null): ChordLookupResult {
         if (pitches.length == 0)
             return null;
         if (root != null && pitches.find(x => x == root) == undefined)
