@@ -13,6 +13,7 @@ import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRe
 import Clock, { IClockChild } from './Clock';
 import Cue, { BeatCue, MsCue, ConditionalCue } from './Cue';
 import EventSubscriber, { IEventSubscriber } from './EventSubscriber';
+import { near } from './Extensions';
 import Flexinome from './Flexinome';
 import { FitDirection, FitPrecision, IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import Gamepads, { IGamepad } from './Gamepads';
@@ -49,6 +50,7 @@ export {
     Clock, IClockChild,
     Cue, BeatCue, MsCue, ConditionalCue,
     EventSubscriber, IEventSubscriber,
+    near,
     Flexinome,
     FitDirection, FitPrecision, IPitchContainer, FitPitchOptions,
     Gamepads, IGamepad,
