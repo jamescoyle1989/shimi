@@ -5,6 +5,7 @@ import ScaleTemplate from './ScaleTemplate';
 import { safeMod, sortComparison } from './utils';
 
 
+/** This class is used by the Scale class to hold information about the proper naming of pitches, relative to some specific scale */
 export class PitchName {
     pitch: number;
     letter: string;
@@ -32,30 +33,40 @@ export class PitchName {
 
 
 /**
+ * The Scale class defines the collection of pitches that make up a specific scale.
+ * 
  * @category Chords & Scales
  */
 export default class Scale implements IPitchContainer {
     /** The name of the scale */
     get name(): string { return this._name; }
-    /** The name of the scale */
     set name(value: string) { this._name = value; }
     private _name: string;
 
-    /** The notes which make up the scale, ordered ascending from the scale's root */
+    /**
+     * The pitches which make up the scale, ordered ascending by scale degree from the scale's root, with each pitch within the range 0 - 11.
+     * 
+     * For example, the pitches collection for F major would be: `[5, 7, 9, 10, 0, 2, 4]`
+     */
     get pitches(): number[] { return this._pitches; }
     private _pitches: number[];
 
-    /** The template which the scale is built from */
+    /** The template which the scale is built from. */
     get template(): ScaleTemplate { return this._template; }
     private _template: ScaleTemplate;
 
-    /** How many notes are in the scale */
+    /** How many pitches are in the scale. */
     get length(): number { return this.pitches.length; }
 
+    /** The root pitch of the scale. */
     get root(): number { return this.pitches[0]; }
 
     private _pitchNames: PitchName[];
 
+    /**
+     * @param template The ScaleTemplate object which defines the scale type that this scale uses.
+     * @param root The root of the scale.
+     */
     constructor(template: ScaleTemplate, root: number) {
         const pitches = [((root % 12) + 12) % 12];
         for (const degree of template.shape)
@@ -69,13 +80,21 @@ export default class Scale implements IPitchContainer {
         this.name = this.getPitchName(this.root) + ' ' + template.name;
     }
 
-    /** Returns true if the passed in note belongs to the scale */
+    /** 
+     * Returns true if the passed in pitch belongs to the scale.
+     * 
+     * For example: 
+     * ```
+     * cMajor.contains(shimi.pitch('Db7')) //returns false
+     * cMajor.contains(shimi.pitch('A8')) //returns true
+     * ```
+     */
     contains(pitch: number): boolean {
         pitch = safeMod(pitch, 12);
         return this.pitches.find(p => p == pitch) != undefined;
     }
 
-    /** Returns the index of the passed in note, or -1 if it's not contained */
+    /** Returns the index of the passed in pitch, or -1 if it's not contained */
     indexOf(pitch: number): number {
         pitch = safeMod(pitch, 12);
         for (let i = 0; i < this.pitches.length; i++) {
@@ -85,6 +104,18 @@ export default class Scale implements IPitchContainer {
         return -1;
     }
 
+    /**
+     * Takes a numerical pitch value and returns a string representation of that pitch, that makes sense relative to the scale.
+     * 
+     * For example:
+     * ```
+     * cMajor.getPitchName(shimi.pitch('E'))    //returns 'E'
+     * cMinor.getPitchName(shimi.pitch('E'))    //returns 'E♮'
+     * ```
+     * @param pitch The pitch to get the string representation of.
+     * @param showOctave Whether to show a number after the name showing which octave we're in.
+     * @returns 
+     */
     getPitchName(pitch: number, showOctave: boolean = false): string {
         let output = this._pitchNames[safeMod(pitch, 12)].toString();
         if (showOctave)
@@ -92,11 +123,34 @@ export default class Scale implements IPitchContainer {
         return output;
     }
 
+    /**
+     * The degree method accepts a numerical scale degree, and returns the numerical pitch value which it corresponds to.
+     * @param degree The degree of the scale to fetch. This starts counting from root = 1.
+     * 
+     * If degree is greater than scale.length, then how much higher it is will determine how many octaves it shifts up in its search. For example:
+     * ```
+     * cMajor.degree(3, 2)  //returns 40
+     * cMajor.degree(10, 2) //returns 52
+     * cMajor.degree(17, 2) //returns 64
+     * ```
+     * 
+     * Similarly, if degree is less than 1, then how much lower it is will determine how many octaves it shifts down in its search.
+     * @param octave The octave which the returned pitch should be in (not taking into account octave shifts as described above for the degree parameter).
+     * @returns 
+     */
     degree(degree: number, octave: number = -1): number {
         const degreePitch = this.pitches[safeMod(degree - 1, this.pitches.length)];
         return degreePitch + ((octave + 1) * 12);
     }
 
+    /**
+     * The pitchesInRange method takes 2 numerical values, and returns all scale pitches which exist within that range. The search is inclusive of the passed in pitch parameters.
+     * 
+     * Note, if lowPitch > highPitch, then rather than throw an error, lowPitch & highPitch are swapped in their roles.
+     * @param lowPitch The low pitch to compare against.
+     * @param highPitch The high pitch to compare against.
+     * @returns 
+     */
     pitchesInRange(lowPitch: number, highPitch: number): Array<number> {
         if (lowPitch > highPitch)
             return this.pitchesInRange(highPitch, lowPitch);
@@ -115,7 +169,12 @@ export default class Scale implements IPitchContainer {
         return output;
     }
 
-    /** Returns a pitch number which is guaranteed to fit with the notes of the scale */
+    /**
+     * Returns a pitch near to the passed in pitch, but which should fit better with the notes within the scale.
+     * @param pitch The pitch which we want to fit to the scale.
+     * @param options The options allow us to configure how we want the pitch to be fitted to the scale.
+     * @returns Returns a new pitch number.
+     */
     fitPitch(pitch: number, options?: Partial<FitPitchOptions>): number {
         options = new FitPitchOptions(options);
 
@@ -263,20 +322,36 @@ export default class Scale implements IPitchContainer {
         return name.accidental * preference >= 0;
     }
 
+    /** Returns a new Scale object whose root is 7 semi-tones above (or 5 semi-tones below) the root of the current scale. */
     getDominantScale(): Scale {
         return new Scale(this.template, this.root + 7);
     }
 
+    /** Returns a new Scale object whose root is 5 semi-tones above (or 7 semi-tones below) the root of the calling scale. */
     getSubdominantScale(): Scale {
         return new Scale(this.template, this.root + 5);
     }
 
+    /**
+     * Returns a new Scale object that is relative to the current scale, according to how the template.relativityToMajor properties have been set up.
+     * 
+     * For example, `eMinor.getRelativeScale(shimi.ScaleTemplate.dorian)` would return an A dorian scale.
+     * @param template The template which we want the relative scale to be of. If the calling scale already has that template, then the method just returns the calling scale object.
+     * @returns 
+     */
     getRelativeScale(template: ScaleTemplate): Scale {
         if (template == this.template)
             return this;
         return new Scale(template, this.root - this.template.relativityToMajor + template.relativityToMajor);
     }
 
+    /**
+     * Returns a new Scale object that is parallel to the current scale.
+     * 
+     * For example, `eMinor.getRelativeScale(shimi.ScaleTemplate.dorian)` would return an E dorian scale.
+     * @param template The template which we want the parallel scale to be of. If the calling scale already has that template, then the method just returns the calling scale object.
+     * @returns 
+     */
     getParallelScale(template: ScaleTemplate): Scale {
         if (template == this.template)
             return this;
