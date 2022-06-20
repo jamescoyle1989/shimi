@@ -40,22 +40,43 @@ export class ChordLookupData {
 
 
 /**
+ * The ChordFinder.findChord method returns a ChordLookupResult whenever it manages to find a chord that fits the lookup requirements.
+ * 
+ * The ChordLookupResult class is a collection of properties that give information about what was found.
+ * 
  * @category Chords & Scales
  */
 export class ChordLookupResult {
-    //The name to use when refering to the shape rather than a note-specific instance of the chord
+    /** The name to use when refering to the shape of the returned chord, rather than the root-specific name of the chord.
+     * 
+     * For example, for a minor 7th chord, this would just be 'm7'. */
     shapeName: string = '';
-    //The name of the chord in expression form, where {r} is a placeholder for root and {b} for bass
+
+    /**
+     * The name of the chord in expression form, where {r} is a placeholder for root and {b} for bass
+     * 
+     * The reason for {r} and {b} instead of using actual pitch names is that the pitch namings can vary a lot depending on scale choice. The intention is to do something like:
+     * ```
+     *  lookupResult.name
+     *      .replace('{r}', scale.getPitchName(lookupResult.root))
+     *      .replace('{b}', scale.getPitchName(lookupResult.bass))
+     * ```
+     */
     name: string = '';
-    //The chord root
+
+    /** The root pitch of the returned chord. */
     root: number = 0;
-    //The chord bass
+
+    /** The bass pitch of the returned chord. */
     bass: number = 0;
-    //The pitches in the selected chord
+
+    /** The collection of all pitches in the returned chord. */
     pitches: number[] = [];
-    //Which of the pitches in the chord were missing from the lookup request
+
+    /** Which of the pitches in the chord were missing from the lookup request. */
     pitchesAdded: number[] = [];
-    //Which of the pitches in the lookup request were removed from the suggested chord
+    
+    /** Which of the pitches in the lookup request were removed in the returned chord. */
     pitchesRemoved: number[] = [];
 }
 
@@ -66,6 +87,20 @@ export class ChordLookupResult {
 export default class ChordFinder {
     lookupData: ChordLookupData[] = [];
 
+    /**
+     * The addChordLookup method adds a new chord shape which the findChord method is able to search through.
+     * 
+     * @param shapeName The name to use when refering to the shape rather than a specific instance of the chord.
+     * 
+     * For example, for a minor 7th chord, this would just be 'm7'.
+     * @param intervals The intervals that make up the chord. Where each interval is defined as the semi-tone distance from the chord root.
+     * 
+     * For example, for a major chord, this would be [0, 4, 7].
+     * @param name The name of the chord in expression form, where {r} is a placeholder for the chord root. For example, '{r}M7' is the expression for a major 7th chord.
+     * @param inverseName The name of the chord in expression form when inversed, where {r} is a placeholder for the chord root and {b} for the chord bass. For example, '{r}M7/{b}' is the expression for a major 7th chord, when the root is not in the bass.
+     * @param preference Where 2 chords are equally well suited, the one with higher preference will be chosen.
+     * @returns The ChordFinder instance is returned, to allow for chaining operations.
+     */
     addChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordFinder {
         if (!intervals || intervals.length == 0)
             throw new Error('No intervals specified in chord lookup');
@@ -78,17 +113,39 @@ export default class ChordFinder {
         return this;
     }
 
+    /**
+     * The removeChordLookup method finds a lookup that's already been added and removes it, meaning the chord finder can no longer find chords of that type.
+     * @param shapeName The shape name of the chord to remove, for example 'M' or 'm7'.
+     * @returns The ChordFinder instance is returned, to allow for chaining operations.
+     */
     removeChordLookup(shapeName: string): ChordFinder {
         this.lookupData = this.lookupData.filter(x => x.shapeName != shapeName);
         return this;
     }
 
+    /**
+     * The replaceChordLookup method acts the same as if you called removeChordLookup, followed by addChordLookup. This just allows you to more easily redefine existing lookups.
+     * @param shapeName The name to use when refering to the shape rather than a specific instance of the chord.
+     * 
+     * For example, for a minor 7th chord, this would just be 'm7'.
+     * @param intervals The intervals that make up the chord. Where each interval is defined as the semi-tone distance from the chord root.
+     * 
+     * For example, for a major chord, this would be [0, 4, 7].
+     * @param name The name of the chord in expression form, where {r} is a placeholder for the chord root. For example, '{r}M7' is the expression for a major 7th chord.
+     * @param inverseName The name of the chord in expression form when inversed, where {r} is a placeholder for the chord root and {b} for the chord bass. For example, '{r}M7/{b}' is the expression for a major 7th chord, when the root is not in the bass.
+     * @param preference Where 2 chords are equally well suited, the one with higher preference will be chosen.
+     * @returns The ChordFinder instance is returned, to allow for chaining operations.
+     */
     replaceChordLookup(shapeName: string, intervals: number[], name: string, inverseName: string, preference: number): ChordFinder {
         this.removeChordLookup(shapeName);
         this.addChordLookup(shapeName, intervals, name, inverseName, preference);
         return this;
     }
 
+    /**
+     * The withDefaultChordLookups method sets up the ChordFinder with a default collection of chord lookups that should cover most of what you might commonly use.
+     * @returns The ChordFinder instance is returned, to allow for chaining operations.
+     */
     withDefaultChordLookups(): ChordFinder {
         this.addChordLookup('M', [0, 4, 7], '{r}', '{r}/{b}', 10);
         this.addChordLookup('m', [0, 3, 7], '{r}m', '{r}m/{b}', 9);
@@ -122,12 +179,12 @@ export default class ChordFinder {
     }
 
     /**
-     * Gets passed in a bunch of pitches, and tries to find the best suggestion it can of what chord it is
-     * @param pitches The currently known chord pitches
-     * @param root Optional, the currently known chord root
-     * @param shapeFilter Optional, the names of the chord shapes that it's allowed to return
-     * @param scale Optional, the scale which any notes that need to be added for its suggestion must belong to
-     * @returns 
+     * The findChord method gets passed in a collection of pitches and tries to find the best suggestion it can of what chord they make up.
+     * @param pitches The currently known pitches in the chord.
+     * @param root Optional, the currently known chord root.
+     * @param shapeFilter Optional, the names of the chord shapes that it's allowed to return. These must match shape names of already added chord lookups.
+     * @param scale Optional, the scale which any notes that need to be added to the suggested chord must belong to.
+     * @returns If a matching chord is successfully found, then a ChordLookupResult instance is returned with details of the match. Otherwise the method returns null.
      */
     findChord(pitches: number[], root: number = null, shapeFilter: string[] = null, scale: Scale = null): ChordLookupResult {
         if (pitches.length == 0)

@@ -6,7 +6,7 @@ import Arpeggiator from './Arpeggiator';
 import { Arpeggio, ArpeggioNote } from './Arpeggio';
 import ButtonInput, { ButtonEvent, ButtonEventData } from './ButtonInput';
 import Chord from './Chord';
-import ChordFinder, { ChordLookupData, ChordLookupResult } from './ChordFinder';
+import ChordFinder, { ChordLookupResult } from './ChordFinder';
 import { Clip, ClipBend, ClipCC, ClipNote } from './Clip';
 import ClipPlayer from './ClipPlayer';
 import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRecorder';
@@ -43,7 +43,7 @@ export {
     Arpeggio, ArpeggioNote,
     ButtonInput, ButtonEvent, ButtonEventData,
     Chord,
-    ChordFinder, ChordLookupData, ChordLookupResult,
+    ChordFinder, ChordLookupResult,
     Clip, ClipBend, ClipCC, ClipNote,
     ClipPlayer,
     ClipRecorder, ClipRecorderEvent, ClipRecorderEventData,
