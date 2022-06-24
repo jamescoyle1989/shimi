@@ -9,12 +9,15 @@ import { ControlChangeMessage, PitchBendMessage } from './MidiMessages';
 
 
 /**
+ * The ClipPlayer facilitates the playing of a clip.
+ * 
+ * The ClipPlayer should be added to a clock to receive regular updates. It should hold a reference to a metronome for beat timings. It should hold a reference to a MIDI Out for it to send MIDI data to. And it should hold a reference to a clip, which it will play.
+ * 
  * @category Clips
  */
 export default class ClipPlayer implements IClockChild {
-    /** Which clip to play */
+    /** The clip to play. */
     get clip(): Clip { return this._clip; }
-    /** Which clip to play */
     set clip(value: Clip) {
         if (this._clip === value)
             return;
@@ -23,87 +26,108 @@ export default class ClipPlayer implements IClockChild {
     }
     private _clip: Clip;
 
-    /** Which channel to play the clip on */
+    /** 
+     * Which channel to play the clip on. Valid values range from 0 - 15.
+     * 
+     * The default value is 0.
+     */
     get channel(): number { return this._channel; }
-    /** Which channel to play the clip on */
     set channel(value: number) { this._channel = value; }
     private _channel: number = 0;
 
-    /** Provides a way of identifying players so they can be retrieved later */
+    /** Provides a way of identifying a clip player so that it can be easily retrieved later. */
     get ref(): string { return this._ref; }
-    /** Provides a way of identifying players so they can be retrieved later */
     set ref(value: string) { this._ref = value; }
     private _ref: string;
 
-    /** The metronome which the player uses for tracking passed beats */
+    /** The metronome which the player uses for tracking passed beats. */
     get metronome(): IMetronome { return this._metronome; }
-    /** The metronome which the player uses for tracking passed beats */
     set metronome(value: IMetronome) { this._metronome = value; }
     private _metronome: IMetronome;
 
-    /** The MidiOut which data from the clip gets played on */
+    /** The IMidiOut which MIDI data generated from the clip gets sent to. */
     get midiOut(): IMidiOut { return this._midiOut; }
-    /** The MidiOut which data from the clip gets played on */
     set midiOut(value: IMidiOut) { this._midiOut = value; }
     private _midiOut: IMidiOut;
 
-    /** How many beats in the clip to play for every beat that passes in actual time */
+    /** How many beats in the clip to play for every beat that passes in actual time. For example: 1.5 means the clip is played 1.5 times faster than it would normally. */
     get speed(): number { return this._speed; }
-    /** How many beats in the clip to play for every beat that passes in actual time */
     set speed(value: number) { this._speed = value; }
     private _speed: number = 1;
 
-    /** Which beat of the clip to start playing from */
+    /** Which beat of the clip to start playing from. This allows for a clip player to begin playing a clip from half-way through for example. */
     get startBeat(): number { return this._startBeat; }
-    /** Which beat of the clip to start playing from */
     set startBeat(value: number) { this._startBeat = value; }
     private _startBeat: number = 0;
 
-    /** How many beats to stop the clip playing after */
+    /** How many beats should have passed before the clip player stops. The default value is null, meaning the ClipPlayer never stops, and continually loops playback of the clip. */
     get beatCount(): number { return this._beatCount; }
-    /** How many beats to stop the clip playing after */
     set beatCount(value: number) { this._beatCount = value; }
     private _beatCount: number = null;
 
-    /** If not running, then the player won't do anything with each update cycle */
+    /**
+     * If not running, then the player won't do anything with each update cycle. This allows a way to temporarily pause playback of the clip, without having to remove it from the clock.
+     * 
+     * By default this is set to true.
+     */
     get running(): boolean { return this._running; }
-    /** If not running, then the player won't do anything with each update cycle */
     set running(value: boolean) { this._running = value; }
     private _running: boolean = true;
 
-    /** Allows attaching custom logic to modify each note produced by the clip player */
+    /** Allows attaching custom logic to modify each note produced by the clip player. The provided function should accept a note as its only parameter. For example:
+     * ```
+     *  clipPlayer.noteModifier = (note) => {
+     *      note.pitch += 12;
+     *      note.velocity = 40 + Math.floor(Math.random() * 40);
+     *  };
+     * ```
+     */
     get noteModifier(): ((note: Note) => void) { return this._noteModifier; }
-    /** Allows attaching custom logic to modify each note produced by the clip player */
     set noteModifier(value: ((note: Note) => void)) { this._noteModifier = value; }
     private _noteModifier: (note: Note) => void;
 
+    /** How many beats have passed since the clip player started. */
     get beatsPassed(): number { return this._beatsPassed; }
     private _beatsPassed: number = 0;
 
+    /** Returns true if the clip player has finished playing its clip. */
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 
     private _notes: Note[] = [];
 
+    /**
+     * @param clip The clip to play.
+     * @param metronome The metronome which the player uses for tracking passed beats.
+     * @param midiOut The IMidiOut which MIDI data generated from the clip gets sent to.
+     */
     constructor(clip: Clip, metronome: IMetronome, midiOut: IMidiOut) {
         this.clip = clip;
         this.metronome = metronome;
         this.midiOut = midiOut;
     }
 
+    /** Start the running of the clip player. This is not needed unless you've previously explicitly paused or stopped it. */
     start() {
         this.running = true;
     }
 
+    /** Halt playback of the clip, with the playback position retained to allow for it to be resumed later. */
     pause() {
         this.running = false;
     }
 
+    /** Halt playback of the clip, discarding all information about how much of the clip has already been played. */
     stop() {
         this.running = false;
         this._beatsPassed = 0;
     }
 
+    /**
+     * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
+     * @returns 
+     */
     update(deltaMs: number): void {
         if (!this.running || !this.clip || !this.metronome || !this.midiOut)
             return;
@@ -179,6 +203,7 @@ export default class ClipPlayer implements IClockChild {
         }
     }
 
+    /** Calling this tells the clip player to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._finished = true;
         this._endAllNotes();

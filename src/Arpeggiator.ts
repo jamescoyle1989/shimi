@@ -10,7 +10,7 @@ import PropertyTracker from './PropertyTracker';
 
 
 /**
- * The Arpeggiator is much like to Arpeggios, what the Clip Player is to Clips.
+ * The Arpeggiator is much like to Arpeggios, what the ClipPlayer is to Clips.
  * 
  * The Arpeggiator should be added to a clock to receive regular updates. It should hold a reference to a metronome for beat timings. It should hold a reference to a MIDI out for it to send notes to. It should hold a reference to an arpeggio, which defines the shape that it will play. And it should hold a reference which defines what chord it should play the arpeggio shape around.
  * 
