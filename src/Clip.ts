@@ -6,34 +6,39 @@ import { sum } from './IterationUtils';
 
 
 /**
+ * ClipNote represents a note to be played within a clip, specifying the start and end time of the note within the clip, as well as all the information like pitch, velocity, channel, etc. needed to play the note.
+ * 
  * @category Clips
  */
 export class ClipNote extends Range {
-    /** The MIDI pitch of the note, valid values range from 0 - 127 */
+    /** The MIDI pitch of the note, valid values range from 0 - 127. */
     get pitch(): number { return this._pitch; }
-    /** The MIDI pitch of the note, valid values range from 0 - 127 */
     set pitch(value: number) { this._pitch = value; }
     private _pitch: number;
 
-    /** The note's velocity, valid values range from 0 - 127, or a function that maps beats to values */
+    /**
+     * The note's velocity, valid values range from 0 - 127, or a function that maps beats to values.
+     * 
+     * If using a function, then the beat parameter measures beats passed since the start of the note.
+     * 
+     * An example of using a function for velocity to make a note swell in volume as it's played:
+     * `clipNote.velocity = (beat) => Math.min(127, 1 + (beat * 30))`
+     */
     get velocity(): number | ((beat: number) => number) { return this._velocity; }
-    /** The note's velocity, valid values range from 0 - 127, or a function that maps beats to values */
     set velocity(value: number | ((beat: number) => number)) { this._velocity = value; }
     private _velocity: number | ((beat: number) => number);
 
-    /** Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
+    /** Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide. */
     get channel(): number { return this._channel; }
-    /** Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
     set channel(value: number) { this._channel = value; }
     private _channel: number = null;
 
     /**
-     * Represents a note being played within a clip
-     * @param start What beat within the clip that the note starts on
-     * @param duration How many beats the note lasts
-     * @param pitch The MIDI pitch of the note, valid values range from 0 - 127
-     * @param velocity The note's velocity, valid values range from 0 - 127, or a function that maps beats to values
-     * @param channel Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide
+     * @param start What beat within the clip that the note starts on.
+     * @param duration How many beats the note lasts.
+     * @param pitch The MIDI pitch of the note, valid values range from 0 - 127.
+     * @param velocity The note's velocity, valid values range from 0 - 127, or a function that maps beats to values.
+     * @param channel Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide.
      */
     constructor(
         start: number, 
@@ -48,6 +53,11 @@ export class ClipNote extends Range {
         this.channel = channel;
     }
 
+    /**
+     * The createNote method is primarily intended for use by the ClipPlayer to generate a new Note object from the ClipNote.
+     * @param channel This is the preferred channel to use if the ClipNote doesn't specify one.
+     * @returns 
+     */
     createNote(channel: number): Note {
         return new Note(
             this.pitch, 
@@ -61,34 +71,39 @@ export class ClipNote extends Range {
 
 
 /**
+ * ClipCC represents a control change to be played within a clip, specifying the start and end of the control change within the clip, as well as the information to be sent by the control change.
+ * 
  * @category Clips
  */
 export class ClipCC extends Range {
-    /** The MIDI controller to modify, valid values range from 0 - 127 */
+    /** The MIDI controller to modify, valid values range from 0 - 127. */
     get controller(): number { return this._controller; }
-    /** The MIDI controller to modify, valid values range from 0 - 127 */
     set controller(value: number) { this._controller = value; }
     private _controller: number;
 
-    /** The value to set, valid values range from 0 - 127, or a function that maps beats to values */
+    /**
+     * The value to set, valid values range from 0 - 127, or a function that maps beats to values.
+     * 
+     * If using a function, then the beat parameter measures beats passed since the start of the control change.
+     * 
+     * An example of using a function to sweep the CC value from 0 to 127 over the course of 1 beat:
+     * `new ClipCC(0, 1, 25, (beat) => beat * 127);`
+     */
     get value(): number | ((beat: number) => number) { return this._value; }
-    /** The value to set, valid values range from 0 - 127, or a function that maps beats to values */
     set value(value: number | ((beat: number) => number)) { this._value = value; }
     private _value: number | ((beat: number) => number);
 
-    /** Which channel to send the control change to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
+    /** Which channel to send the control change to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide. */
     get channel(): number { return this._channel; }
-    /** Which channel to send the control change to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
     set channel(value: number) { this._channel = value; }
     private _channel: number = null;
 
     /**
-     * Represents a control change that belongs to a recorded MIDI clip
-     * @param start What beat within the clip that the control change starts
-     * @param duration How many beats the control change lasts
-     * @param controller The MIDI controller to modify, valid values range from 0 - 127
-     * @param value The value to set, valid values range from 0 - 127, or a function that maps beats to values
-     * @param channel Which channel to play the control change on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide
+     * @param start What beat within the clip that the control change starts.
+     * @param duration How many beats the control change lasts.
+     * @param controller The MIDI controller to modify, valid values range from 0 - 127.
+     * @param value The value to set, valid values range from 0 - 127, or a function that maps beats to values.
+     * @param channel Which channel to play the control change on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide.
      */
     constructor(
         start: number, 
@@ -106,23 +121,31 @@ export class ClipCC extends Range {
 
 
 /**
+ * ClipBend represents a bend to be played within a clip, specifying the start and end of the bend, as well as the bend amount and optionally shape.
+ * 
  * @category Clips
  */
 export class ClipBend extends Range {
-    /** How much bend to apply, valid values range from -1 to +1, or a function that maps beats to values */
+    /**
+     * How much bend to apply, valid values range from -1 to +1, or a function that maps beats to values.
+     * 
+     * In the MIDI standard, bends are defined by 2 7-bit numbers put together, this makes sense within the specification, but is not particularly friendly to work with. Shimi prefers to work with percentages for ease of use.
+     * 
+     * If using a function, then the beat parameter measures beats passed since the start of the bend.
+     * 
+     * An example of using a function to make a note smoothly bend up and down over 1 beat:
+     * `clipBend.percent = (beat) => Math.sin(beat * Math.PI);`
+     */
     get percent(): number | ((beat: number) => number) { return this._percent; }
-    /** How much bend to apply, valid values range from -1 to +1, or a function that maps beats to values */
     set percent(value: number | ((beat: number) => number)) { this._percent = value; }
     private _percent: number | ((beat: number) => number);
 
-    /** Which channel to send the control change to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
+    /** Which channel to send the bend to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
     get channel(): number { return this._channel; }
-    /** Which channel to send the control change to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
     set channel(value: number) { this._channel = value; }
     private _channel: number = null;
 
     /**
-     * Represents a control change that belongs to a recorded MIDI clip
      * @param start What beat within the clip that the control change starts
      * @param duration How many beats the control change lasts
      * @param percent How much bend to apply, valid values range from 0 - 127, or a function that maps beats to values
@@ -142,19 +165,51 @@ export class ClipBend extends Range {
 
 
 /**
+ * The Clip class represents a collection of notes, control changes, and bends, arranged over a certain number of beats, to allow them to be played in a musical expression.
+ * 
+ * An example of using a clip to contain the first 2 bars of the melody Twinkle Twinkle Little Star:
+ * ```
+ *  const clip = new shimi.Clip(8);
+ *  clip.Notes.push(
+ *      new shimi.ClipNote(0, 1, shimi.pitch('C4'), 80),
+ *      new shimi.ClipNote(1, 1, shimi.pitch('C4'), 80),
+ *      new shimi.ClipNote(2, 1, shimi.pitch('G4'), 80),
+ *      new shimi.ClipNote(3, 1, shimi.pitch('G4'), 80),
+ *      new shimi.ClipNote(4, 1, shimi.pitch('A4'), 80),
+ *      new shimi.ClipNote(5, 1, shimi.pitch('A4'), 80),
+ *      new shimi.ClipNote(6, 2, shimi.pitch('G4'), 80)
+ *  );
+ * ```
+ * 
  * @category Clips
  */
 export class Clip extends Range {
+    /**
+     * The collection of notes that the clip contains.
+     */
     notes: ClipNote[] = [];
 
+    /**
+     * The collection of control changes that the clip contains.
+     */
     controlChanges: ClipCC[] = [];
 
+    /**
+     * The collection of pitch bends that the clip contains.
+     */
     bends: ClipBend[] = [];
 
+    /**
+     * @param duration How many beats the clip lasts for.
+     */
     constructor(duration: number) {
         super(0, duration);
     }
 
+    /**
+     * Creates and returns a new deep-copy of the clip.
+     * @returns 
+     */
     duplicate(): Clip {
         const newClip = new Clip(this.duration);
         newClip.notes.push(...this.notes.map(
@@ -170,10 +225,10 @@ export class Clip extends Range {
     }
 
     /**
-     * Modify the start times of notes in the clip to be more in time
-     * @param rhythm An array of numbers that specify a rhythm to quantize to
-     * For example [0.5, 0.25, 0.25] means that the clip should be quantized to a heavy metal gallop rhythm
-     * Eg. one eigth note, followed by 2 sixteenth notes
+     * Modify the start times of notes in the clip to be closer to some desired rhythmic pattern.
+     * @param rhythm An array of numbers that specify a rhythm to quantize to.
+     * For example [0.5] means that the clip should be quantized to eighth notes.
+     * Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a heavy metal style gallop rhythm.
      * @param strength A number from 0 to 1, 1 means full quantization to the target rhythm
      * 0.5 will move notes half way towards the target rhythm, while 0 will do nothing
      */
@@ -202,7 +257,7 @@ export class Clip extends Range {
 
     /**
      * Transposes the notes in the clip up/down
-     * @param semitones How many semitones to transpose the clip by
+     * @param semitones How many semitones to transpose each note in the clip up by.
      */
     transpose(semitones: number): void {
         for (const note of this.notes)
@@ -210,8 +265,8 @@ export class Clip extends Range {
     }
 
     /**
-     * Reflects the clip vertically around a center pitch
-     * @param reflectionPitch The pitch which notes in the clip are reflected around
+     * Reflects the clip vertically around a center pitch.
+     * @param reflectionPitch The pitch which notes in the clip are reflected around.
      */
     invert(reflectionPitch: number): void {
         for (const note of this.notes)
@@ -230,18 +285,42 @@ export class Clip extends Range {
             bend.start = this.end - bend.end;
     }
 
+    /**
+     * Intended primarily for use by the ClipPlayer to fetch all notes who's start times are between the provided start & end parameters.
+     * @param start The beat at which to start searching for note beginnings.
+     * @param end The beat at which to end searching for note beginnings.
+     * @returns 
+     */
     getNotesStartingInRange(start: number, end: number): ClipNote[] {
         return this._getChildrenStartingInRange<ClipNote>(this.notes, start, end);
     }
 
+    /**
+     * Intended primarily for use by the ClipPlayer to fetch all notes who's end times are between the provided start & end parameters.
+     * @param start The beat at which to start searching for note endings.
+     * @param end The beat at which to end searching for note endings.
+     * @returns 
+     */
     getNotesEndingInRange(start: number, end: number): ClipNote[] {
         return this._getChildrenEndingInRange<ClipNote>(this.notes, start, end);
     }
 
+    /**
+     * Intended primarily for use by the ClipPlayer to fetch all control changes who's durations overlap with the provided start & end parameters.
+     * @param start The beat at which to start searching for overlapping control changes.
+     * @param end The beat at which to end searching for overlapping control changes.
+     * @returns 
+     */
     getControlChangesIntersectingRange(start: number, end: number): ClipCC[] {
         return this._getChildrenIntersectingRange<ClipCC>(this.controlChanges, start, end);
     }
 
+    /**
+     * Intended primarily for use by the ClipPlayer to fetch all pitch bends who's durations overlap with the provided start & end parameters.
+     * @param start The beat at which to start searching for overlapping pitch bends.
+     * @param end The beat at which to end searching for overlapping pitch bends.
+     * @returns 
+     */
     getBendsIntersectingRange(start: number, end: number): ClipBend[] {
         return this._getChildrenIntersectingRange<ClipBend>(this.bends, start, end);
     }

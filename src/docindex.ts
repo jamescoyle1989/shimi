@@ -32,6 +32,7 @@ import Note from './Note';
 import { parsePitch as pitch } from './utils';
 import PropertyTracker from './PropertyTracker';
 import PS4Controller from './PS4Controller';
+import Range from './Range';
 import Scale from './Scale';
 import ScaleTemplate from './ScaleTemplate';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
@@ -67,6 +68,7 @@ export {
     pitch,
     PropertyTracker,
     PS4Controller,
+    Range,
     Scale,
     ScaleTemplate,
     SliderInput, SliderEvent, SliderEventData,
