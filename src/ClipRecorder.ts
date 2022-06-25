@@ -9,9 +9,12 @@ import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
 /**
+ * The ClipRecorderEventData class extends ShimiEventData. It contains a reference to the source ClipRecorder that created the event data, as well as information about the clip which the recorder has been constructing.
+ * 
  * @category Clips
  */
 export class ClipRecorderEventData extends ShimiEventData<ClipRecorder> {
+    /** The Clip object which has been under construction by the ClipRecorder. */
     get clip(): Clip { return this._clip; }
     private _clip: Clip;
     
@@ -23,6 +26,10 @@ export class ClipRecorderEventData extends ShimiEventData<ClipRecorder> {
 
 
 /**
+ * The ClipRecorderEvent class extends ShimiEvent, providing an object which can be subscribed to.
+ * 
+ * It distributes events which point back to the source ClipRecorder, and a ClipRecorderEventData object that contains the event information.
+ * 
  * @category Clips
  */
 export class ClipRecorderEvent extends ShimiEvent<ClipRecorderEventData, ClipRecorder> {
@@ -30,18 +37,20 @@ export class ClipRecorderEvent extends ShimiEvent<ClipRecorderEventData, ClipRec
 
 
 /**
+ * The ClipRecorder class subscribes to an IMidiIn and records incoming MIDI data into a clip.
+ * 
+ * Once the ClipRecorder has finished, a new clip is dispatched from the newClip event.
+ * 
  * @category Clips
  */
 export default class ClipRecorder implements IClockChild {
-    /** The metronome which the recorder uses for tracking passed beats */
+    /** The metronome which the recorder uses for tracking passed beats. */
     get metronome(): IMetronome { return this._metronome; }
-    /** The metronome which the recorder uses for tracking passed beats */
     set metronome(value: IMetronome) { this._metronome = value; }
     private _metronome: IMetronome;
 
-    /** The MidiOut which data from the clip gets played on */
+    /** The MIDI input which data gets recorded from. */
     get midiIn(): IMidiIn { return this._midiIn; }
-    /** The MidiOut which data from the clip gets played on */
     set midiIn(value: IMidiIn) { 
         if (this._midiIn == value)
             return;
@@ -61,24 +70,46 @@ export default class ClipRecorder implements IClockChild {
     }
     private _midiIn: IMidiIn;
 
-    /** How many beats to stop the clip recording after */
+    /** 
+     * How many beats to stop the clip recording after.
+     * 
+     * This also sets the duration of the clip that will be returned at the end of the recording.
+     */
     get beatCount(): number { return this._beatCount; }
-    /** How many beats to stop the clip recording after */
     set beatCount(value: number) { 
         this._beatCount = value;
         this._clip.duration = value;
     }
     private _beatCount: number = 4;
 
+    /** How many beats have passed since recording started. */
     get beatsPassed(): number { return this._beatsPassed; }
     private _beatsPassed: number = 0;
 
-    /** The clip which gets built up */
+    /** The clip which gets built up and returned. */
     private _clip: Clip = new Clip(4);
 
+    /** 
+     * The newClip event dispatches a new clip object once recording has completed.
+     * 
+     * This example will create a ClipRecorder that records a 16 beat phrase. Once done, the phrase is automatically played back on loop:
+     * ```
+     *  const clipRecorder = new ClipRecorder(metronome, midiIn);
+     *  clipRecorer.beatCount = 16;
+     *  clipRecorder.newClip.add(evt => {
+     *      const clipPlayer = new ClipPlayer(evt.clip, metronome, midiOut);
+     *      clock.addChild(clipPlayer);
+     *  });
+     *  clock.addChild(clipRecorder);
+     * ```
+     */
     get newClip(): ClipRecorderEvent { return this._newClip; }
     private _newClip: ClipRecorderEvent = new ClipRecorderEvent();
 
+    /**
+     * @param metronome The metronome which the recorder uses for tracking passed beats.
+     * @param midiIn The MIDI input which data gets recorded from.
+     */
     constructor(metronome: IMetronome, midiIn: IMidiIn) {
         this.metronome = metronome;
         this.midiIn = midiIn;
@@ -140,12 +171,16 @@ export default class ClipRecorder implements IClockChild {
     // IClockChild implementation
     // --------------------------
 
-    /** Provides a way of identifying recorders so they can be retrieved later */
+    /** Provides a way of identifying recorders so they can be easily retrieved later. */
     get ref(): string { return this._ref; }
-    /** Provides a way of identifying recorders so they can be retrieved later */
     set ref(value: string) { this._ref = value; }
     private _ref: string;
 
+    /**
+     * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
+     * @returns 
+     */
     update(deltaMs: number): void {
         if (this.finished || !this.midiIn || !this.metronome)
             return;
@@ -168,9 +203,11 @@ export default class ClipRecorder implements IClockChild {
         }
     }
 
+    /** Returns true if the clip recorder has finished recording. */
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 
+    /** Calling this tells the clip recorder to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._finished = true;
         for (const inProgressNote of this._inProgressNotes) {
