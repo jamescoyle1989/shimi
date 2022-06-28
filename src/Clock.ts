@@ -1,14 +1,22 @@
 'use strict';
 
 /**
+ * The Clock class is the basis on which many other classes throughout the shimi library rely upon to receive frequent and regular updates. 
+ * 
+ * The clock contains a list of references to objects that implement IClockChild. Each time the clock receives an update, it forwards the message to all of its children.
+ * 
  * @category Timing
  */
 export default class Clock {
-    /** How many milliseconds from one tick to the next */
+    /** 
+     * How many milliseconds from one tick to the next.
+     * 
+     * Please note that the clock will not necessarily update exactly as often as defined here, but it should be pretty close.
+     */
     get msPerTick(): number { return this._msPerTick; }
     private _msPerTick: number;
 
-    /** list of processes that get updated by the clock */
+    /** List of objects that get updated by the clock each update cycle. */
     get children(): Array<IClockChild> { return this._children;}
     private _children: Array<IClockChild> = [];
 
@@ -16,14 +24,23 @@ export default class Clock {
 
     private _timer: NodeJS.Timer;
 
-    /** Returns whether the clock is already running */
+    /** Returns whether the clock is already running. */
     get running(): boolean { return !!this._timer; }
 
+    /**
+     * @param msPerTick How many milliseconds from one tick to the next.
+     * 
+     * Please note that the clock will not necessarily update exactly as often as defined here, but it should be pretty close.
+     * 
+     * The default value is 5.
+     */
     constructor(msPerTick: number = 5) {
         this._msPerTick = msPerTick;
     }
 
-    /** Returns false if the clock was already running */
+    /** 
+     * Starts the clock running regular updates. Returns false if the clock was already running, otherwise returns true.
+     */
     start(): boolean {
         if (this.running)
             return false;
@@ -32,7 +49,7 @@ export default class Clock {
         return true;
     }
 
-    /** Returns false if the clock was already stopped */
+    /** Stops the clock from running regular updates. Returns false if the clock was already stopped, otherwise returns true. */
     stop(): boolean {
         if (!this.running)
             return false;
@@ -42,11 +59,16 @@ export default class Clock {
         return true;
     }
 
+    /** Add a new object to receive clock updates. Returns the object that was added. */
     addChild(child: IClockChild): IClockChild {
         this._children.push(child);
         return child;
     }
 
+    /**
+     * Calls the finish() method of all children which meet the passed in filter criteria.
+     * @param filter Accepts a function which takes in an IClockChild, and returns a boolean, signifying whether the passed in IClockChild should be stopped.
+     */
     stopChildren(filter: (child: IClockChild) => boolean): void {
         for (const c of this._children) {
             if (filter(c))
@@ -54,6 +76,11 @@ export default class Clock {
         }
     }
 
+    /**
+     * Updates all active children which belong to the clock, as well removing any that have been stopped.
+     * 
+     * You shouldn't really need to call this, once you call start(), this will begin getting called regularly anyway.
+     */
     updateChildren() {
         const newTime = new Date().getTime();
         const deltaMs = newTime - this._lastUpdateTime;
