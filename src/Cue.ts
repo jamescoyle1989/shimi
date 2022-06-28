@@ -21,7 +21,9 @@ class CueBase implements IClockChild {
     get action(): () => void { return this._action; }
     private _action: () => void;
 
-    /** The action to perform once the cue has finished waiting. */
+    /**
+     * @param action The action to perform once the cue has finished waiting.
+     */
     constructor(action: () => void) {
         this._action = action;
     }
