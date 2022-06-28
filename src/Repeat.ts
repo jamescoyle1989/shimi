@@ -30,7 +30,7 @@ class RepeatBase<TArgs> implements IClockChild {
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
     }
@@ -84,7 +84,7 @@ export class ConditionalRepeat extends RepeatBase<RepeatArgs> {
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
         this._countPassed += deltaMs;
@@ -140,7 +140,7 @@ export class MsRepeat extends RepeatBase<FiniteRepeatArgs> {
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
         this._countPassed += deltaMs;
@@ -205,7 +205,7 @@ export class BeatRepeat extends RepeatBase<BeatRepeatArgs> {
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
         this._msPassed += deltaMs;

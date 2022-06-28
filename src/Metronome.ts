@@ -108,6 +108,8 @@ export interface IMetronome {
 
     /**
      * This takes in a beat and returns true if the metronome is currently at it, or has only just passed it in the bar within the last update cycle.
+     * @param beat The beat to test if we've recently passed.
+     * @returns 
      */
     atBarBeat(beat: number): boolean;
 
@@ -143,52 +145,100 @@ export class MetronomeBase {
 
 
 /**
+ * The Metronome class provides a fairly simple (and possibly naive) implementation of the IMetronome interface, where beats and quarter notes are treated as the same thing.
+ * 
+ * This results in the metronome being very steady and predictable in how it provides beat information for other linked objects to work with it. It won't change much about its output (other than its concept of where it is within the bar) to fit with changing time signatures.
+ * 
+ * For an alternative implementation of IMetronome, see [Flexinome](https://jamescoyle1989.github.io/shimi/classes/Flexinome.html).
+ * 
  * @category Timing
  */
 export default class Metronome extends MetronomeBase implements IMetronome, IClockChild {
     private _tempo: number = 120;
+    /** Get the current metronome tempo. */
     get tempo(): number { return this._tempo; }
+    /** Set the current metronome tempo. */
     set tempo(value: number) { this._tempo = value; }
 
-    /** Provides a way of identifying metronomes so they can be retrieved later */
+    /** Provides a way of identifying metronomes so they can be easily retrieved later */
     get ref(): string { return this._ref; }
-    /** Provides a way of identifying metronomes so they can be retrieved later */
     set ref(value: string) { this._ref = value; }
     private _ref: string;
 
     private _timeSig: PropertyTracker<TimeSig> = new PropertyTracker();
-    //Return the old value, so that if the user changes the time sig
-    //we can prevent from applying it until the start of the next bar
+    /** Get the current metronome time signature. */
     get timeSig(): TimeSig { return this._timeSig.oldValue; }
+    /**
+     * Set the metronome time signature.
+     * 
+     * **Note:** This doesn't actually change the time signature straight away, but instead stores it so that the time signature changes on the start of the next bar.
+     */
     set timeSig(value: TimeSig) { this._timeSig.value = value; }
 
     private _totalQuarterNote: PropertyTracker<number> = new PropertyTracker(0);
+    /**
+     * How many quarter notes have passed in total since the metronome started.
+     * 
+     * This just returns `totalQuarterNoteTracker.value`.
+     */
     get totalQuarterNote(): number { return this._totalQuarterNote.value; }
+    /** Records the difference in total quarter notes passed, enabling inspection of the total quarter note change from one update cycle to the next. */
     get totalQuarterNoteTracker(): PropertyTracker<number> { return this._totalQuarterNote; }
 
     private _totalBeat: PropertyTracker<number> = new PropertyTracker(0);
+    /**
+     * How many beats have passed in total since the metronome started.
+     * 
+     * This just returns `totalBeatTracker.value`.
+     */
     get totalBeat(): number { return this._totalBeat.value; }
+    /** Records the difference in total beats passed, enabling inspection of the total beat change from one update cycle to the next. */
     get totalBeatTracker(): PropertyTracker<number> { return this._totalBeat; }
 
     private _bar: PropertyTracker<number> = new PropertyTracker(1);
+    /**
+     * Records what bar the metronome is currently on.
+     * 
+     * This just returns `barTracker.value`.
+     */
     get bar(): number { return this._bar.value; }
+    /** Records the bar number in the previous update vs the current one. */
     get barTracker(): PropertyTracker<number> { return this._bar; }
 
     private _barQuarterNote: PropertyTracker<number> = new PropertyTracker(0);
+    /**
+     * Records how many quarter notes have passed within the current bar
+     * 
+     * This just returns `barQuarterNoteTracker.value`.
+     */
     get barQuarterNote(): number { return this._barQuarterNote.value; }
+    /** Records the difference in bar quarter note values, enabling inspection of the quarter note within the current bar from one update cycle to the next. */
     get barQuarterNoteTracker(): PropertyTracker<number> { return this._barQuarterNote; }
 
     private _barBeat: PropertyTracker<number> = new PropertyTracker(0);
+    /**
+     * Records how many beats have passed within the current bar.
+     * 
+     * This just returns `barBeatTracker.value`.
+     */
     get barBeat(): number { return this._barBeat.value; }
+    /** Records the difference in bar beat values, enabling inspection of the beat within the current bar from one update cycle to the next. */
     get barBeatTracker(): PropertyTracker<number> { return this._barBeat; }
 
     private _enabled: PropertyTracker<boolean> = new PropertyTracker(true);
+    /** Gets whether the metronome is currently enabled to run. */
     get enabled(): boolean { return this._enabled.value; }
+    /** Sets whether the metronome is currently enabled to run. */
     set enabled(value: boolean) { this._enabled.value = value; }
 
+    /** Calling this tells the Metronome to stop whatever it's doing and that it will no longer be used. */
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 
+    /**
+     * @param tempo The tempo to run the metronome at.
+     * @param timeSig The time signature for the metronome to use. If not provided then the metronome defaults to common time (4/4).
+     */
     constructor(tempo: number, timeSig: TimeSig = null) {
         super();
         if (!tempo || tempo < 0)
@@ -201,14 +251,29 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
         this.tempo = tempo;
     }
 
+    /**
+     * This takes in a beat and returns true if the metronome is currently at it, or has only just passed it in the bar within the last update cycle.
+     * @param beat The beat to test if we've recently passed.
+     * @returns 
+     */
     atBarBeat(beat: number): boolean {
         return super._atBarPosition(beat, this._barBeat);
     }
 
+    /**
+     * This takes a quarter note and returns true if the metronome is currently at it, or has only just passed it in the bar within the last update cycle.
+     * @param quarterNote The quarter note to test if we've recently passed.
+     * @returns 
+     */
     atBarQuarterNote(quarterNote: number): boolean {
         return super._atBarPosition(quarterNote, this._barQuarterNote);
     }
 
+    /**
+     * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
+     * @param msDelta How many milliseconds have passed since the last update cycle.
+     * @returns 
+     */
     update(msDelta: number) {
         this._enabled.accept();
         if (!this.enabled)
@@ -242,6 +307,7 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
         }
     }
 
+    /** Calling this tells the metronome to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._finished = true;
         this._enabled.value = false;

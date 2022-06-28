@@ -48,7 +48,7 @@ export default class SliderInput {
     /**
      * Automatically called by the system, shouldn't be called by consumers of the library
      * Checks the state of teh button and conditionally runs the logic attached to its events
-     * @param deltaMs How many millseconds since the last update cycle
+     * @param deltaMs How many milliseconds since the last update cycle
      */
     update(deltaMs: number) {
         if (this.value != 0)

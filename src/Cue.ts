@@ -30,7 +30,7 @@ class CueBase implements IClockChild {
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
     }
@@ -65,7 +65,7 @@ export class MsCue extends CueBase {
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
         this._countPassed += deltaMs;
@@ -98,7 +98,7 @@ export class ConditionalCue extends CueBase {
     
     /**
      * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
         if (this.condition()) {
@@ -138,7 +138,7 @@ export class BeatCue extends CueBase {
     
     /**
      * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.
-     * @param deltaMs How many millseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      */
     update(deltaMs: number): void {
         this._beatsPassed += this.metronome.totalBeatTracker.value - this.metronome.totalBeatTracker.oldValue;
