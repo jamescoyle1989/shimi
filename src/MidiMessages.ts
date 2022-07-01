@@ -34,17 +34,24 @@ export abstract class MidiMessageBase {
 }
 
 /**
+ * The NoteOffMessage class represents a Note Off MIDI message that can be sent to a MIDI output.
+ * 
  * @category Midi IO
  */
 export class NoteOffMessage extends MidiMessageBase implements IMidiMessage {
+    /** Acceptable values range from 0 to 127. */
     pitch: number = 0;
+
+    /** Acceptable values range from 0 to 127. */
     velocity: number = 0;
+
+    /** Acceptable values range from 0 to 15. */
     channel: number = 0;
 
     /**
-     * @param pitch Acceptable values range from 0 to 127
-     * @param velocity Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
+     * @param pitch Acceptable values range from 0 to 127.
+     * @param velocity Acceptable values range from 0 to 127.
+     * @param channel Acceptable values range from 0 to 15.
      */
     constructor(pitch: number, velocity: number, channel: number) {
         super();
@@ -67,17 +74,24 @@ export class NoteOffMessage extends MidiMessageBase implements IMidiMessage {
 }
 
 /**
+ * The NoteOnMessage class represents a Note On MIDI message that can be sent to a MIDI output.
+ * 
  * @category Midi IO
  */
 export class NoteOnMessage extends MidiMessageBase implements IMidiMessage {
+    /** Acceptable values range from 0 to 127. */
     pitch: number = 0;
+
+    /** Acceptable values range from 0 to 127. */
     velocity: number = 0;
+
+    /** Acceptable values range from 0 to 15. */
     channel: number = 0;
 
     /**
-     * @param pitch Acceptable values range from 0 to 127
-     * @param velocity Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
+     * @param pitch Acceptable values range from 0 to 127.
+     * @param velocity Acceptable values range from 0 to 127.
+     * @param channel Acceptable values range from 0 to 15.
      */
     constructor(pitch: number, velocity: number, channel: number) {
         super();
@@ -100,17 +114,24 @@ export class NoteOnMessage extends MidiMessageBase implements IMidiMessage {
 }
 
 /**
+ * The NotePressureMessage class represents a Note Pressure MIDI message that can be sent to a MIDI output.
+ * 
  * @category Midi IO
  */
 export class NotePressureMessage extends MidiMessageBase implements IMidiMessage {
+    /** Acceptable values range from 0 to 127. */
     pitch: number = 0;
+
+    /** Acceptable values range from 0 to 127. */
     velocity: number = 0;
+
+    /** Acceptable values range from 0 to 15. */
     channel: number = 0;
 
     /**
-     * @param pitch Acceptable values range from 0 to 127
-     * @param velocity Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
+     * @param pitch Acceptable values range from 0 to 127.
+     * @param velocity Acceptable values range from 0 to 127.
+     * @param channel Acceptable values range from 0 to 15.
      */
     constructor(pitch: number, velocity: number, channel: number) {
         super();
@@ -133,17 +154,24 @@ export class NotePressureMessage extends MidiMessageBase implements IMidiMessage
 }
 
 /**
+ * The ControlChangeMessage class represents a Control Change MIDI message that can be sent to a MIDI output.
+ * 
  * @category Midi IO
  */
 export class ControlChangeMessage extends MidiMessageBase implements IMidiMessage {
+    /** Acceptable values range from 0 to 127. */
     controller: number = 0;
+
+    /** Acceptable values range from 0 to 127. */
     value: number = 0;
+
+    /** Acceptable values range from 0 to 15. */
     channel: number = 0;
 
     /**
-     * @param controller Acceptable values range from 0 to 127
-     * @param value Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
+     * @param controller Acceptable values range from 0 to 127.
+     * @param value Acceptable values range from 0 to 127.
+     * @param channel Acceptable values range from 0 to 15.
      */
     constructor(controller: number, value: number, channel: number) {
         super();
@@ -166,15 +194,20 @@ export class ControlChangeMessage extends MidiMessageBase implements IMidiMessag
 }
 
 /**
+ * The ProgramChangeMessage class represents a Program Change MIDI message that can be sent to a MIDI output.
+ * 
  * @category Midi IO
  */
 export class ProgramChangeMessage extends MidiMessageBase implements IMidiMessage {
+    /** Acceptable values range from 0 to 127. */
     program: number = 0;
+
+    /** Acceptable values range from 0 to 15. */
     channel: number = 0;
 
     /**
-     * @param program Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
+     * @param program Acceptable values range from 0 to 127.
+     * @param channel Acceptable values range from 0 to 15.
      */
     constructor(program: number, channel: number) {
         super();
@@ -195,15 +228,20 @@ export class ProgramChangeMessage extends MidiMessageBase implements IMidiMessag
 }
 
 /**
+ * The ChannelPressureMessage class represents a Channel Pressure MIDI message that can be sent to a MIDI output.
+ * 
  * @category Midi IO
  */
 export class ChannelPressureMessage extends MidiMessageBase implements IMidiMessage {
+    /** Acceptable values range from 0 to 127. */
     value: number;
+
+    /** Acceptable values range from 0 to 15. */
     channel: number;
 
     /**
-     * @param value Acceptable values range from 0 to 127
-     * @param channel Acceptable values range from 0 to 15
+     * @param value Acceptable values range from 0 to 127.
+     * @param channel Acceptable values range from 0 to 15.
      */
     constructor(value: number, channel: number) {
         super();
@@ -224,15 +262,20 @@ export class ChannelPressureMessage extends MidiMessageBase implements IMidiMess
 }
 
 /**
+ * The PitchBendMessage class represents a Pitch Bend MIDI message that can be sent to a MIDI output.
+ * 
  * @category Midi IO
  */
 export class PitchBendMessage extends MidiMessageBase implements IMidiMessage {
+    /** Acceptable values range from -1 to +1, with 0 being no bend. */
     percent: number;
+
+    /** Acceptable values range from 0 to 15. */
     channel: number;
 
     /**
-     * @param percent Acceptable values range from -1 to +1, with 0 being no bend
-     * @param channel Acceptable values range from 0 to 15
+     * @param percent Acceptable values range from -1 to +1, with 0 being no bend.
+     * @param channel Acceptable values range from 0 to 15.
      */
     constructor(percent: number, channel: number) {
         super();
