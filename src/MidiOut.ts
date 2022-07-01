@@ -6,36 +6,58 @@ import { IMidiMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage } from
 
 
 /**
+ * The MidiOut class is an implementation of IMidiOut, which takes MIDI messages and sends them on to a connected MIDI port.
+ * 
  * @category Midi IO
  */
 export default class MidiOut implements IMidiOut, IClockChild {
-    /** The MIDI port which data gets sent to, see MidiAccess class */
+    /** The MIDI Out port which data gets sent to, see MidiAccess class. */
     port: any;
     
-    /** List of notes being managed by the output */
+    /**
+     * The notes collection consists of notes which have been started, but not ended yet.
+     * 
+     * The MidiOut will cycle through this collection on each update, checking to see if it needs to send out Note Off messages for any, or update note pressure.
+     */
     get notes(): Array<Note> { return this._notes; }
     private _notes: Array<Note> = [];
 
-    /** Provides a way of identifying MidiOut so it can be retrieved later */
+    /** Provides a way of identifying MidiOut so it can be easily retrieved later. */
     get ref(): string { return this._ref; }
-    /** Provides a way of identifying MidiOut so it can be retrieved later */
     set ref(value: string) { this._ref = value; }
     private _ref: string;
 
+    /** Returns true if the MidiOut has been instructed to stop everything by the `finish()` method. */
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 
+    /**
+     * Whenever the MidiOut attempts to send MIDI data, it does some validation that there is a MIDI port actually connected. If not then it throws an error.
+     * 
+     * Setting this property to true means that the MidiOut bypasses throwing that error. This can be useful when the MidiOut may regularly be switching outputs that it sends data to, and that it may be valid for it to not be connected to a port at times.
+     */
     suppressPortValidationErrors: boolean = false;
 
+    /**
+     * @param port The MIDI Out port which data gets sent to, see MidiAccess class.
+     */
     constructor(port: any) {
         this.port = port;
     }
 
+    /** Calling this tells the MidiOut to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._finished = true;
         this.stopNotes(n => true);
     }
 
+    /**
+     * Adds a new note to the MidiOut's collection, returning the note that was added.
+     * 
+     * If `note.on == true`, then the the MidiOut immediately sends a Note On message to the connected port.
+     * @param note The note to add to the MidiOut.
+     * @returns 
+     */
     addNote(note: Note): Note {
         this._notes.push(note);
         if (note.on) {
@@ -45,6 +67,10 @@ export default class MidiOut implements IMidiOut, IClockChild {
         return note;
     }
 
+    /**
+     * Calls the stop() method of all notes which have been added to the MidiOut that meet the passed in criteria.
+     * @param filter The criteria for determining which notes need to be stopped.
+     */
     stopNotes(filter: (note: Note) => boolean): void {
         for (const n of this._notes) {
             if (filter(n))
@@ -52,18 +78,21 @@ export default class MidiOut implements IMidiOut, IClockChild {
         }
     }
 
-    /** Sends data from the passed in MIDI message to the connected MIDI port */
+    /**
+     * This method accepts an IMidiMessage object, which it converts to a MIDI byte array to send to the connected MIDI port.
+     * @param message The IMidiMessage object to be converted and sent out.
+     * @returns 
+     */
     sendMessage(message: IMidiMessage): boolean {
         if (!this.validatePort())
             return false;
-        this.validatePort();
         this.port.send(message.toArray());
         return true;
     }
 
     /**
-     * Sends a custom MIDI message to the connected MIDI port
-     * @param data An array of the data to be sent
+     * Sends a raw byte-array MIDI message to the connected MIDI port.
+     * @param data An array of the data to be sent.
      */
     sendRawData(data: number[]): boolean {
         if (!this.validatePort())
@@ -83,6 +112,11 @@ export default class MidiOut implements IMidiOut, IClockChild {
         return true;
     }
 
+    /**
+     * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
+     * @param msDelta How many milliseconds have passed since the last update cycle.
+     * @returns 
+     */
     update(deltaMs: number): void {
         let anyNotesStopped = false;
 

@@ -95,7 +95,7 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
     /** Sets whether the flexinome is currently enabled to run. */
     set enabled(value: boolean) { this._enabled.value = value; }
 
-    /** Calling this tells the Flexinome to stop whatever it's doing and that it will no longer be used. */
+    /** Returns true if the Flexinome has been instructed to stop everything by the `finish()` method. */
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 
