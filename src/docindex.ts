@@ -23,7 +23,7 @@ import MidiAccess from './MidiAccess';
 import MidiBus from './MidiBus';
 import MidiIn, { MidiInEvent, MidiInEventData, IMidiIn } from './MidiIn';
 import { 
-    IMidiMessage, MidiMessageBase, NoteOffMessage, NoteOnMessage, 
+    IMidiMessage, NoteOffMessage, NoteOnMessage, 
     NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
     ChannelPressureMessage, PitchBendMessage 
 } from './MidiMessages';
@@ -57,7 +57,7 @@ export {
     FitDirection, FitPrecision, IPitchContainer, FitPitchOptions,
     Gamepads, IGamepad,
     Keyboard,
-    IMidiMessage, MidiMessageBase, NoteOffMessage, NoteOnMessage, 
+    IMidiMessage, NoteOffMessage, NoteOnMessage, 
     NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
     ChannelPressureMessage, PitchBendMessage,
     Metronome, IMetronome,
