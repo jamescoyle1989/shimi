@@ -114,7 +114,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
-     * @param msDelta How many milliseconds have passed since the last update cycle.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
      * @returns 
      */
     update(deltaMs: number): void {
