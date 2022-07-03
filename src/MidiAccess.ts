@@ -6,7 +6,7 @@
  * 
  * Example:
  * ```
- * const midiAccess = MidiAccess.request();
+ * const midiAccess = await MidiAccess.request();
  * console.log(midiAccess.getOutPortNames()); 
  * ```
  * 
