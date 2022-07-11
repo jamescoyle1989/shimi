@@ -23,6 +23,8 @@ export default class Chord implements IPitchContainer {
      * Contains the pitches that make up the chord.
      * 
      * Intended for read use only. To modify the chord, use addPitch, addPitches & removePitches methods.
+     * 
+     * Pitches should always be held in ascending order.
      */
     get pitches(): number[] { return this._pitches; }
     private _pitches: number[] = [];
@@ -71,7 +73,7 @@ export default class Chord implements IPitchContainer {
     }
 
     /**
-     * Adds a new pitch to the chord. 
+     * Adds a new pitch to the chord. This method ensures that pitches are stored in ascending order.
      * 
      * @param pitch The pitch to add to the chord. This is only added if the chord doesn't already contain the pitch.
      * @returns Returns the chord instance, so that method calls can be chained together.
@@ -91,7 +93,7 @@ export default class Chord implements IPitchContainer {
     }
 
     /**
-     * Adds multiple new pitches to the chord.
+     * Adds multiple new pitches to the chord. This method ensures that pitches are stored in ascending order.
      * 
      * @param pitches The pitches to add to the chord. Each one will only be added if the chord doesn't already contain the pitch.
      * @returns Returns the chord instance, so that method calls can be chained together.
