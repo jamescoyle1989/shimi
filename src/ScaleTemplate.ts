@@ -10,7 +10,7 @@ import Scale from './Scale';
  * 
  * However, you can also use this class to define your own custom scale types, for example: 
  * ```
- * const myScaleType = new shimi.ScaleTemplate('James Minor', [2,3,5,7,8,9], -3);
+ * const myScaleType = new shimi.ScaleTemplate('James Minor', [0,2,3,5,7,8,9], -3);
  * const eJamesMinor = myScaleType.create(shimi.pitch('E'));
  * ```
  * 
@@ -25,9 +25,7 @@ export default class ScaleTemplate {
     /**
      * The shape property defines which notes make up a scale of this type.
      * 
-     * For example, the major scale would have shape [2,4,5,7,9,11], because when you create a major scale, it will have a note 2 semi-tones above the root, a note 4 semi-tones above the root, etc.
-     * 
-     * 0 is not included in the shape, because it is expected that a scale will contain its own root.
+     * For example, the major scale would have shape [0,2,4,5,7,9,11], because when you create a major scale, it will have a note 2 semi-tones above the root, a note 4 semi-tones above the root, etc.
      */
     get shape(): number[] { return this._shape; }
     private _shape: number[] = [];
@@ -43,17 +41,19 @@ export default class ScaleTemplate {
      * @param name The name of the scale type, e.g. 'Major', 'Harmonic Minor', 'Phrygian', 'My Special Scale', etc.
      * @param shape The shape property defines which notes make up a scale of this type.
      * 
-     * For example, the major scale would have shape [2,4,5,7,9,11], because when you create a major scale, it will have a note 2 semi-tones above the root, a note 4 semi-tones above the root, etc.
+     * For example, the major scale would have shape [0,2,4,5,7,9,11], because when you create a major scale, it will have a note 2 semi-tones above the root, a note 4 semi-tones above the root, etc.
      * 
-     * 0 is not included in the shape, because it is expected that a scale will contain its own root.
+     * If 0 is omitted from the shape, then it will automatically be added, so the above example could also be expressed as [2,4,5,7,9,11].
      * @param relativityToMajor The relativityToMajor property is used by some of the functions for fetching related scales. For example, the natural minor scale would have relativityToMajor = -3 (or 9), because the root of the natural minor scale is expected to be 3 semi-tones below (or 9 above) the root of its relative major scale. Meanwhile Dorian would have relativityToMajor = 2.
      */
     constructor(name: string, shape: number[], relativityToMajor: number) {
         if (shape.length == 0)
             throw new Error('Invalid scale template, shape cannot be empty');
         if (shape.find(x => x <= 0 || x >= 12) != undefined)
-            throw new Error('Invalid scale template shape, must contain unique numbers only between 1 - 11');
+            throw new Error('Invalid scale template shape, must contain unique numbers only between 0 - 11');
         shape = shape.sort((a, b) => a - b);
+        if (shape[0] != 0)
+            shape.unshift(0);
         for (let i = 0; i + 1 < shape.length; i++) {
             if (shape[i] == shape[i + 1])
                 throw new Error('Invalid scale template, no duplicate numbers allowed in the shape');

@@ -68,10 +68,8 @@ export default class Scale implements IPitchContainer {
      * @param root The root of the scale.
      */
     constructor(template: ScaleTemplate, root: number) {
-        const pitches = [((root % 12) + 12) % 12];
-        for (const degree of template.shape)
-            pitches.push((pitches[0] + degree) % 12);
-        this._pitches = pitches;
+        root = safeMod(root, 12);
+        this._pitches = template.shape.map(x => (root + x) % 12);
 
         this._template = template;
 
@@ -263,10 +261,7 @@ export default class Scale implements IPitchContainer {
         const results: PitchName[] = [];
 
         //First of all, select names for the notes which are inside the scale
-        let scalePitches = [0];
-        scalePitches.push(...this.template.shape);
-        scalePitches = scalePitches.map(x => safeMod(x + this.root, 12));
-
+        let scalePitches = this.pitches.slice();
         for (const pitch of scalePitches) {
             let nameOptions = pitchNames[pitch];
 
