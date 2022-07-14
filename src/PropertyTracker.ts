@@ -1,12 +1,13 @@
 'use strict';
 
 /**
- * Use this class in place of regular member variables on other classes as a way to get
- * dirty checking & undo functionality built into them, eg:
+ * Instances of this class are used in place of regular member variables on other objects as a way to get dirty checking & undo functionality built into them, eg:
  * 
- * velocityTracker = new PropertyTracker<number>(100);
- * get velocity(): number { return this.velocityTracker.value; }
- * set velocity(value: number) { this.velocityTracker.value = value; }
+ * ```
+ * private _velocityTracker = new PropertyTracker<number>(100);
+ * get velocity(): number { return this._velocityTracker.value; }
+ * set velocity(value: number) { this._velocityTracker.value = value; }
+ * ```
  */
 export default class PropertyTracker<T> {
     /** The most up-to-date value */
@@ -16,7 +17,6 @@ export default class PropertyTracker<T> {
     oldValue: T;
 
     /**
-     * 
      * @param initValue The initial accepted value that the tracker gets instanciated with
      */
     constructor(initValue?: T) {
