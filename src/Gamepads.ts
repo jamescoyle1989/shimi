@@ -6,6 +6,10 @@ import SliderInput from './SliderInput';
 
 
 /**
+ * The Gamepads class provides an easy way for keeping shimi Gamepad objects synced up to Gamepad objects from the Gamepad Web API.
+ * 
+ * When a gamepad gets added to a Gamepads instance, it is added as unmatched. With each update cycle, Gamepads will attempt to pair up any unmatched gamepad objects with incoming gamepad data. Once a match is established, the gamepad object will get updated with new gamepad data each cycle, allowing for the state of each button to be easily tracked.
+ * 
  * @category User Inputs
  */
 export default class Gamepads implements IClockChild {
@@ -15,19 +19,35 @@ export default class Gamepads implements IClockChild {
     // The gamepads which have been matched to an input
     private _matched: IGamepad[] = [ null, null, null, null ];
 
+    /** The collection of shimi gamepads which have been matched up to incoming gamepad data. */
     get activeGamepads(): IGamepad[] { return this._matched.filter(x => x !== null); }
 
     private _updateProvider: () => Gamepad[];
 
+    /**
+     * @param updateProvider This is a function that will be called with each update to get new Gamepad data.
+     * 
+     * Typically this should be something like: `new Gamepads(navigator.getGamepads);`
+     */
     constructor(updateProvider: () => Gamepad[]) {
         this._updateProvider = updateProvider;
     }
 
+    /**
+     * This method adds a new shimi Gamepad object to the collection of unmatched gamepads.
+     * @param gamepad The gamepad to be added.
+     */
     add(gamepad: IGamepad) {
         this._unmatched.push(gamepad);
     }
     
-    /** IClockChild implementation */
+
+    /**
+     * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.
+     * 
+     * The method first of all attempts to match up any unmatched gamepad objects with incoming gamepad data. It then loops through each matched gamepad and updates the object's data with what's coming from the matched up gamepad data.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
+     */
     update(deltaMs: number): void {
         const newGamepads = this._updateProvider();
 
@@ -74,15 +94,16 @@ export default class Gamepads implements IClockChild {
         }
     }
     
-    /** Provides a way of identifying keyboards so they can be retrieved later */
+    /** Provides a way of identifying keyboards so they can be easily retrieved later */
     get ref(): string { return this._ref; }
-    /** Provides a way of identifying keyboards so they can be retrieved later */
     set ref(value: string) { this._ref = value; }
     private _ref: string;
 
+    /** Returns true if the `finish()` method has been called. */
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 
+    /** Calling this tells the Gamepads object to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._finished = true;
     }

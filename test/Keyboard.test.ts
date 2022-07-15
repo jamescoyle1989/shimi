@@ -7,11 +7,11 @@ import TestEventSubscriber from './TestEventSubscriber';
 @suite class KeyboardTests {
     @test 'buttons allows querying the whole keyboard'() {
         const keyboard = new Keyboard(new TestEventSubscriber());
-        expect(keyboard.buttons.filter(b => b.state).length).to.equal(0);
+        expect(keyboard.buttons.filter(b => b.isPressed).length).to.equal(0);
         keyboard.q.valueTracker.value = 1;
-        expect(keyboard.buttons.filter(b => b.state).length).to.equal(1);
+        expect(keyboard.buttons.filter(b => b.isPressed).length).to.equal(1);
         keyboard.g.valueTracker.value = 1;
-        expect(keyboard.buttons.filter(b => b.state).length).to.equal(2);
+        expect(keyboard.buttons.filter(b => b.isPressed).length).to.equal(2);
     }
 
     @test 'activate starts keyboard listening'() {

@@ -87,10 +87,10 @@ function getTestInputs(): any[] {
         const gamepads = new Gamepads(getTestInputs);
         var ps4Controller = new PS4Controller();
         gamepads.add(ps4Controller);
-        expect(ps4Controller.buttons.find(x => x.state)).to.be.undefined;
+        expect(ps4Controller.buttons.find(x => x.isPressed)).to.be.undefined;
         expect(ps4Controller.axes.find(x => x.value != 0)).to.be.undefined;
         gamepads.update(10);
-        expect(ps4Controller.buttons.find(x => x.state)).to.not.be.undefined;
+        expect(ps4Controller.buttons.find(x => x.isPressed)).to.not.be.undefined;
         expect(ps4Controller.axes.find(x => x.value != 0)).to.not.be.undefined;
     }
 

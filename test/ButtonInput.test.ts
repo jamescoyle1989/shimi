@@ -46,7 +46,7 @@ import ButtonInput from '../src/ButtonInput';
     @test 'Update doesnt increase activeMs if not pressed'() {
         const btn = new ButtonInput('a');
         expect(btn.activeMs).to.equal(0);
-        expect(btn.state).to.be.false;
+        expect(btn.isPressed).to.be.false;
         btn.update(15);
         expect(btn.activeMs).to.equal(0);
     }
