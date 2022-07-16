@@ -1,8 +1,9 @@
 {
   "name": "shimi",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A JS framework for building complex MIDI applications",
   "main": "dist/index.js",
+  "unpkg": "dist/index.js",
   "scripts": {
     "test": "nyc ./node_modules/.bin/_mocha 'test/*.test.ts'",
     "build": "tsc && npx webpack",
