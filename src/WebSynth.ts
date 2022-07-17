@@ -258,8 +258,10 @@ export default class WebSynth implements IMidiOut, IClockChild {
             this._notes = this._notes.filter(n => n.on);
     }
 
-    /** Calling this tells the WebSynth to stop whatever it's doing and that it will no longer be used. Not implemented yet. */
+    /** Calling this tells the WebSynth to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
+        this.stopNotes(n => true);
+        this._finished = true;
     }
 
     //IClockChild implementation end

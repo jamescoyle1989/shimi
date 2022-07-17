@@ -108,4 +108,21 @@ class DummyAudioContext {
         synth.update(10);
         expect(note1['oscillators']).to.be.undefined;
     }
+
+    @test 'finish stops all active notes'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const note = synth.addNote(new Note(60, 80, 1));
+        expect(note['oscillators']).to.be.not.undefined;
+        synth.finish();
+        expect(note['oscillators']).to.be.undefined;
+    }
+
+    @test 'finish sets finished to true'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        expect(synth.finished).to.be.false;
+        synth.finish();
+        expect(synth.finished).to.be.true;
+    }
 }
