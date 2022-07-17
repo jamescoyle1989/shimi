@@ -209,6 +209,21 @@ export default class ClipPlayer implements IClockChild {
         this._endAllNotes();
     }
 
+    /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new ClipPlayer(clip, metronome, midiOut).withRef('player'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
+
     private _endAllNotes(): void {
         for (const note of this._notes)
             note.stop();

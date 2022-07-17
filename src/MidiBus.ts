@@ -155,6 +155,21 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     }
 
     /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new MidiBus().withRef('bus'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
+
+    /**
      * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
      * @param msDelta How many milliseconds have passed since the last update cycle.
      * @returns 

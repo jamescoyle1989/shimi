@@ -52,6 +52,21 @@ export default class MidiOut implements IMidiOut, IClockChild {
     }
 
     /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new MidiOut(port).withRef('output'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
+
+    /**
      * Adds a new note to the MidiOut's collection, returning the note that was added.
      * 
      * If `note.on == true`, then the the MidiOut immediately sends a Note On message to the connected port.

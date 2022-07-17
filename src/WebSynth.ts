@@ -264,6 +264,21 @@ export default class WebSynth implements IMidiOut, IClockChild {
         this._finished = true;
     }
 
+    /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new WebSynth(context).withDefaultChannels().withRef('output'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
+
     //IClockChild implementation end
 
 

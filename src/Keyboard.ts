@@ -502,6 +502,21 @@ export default class Keyboard implements IClockChild {
         this.deactivate();
     }
 
+    /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new Keyboard(new EventSubscriber(document)).withRef('keyboard'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
+
     private _onKeyDown = (event: KeyboardEvent) => {
         const button = this._getButtonByEventCode(event.code);
         if (button) {

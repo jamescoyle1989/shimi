@@ -142,4 +142,15 @@ export interface IClockChild {
      * In implementations which naturally only last a finite amount of time, calling finish from the update method will ensure that the object is automatically dropped by the clock when no longer needed.
      */
     finish(): void;
+
+    /**
+     * The withRef method should be implemented so that the ref of an object can be defined through a chained method. For example:
+     * 
+     * ```
+     * clock.addChild(Cue.afterMs(100, () => console.log('HELLO!')).withRef('cueHello'));
+     * ```
+     * 
+     * @param ref The ref that should be assigned to the IClockChild.
+     */
+    withRef(ref: string): IClockChild;
 }

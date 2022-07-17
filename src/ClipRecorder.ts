@@ -217,4 +217,19 @@ export default class ClipRecorder implements IClockChild {
         this._inProgressNotes = [];
         this.newClip.trigger(new ClipRecorderEventData(this, this._clip));
     }
+
+    /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new ClipRecorder(metronome, midiIn).withRef('recorder'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
 }

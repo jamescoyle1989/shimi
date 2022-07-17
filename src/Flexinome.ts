@@ -167,4 +167,19 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
         this._finished = true;
         this._enabled.value = false;
     }
+
+    /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new Flexinome(120, TimeSig.commonTime).withRef('metronome'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
 }

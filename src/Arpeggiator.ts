@@ -133,6 +133,21 @@ export default class Arpeggiator implements IClockChild {
         this._endAllNotes();
     }
 
+    /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new Arpeggiator(arpeggio, metronome, midiOut).withRef('arpeggiator'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
+
     private _endAllNotes(): void {
         for (const note of this._notes)
             note.stop();
