@@ -28,13 +28,20 @@ export class ChordLookupData {
         this.shapeName = shapeName;
         this.name = name;
         this.inverseName = inverseName;
-        let pitchMap = 0;
-        for (let interval of intervals)
-            pitchMap += Math.pow(2, (root + interval) % 12);
-        this.pitchMap = pitchMap;
+        this.pitchMap = this._getPitchMap(root, intervals);
         this.preference = preference;
         this.intervals = intervals;
         this.root = root;
+    }
+
+    //Returns a 12-bit number to represent which pitch classes are present in the passed in array of pitches
+    //2^0 = pitches contains C, 2^1 = pitches contains C#, 2^2 = pitches contains D, etc.
+    private _getPitchMap(root: number, intervals: number[]): number {
+        const distinctIntervals = distinct(intervals.map(x => safeMod(x, 12)));
+        let output = 0;
+        for (let interval of distinctIntervals)
+            output += Math.pow(2, safeMod(root + interval, 12));
+        return output;
     }
 }
 
