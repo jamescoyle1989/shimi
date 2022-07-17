@@ -234,7 +234,7 @@ export default class Scale implements IPitchContainer {
         const relativeMajorRoot = safeMod(this.root - this.template.relativityToMajor, 12);
 
         //1 = prefer sharps, -1 = prefer flats
-        const scalePreference = ([0, 7, 2, 9, 4, 11, 6].find(x => x == relativeMajorRoot) != undefined) ? 1 : -1;
+        const scalePreference = ([0, 7, 2, 9, 4, 11].find(x => x == relativeMajorRoot) != undefined) ? 1 : -1;
 
         //Build a 2D array of possible names that can be used for each of the 12 pitches
         const n = (pitch: number, letter: string, accidental?: number) => new PitchName(pitch, letter, accidental);
