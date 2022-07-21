@@ -133,10 +133,28 @@ export default class Scale implements IPitchContainer {
      * ```
      * 
      * Similarly, if degree is less than 1, then how much lower it is will determine how many octaves it shifts down in its search.
+     * @param rootOctave The octave of the scale root, which the returned pitch is calculated in relation to.
+     * @returns 
+     */
+    degree(degree: number, rootOctave: number = -1): number {
+        degree = Math.round(degree - 1);
+        let octaveShift = Math.floor(degree / this.length);
+        degree -= octaveShift * this.length;
+        const pitch = this.pitches[safeMod(degree, this.length)];
+        if (pitch < this.root)
+            octaveShift++;
+        return pitch + (octaveShift * 12) + ((rootOctave + 1) * 12);
+    }
+
+    /**
+     * The degreeInOctave method accepts a numerical scale degree, and returns the numerical pitch value which it corresponds to.
+     * 
+     * The degreeInOctave method will always ensure that the returned value is in the specified octave. This is different from the degree method which returns a pitch relative to a scale root that is in a specific octave.
+     * @param degree The degree of the scale to fetch. This starts counting from root = 1. If the supplied value is < 1, or >= scale.length, then a modulus operation is applied. For example, if the scale has 7 degrees, then `scale.degreeInOctave(9) == scale.degreeInOctave(2)`.
      * @param octave The octave which the returned pitch should be in (not taking into account octave shifts as described above for the degree parameter).
      * @returns 
      */
-    degree(degree: number, octave: number = -1): number {
+    degreeInOctave(degree: number, octave: number = -1): number {
         const degreePitch = this.pitches[safeMod(degree - 1, this.pitches.length)];
         return degreePitch + ((octave + 1) * 12);
     }

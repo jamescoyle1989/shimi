@@ -7,6 +7,11 @@ class TestClockChild implements IClockChild {
     set ref(value: string) { this._ref = value; }
     private _ref: string;
 
+    withRef(ref: string): IClockChild {
+        this.ref = ref;
+        return this;
+    }
+
     get finished(): boolean { return this._finished; }
     private _finished: boolean = false;
 

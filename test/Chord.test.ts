@@ -237,13 +237,13 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord['_name']).to.be.null;
     }
 
-    @test 'getPitch returns same as index for 0 - length - 1'() {
+    @test 'getPitch returns same as index for 0 - length-1'() {
         const chord = new Chord().addPitches([5, 9, 12, 15]);
         for (let i = 0; i < chord.pitches.length; i++)
             expect(chord.pitches[i]).to.equal(chord.getPitch(i));
     }
 
-    @test 'getPitch returns stuff up octaves if index above length - 1'() {
+    @test 'getPitch returns stuff up octaves if index above length-1'() {
         const chord = new Chord().addPitches([5, 9, 12, 15]);
         for (let i = 0; i < chord.pitches.length; i++) {
             expect(chord.getPitch(i + 4)).to.equal(chord.pitches[i] + 12);

@@ -253,12 +253,46 @@ import { FitDirection } from '../src/IPitchContainer';
 
     @test 'degree maps degrees outside of the scale range to within the scale range'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(0)).to.equal(scale.degree(7));
+        expect(scale.degree(0)).to.equal(-1);
+        expect(scale.degree(9)).to.equal(14);
+        expect(scale.degree(-2)).to.equal(-5);
+        expect(scale.degree(12)).to.equal(19);
     }
 
     @test 'degree allows 2nd param to specify octave'() {
         const scale = ScaleTemplate.major.create(0);
         expect(scale.degree(2, 1)).to.equal(26);
+    }
+
+    @test 'degree 2nd param works with octave shifting from first param'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.degree(0, 0)).to.equal(11);
+        expect(scale.degree(9, 1)).to.equal(38);
+        expect(scale.degree(-2, 2)).to.equal(31);
+        expect(scale.degree(12, 3)).to.equal(67);
+    }
+
+    @test 'degree doesnt cause pitch jumping when moving up from B to C'() {
+        const scale = ScaleTemplate.major.create(7);
+        expect(scale.degree(3)).to.equal(11);
+        expect(scale.degree(4)).to.equal(12);
+    }
+
+    @test 'degreeInOctave returns pitches strictly within the specified octave'() {
+        const scale = ScaleTemplate.major.create(7);
+        expect(scale.degreeInOctave(1, 0)).to.equal(19);
+        expect(scale.degreeInOctave(2, 0)).to.equal(21);
+        expect(scale.degreeInOctave(3, 0)).to.equal(23);
+        expect(scale.degreeInOctave(4, 0)).to.equal(12);
+        expect(scale.degreeInOctave(5, 0)).to.equal(14);
+        expect(scale.degreeInOctave(6, 0)).to.equal(16);
+        expect(scale.degreeInOctave(7, 0)).to.equal(18);
+
+        expect(scale.degreeInOctave(0, 0)).to.equal(18);
+        expect(scale.degreeInOctave(-1, 0)).to.equal(16);
+
+        expect(scale.degreeInOctave(8, 0)).to.equal(19);
+        expect(scale.degreeInOctave(9, 0)).to.equal(21);
     }
 
     @test 'degree().near() allows fetching a pitch of the same class near another pitch'() {
