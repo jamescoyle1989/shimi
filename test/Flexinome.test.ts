@@ -96,4 +96,20 @@ import Flexinome from '../src/Flexinome';
         expect(m.totalQuarterNote).to.be.closeTo(0.5, 0.001);
         expect(m.totalBeat).to.be.closeTo(0.25, 0.001);
     }
+
+    @test 'zero or negative tempoMultiplier throws error'() {
+        const m = new Flexinome(60, TimeSig.commonTime());
+        expect(() => m.tempoMultiplier = 0).to.throw();
+        expect(() => m.tempoMultiplier = -1).to.throw();
+    }
+
+    @test 'tempoMultiplier changes speed of metronome updates'() {
+        const m = new Flexinome(60, TimeSig.commonTime());
+        m.tempoMultiplier = 2;
+        m.update(1000);
+        expect(m.barQuarterNote).to.equal(2);
+        expect(m.barBeat).to.equal(2);
+        expect(m.totalQuarterNote).to.equal(2);
+        expect(m.totalBeat).to.equal(2);
+    }
 }

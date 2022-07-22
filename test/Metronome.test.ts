@@ -111,4 +111,20 @@ import Metronome from '../src/Metronome';
     @test 'constructor throws error if negative tempo provided'() {
         expect(() => { const m = new Metronome(-1); }).to.throw();
     }
+
+    @test 'zero or negative tempoMultiplier throws error'() {
+        const m = new Metronome(60, TimeSig.commonTime());
+        expect(() => m.tempoMultiplier = 0).to.throw();
+        expect(() => m.tempoMultiplier = -1).to.throw();
+    }
+
+    @test 'tempoMultiplier changes speed of metronome updates'() {
+        const m = new Metronome(60, TimeSig.commonTime());
+        m.tempoMultiplier = 2;
+        m.update(1000);
+        expect(m.barQuarterNote).to.equal(2);
+        expect(m.barBeat).to.equal(2);
+        expect(m.totalQuarterNote).to.equal(2);
+        expect(m.totalBeat).to.equal(2);
+    }
 }

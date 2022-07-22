@@ -24,6 +24,36 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
     /** Set the current flexinome tempo. */
     set tempo(value: number) { this._tempo = value; }
 
+    private _tempoMultiplier: number = 1;
+    /**
+     * Get the tempo multiplier. This allows defining the tempo in terms of other duration values than just quarter notes. For example, if `tempo == 120`:
+     * 
+     * `tempoMultiplier == 1` means ♩ = 120
+     * 
+     * `tempoMultiplier == 0.5` means ♪ = 120
+     * 
+     * `tempoMultiplier == 1.5` means ♩. = 120
+     * 
+     * The default value is 1.
+     */
+    get tempoMultiplier(): number { return this._tempoMultiplier; }
+    /**
+     * Set the tempo multiplier. This allows defining the tempo in terms of other duration values than just quarter notes. For example, if `tempo == 120`:
+     * 
+     * `tempoMultiplier == 1` means ♩ = 120
+     * 
+     * `tempoMultiplier == 0.5` means ♪ = 120
+     * 
+     * `tempoMultiplier == 1.5` means ♩. = 120
+     * 
+     * Valid values are technically all positive numbers, though in reality only numbers that correspond to common musical note durations make sense.
+     */
+    set tempoMultiplier(value: number) {
+        if (value <= 0)
+            throw new Error('Invalid tempoMultiplier.');
+        this._tempoMultiplier = value;
+    }
+
     /** Provides a way of identifying flexinomes so they can be easily retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
@@ -141,7 +171,7 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
         if (!this.enabled)
             return false;
 
-        const qnDelta = msDelta * (this.tempo / 60000) * (4 / this.timeSig.denominator);
+        const qnDelta = msDelta * (this.tempo / 60000) * this.tempoMultiplier;
         this._totalQuarterNote.accept();
         this._totalQuarterNote.value += qnDelta;
         this._barQuarterNote.accept();
