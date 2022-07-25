@@ -36,6 +36,7 @@ import Range from './Range';
 import Repeat, { ConditionalRepeat, RepeatArgs, MsRepeat, FiniteRepeatArgs, BeatRepeat, BeatRepeatArgs } from './Repeat';
 import Scale from './Scale';
 import ScaleTemplate from './ScaleTemplate';
+import ShimiEvent, { ShimiHandler, ShimiEventData } from './ShimiEvent';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 import WebSynth, { WebSynthChannel, IWebSynthChannel } from './WebSynth';
@@ -73,6 +74,7 @@ export {
     Repeat, ConditionalRepeat, RepeatArgs, MsRepeat, FiniteRepeatArgs, BeatRepeat, BeatRepeatArgs, 
     Scale,
     ScaleTemplate,
+    ShimiEvent, ShimiHandler, ShimiEventData,
     SliderInput, SliderEvent, SliderEventData,
     TimeSig, TimeSigDivision,
     WebSynth, WebSynthChannel, IWebSynthChannel

@@ -93,4 +93,23 @@ class MockSource {
         expect(results[0]).to.equal(3);
         expect(results[1]).to.equal(8);
     }
+
+    @test 'Handler supports setting ref through withRef method'() {
+        const handler = new ShimiHandler(data => 1 + 1);
+        expect(handler.ref).to.be.undefined;
+        handler.withRef('Hello');
+        expect(handler.ref).to.equal('Hello');
+    }
+
+    @test 'Handler withRef method returns the handler'() {
+        const handler = new ShimiHandler(data => 1 + 1);
+        expect(handler.withRef('Hello')).to.equal(handler);
+    }
+
+    @test 'Event add method returns newly added handler'() {
+        const evt = new ShimiEvent<ShimiEventData<MockSource>, MockSource>();
+        const handler = evt.add(data => 1 + 1).withRef('test handler');
+        expect(handler).to.not.be.undefined;
+        expect(handler.ref).to.equal('test handler');
+    }
 }
