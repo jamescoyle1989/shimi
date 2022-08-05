@@ -217,4 +217,23 @@ import { Clip } from '../src/Clip';
         expect(recordedClips.length).to.equal(1);
         expect(recordedClips[0].duration).to.equal(10);
     }
+
+    @test 'ClipRecorder stops listening for messages once its finished'() {
+        const metronome = new Metronome(120);
+        const midiBus = new MidiBus();
+        const clipRecorder = new ClipRecorder(metronome, midiBus);
+        clipRecorder.finish();
+        midiBus.sendMessage(new messages.ControlChangeMessage(50, 70, 3));
+        expect(clipRecorder['_clip'].controlChanges.length).to.equal(0);
+    }
+
+    @test 'MidiIn events wont be resubscribed to once the recorder has finished'() {
+        const metronome = new Metronome(120);
+        const midiBus = new MidiBus();
+        const clipRecorder = new ClipRecorder(metronome, null);
+        clipRecorder.finish();
+        clipRecorder.midiIn = midiBus;
+        midiBus.sendMessage(new messages.ControlChangeMessage(50, 70, 3));
+        expect(clipRecorder['_clip'].controlChanges.length).to.equal(0);
+    }
 }

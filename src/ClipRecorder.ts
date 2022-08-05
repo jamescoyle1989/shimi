@@ -54,21 +54,31 @@ export default class ClipRecorder implements IClockChild {
     set midiIn(value: IMidiIn) { 
         if (this._midiIn == value)
             return;
-        if (this._midiIn) {
-            this._midiIn.noteOn.remove(x => x.logic == this._onNoteOn);
-            this._midiIn.noteOff.remove(x => x.logic == this._onNoteOff);
-            this._midiIn.controlChange.remove(x => x.logic == this._onControlChange);
-            this._midiIn.pitchBend.remove(x => x.logic == this._onPitchBend);
-        }
+        this._removeMidiInSubscriptions();
         this._midiIn = value;
-        if (this._midiIn) {
+        this._addMidiInSubscriptions();
+    }
+    private _midiIn: IMidiIn;
+
+
+    private _addMidiInSubscriptions() {
+        if (this._midiIn && !this.finished) {
             this._midiIn.noteOn.add(this._onNoteOn);
             this._midiIn.noteOff.add(this._onNoteOff);
             this._midiIn.controlChange.add(this._onControlChange);
             this._midiIn.pitchBend.add(this._onPitchBend);
         }
     }
-    private _midiIn: IMidiIn;
+
+    private _removeMidiInSubscriptions() {
+        if (this._midiIn) {
+            this._midiIn.noteOn.remove(x => x.logic == this._onNoteOn);
+            this._midiIn.noteOff.remove(x => x.logic == this._onNoteOff);
+            this._midiIn.controlChange.remove(x => x.logic == this._onControlChange);
+            this._midiIn.pitchBend.remove(x => x.logic == this._onPitchBend);
+        }
+    }
+
 
     /** 
      * How many beats to stop the clip recording after.
@@ -217,6 +227,7 @@ export default class ClipRecorder implements IClockChild {
     /** Calling this tells the clip recorder to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._finished = true;
+        this._removeMidiInSubscriptions();
 
         if (this.beatCount == null)
             this._clip.duration = this.beatsPassed;
