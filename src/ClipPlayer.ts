@@ -1,7 +1,7 @@
 'use strict';
 
 import { Clip, ClipNote } from './Clip';
-import IMetronome from './Metronome';
+import { IMetronome } from './Metronome';
 import Note from './Note';
 import { IClockChild } from './Clock';
 import { IMidiOut } from './MidiOut';
