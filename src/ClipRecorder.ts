@@ -74,11 +74,16 @@ export default class ClipRecorder implements IClockChild {
      * How many beats to stop the clip recording after.
      * 
      * This also sets the duration of the clip that will be returned at the end of the recording.
+     * 
+     * The default value is 4. If this is set to null, then the recorder will only stop when explicitly told, and the returned clip's length will be however long the recorder ended up running for.
      */
     get beatCount(): number { return this._beatCount; }
     set beatCount(value: number) { 
         this._beatCount = value;
-        this._clip.duration = value;
+        if (value == null)
+            this._clip.duration = 0;
+        else
+            this._clip.duration = value;
     }
     private _beatCount: number = 4;
 
@@ -116,6 +121,8 @@ export default class ClipRecorder implements IClockChild {
     }
 
     private _getClipPosition(position: number): number {
+        if (this.beatCount == null)
+            return position;
         return position % this._clip.duration;
     }
 
@@ -197,7 +204,7 @@ export default class ClipRecorder implements IClockChild {
 
         //Update beatsPassed, if it's greater or equal to beatCount, then the recording is finished
         this._beatsPassed += beatDiff;
-        if (this.beatsPassed >= this.beatCount) {
+        if (this.beatCount != null && this.beatsPassed >= this.beatCount) {
             this.finish();
             return;
         }
@@ -210,6 +217,10 @@ export default class ClipRecorder implements IClockChild {
     /** Calling this tells the clip recorder to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._finished = true;
+
+        if (this.beatCount == null)
+            this._clip.duration = this.beatsPassed;
+
         for (const inProgressNote of this._inProgressNotes) {
             inProgressNote.end = this._clip.duration;
             this._clip.notes.push(inProgressNote);

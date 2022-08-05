@@ -22,6 +22,18 @@ import { Clip } from '../src/Clip';
         expect(clipRecorder['_clip'].duration).to.equal(100);
     }
 
+    @test 'Changing beatCount to null changes the clip duration to 0'() {
+        const clipRecorder = new ClipRecorder(
+            new Metronome(120), 
+            new MidiIn(new DummyPort())
+        );
+        expect(clipRecorder.beatCount).to.equal(4);
+        expect(clipRecorder['_clip'].duration).to.equal(4);
+        clipRecorder.beatCount = null;
+        expect(clipRecorder.beatCount).to.equal(null);
+        expect(clipRecorder['_clip'].duration).to.equal(0);
+    }
+
     @test 'Update doesnt do anything if finished is true'() {
         const metronome = new Metronome(120);
         const clipRecorder = new ClipRecorder(
@@ -171,5 +183,38 @@ import { Clip } from '../src/Clip';
         expect(midiBus.noteOff.handlers.length).to.equal(0);
         expect(midiBus.controlChange.handlers.length).to.equal(0);
         expect(midiBus.pitchBend.handlers.length).to.equal(0);
+    }
+
+    @test 'New notes get recorded properly when beatCount is null'() {
+        const metronome = new Metronome(120);
+        const midiBus = new MidiBus();
+        const clipRecorder = new ClipRecorder(metronome, midiBus);
+        clipRecorder.beatCount = null;
+        metronome.update(500);
+        clipRecorder.update(500);
+        midiBus.sendMessage(new messages.NoteOnMessage(60, 80, 2));
+        metronome.update(500);
+        clipRecorder.update(500);
+        midiBus.sendMessage(new messages.NoteOffMessage(60, 80, 2));
+        expect(clipRecorder['_clip'].notes.length).to.equal(1);
+        expect(clipRecorder['_clip'].notes[0].pitch).to.equal(60);
+        expect(clipRecorder['_clip'].notes[0].velocity).to.equal(80);
+        expect(clipRecorder['_clip'].notes[0].channel).to.equal(2);
+        expect(clipRecorder['_clip'].notes[0].start).to.equal(1);
+        expect(clipRecorder['_clip'].notes[0].duration).to.equal(1);
+    }
+
+    @test 'Clip duration gets set to beatsPassed property if beatCount is null'() {
+        const metronome = new Metronome(120);
+        const midiBus = new MidiBus();
+        const clipRecorder = new ClipRecorder(metronome, midiBus);
+        clipRecorder.beatCount = null;
+        const recordedClips: Clip[] = [];
+        clipRecorder.newClip.add(evt => recordedClips.push(evt.clip));
+        metronome.update(5000);
+        clipRecorder.update(5000);
+        clipRecorder.finish();
+        expect(recordedClips.length).to.equal(1);
+        expect(recordedClips[0].duration).to.equal(10);
     }
 }
