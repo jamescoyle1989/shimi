@@ -207,6 +207,124 @@ export class SineOutTween extends LinearTween {
 
 
 /**
+ * StepsTween defines a step-wise movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class StepsTween extends LinearTween {
+    /**
+     * How many step movements to take in getting to the destination value.
+     */
+    get steps(): number { return this._steps; }
+    set steps(value: number) { this._steps = value; }
+    private _steps: number;
+
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @param steps How many step movements to take in getting to the destination value.
+     */
+    constructor(from: number, to: number, steps: number) {
+        super(from, to);
+        this.steps = steps;
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        //Make sure percent never actually quite reaches 1, otherwise it tries to go to the next step above the target
+        percent = Math.min(percent, 0.999);
+        
+        return Math.floor(percent * (this.steps + 1)) / this.steps;
+    }
+}
+
+
+/**
+ * QuadraticInOutTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class QuadraticInOutTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        if (percent < 0.5)
+            return 2 * percent * percent;
+        else {
+            const inversePercent = (1 - percent);
+            return 1 - (2 * inversePercent * inversePercent);
+        }
+    }
+}
+
+
+/**
+ * QuadraticInTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class QuadraticInTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        return percent * percent;
+    }
+}
+
+
+/**
+ * QuadraticOutTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class QuadraticOutTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        const inversePercent = 1 - percent;
+        return 1 - (inversePercent * inversePercent);
+    }
+}
+
+
+/**
  * The Tween class contains static methods for slightly more nice and intuitive creation of tweens.
  * 
  * @category Tweens
@@ -250,5 +368,45 @@ export default class Tween {
      */
     static sineOut(from: number, to: number): SineOutTween {
         return new SineOutTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of StepsTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static steps(from: number, to: number, steps: number): StepsTween {
+        return new StepsTween(from, to, steps);
+    }
+
+    /**
+     * Creates a new instance of QuadraticInOutTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static quadraticInOut(from: number, to: number): QuadraticInOutTween {
+        return new QuadraticInOutTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of QuadraticInTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static quadraticIn(from: number, to: number): QuadraticInTween {
+        return new QuadraticInTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of QuadraticOutTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static quadraticOut(from: number, to: number): QuadraticOutTween {
+        return new QuadraticOutTween(from, to);
     }
 }
