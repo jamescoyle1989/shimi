@@ -1,5 +1,7 @@
 'use strict';
 
+import { sum } from "./IterationUtils";
+
 
 /**
  * ITween defines an interface which forms the basis for an object that supports a gradual transition between 2 values.
@@ -18,6 +20,13 @@ export interface ITween {
      * @param percent Expects a value ranging from 0 to 1.
      */
     update(percent: number): number;
+
+    /**
+     * Allows for tweens to be chained one after another.
+     * @param tween The next tween to follow after the current one.
+     * @param weight Weighting to determine how much of the tweening time that the new tween gets.
+     */
+    then(tween: ITween, weight?: number): ITween;
 }
 
 
@@ -44,6 +53,10 @@ export class LinearTween implements ITween {
         this._to = to;
     }
 
+    /**
+     * Accepts a percent value and returns a corresponding value somewhere between the `from` and `to` values.
+     * @param percent Expects a value ranging from 0 to 1.
+     */
     update(percent: number): number {
         return this.from + (this.tweenEquation(percent) * (this.to - this.from));
     }
@@ -55,6 +68,65 @@ export class LinearTween implements ITween {
      */
     tweenEquation(percent: number): number {
         return percent;
+    }
+
+    /**
+     * Allows for tweens to be chained one after another.
+     * @param tween The next tween to follow after the current one.
+     * @param weight Weighting to determine how much of the tweening time that the new tween gets.
+     */
+     then(tween: ITween, weight: number = 1): ITween {
+        return new MultiTween(this).then(tween, weight);
+     }
+}
+
+
+/**
+ * MultiTween supports multiple tweens being chained one after another.
+ * 
+ * @category Tweens
+ */
+export class MultiTween implements ITween {
+    private _children: Array<{tween: ITween, weight: number}> = [];
+
+    /**
+     * @param firstChild The first tween in the chain.
+     */
+    constructor(firstChild: ITween) {
+        this._children.push({tween: firstChild, weight: 1});
+    }
+
+    /** The value to start the tween from. */
+    get from(): number { return this._children[0].tween.from; }
+
+    /** The value to end the tween at. */
+    get to(): number { return this._children[this._children.length - 1].tween.to; }
+
+    /**
+     * Accepts a percent value and returns a corresponding value somewhere between the `from` and `to` values.
+     * @param percent Expects a value ranging from 0 to 1.
+     */
+    update(percent: number): number {
+        const totalWeight = sum(this._children, x => x.weight);
+        const weightedPercent = totalWeight * percent;
+        let cumulativeWeight = 0;
+        for (const child of this._children) {
+            if (cumulativeWeight <= weightedPercent && cumulativeWeight + child.weight >= weightedPercent) {
+                const childPercent = (weightedPercent - cumulativeWeight) / child.weight;
+                return child.tween.update(childPercent);
+            }
+            cumulativeWeight += child.weight;
+        }
+    }
+
+    /**
+     * Allows for tweens to be chained one after another.
+     * @param tween The next tween to be added to the chain.
+     * @param weight Weighting to determine how much of the tweening time that the new tween gets.
+     */
+    then(tween: ITween, weight: number = 1): ITween {
+        this._children.push({tween, weight});
+        return this;
     }
 }
 
