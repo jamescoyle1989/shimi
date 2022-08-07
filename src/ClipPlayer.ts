@@ -159,15 +159,15 @@ export default class ClipPlayer implements IClockChild {
             const clipNote: ClipNote = note['clipNote'];
             if (!clipNote.contains(newClipBeat) || !this.clip.notes.find(x => x === clipNote))
                 note.stop();
-            else if (typeof(clipNote.velocity) == 'function')
-                note.velocity = clipNote.velocity(newClipBeat - clipNote.start);
+            else if (typeof(clipNote.velocity) != 'number')
+                note.velocity = clipNote.velocity.update((newClipBeat - clipNote.start) / clipNote.duration);
         }
         this._notes = this._notes.filter(n => n.on);
 
         //Loop through each clip note in the current range and add a new note for each one
         //Store the clipNote that each note came from, so we can track down notes when it's time to stop them
         for (const clipNote of this.clip.getNotesStartingInRange(oldClipBeat, newClipBeat)) {
-            const note = clipNote.createNote(this.channel);
+            const note = clipNote.createNote(this.channel, (newClipBeat - clipNote.start) / clipNote.duration);
             note['clipNote'] = clipNote;
             if (this.noteModifier)
                 this.noteModifier(note);
@@ -182,9 +182,9 @@ export default class ClipPlayer implements IClockChild {
                 continue;
             this.midiOut.sendMessage(new ControlChangeMessage(
                 clipCC.controller, 
-                (typeof(clipCC.value) == 'function') ? 
-                    clipCC.value(Math.min(newClipBeat - clipCC.start, clipCC.duration)) : 
-                    clipCC.value, 
+                (typeof(clipCC.value) == 'number') ? 
+                    clipCC.value :    
+                    clipCC.value.update(Math.min(1, (newClipBeat - clipCC.start) / clipCC.duration)), 
                 clipCC.channel ?? this.channel
             ));
         }
@@ -195,9 +195,9 @@ export default class ClipPlayer implements IClockChild {
             if (newClipBeat > clipBend.end && clipBend.start < oldClipBeat && !percentIsFunction)
                 continue;
             this.midiOut.sendMessage(new PitchBendMessage(
-                (typeof(clipBend.percent) == 'function') ?
-                    clipBend.percent(Math.min(newClipBeat - clipBend.start, clipBend.duration)) :
-                    clipBend.percent,
+                (typeof(clipBend.percent) == 'number') ?
+                    clipBend.percent :
+                    clipBend.percent.update(Math.min(1, (newClipBeat - clipBend.start) / clipBend.duration)),
                 clipBend.channel ?? this.channel
             ));
         }

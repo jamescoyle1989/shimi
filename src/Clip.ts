@@ -2,6 +2,7 @@
 
 import Range from './Range';
 import Note from './Note';
+import { ITween } from './Tweens';
 import { sum } from './IterationUtils';
 
 
@@ -17,16 +18,14 @@ export class ClipNote extends Range {
     private _pitch: number;
 
     /**
-     * The note's velocity, valid values range from 0 - 127, or a function that maps beats to values.
+     * The note's velocity, valid values range from 0 - 127, or an ITween object to allow for values that change over time.
      * 
-     * If using a function, then the beat parameter measures beats passed since the start of the note.
-     * 
-     * An example of using a function for velocity to make a note swell in volume as it's played:
-     * `clipNote.velocity = (beat) => Math.min(127, 1 + (beat * 30))`
+     * An example of using a tween for velocity to make a note swell in volume as it's played:
+     * `clipNote.velocity = Tween.linear(1, 127)`
      */
-    get velocity(): number | ((beat: number) => number) { return this._velocity; }
-    set velocity(value: number | ((beat: number) => number)) { this._velocity = value; }
-    private _velocity: number | ((beat: number) => number);
+    get velocity(): number | ITween { return this._velocity; }
+    set velocity(value: number | ITween) { this._velocity = value; }
+    private _velocity: number | ITween;
 
     /** Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide. */
     get channel(): number { return this._channel; }
@@ -44,7 +43,7 @@ export class ClipNote extends Range {
         start: number, 
         duration: number, 
         pitch: number, 
-        velocity: number | ((beat: number) => number), 
+        velocity: number | ITween, 
         channel: number = null
     ) {
         super(start, duration);
@@ -58,12 +57,12 @@ export class ClipNote extends Range {
      * @param channel This is the preferred channel to use if the ClipNote doesn't specify one.
      * @returns 
      */
-    createNote(channel: number): Note {
+    createNote(channel: number, percent: number): Note {
         return new Note(
             this.pitch, 
             (typeof(this.velocity) == 'number') ? 
                 this.velocity : 
-                this.velocity(0), 
+                this.velocity.update(percent), 
             this.channel ?? channel
         );
     }
@@ -82,16 +81,14 @@ export class ClipCC extends Range {
     private _controller: number;
 
     /**
-     * The value to set, valid values range from 0 - 127, or a function that maps beats to values.
+     * The value to set, valid values range from 0 - 127, or an ITween object to allow for values that change over time.
      * 
-     * If using a function, then the beat parameter measures beats passed since the start of the control change.
-     * 
-     * An example of using a function to sweep the CC value from 0 to 127 over the course of 1 beat:
-     * `new ClipCC(0, 1, 25, (beat) => beat * 127);`
+     * An example of using a tween to sweep the CC value from 0 to 127 over the course of 1 beat:
+     * `new ClipCC(0, 1, 25, Tween.linear(0, 127));`
      */
-    get value(): number | ((beat: number) => number) { return this._value; }
-    set value(value: number | ((beat: number) => number)) { this._value = value; }
-    private _value: number | ((beat: number) => number);
+    get value(): number | ITween { return this._value; }
+    set value(value: number | ITween) { this._value = value; }
+    private _value: number | ITween;
 
     /** Which channel to send the control change to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide. */
     get channel(): number { return this._channel; }
@@ -109,7 +106,7 @@ export class ClipCC extends Range {
         start: number, 
         duration: number, 
         controller: number, 
-        value: number | ((beat: number) => number), 
+        value: number | ITween, 
         channel: number = null
     ) {
         super(start, duration);
@@ -127,18 +124,16 @@ export class ClipCC extends Range {
  */
 export class ClipBend extends Range {
     /**
-     * How much bend to apply, valid values range from -1 to +1, or a function that maps beats to values.
+     * How much bend to apply, valid values range from -1 to +1, or an ITween object to allow for values that change over time.
      * 
      * In the MIDI standard, bends are defined by 2 7-bit numbers put together, this makes sense within the specification, but is not particularly friendly to work with. Shimi prefers to work with percentages for ease of use.
      * 
-     * If using a function, then the beat parameter measures beats passed since the start of the bend.
-     * 
-     * An example of using a function to make a note smoothly bend up and down over 1 beat:
-     * `clipBend.percent = (beat) => Math.sin(beat * Math.PI);`
+     * An example of using a tween to make a bend that smoothly eases up:
+     * `clipBend.percent = Tween.sineInOut(0, 1);`
      */
-    get percent(): number | ((beat: number) => number) { return this._percent; }
-    set percent(value: number | ((beat: number) => number)) { this._percent = value; }
-    private _percent: number | ((beat: number) => number);
+    get percent(): number | ITween { return this._percent; }
+    set percent(value: number | ITween) { this._percent = value; }
+    private _percent: number | ITween;
 
     /** Which channel to send the bend to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
     get channel(): number { return this._channel; }
@@ -154,7 +149,7 @@ export class ClipBend extends Range {
     constructor(
         start: number, 
         duration: number, 
-        percent: number | ((beat: number) => number), 
+        percent: number | ITween, 
         channel: number = null
     ) {
         super(start, duration);

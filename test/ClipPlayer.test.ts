@@ -5,6 +5,7 @@ import { Clip, ClipBend, ClipCC, ClipNote } from '../src/Clip';
 import ClipPlayer from '../src/ClipPlayer';
 import Metronome from '../src/Metronome';
 import MidiOut from '../src/MidiOut';
+import { Tween } from '../src';
 
 
 function getBendValFromPercent(percent: number): number[] {
@@ -143,22 +144,22 @@ function getBendValFromPercent(percent: number): number[] {
         expect(midiOut.notes[0].pitch).to.equal(62);
     }
 
-    @test 'If ClipNote velocity is a function it gets called with each update'() {
+    @test 'If ClipNote velocity is a tween it gets called with each update'() {
         const clip = new Clip(16);
-        clip.notes.push(new ClipNote(0, 1, 60, b => b < 0.5 ? 100 : 50));
-        const metronome = new Metronome(120);
+        clip.notes.push(new ClipNote(0, 1, 60, Tween.linear(100, 50)));
+        const metronome = new Metronome(60);
         const midiOut = new MidiOut(new DummyPort());
         const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
 
-        metronome.update(10);
-        clipPlayer.update(10);
+        metronome.update(100);
+        clipPlayer.update(100);
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].on).to.be.true;
-        expect(midiOut.notes[0].velocity).to.equal(100);
+        expect(midiOut.notes[0].velocity).to.equal(95);
 
-        metronome.update(250);
-        clipPlayer.update(10);
-        expect(midiOut.notes[0].velocity).to.equal(50);
+        metronome.update(500);
+        clipPlayer.update(500);
+        expect(midiOut.notes[0].velocity).to.equal(70);
     }
 
     @test 'Player can end notes from old clip if clip gets changed'() {
@@ -214,9 +215,9 @@ function getBendValFromPercent(percent: number): number[] {
         expect(midiPort.messages[0][2]).to.equal(15);
     }
 
-    @test 'Control Changes with function values get correctly played'() {
+    @test 'Control Changes with tween values get correctly played'() {
         const clip = new Clip(4);
-        clip.controlChanges.push(new ClipCC(0, 1, 10, b => b * 126));
+        clip.controlChanges.push(new ClipCC(0, 1, 10, Tween.linear(0, 126)));
         const metronome = new Metronome(60);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
@@ -262,9 +263,9 @@ function getBendValFromPercent(percent: number): number[] {
         expect(midiPort.messages[0][2]).to.equal(20);
     }
 
-    @test 'Control Change value function parameter is capped at the control change length'() {
+    @test 'Control Change tween percent is capped at 1'() {
         const clip = new Clip(4);
-        clip.controlChanges.push(new ClipCC(0, 1, 10, b => b * 126));
+        clip.controlChanges.push(new ClipCC(0, 1, 10, Tween.linear(0, 126)));
         const metronome = new Metronome(120);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
@@ -294,9 +295,9 @@ function getBendValFromPercent(percent: number): number[] {
         expect(midiPort.messages[0][2]).to.equal(getBendValFromPercent(0.5)[1]);
     }
 
-    @test 'Pitch Bends with function values get correctly played'() {
+    @test 'Pitch Bends with tween values get correctly played'() {
         const clip = new Clip(4);
-        clip.bends.push(new ClipBend(0, 1, b => b));
+        clip.bends.push(new ClipBend(0, 1, Tween.linear(0, 1)));
         const metronome = new Metronome(60);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
@@ -342,9 +343,9 @@ function getBendValFromPercent(percent: number): number[] {
         expect(midiPort.messages[0][2]).to.equal(getBendValFromPercent(0.5)[1]);
     }
 
-    @test 'Pitch Bend value function parameter is capped at the pitch bend length'() {
+    @test 'Pitch Bend value tween percent is capped at 1'() {
         const clip = new Clip(4);
-        clip.bends.push(new ClipBend(0, 1, b => b));
+        clip.bends.push(new ClipBend(0, 1, Tween.linear(0, 1)));
         const metronome = new Metronome(120);
         const midiPort = new DummyPort();
         const midiOut = new MidiOut(midiPort);
