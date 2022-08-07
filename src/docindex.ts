@@ -39,6 +39,7 @@ import ScaleTemplate from './ScaleTemplate';
 import ShimiEvent, { ShimiHandler, ShimiEventData } from './ShimiEvent';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TimeSig, { TimeSigDivision } from './TimeSig';
+import Tween, { ITween, LinearTween, SineInOutTween, SineInTween, SineOutTween } from './Tweens';
 import WebSynth, { WebSynthChannel, IWebSynthChannel } from './WebSynth';
 
 export {
@@ -77,5 +78,6 @@ export {
     ShimiEvent, ShimiHandler, ShimiEventData,
     SliderInput, SliderEvent, SliderEventData,
     TimeSig, TimeSigDivision,
+    Tween, ITween, LinearTween, SineInOutTween, SineInTween, SineOutTween,
     WebSynth, WebSynthChannel, IWebSynthChannel
 }

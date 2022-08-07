@@ -33,6 +33,7 @@ import Scale from './Scale';
 import ScaleTemplate from './ScaleTemplate';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TimeSig, { TimeSigDivision } from './TimeSig';
+import Tween from './Tweens';
 import WebSynth, { WebSynthChannel } from './WebSynth';
 
 export {
@@ -67,5 +68,6 @@ export {
     ScaleTemplate,
     SliderInput, SliderEvent, SliderEventData,
     TimeSig, TimeSigDivision,
+    Tween,
     WebSynth, WebSynthChannel
 }
