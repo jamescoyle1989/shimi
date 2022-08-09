@@ -43,6 +43,8 @@ import Tween, {
     ITween, LinearTween, 
     SineInOutTween, SineInTween, SineOutTween, 
     QuadraticInOutTween, QuadraticInTween, QuadraticOutTween,
+    CubicInOutTween, CubicInTween, CubicOutTween,
+    QuarticInOutTween, QuarticInTween, QuarticOutTween,
     MultiTween, StepsTween } from './Tweens';
 import WebSynth, { WebSynthChannel, IWebSynthChannel } from './WebSynth';
 
@@ -85,5 +87,7 @@ export {
     Tween, ITween, LinearTween, MultiTween, StepsTween, 
         SineInOutTween, SineInTween, SineOutTween, 
         QuadraticInOutTween, QuadraticInTween, QuadraticOutTween,
+        CubicInOutTween, CubicInTween, CubicOutTween,
+        QuarticInOutTween, QuarticInTween, QuarticOutTween,
     WebSynth, WebSynthChannel, IWebSynthChannel
 }

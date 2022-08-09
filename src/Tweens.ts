@@ -325,6 +325,172 @@ export class QuadraticOutTween extends LinearTween {
 
 
 /**
+ * CubicInOutTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class CubicInOutTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        if (percent < 0.5) {
+            percent = percent * 2;
+            return Math.pow(percent, 3) / 2;
+        }
+        else {
+            percent = (1 - percent) * 2;
+            return 1 - (Math.pow(percent, 3) / 2);
+        }
+    }
+}
+
+
+/**
+ * CubicInTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class CubicInTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        return Math.pow(percent, 3);
+    }
+}
+
+
+/**
+ * CubicOutTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class CubicOutTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        const inversePercent = 1 - percent;
+        return 1 - Math.pow(inversePercent, 3);
+    }
+}
+
+
+/**
+ * QuarticInOutTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class QuarticInOutTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        if (percent < 0.5) {
+            percent = percent * 2;
+            return Math.pow(percent, 4) / 2;
+        }
+        else {
+            percent = (1 - percent) * 2;
+            return 1 - (Math.pow(percent, 4) / 2);
+        }
+    }
+}
+
+
+/**
+ * QuarticInTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class QuarticInTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        return Math.pow(percent, 4);
+    }
+}
+
+
+/**
+ * QuarticOutTween defines an eased movement between 2 values.
+ * 
+ * @category Tweens
+ */
+export class QuarticOutTween extends LinearTween {
+    /**
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     */
+    constructor(from: number, to: number) {
+        super(from, to);
+    }
+
+    /**
+     * Represents the equation of how the tween value changes over time. Think of a cartesian graph, where the x-axis is time as a percent, and the y-axis is how far in its journey as a percent from `from` to `to` the tween is.
+     * @param percent Expects a value ranging from 0 to 1
+     * @returns Should return a value ranging from 0 to 1
+     */
+    tweenEquation(percent: number): number {
+        const inversePercent = 1 - percent;
+        return 1 - Math.pow(inversePercent, 4);
+    }
+}
+
+
+/**
  * The Tween class contains static methods for slightly more nice and intuitive creation of tweens.
  * 
  * @category Tweens
@@ -408,5 +574,65 @@ export default class Tween {
      */
     static quadraticOut(from: number, to: number): QuadraticOutTween {
         return new QuadraticOutTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of CubicInOutTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static cubicInOut(from: number, to: number): CubicInOutTween {
+        return new CubicInOutTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of CubicInTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static cubicIn(from: number, to: number): CubicInTween {
+        return new CubicInTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of CubicOutTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static cubicOut(from: number, to: number): CubicOutTween {
+        return new CubicOutTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of QuarticInOutTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static quarticInOut(from: number, to: number): QuarticInOutTween {
+        return new QuarticInOutTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of QuarticInTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static quarticIn(from: number, to: number): QuarticInTween {
+        return new QuarticInTween(from, to);
+    }
+
+    /**
+     * Creates a new instance of QuarticOutTween.
+     * @param from The value to start the tween from.
+     * @param to The value to end the tween at.
+     * @returns 
+     */
+    static quarticOut(from: number, to: number): QuarticOutTween {
+        return new QuarticOutTween(from, to);
     }
 }

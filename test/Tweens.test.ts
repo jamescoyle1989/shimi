@@ -85,6 +85,96 @@ import { Tween } from '../src';
         expect(tween.update(1)).to.equal(20);
     }
 
+    @test 'cubicInOut moves as expected'() {
+        const tween = Tween.cubicInOut(10, 20);
+        expect(tween.update(0)).to.equal(10);
+        expect(tween.update(0.1)).to.be.approximately(10.04, 0.001);
+        expect(tween.update(0.2)).to.be.approximately(10.32, 0.001);
+        expect(tween.update(0.3)).to.be.approximately(11.08, 0.001);
+        expect(tween.update(0.4)).to.be.approximately(12.56, 0.001);
+        expect(tween.update(0.5)).to.equal(15);
+        expect(tween.update(0.6)).to.be.approximately(17.44, 0.001);
+        expect(tween.update(0.7)).to.be.approximately(18.92, 0.001);
+        expect(tween.update(0.8)).to.be.approximately(19.68, 0.001);
+        expect(tween.update(0.9)).to.be.approximately(19.96, 0.001);
+        expect(tween.update(1)).to.equal(20);
+    }
+
+    @test 'cubicIn moves as expected'() {
+        const tween = Tween.cubicIn(10, 20);
+        expect(tween.update(0)).to.equal(10);
+        expect(tween.update(0.1)).to.be.approximately(10.01, 0.001);
+        expect(tween.update(0.2)).to.be.approximately(10.08, 0.001);
+        expect(tween.update(0.3)).to.be.approximately(10.27, 0.001);
+        expect(tween.update(0.4)).to.be.approximately(10.64, 0.001);
+        expect(tween.update(0.5)).to.be.approximately(11.25, 0.001);
+        expect(tween.update(0.6)).to.be.approximately(12.16, 0.001);
+        expect(tween.update(0.7)).to.be.approximately(13.43, 0.001);
+        expect(tween.update(0.8)).to.be.approximately(15.12, 0.001);
+        expect(tween.update(0.9)).to.be.approximately(17.29, 0.001);
+        expect(tween.update(1)).to.equal(20);
+    }
+
+    @test 'cubicOut moves as expected'() {
+        const tween = Tween.cubicOut(10, 20);
+        expect(tween.update(0)).to.equal(10);
+        expect(tween.update(0.1)).to.be.approximately(12.71, 0.001);
+        expect(tween.update(0.2)).to.be.approximately(14.88, 0.001);
+        expect(tween.update(0.3)).to.be.approximately(16.57, 0.001);
+        expect(tween.update(0.4)).to.be.approximately(17.84, 0.001);
+        expect(tween.update(0.5)).to.be.approximately(18.75, 0.001);
+        expect(tween.update(0.6)).to.be.approximately(19.36, 0.001);
+        expect(tween.update(0.7)).to.be.approximately(19.73, 0.001);
+        expect(tween.update(0.8)).to.be.approximately(19.92, 0.001);
+        expect(tween.update(0.9)).to.be.approximately(19.99, 0.001);
+        expect(tween.update(1)).to.equal(20);
+    }
+
+    @test 'quarticInOut moves as expected'() {
+        const tween = Tween.quarticInOut(10, 20);
+        expect(tween.update(0)).to.equal(10);
+        expect(tween.update(0.1)).to.be.approximately(10.008, 0.001);
+        expect(tween.update(0.2)).to.be.approximately(10.128, 0.001);
+        expect(tween.update(0.3)).to.be.approximately(10.648, 0.001);
+        expect(tween.update(0.4)).to.be.approximately(12.048, 0.001);
+        expect(tween.update(0.5)).to.equal(15);
+        expect(tween.update(0.6)).to.be.approximately(17.952, 0.001);
+        expect(tween.update(0.7)).to.be.approximately(19.352, 0.001);
+        expect(tween.update(0.8)).to.be.approximately(19.872, 0.001);
+        expect(tween.update(0.9)).to.be.approximately(19.992, 0.001);
+        expect(tween.update(1)).to.equal(20);
+    }
+
+    @test 'quarticIn moves as expected'() {
+        const tween = Tween.quarticIn(10, 20);
+        expect(tween.update(0)).to.equal(10);
+        expect(tween.update(0.1)).to.be.approximately(10.001, 0.0001);
+        expect(tween.update(0.2)).to.be.approximately(10.016, 0.0001);
+        expect(tween.update(0.3)).to.be.approximately(10.081, 0.0001);
+        expect(tween.update(0.4)).to.be.approximately(10.256, 0.0001);
+        expect(tween.update(0.5)).to.be.approximately(10.625, 0.0001);
+        expect(tween.update(0.6)).to.be.approximately(11.296, 0.0001);
+        expect(tween.update(0.7)).to.be.approximately(12.401, 0.0001);
+        expect(tween.update(0.8)).to.be.approximately(14.096, 0.0001);
+        expect(tween.update(0.9)).to.be.approximately(16.561, 0.0001);
+        expect(tween.update(1)).to.equal(20);
+    }
+
+    @test 'quarticOut moves as expected'() {
+        const tween = Tween.quarticOut(10, 20);
+        expect(tween.update(0)).to.equal(10);
+        expect(tween.update(0.1)).to.be.approximately(13.439, 0.0001);
+        expect(tween.update(0.2)).to.be.approximately(15.904, 0.0001);
+        expect(tween.update(0.3)).to.be.approximately(17.599, 0.0001);
+        expect(tween.update(0.4)).to.be.approximately(18.704, 0.0001);
+        expect(tween.update(0.5)).to.be.approximately(19.375, 0.0001);
+        expect(tween.update(0.6)).to.be.approximately(19.744, 0.0001);
+        expect(tween.update(0.7)).to.be.approximately(19.919, 0.0001);
+        expect(tween.update(0.8)).to.be.approximately(19.984, 0.0001);
+        expect(tween.update(0.9)).to.be.approximately(19.999, 0.0001);
+        expect(tween.update(1)).to.equal(20);
+    }
+
 
 
     @test 'then allows for tweens to be chained together'() {
