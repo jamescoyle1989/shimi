@@ -135,4 +135,14 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
         midiIn.port = null;
         expect(port['onmidimessage']).to.be.undefined;
     }
+
+    @test 'receiveData can send out tick events'() {
+        const midiIn = new MidiIn(new MockPort());
+        let tickCount = 0;
+        midiIn.tick.add(data => tickCount++);
+        expect(tickCount).to.equal(0);
+        midiIn.receiveData([0xF8]);
+        midiIn.receiveData([0xF8]);
+        expect(tickCount).to.equal(2);
+    }
 }

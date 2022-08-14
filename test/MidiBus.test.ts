@@ -210,4 +210,14 @@ import Note from '../src/Note';
         expect(message.pitch).to.equal(60);
         expect(message.velocity).to.equal(80);
     }
+
+    @test 'receiveData can send out tick events'() {
+        const midiBus = new MidiBus();
+        let tickCount = 0;
+        midiBus.tick.add(data => tickCount++);
+        expect(tickCount).to.equal(0);
+        midiBus.receiveData([0xF8]);
+        midiBus.receiveData([0xF8]);
+        expect(tickCount).to.equal(2);
+    }
 }

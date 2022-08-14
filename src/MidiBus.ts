@@ -51,12 +51,20 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     get pitchBend(): MidiInEvent<messages.PitchBendMessage> { return this._pitchBend; }
     private _pitchBend: MidiInEvent<messages.PitchBendMessage> = new MidiInEvent<messages.PitchBendMessage>();
 
+    /** The tick property can be subscribed to, to receive all timing clock messages that pass through the MidiIn object. */
+    get tick(): MidiInEvent<messages.TickMessage> { return this._tick; }
+    private _tick: MidiInEvent<messages.TickMessage> = new MidiInEvent<messages.TickMessage>();
+
     private _previousStatus: number = null;
 
     receiveData(data: number[]): void {
-        //0xF8 = Timing clock message, in interests of speed am explicitly ignoring this message for now
-        if (data.length == 0 || data[0] == 0xF8)
+        if (data.length == 0)
             return;
+
+        if (data.length == 1 && data[0] == 0xF8) {
+            this.tick.trigger(new MidiInEventData(this, new messages.TickMessage()));
+            return;
+        }
         
         if (data[0] >= 128)
             this._previousStatus = data[0];

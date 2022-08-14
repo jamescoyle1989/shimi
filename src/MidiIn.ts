@@ -81,6 +81,10 @@ export default class MidiIn implements IMidiIn {
     get pitchBend(): MidiInEvent<messages.PitchBendMessage> { return this._pitchBend; }
     private _pitchBend: MidiInEvent<messages.PitchBendMessage> = new MidiInEvent<messages.PitchBendMessage>();
 
+    /** The tick property can be subscribed to, to receive all timing clock messages that pass through the MidiIn object. */
+    get tick(): MidiInEvent<messages.TickMessage> { return this._tick; }
+    private _tick: MidiInEvent<messages.TickMessage> = new MidiInEvent<messages.TickMessage>();
+
     /**
      * @param port The MIDI port which data gets received from, see the MidiAccess class.
      */
@@ -96,9 +100,13 @@ export default class MidiIn implements IMidiIn {
     }
 
     receiveData(data: number[]): void {
-        //0xF8 = Timing clock message, in interests of speed am explicitly ignoring this message for now
-        if (data.length == 0 || data[0] == 0xF8)
+        if (data.length == 0)
             return;
+
+        if (data.length == 1 && data[0] == 0xF8) {
+            this.tick.trigger(new MidiInEventData(this, new messages.TickMessage()));
+            return;
+        }
         
         if (data[0] >= 128)
             this._previousStatus = data[0];
@@ -162,4 +170,6 @@ export interface IMidiIn {
 
     /** The pitchBend property can be subscribed to, to receive all Pitch Bend messages that pass through the MidiIn object. */
     get pitchBend(): MidiInEvent<messages.PitchBendMessage>;
+
+    get tick(): MidiInEvent<messages.TickMessage>;
 }

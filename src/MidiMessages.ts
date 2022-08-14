@@ -308,3 +308,21 @@ export class PitchBendMessage extends MidiMessageBase implements IMidiMessage {
         return (fullValue - 8192) / 8192;
     }
 }
+
+/**
+ * The TickMessage class represents a Timing Clock MIDI message that can be sent to a MIDI output.
+ * 
+ * @category Midi IO
+ */
+export class TickMessage implements IMidiMessage {
+    constructor() {
+    }
+
+    toArray(): number[] {
+        return [0xF8];
+    }
+
+    duplicate(): TickMessage {
+        return new TickMessage();
+    }
+}
