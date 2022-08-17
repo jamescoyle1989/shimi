@@ -48,8 +48,13 @@ export default class TickReceiver implements IClockChild {
     }
 
 
-    private _onMidiTick() {
+    /** Returns the number of ticks that have been received since the last update cycle. */
+    get newTicksReceived() { return this._newTicksReceived; }
+    private _newTicksReceived: number = 0;
 
+    //Function defined this way so that it can still access this properly while being called from event handler
+    private _onMidiTick = () => {
+        this._newTicksReceived++;
     }
 
 
@@ -90,6 +95,12 @@ export default class TickReceiver implements IClockChild {
      * @returns 
      */
     update(msDelta: number) {
+        //Store the current value of newTicksReceived, in case new events are received asynchronously
+        const newTicksReceived = this.newTicksReceived;
         
+        const qnDelta = newTicksReceived / this.ticksPerQuarterNote;
+        this.metronome.updateFromQuarterNoteDelta(qnDelta);
+        
+        this._newTicksReceived -= newTicksReceived;
     }
 }

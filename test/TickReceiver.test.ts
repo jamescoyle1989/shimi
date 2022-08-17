@@ -3,8 +3,9 @@ import { expect } from 'chai';
 import Clock from '../src/Clock';
 import TickReceiver from '../src/TickReceiver';
 import { MockPort } from './MidiOut.test';
-import MidiIn from '../src/MidiIn';
+import MidiIn, { MidiInEventData } from '../src/MidiIn';
 import Metronome from '../src/Metronome';
+import { TickMessage } from '../src/MidiMessages';
 
 @suite class TickReceiverTests {
     @test 'TickReceiver can be added to clock'() {
@@ -14,7 +15,7 @@ import Metronome from '../src/Metronome';
         expect(clock.children.length).to.equal(1);
     }
 
-    @test 'TickReceiver takes midi in, metronome & ticks per quarter note as constructor params'() {
+    @test 'TickReceiver takes midi-in, metronome & ticks per quarter note as constructor params'() {
         const midiIn = new MidiIn(new MockPort());
         const metronome = new Metronome(120);
         const receiver = new TickReceiver(midiIn, metronome, 960);
@@ -23,7 +24,7 @@ import Metronome from '../src/Metronome';
         expect(receiver.ticksPerQuarterNote).to.equal(960);
     }
 
-    @test 'TickReceiver constructor validates midi in is set'() {
+    @test 'TickReceiver constructor validates midi-in is set'() {
         const metronome = new Metronome(120);
         expect(() => new TickReceiver(null, metronome)).to.throw();
     }
@@ -66,5 +67,37 @@ import Metronome from '../src/Metronome';
         expect(midiIn.tick.handlers.length).to.equal(1);
         receiver.finish();
         expect(midiIn.tick.handlers.length).to.equal(0);
+    }
+
+    @test 'MidiIn.tick increments newTicksReceived'() {
+        const midiIn = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        const receiver = new TickReceiver(midiIn, metronome);
+        expect(receiver.newTicksReceived).to.equal(0);
+        midiIn.tick.trigger(new MidiInEventData(midiIn, new TickMessage()));
+        expect(receiver.newTicksReceived).to.equal(1);
+    }
+
+    @test 'update resets newTicksReceived to 0'() {
+        const midiIn = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        const receiver = new TickReceiver(midiIn, metronome);
+        midiIn.tick.trigger(new MidiInEventData(midiIn, new TickMessage()));
+        midiIn.tick.trigger(new MidiInEventData(midiIn, new TickMessage()));
+        expect(receiver.newTicksReceived).to.equal(2);
+        receiver.update(0);
+        expect(receiver.newTicksReceived).to.equal(0);
+    }
+
+    @test 'update increments metronome quarter note'() {
+        const midiIn = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        //4 ticks per quarter note, so that 2 ticks updates quarter note to 0.5
+        const receiver = new TickReceiver(midiIn, metronome, 4);
+        midiIn.tick.trigger(new MidiInEventData(midiIn, new TickMessage()));
+        midiIn.tick.trigger(new MidiInEventData(midiIn, new TickMessage()));
+        expect(metronome.totalQuarterNote).to.equal(0);
+        receiver.update(0);
+        expect(metronome.totalQuarterNote).to.equal(0.5);
     }
 }

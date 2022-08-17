@@ -25,7 +25,7 @@ import MidiIn, { MidiInEvent, MidiInEventData, IMidiIn } from './MidiIn';
 import { 
     IMidiMessage, NoteOffMessage, NoteOnMessage, 
     NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
-    ChannelPressureMessage, PitchBendMessage 
+    ChannelPressureMessage, PitchBendMessage, TickMessage
 } from './MidiMessages';
 import MidiOut, { IMidiOut } from './MidiOut';
 import Note from './Note';
@@ -66,8 +66,8 @@ export {
     Gamepads, IGamepad,
     Keyboard,
     IMidiMessage, NoteOffMessage, NoteOnMessage, 
-    NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
-    ChannelPressureMessage, PitchBendMessage,
+        NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
+        ChannelPressureMessage, PitchBendMessage, TickMessage,
     Metronome, IMetronome,
     MidiAccess,
     MidiBus,

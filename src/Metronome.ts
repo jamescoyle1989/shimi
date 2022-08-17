@@ -138,6 +138,14 @@ export interface IMetronome {
      * This takes a quarter note and returns true if the metronome is currently at it, or has only just passed it in the bar within the last update cycle.
      */
     atBarQuarterNote(quarterNote: number): boolean;
+
+    /**
+     * This method is exposed primarily for the TickReceiver, so it can get a metronome to update, using its own calculation of how many quarter notes to update by.
+     * 
+     * This method should not be called by consumers of the library.
+     * @param qnDelta The number of quarter notes to update the metronome by.
+     */
+    updateFromQuarterNoteDelta(qnDelta: number): void;
 }
 
 
@@ -326,11 +334,22 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
      * @returns 
      */
     update(msDelta: number) {
+        const qnDelta = msDelta * (this.tempo / 60000) * this.tempoMultiplier;
+        return this.updateFromQuarterNoteDelta(qnDelta);
+    }
+
+    /**
+     * This method is exposed primarily for the TickReceiver, so it can get a metronome to update, using its own calculation of how many quarter notes to update by.
+     * 
+     * This method should not be called by consumers of the library.
+     * @param qnDelta The number of quarter notes to update the metronome by.
+     * @returns
+     */
+     updateFromQuarterNoteDelta(qnDelta: number) {
         this._enabled.accept();
         if (!this.enabled)
             return false;
         
-        const qnDelta = msDelta * (this.tempo / 60000) * this.tempoMultiplier;
         this._totalQuarterNote.accept();
         this._totalQuarterNote.value += qnDelta;
         this._barQuarterNote.accept();
@@ -356,7 +375,7 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
             this._barBeat.value = this.timeSig.applySwing(this.barQuarterNote);
             this._totalBeat.value = (this.totalQuarterNote - this.barQuarterNote) + this.barBeat;
         }
-    }
+     }
 
     /** Calling this tells the metronome to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
