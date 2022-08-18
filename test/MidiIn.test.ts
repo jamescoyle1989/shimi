@@ -2,7 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import { MockPort } from './MidiOut.test';
 import MidiIn from '../src/MidiIn';
-import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage, PitchBendMessage, ProgramChangeMessage } from '../src/MidiMessages';
+import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage, PitchBendMessage, ProgramChangeMessage, SongPositionMessage } from '../src/MidiMessages';
 
 
 @suite class MidiInTests {
@@ -94,6 +94,17 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
         const message: PitchBendMessage = midiMessages[0];
         expect(message.channel).to.equal(2);
         expect(message.percent).to.equal(0.5);
+    }
+
+    @test 'receiveData for song position message triggers songPosition event'() {
+        const midiIn = new MidiIn(new MockPort());
+        const midiMessages: any[] = [];
+        midiIn.songPosition.add(data => midiMessages.push(data.message));
+        midiIn.receiveData([0xF2, 57, 96]);
+        expect(midiMessages.length).to.equal(1);
+        expect(midiMessages[0]).to.be.instanceOf(SongPositionMessage);
+        const message: SongPositionMessage = midiMessages[0];
+        expect(message.value).to.equal(12345);
     }
 
     @test 'port.onmidimessage results in receiveData being called'() {

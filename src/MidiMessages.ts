@@ -326,3 +326,32 @@ export class TickMessage implements IMidiMessage {
         return new TickMessage();
     }
 }
+
+
+export class SongPositionMessage implements IMidiMessage {
+    /** The number of MIDI ticks that have occured since the start of the song, divided by 6. */
+    value: number;
+    
+    /**
+     * @param value The number of MIDI ticks that have occured since the start of the song, divided by 6.
+     */
+     constructor(value: number) {
+        this.value = value;
+    }
+
+    toArray(): number[] {
+        if (this.value < 0)
+            throw new Error('value cannot be less than 0');
+        if (this.value > 16383)
+            throw new Error('value cannot be greater than 16383');
+        return [
+            0xF2,
+            this.value % 128,
+            Math.floor(this.value / 128)
+        ];
+    }
+
+    duplicate(): SongPositionMessage {
+        return new SongPositionMessage(this.value);
+    }
+}

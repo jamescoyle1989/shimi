@@ -25,7 +25,8 @@ import MidiIn, { MidiInEvent, MidiInEventData, IMidiIn } from './MidiIn';
 import { 
     IMidiMessage, NoteOffMessage, NoteOnMessage, 
     NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
-    ChannelPressureMessage, PitchBendMessage, TickMessage
+    ChannelPressureMessage, PitchBendMessage, TickMessage,
+    SongPositionMessage
 } from './MidiMessages';
 import MidiOut, { IMidiOut } from './MidiOut';
 import Note from './Note';
@@ -68,6 +69,7 @@ export {
     IMidiMessage, NoteOffMessage, NoteOnMessage, 
         NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
         ChannelPressureMessage, PitchBendMessage, TickMessage,
+        SongPositionMessage,
     Metronome, IMetronome,
     MidiAccess,
     MidiBus,

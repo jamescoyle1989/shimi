@@ -85,6 +85,10 @@ export default class MidiIn implements IMidiIn {
     get tick(): MidiInEvent<messages.TickMessage> { return this._tick; }
     private _tick: MidiInEvent<messages.TickMessage> = new MidiInEvent<messages.TickMessage>();
 
+    /** The songPosition property can be subscribed to, to receive all Song Position messages that pass through the MidiIn object. */
+    get songPosition(): MidiInEvent<messages.SongPositionMessage> { return this._songPosition; }
+    private _songPosition: MidiInEvent<messages.SongPositionMessage> = new MidiInEvent<messages.SongPositionMessage>();
+
     /**
      * @param port The MIDI port which data gets received from, see the MidiAccess class.
      */
@@ -133,6 +137,10 @@ export default class MidiIn implements IMidiIn {
             this.channelPressure.trigger(new MidiInEventData(this, new messages.ChannelPressureMessage(data[1], channel)));
         else if (messageId == 0xE0)
             this.pitchBend.trigger(new MidiInEventData(this, new messages.PitchBendMessage(messages.PitchBendMessage.calculatePercent(data[1], data[2]), channel)));
+        else if (messageId == 0xF0) {
+            if (channel == 2)
+                this.songPosition.trigger(new MidiInEventData(this, new messages.SongPositionMessage((128 * data[2]) + data[1])));
+        }
     }
 }
 
@@ -172,4 +180,6 @@ export interface IMidiIn {
     get pitchBend(): MidiInEvent<messages.PitchBendMessage>;
 
     get tick(): MidiInEvent<messages.TickMessage>;
+
+    get songPosition(): MidiInEvent<messages.SongPositionMessage>;
 }

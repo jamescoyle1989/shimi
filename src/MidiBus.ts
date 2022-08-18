@@ -51,9 +51,13 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     get pitchBend(): MidiInEvent<messages.PitchBendMessage> { return this._pitchBend; }
     private _pitchBend: MidiInEvent<messages.PitchBendMessage> = new MidiInEvent<messages.PitchBendMessage>();
 
-    /** The tick property can be subscribed to, to receive all timing clock messages that pass through the MidiIn object. */
+    /** The tick property can be subscribed to, to receive all timing clock messages that pass through the MidiBus object. */
     get tick(): MidiInEvent<messages.TickMessage> { return this._tick; }
     private _tick: MidiInEvent<messages.TickMessage> = new MidiInEvent<messages.TickMessage>();
+
+    /** The songPosition property can be subscribed to, to receive all Song Position messages that pass through the MidiBus object. */
+    get songPosition(): MidiInEvent<messages.SongPositionMessage> { return this._songPosition; }
+    private _songPosition: MidiInEvent<messages.SongPositionMessage> = new MidiInEvent<messages.SongPositionMessage>();
 
     private _previousStatus: number = null;
 
@@ -91,6 +95,10 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
             this.channelPressure.trigger(new MidiInEventData(this, new messages.ChannelPressureMessage(data[1], channel)));
         else if (messageId == 0xE0)
             this.pitchBend.trigger(new MidiInEventData(this, new messages.PitchBendMessage(messages.PitchBendMessage.calculatePercent(data[1], data[2]), channel)));
+        else if (messageId == 0xF0) {
+            if (channel == 2)
+                this.songPosition.trigger(new MidiInEventData(this, new messages.SongPositionMessage((128 * data[2]) + data[1])));
+        }
     }
 
 
@@ -129,6 +137,8 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
         else if (message instanceof messages.ProgramChangeMessage) this.programChange.trigger(new MidiInEventData(this, message));
         else if (message instanceof messages.ChannelPressureMessage) this.channelPressure.trigger(new MidiInEventData(this, message));
         else if (message instanceof messages.PitchBendMessage) this.pitchBend.trigger(new MidiInEventData(this, message));
+        else if (message instanceof messages.TickMessage) this.tick.trigger(new MidiInEventData(this, message));
+        else if (message instanceof messages.SongPositionMessage) this.songPosition.trigger(new MidiInEventData(this, message));
     }
 
     /**

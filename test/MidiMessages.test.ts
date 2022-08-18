@@ -123,4 +123,22 @@ import * as messages from '../src/MidiMessages';
         expect(PitchBendMessage.calculatePercent(0x00, 0x00)).to.equal(-1);
         expect(PitchBendMessage.calculatePercent(0x7F, 0x7F)).to.equal(1);
     }
+
+    @test 'SongPositionMessage.toArray returns correct values'() {
+        const message = new messages.SongPositionMessage(12345);
+        const array = message.toArray();
+        expect(array[0]).to.equal(0xF2);
+        expect(array[1]).to.equal(57);
+        expect(array[2]).to.equal(96);
+    }
+
+    @test 'SongPositionMessage.toArray throws error if value less than 0'() {
+        const message = new messages.SongPositionMessage(-1);
+        expect(() => message.toArray()).to.throw();
+    }
+
+    @test 'SongPositionMessage.toArray throws error if value greater than 16383'() {
+        const message = new messages.SongPositionMessage(16384);
+        expect(() => message.toArray()).to.throw();
+    }
 }
