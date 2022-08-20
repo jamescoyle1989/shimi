@@ -39,6 +39,7 @@ import Scale from './Scale';
 import ScaleTemplate from './ScaleTemplate';
 import ShimiEvent, { ShimiHandler, ShimiEventData } from './ShimiEvent';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
+import TickReceiver from './TickReceiver';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 import Tween, { 
     ITween, LinearTween, 
@@ -85,6 +86,7 @@ export {
     ScaleTemplate,
     ShimiEvent, ShimiHandler, ShimiEventData,
     SliderInput, SliderEvent, SliderEventData,
+    TickReceiver,
     TimeSig, TimeSigDivision,
     Tween, ITween, LinearTween, MultiTween, StepsTween, 
         SineInOutTween, SineInTween, SineOutTween, 

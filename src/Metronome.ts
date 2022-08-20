@@ -146,6 +146,14 @@ export interface IMetronome {
      * @param qnDelta The number of quarter notes to update the metronome by.
      */
     updateFromQuarterNoteDelta(qnDelta: number): void;
+
+    /**
+     * This method allows for setting the metronome to a specific position.
+     * 
+     * Note though, that the bar-related values are calculated under the assumption that the metronome's current time signature is the one that it always has.
+     * @param totalQuarterNote The new position, as measured in quarter notes.
+     */
+    setSongPosition(totalQuarterNote: number): void;
 }
 
 
@@ -366,8 +374,12 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
         }
         this._barBeat.accept();
         this._totalBeat.accept();
+        this._updateBeatValuesFromQuarterNoteValues();
+    }
+
+    private _updateBeatValuesFromQuarterNoteValues(): void {
         //If the bar isn't cleanly divided into quarter notes, and we're in the final part of the bar, don't apply swing
-        if (qnpb % 1 != 0 && Math.floor(this.barQuarterNote) + 1 > qnpb) {
+        if (this.timeSig.quarterNotesPerBar % 1 != 0 && Math.floor(this.barQuarterNote) + 1 > this.timeSig.quarterNotesPerBar) {
             this._barBeat.value = this.barQuarterNote;
             this._totalBeat.value = this.totalQuarterNote;
         }
@@ -375,7 +387,7 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
             this._barBeat.value = this.timeSig.applySwing(this.barQuarterNote);
             this._totalBeat.value = (this.totalQuarterNote - this.barQuarterNote) + this.barBeat;
         }
-     }
+    }
 
     /** Calling this tells the metronome to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
@@ -396,5 +408,24 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
     withRef(ref: string): IClockChild {
         this._ref = ref;
         return this;
+    }
+
+    /**
+     * This method allows for setting the metronome to a specific position.
+     * 
+     * Note though, that the bar-related values are calculated under the assumption that the metronome's current time signature is the one that it always has.
+     * @param totalQuarterNote The new position, as measured in quarter notes.
+     */
+    setSongPosition(totalQuarterNote: number): void {
+        this._timeSig.accept();
+        this._totalQuarterNote.value = totalQuarterNote;
+        this._totalQuarterNote.accept();
+        this._bar.value = Math.floor(totalQuarterNote / this.timeSig.quarterNotesPerBar);
+        this._bar.accept();
+        this._barQuarterNote.value = totalQuarterNote - (this.bar * this.timeSig.quarterNotesPerBar);
+        this._barQuarterNote.accept();
+        this._updateBeatValuesFromQuarterNoteValues();
+        this._barBeat.accept();
+        this._totalBeat.accept();
     }
 }

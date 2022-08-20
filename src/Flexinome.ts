@@ -201,7 +201,7 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
         this._totalBeat.accept();
         this._barBeat.value = this.timeSig.quarterNoteToBeat(this.barQuarterNote);
         this._totalBeat.value = this.totalBeat - this._barBeat.oldValue + this.barBeat;
-     }
+    }
 
     /** Calling this tells the flexinome to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
@@ -222,5 +222,25 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
     withRef(ref: string): IClockChild {
         this._ref = ref;
         return this;
+    }
+
+    /**
+     * This method allows for setting the metronome to a specific position.
+     * 
+     * Note though, that the bar-related values are calculated under the assumption that the metronome's current time signature is the one that it always has.
+     * @param totalQuarterNote The new position, as measured in quarter notes.
+     */
+    setSongPosition(totalQuarterNote: number): void {
+        this._timeSig.accept();
+        this._totalQuarterNote.value = totalQuarterNote;
+        this._totalQuarterNote.accept();
+        this._bar.value = Math.floor(totalQuarterNote / this.timeSig.quarterNotesPerBar);
+        this._bar.accept();
+        this._barQuarterNote.value = totalQuarterNote - (this.bar * this.timeSig.quarterNotesPerBar);
+        this._barQuarterNote.accept();
+        this._barBeat.value = this.timeSig.quarterNoteToBeat(this.barQuarterNote);
+        this._barBeat.accept();
+        this._totalBeat.value = this.barBeat + (this.bar * this.timeSig.beatsPerBar);
+        this._totalBeat.accept();
     }
 }

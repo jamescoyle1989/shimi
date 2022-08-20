@@ -112,4 +112,19 @@ import Flexinome from '../src/Flexinome';
         expect(m.totalQuarterNote).to.equal(2);
         expect(m.totalBeat).to.equal(2);
     }
+
+    @test 'setSongPosition updates metronome values'() {
+        const m = new Flexinome(120, TimeSig.commonTime(0.5));
+        m.setSongPosition(9.75);
+        expect(m.totalQuarterNote).to.equal(9.75);
+        expect(m.totalQuarterNoteTracker.isDirty).to.be.false;
+        expect(m.bar).to.equal(2);
+        expect(m.barTracker.isDirty).to.be.false;
+        expect(m.barQuarterNote).to.equal(1.75);
+        expect(m.barQuarterNoteTracker.isDirty).to.be.false;
+        expect(m.totalBeat).to.equal(9.5);
+        expect(m.totalBeatTracker.isDirty).to.be.false;
+        expect(m.barBeat).to.equal(1.5);
+        expect(m.barBeatTracker.isDirty).to.be.false;
+    }
 }

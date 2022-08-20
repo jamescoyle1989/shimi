@@ -5,7 +5,7 @@ import TickReceiver from '../src/TickReceiver';
 import { MockPort } from './MidiOut.test';
 import MidiIn, { MidiInEventData } from '../src/MidiIn';
 import Metronome from '../src/Metronome';
-import { TickMessage } from '../src/MidiMessages';
+import { SongPositionMessage, TickMessage } from '../src/MidiMessages';
 
 @suite class TickReceiverTests {
     @test 'TickReceiver can be added to clock'() {
@@ -99,5 +99,42 @@ import { TickMessage } from '../src/MidiMessages';
         expect(metronome.totalQuarterNote).to.equal(0);
         receiver.update(0);
         expect(metronome.totalQuarterNote).to.equal(0.5);
+    }
+
+    @test 'MidiIn.songPosition gets subscribed to'() {
+        const midiIn = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        expect(midiIn.songPosition.handlers.length).to.equal(0);
+        const receiver = new TickReceiver(midiIn, metronome);
+        expect(midiIn.songPosition.handlers.length).to.equal(1);
+    }
+
+    @test 'MidiIn.songPosition gets unsubscribed from when midiIn changed'() {
+        const midiIn1 = new MidiIn(new MockPort());
+        const midiIn2 = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        const receiver = new TickReceiver(midiIn1, metronome);
+        expect(midiIn1.songPosition.handlers.length).to.equal(1);
+        receiver.midiIn = midiIn2;
+        expect(midiIn1.songPosition.handlers.length).to.equal(0);
+        expect(midiIn2.songPosition.handlers.length).to.equal(1);
+    }
+
+    @test 'MidiIn.songPosition gets unsubscribed once receiver is finished'() {
+        const midiIn = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        const receiver = new TickReceiver(midiIn, metronome);
+        expect(midiIn.songPosition.handlers.length).to.equal(1);
+        receiver.finish();
+        expect(midiIn.songPosition.handlers.length).to.equal(0);
+    }
+
+    @test 'MidiIn.songPosition sets metronome totalQuarterNote'() {
+        const midiIn = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        const receiver = new TickReceiver(midiIn, metronome);
+        expect(metronome.totalQuarterNote).to.equal(0);
+        midiIn.songPosition.trigger(new MidiInEventData(midiIn, new SongPositionMessage(6)));
+        expect(metronome.totalQuarterNote).to.equal(1.5);
     }
 }

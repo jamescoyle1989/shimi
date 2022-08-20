@@ -1,6 +1,7 @@
 import { IClockChild } from './Clock';
 import { IMetronome } from './Metronome';
-import { IMidiIn } from './MidiIn';
+import { IMidiIn, MidiInEventData } from './MidiIn';
+import { SongPositionMessage } from './MidiMessages';
 
 /**
  * The TickReceiver class allows a shimi IMetronome instance to be updated by ticks coming from a MIDI input, rather than it updating itself.
@@ -15,10 +16,13 @@ export default class TickReceiver implements IClockChild {
             throw new Error('midiIn cannot be set to null');
         if (value === this._midiIn)
             return;
-        if (!!this._midiIn)
+        if (!!this._midiIn) {
             this._midiIn.tick.remove(x => x.logic == this._onMidiTick);
+            this._midiIn.songPosition.remove(x => x.logic == this._onSongPosition);
+        }
         this._midiIn = value;
         this._midiIn.tick.add(this._onMidiTick);
+        this._midiIn.songPosition.add(this._onSongPosition);
     }
     private _midiIn: IMidiIn;
 
@@ -57,6 +61,12 @@ export default class TickReceiver implements IClockChild {
         this._newTicksReceived++;
     }
 
+    private _onSongPosition = (eventData: MidiInEventData<SongPositionMessage>) => {
+        const ticks = eventData.message.value * 6;
+        const quarterNotes = ticks / this.ticksPerQuarterNote;
+        this.metronome.setSongPosition(quarterNotes);
+    };
+
 
 
     /** Provides a way of identifying TickReceivers so they can be easily retrieved later */
@@ -87,6 +97,7 @@ export default class TickReceiver implements IClockChild {
     finish(): void {
         this._finished = true;
         this.midiIn.tick.remove(x => x.logic == this._onMidiTick);
+        this.midiIn.songPosition.remove(x => x.logic == this._onSongPosition);
     }
     
     /**

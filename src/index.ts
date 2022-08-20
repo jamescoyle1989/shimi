@@ -32,6 +32,7 @@ import PS4Controller from './PS4Controller';
 import Scale from './Scale';
 import ScaleTemplate from './ScaleTemplate';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
+import TickReceiver from './TickReceiver';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 import Tween from './Tweens';
 import WebSynth, { WebSynthChannel } from './WebSynth';
@@ -67,6 +68,7 @@ export {
     Scale,
     ScaleTemplate,
     SliderInput, SliderEvent, SliderEventData,
+    TickReceiver,
     TimeSig, TimeSigDivision,
     Tween,
     WebSynth, WebSynthChannel
