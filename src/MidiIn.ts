@@ -89,6 +89,18 @@ export default class MidiIn implements IMidiIn {
     get songPosition(): MidiInEvent<messages.SongPositionMessage> { return this._songPosition; }
     private _songPosition: MidiInEvent<messages.SongPositionMessage> = new MidiInEvent<messages.SongPositionMessage>();
 
+    /** The start property can be subscribed to, to receive all Start messages that pass through the MidiIn object. */
+    get start(): MidiInEvent<messages.StartMessage> { return this._start; }
+    private _start: MidiInEvent<messages.StartMessage> = new MidiInEvent<messages.StartMessage>();
+
+    /** The continue property can be subscribed to, to receive all Continue messages that pass through the MidiIn object. */
+    get continue(): MidiInEvent<messages.ContinueMessage> { return this._continue; }
+    private _continue: MidiInEvent<messages.ContinueMessage> = new MidiInEvent<messages.ContinueMessage>();
+
+    /** The stop property can be subscribed to, to receive all Stop messages that pass through the MidiIn object. */
+    get stop(): MidiInEvent<messages.StopMessage> { return this._stop; }
+    private _stop: MidiInEvent<messages.StopMessage> = new MidiInEvent<messages.StopMessage>();
+
     /**
      * @param port The MIDI port which data gets received from, see the MidiAccess class.
      */
@@ -138,8 +150,14 @@ export default class MidiIn implements IMidiIn {
         else if (messageId == 0xE0)
             this.pitchBend.trigger(new MidiInEventData(this, new messages.PitchBendMessage(messages.PitchBendMessage.calculatePercent(data[1], data[2]), channel)));
         else if (messageId == 0xF0) {
-            if (channel == 2)
+            if (channel == 2 && data.length == 1)
+                this.start.trigger(new MidiInEventData(this, new messages.StartMessage()));
+            else if (channel == 2 && data.length == 3)
                 this.songPosition.trigger(new MidiInEventData(this, new messages.SongPositionMessage((128 * data[2]) + data[1])));
+            else if (channel == 3 && data.length == 1)
+                this.continue.trigger(new MidiInEventData(this, new messages.ContinueMessage()));
+            else if (channel == 4 && data.length == 1)
+                this.stop.trigger(new MidiInEventData(this, new messages.StopMessage()));
         }
     }
 }
@@ -179,7 +197,18 @@ export interface IMidiIn {
     /** The pitchBend property can be subscribed to, to receive all Pitch Bend messages that pass through the MidiIn object. */
     get pitchBend(): MidiInEvent<messages.PitchBendMessage>;
 
+    /** The tick property can be subscribed to, to receive all Timing Clock messages that pass through the MidiIn object. */
     get tick(): MidiInEvent<messages.TickMessage>;
 
+    /** The songPosition property can be subscribed to, to receive all Song Position messages that pass through the MidiIn object. */
     get songPosition(): MidiInEvent<messages.SongPositionMessage>;
+
+    /** The start property can be subscribed to, to receive all Start messages that pass through the MidiIn object. */
+    get start(): MidiInEvent<messages.StartMessage>;
+
+    /** The continue property can be subscribed to, to receive all Continue messages that pass through the MidiIn object. */
+    get continue(): MidiInEvent<messages.ContinueMessage>;
+
+    /** The stop property can be subscribed to, to receive all Stop messages that pass through the MidiIn object. */
+    get stop(): MidiInEvent<messages.StopMessage>;
 }

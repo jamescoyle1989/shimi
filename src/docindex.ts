@@ -26,7 +26,7 @@ import {
     IMidiMessage, NoteOffMessage, NoteOnMessage, 
     NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
     ChannelPressureMessage, PitchBendMessage, TickMessage,
-    SongPositionMessage
+    SongPositionMessage, StartMessage, ContinueMessage, StopMessage
 } from './MidiMessages';
 import MidiOut, { IMidiOut } from './MidiOut';
 import Note from './Note';
@@ -40,6 +40,7 @@ import ScaleTemplate from './ScaleTemplate';
 import ShimiEvent, { ShimiHandler, ShimiEventData } from './ShimiEvent';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TickReceiver from './TickReceiver';
+import TickSender from './TickSender';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 import Tween, { 
     ITween, LinearTween, 
@@ -70,7 +71,7 @@ export {
     IMidiMessage, NoteOffMessage, NoteOnMessage, 
         NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
         ChannelPressureMessage, PitchBendMessage, TickMessage,
-        SongPositionMessage,
+        SongPositionMessage, StartMessage, ContinueMessage, StopMessage,
     Metronome, IMetronome,
     MidiAccess,
     MidiBus,
@@ -87,6 +88,7 @@ export {
     ShimiEvent, ShimiHandler, ShimiEventData,
     SliderInput, SliderEvent, SliderEventData,
     TickReceiver,
+    TickSender,
     TimeSig, TimeSigDivision,
     Tween, ITween, LinearTween, MultiTween, StepsTween, 
         SineInOutTween, SineInTween, SineOutTween, 

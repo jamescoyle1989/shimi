@@ -3,6 +3,7 @@
 import TimeSig from './TimeSig';
 import PropertyTracker from './PropertyTracker';
 import { IClockChild } from './Clock';
+import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
 /**
@@ -154,6 +155,26 @@ export interface IMetronome {
      * @param totalQuarterNote The new position, as measured in quarter notes.
      */
     setSongPosition(totalQuarterNote: number): void;
+
+    /**
+     * Event that fires whenever the metronome is directed to move to a new position.
+     */
+    get positionChanged(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome>;
+
+    /**
+     * Event that fires when the metronome is first started
+     */
+    get started(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome>;
+
+    /**
+     * Event that fires when the metronome is allowed to resume running (enabled = true)
+     */
+    get continued(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome>;
+
+    /**
+     * Event that fires when the metronome is instructed to stop running (enabled = false)
+     */
+    get stopped(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome>;
 }
 
 
@@ -296,7 +317,15 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
     /** Gets whether the metronome is currently enabled to run. */
     get enabled(): boolean { return this._enabled.value; }
     /** Sets whether the metronome is currently enabled to run. */
-    set enabled(value: boolean) { this._enabled.value = value; }
+    set enabled(value: boolean) {
+        if (this._enabled.value == value)
+            return;
+        this._enabled.value = value;
+        if (value)
+            this.continued.trigger(new ShimiEventData(this));
+        else
+            this.stopped.trigger(new ShimiEventData(this));
+    }
 
     /** Returns true if the Metronome has been instructed to stop everything by the `finish()` method. */
     get finished(): boolean { return this._finished; }
@@ -357,6 +386,9 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
         this._enabled.accept();
         if (!this.enabled)
             return false;
+
+        if (this._totalQuarterNote.oldValue == 0)
+            this.started.trigger(new ShimiEventData(this));
         
         this._totalQuarterNote.accept();
         this._totalQuarterNote.value += qnDelta;
@@ -427,5 +459,30 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
         this._updateBeatValuesFromQuarterNoteValues();
         this._barBeat.accept();
         this._totalBeat.accept();
+        this.positionChanged.trigger(new ShimiEventData(this));
     }
+
+    /**
+     * Event that fires whenever the metronome is directed to move to a new position.
+     */
+    get positionChanged(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome> { return this._positionChanged; }
+    private _positionChanged: ShimiEvent<ShimiEventData<IMetronome>, IMetronome> = new ShimiEvent<ShimiEventData<IMetronome>, IMetronome>();
+
+    /**
+     * Event that fires when the metronome is first started
+     */
+    get started(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome> { return this._started; }
+    private _started: ShimiEvent<ShimiEventData<IMetronome>, IMetronome> = new ShimiEvent<ShimiEventData<IMetronome>, IMetronome>();
+
+     /**
+      * Event that fires when the metronome is allowed to resume running (enabled = true)
+      */
+    get continued(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome> { return this._continued; }
+    private _continued: ShimiEvent<ShimiEventData<IMetronome>, IMetronome> = new ShimiEvent<ShimiEventData<IMetronome>, IMetronome>();
+ 
+     /**
+      * Event that fires when the metronome is instructed to stop running (enabled = false)
+      */
+    get stopped(): ShimiEvent<ShimiEventData<IMetronome>, IMetronome> { return this._stopped; }
+    private _stopped: ShimiEvent<ShimiEventData<IMetronome>, IMetronome> = new ShimiEvent<ShimiEventData<IMetronome>, IMetronome>();
 }

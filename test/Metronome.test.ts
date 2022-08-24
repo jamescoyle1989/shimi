@@ -142,4 +142,45 @@ import Metronome from '../src/Metronome';
         expect(m.barBeat).to.equal(1.5);
         expect(m.barBeatTracker.isDirty).to.be.false;
     }
+
+    @test 'setSongPosition triggers positionChanged event'() {
+        const m = new Metronome(120);
+        let positionChangedCount = 0;
+        m.positionChanged.add(() => positionChangedCount++);
+        m.setSongPosition(10);
+        expect(positionChangedCount).to.equal(1);
+    }
+
+    @test 'First update triggers started event'() {
+        const m = new Metronome(120);
+        let startedMessagesCount = 0;
+        m.started.add(() => startedMessagesCount++);
+        m.update(10);
+        expect(startedMessagesCount).to.equal(1);
+    }
+
+    @test 'Setting enabled = false triggers stopped event'() {
+        const m = new Metronome(120);
+        let stopMessageCount = 0;
+        m.stopped.add(() => stopMessageCount++);
+        m.update(500);
+        expect(stopMessageCount).to.equal(0);
+        m.enabled = false;
+        expect(stopMessageCount).to.equal(1);
+        m.enabled = false;
+        expect(stopMessageCount).to.equal(1);
+    }
+
+    @test 'Setting enabled = true triggers continued event'() {
+        const m = new Metronome(120);
+        let continueMessageCount = 0;
+        m.continued.add(() => continueMessageCount++);
+        m.update(500);
+        m.enabled = false;
+        expect(continueMessageCount).to.equal(0);
+        m.enabled = true;
+        expect(continueMessageCount).to.equal(1);
+        m.enabled = true;
+        expect(continueMessageCount).to.equal(1);
+    }
 }

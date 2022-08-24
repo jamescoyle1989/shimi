@@ -22,17 +22,20 @@ import MidiIn, { MidiInEvent, MidiInEventData } from './MidiIn';
 import { 
     IMidiMessage, MidiMessageBase, NoteOffMessage, NoteOnMessage, 
     NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
-    ChannelPressureMessage, PitchBendMessage 
+    ChannelPressureMessage, PitchBendMessage, TickMessage,
+    SongPositionMessage, StartMessage, ContinueMessage, StopMessage
 } from './MidiMessages';
 import MidiOut from './MidiOut';
 import Note from './Note';
 import { parsePitch as pitch } from './utils';
 import PropertyTracker from './PropertyTracker';
 import PS4Controller from './PS4Controller';
+import Repeat from './Repeat';
 import Scale from './Scale';
 import ScaleTemplate from './ScaleTemplate';
 import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TickReceiver from './TickReceiver';
+import TickSender from './TickSender';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 import Tween from './Tweens';
 import WebSynth, { WebSynthChannel } from './WebSynth';
@@ -54,8 +57,9 @@ export {
     Gamepads,
     Keyboard,
     IMidiMessage, MidiMessageBase, NoteOffMessage, NoteOnMessage, 
-    NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
-    ChannelPressureMessage, PitchBendMessage,
+        NotePressureMessage, ControlChangeMessage, ProgramChangeMessage, 
+        ChannelPressureMessage, PitchBendMessage, TickMessage,
+        SongPositionMessage, StartMessage, ContinueMessage, StopMessage,
     Metronome,
     MidiAccess,
     MidiBus,
@@ -65,10 +69,12 @@ export {
     pitch,
     PropertyTracker,
     PS4Controller,
+    Repeat,
     Scale,
     ScaleTemplate,
     SliderInput, SliderEvent, SliderEventData,
     TickReceiver,
+    TickSender,
     TimeSig, TimeSigDivision,
     Tween,
     WebSynth, WebSynthChannel

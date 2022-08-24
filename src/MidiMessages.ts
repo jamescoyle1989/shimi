@@ -355,3 +355,60 @@ export class SongPositionMessage implements IMidiMessage {
         return new SongPositionMessage(this.value);
     }
 }
+
+
+/**
+ * The StartMessage instructs a listening MIDI device to start its current sequence playing from the start.
+ * 
+ * @category Midi IO
+ */
+ export class StartMessage implements IMidiMessage {
+    constructor() {
+    }
+
+    toArray(): number[] {
+        return [0xFA];
+    }
+
+    duplicate(): StartMessage {
+        return new StartMessage();
+    }
+}
+
+
+/**
+ * The ContinueMessage instructs a listening MIDI device to continue playing its current sequence.
+ * 
+ * @category Midi IO
+ */
+ export class ContinueMessage implements IMidiMessage {
+    constructor() {
+    }
+
+    toArray(): number[] {
+        return [0xFB];
+    }
+
+    duplicate(): ContinueMessage {
+        return new ContinueMessage();
+    }
+}
+
+
+/**
+ * The StopMessage instructs a listeneing MIDI device to stop playing its current sequence.
+ * 
+ * @category Midi IO
+ */
+ export class StopMessage implements IMidiMessage {
+    constructor() {
+    }
+
+    toArray(): number[] {
+        return [0xFC];
+    }
+
+    duplicate(): StopMessage {
+        return new StopMessage();
+    }
+}
