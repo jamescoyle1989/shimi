@@ -132,8 +132,7 @@ export default class TickSender implements IClockChild {
 
         //qnsPerTick divides each quarter note into n equal segments
         //This sets us back to the end of the segment which the previous update would have left us off at
-        let tracker = Math.floor(oldQN) + (Math.floor((oldQN % 1) * qnsPerTick) / qnsPerTick);
-
+        let tracker = Math.floor(oldQN) + (Math.floor((oldQN % 1) / qnsPerTick) * qnsPerTick);
         while (true) {
             tracker += qnsPerTick;
             if (tracker >= newQN)

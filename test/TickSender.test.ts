@@ -154,4 +154,35 @@ import { SongPositionMessage } from '../src/MidiMessages';
         metronome.enabled = true;
         expect(continueCount).to.equal(1);
     }
+
+    @test 'Multiple cycle update test'() {
+        const metronome = new Metronome(60);
+        const midiOut = new MidiBus();
+        let tickCount = 0;
+        midiOut.tick.add(() => tickCount++);
+        const tickSender = new TickSender(metronome, midiOut, 24);
+        const updateMs = 20;
+        const update = () => {
+            metronome.update(updateMs);
+            tickSender.update(updateMs);
+        };
+        update();
+        expect(tickCount).to.equal(0);  //20
+        update();
+        expect(tickCount).to.equal(0);  //40
+        update();
+        expect(tickCount).to.equal(1);  //60
+        update();
+        expect(tickCount).to.equal(1);  //80
+        update();
+        expect(tickCount).to.equal(2);  //100
+        update();
+        expect(tickCount).to.equal(2);  //120
+        update();
+        expect(tickCount).to.equal(3);  //140
+        update();
+        expect(tickCount).to.equal(3);  //160
+        update();
+        expect(tickCount).to.equal(4);  //180
+    }
 }
