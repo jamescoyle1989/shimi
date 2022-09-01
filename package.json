@@ -4,6 +4,10 @@
   "description": "A JS framework for building complex MIDI applications",
   "main": "dist/index.js",
   "unpkg": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamescoyle1989/shimi.git"
+  },
   "scripts": {
     "test": "nyc ./node_modules/.bin/_mocha 'test/*.test.ts'",
     "build": "tsc && npx webpack",
