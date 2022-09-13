@@ -60,13 +60,13 @@ export class ChordLookupResult {
     shapeName: string = '';
 
     /**
-     * The name of the chord in expression form, where {r} is a placeholder for root and {b} for bass
+     * The name of the chord in expression form, where \{r\} is a placeholder for root and \{b\} for bass
      * 
-     * The reason for {r} and {b} instead of using actual pitch names is that the pitch namings can vary a lot depending on scale choice. The intention is to do something like:
+     * The reason for \{r\} and \{b\} instead of using actual pitch names is that the pitch namings can vary a lot depending on scale choice. The intention is to do something like:
      * ```
      *  lookupResult.name
-     *      .replace('{r}', scale.getPitchName(lookupResult.root))
-     *      .replace('{b}', scale.getPitchName(lookupResult.bass))
+     *      .replace('\{r\}', scale.getPitchName(lookupResult.root))
+     *      .replace('\{b\}', scale.getPitchName(lookupResult.bass))
      * ```
      */
     name: string = '';
@@ -103,8 +103,8 @@ export default class ChordFinder {
      * @param intervals The intervals that make up the chord. Where each interval is defined as the semi-tone distance from the chord root.
      * 
      * For example, for a major chord, this would be [0, 4, 7].
-     * @param name The name of the chord in expression form, where {r} is a placeholder for the chord root. For example, '{r}M7' is the expression for a major 7th chord.
-     * @param inverseName The name of the chord in expression form when inversed, where {r} is a placeholder for the chord root and {b} for the chord bass. For example, '{r}M7/{b}' is the expression for a major 7th chord, when the root is not in the bass.
+     * @param name The name of the chord in expression form, where \{r\} is a placeholder for the chord root. For example, '\{r\}M7' is the expression for a major 7th chord.
+     * @param inverseName The name of the chord in expression form when inversed, where \{r\} is a placeholder for the chord root and \{b\} for the chord bass. For example, '\{r\}M7/\{b\}' is the expression for a major 7th chord, when the root is not in the bass.
      * @param preference Where 2 chords are equally well suited, the one with higher preference will be chosen.
      * @returns The ChordFinder instance is returned, to allow for chaining operations.
      */
@@ -138,8 +138,8 @@ export default class ChordFinder {
      * @param intervals The intervals that make up the chord. Where each interval is defined as the semi-tone distance from the chord root.
      * 
      * For example, for a major chord, this would be [0, 4, 7].
-     * @param name The name of the chord in expression form, where {r} is a placeholder for the chord root. For example, '{r}M7' is the expression for a major 7th chord.
-     * @param inverseName The name of the chord in expression form when inversed, where {r} is a placeholder for the chord root and {b} for the chord bass. For example, '{r}M7/{b}' is the expression for a major 7th chord, when the root is not in the bass.
+     * @param name The name of the chord in expression form, where \{r\} is a placeholder for the chord root. For example, '\{r\}M7' is the expression for a major 7th chord.
+     * @param inverseName The name of the chord in expression form when inversed, where \{r\} is a placeholder for the chord root and \{b\} for the chord bass. For example, '\{r\}M7/\{b\}' is the expression for a major 7th chord, when the root is not in the bass.
      * @param preference Where 2 chords are equally well suited, the one with higher preference will be chosen.
      * @returns The ChordFinder instance is returned, to allow for chaining operations.
      */

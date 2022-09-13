@@ -91,7 +91,7 @@ export class FitPitchOptions {
     scale: Scale = null;
 
     /**
-     * For normal usage, library users shouldn't need to call the FitPitchOptions constructor. The IPitchContainer.fitPitch method accepts a partial FitPitchOptions declaration. Enabling library users to simply call something like: eMinorChord.fitPitch(66, { scale: cMajor, maxMovement: 1 })
+     * For normal usage, library users shouldn't need to call the FitPitchOptions constructor. The IPitchContainer.fitPitch method accepts a partial FitPitchOptions declaration. Enabling library users to simply call something like: eMinorChord.fitPitch(66, \{ scale: cMajor, maxMovement: 1 \})
      * 
      * @param init The init parameter is a partial definition of a FitPitchOptions object.
      */
