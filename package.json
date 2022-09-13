@@ -1,6 +1,6 @@
 {
   "name": "shimi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A JS framework for building complex MIDI applications",
   "main": "dist/index.js",
   "unpkg": "dist/index.js",
@@ -30,6 +30,12 @@
     "/dist"
   ],
   "dependencies": {
+  },
+  "devDependencies": {
+    "terser-webpack-plugin": "5.3.6",
+    "typedoc": "0.23.14",
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0",
     "@testdeck/mocha": "0.2.1",
     "@types/chai": "4.3.3",
     "chai": "4.3.6",
@@ -37,11 +43,5 @@
     "nyc": "15.1.0",
     "ts-mockito": "2.6.1",
     "ts-node": "10.9.1"
-  },
-  "devDependencies": {
-    "terser-webpack-plugin": "5.3.6",
-    "typedoc": "0.23.14",
-    "webpack": "5.74.0",
-    "webpack-cli": "4.10.0"
   }
 }
