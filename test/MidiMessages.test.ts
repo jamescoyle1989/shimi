@@ -141,4 +141,123 @@ import * as messages from '../src/MidiMessages';
         const message = new messages.SongPositionMessage(16384);
         expect(() => message.toArray()).to.throw();
     }
+
+    @test 'NoteOff.duplicate creates exact copy'() {
+        const message = new messages.NoteOffMessage(100, 90, 5);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.pitch).to.equal(message.pitch);
+        expect(duplicate.velocity).to.equal(message.velocity);
+        expect(duplicate.channel).to.equal(message.channel);
+    }
+
+    @test 'NoteOn.duplicate creates exact copy'() {
+        const message = new messages.NoteOnMessage(100, 90, 5);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.pitch).to.equal(message.pitch);
+        expect(duplicate.velocity).to.equal(message.velocity);
+        expect(duplicate.channel).to.equal(message.channel);
+    }
+
+    @test 'NotePressure.duplicate creates exact copy'() {
+        const message = new messages.NotePressureMessage(100, 90, 5);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.pitch).to.equal(message.pitch);
+        expect(duplicate.velocity).to.equal(message.velocity);
+        expect(duplicate.channel).to.equal(message.channel);
+    }
+
+    @test 'ControlChange.duplicate creates exact copy'() {
+        const message = new messages.ControlChangeMessage(100, 90, 5);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.controller).to.equal(message.controller);
+        expect(duplicate.value).to.equal(message.value);
+        expect(duplicate.channel).to.equal(message.channel);
+    }
+
+    @test 'ProgramChange.duplicate creates exact copy'() {
+        const message = new messages.ProgramChangeMessage(100, 5);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.program).to.equal(message.program);
+        expect(duplicate.channel).to.equal(message.channel);
+    }
+
+    @test 'ChannelPressure.duplicate creates exact copy'() {
+        const message = new messages.ChannelPressureMessage(100, 5);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.value).to.equal(message.value);
+        expect(duplicate.channel).to.equal(message.channel);
+    }
+
+    @test 'PitchBend.duplicate creates exact copy'() {
+        const message = new messages.PitchBendMessage(100, 5);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.percent).to.equal(message.percent);
+        expect(duplicate.channel).to.equal(message.channel);
+    }
+
+    @test 'TickMessage.duplicate creates exact copy'() {
+        const message = new messages.TickMessage();
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+    }
+
+    @test 'TickMessage.toArray gives correct output'() {
+        const message = new messages.TickMessage();
+        const array = message.toArray();
+        expect(array.length).to.equal(1);
+        expect(array[0]).to.equal(0xF8);
+    }
+
+    @test 'SongPosition.duplicate creates exact copy'() {
+        const message = new messages.SongPositionMessage(100);
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+        expect(duplicate.value).to.equal(message.value);
+    }
+
+    @test 'StartMessage.duplicate creates exact copy'() {
+        const message = new messages.StartMessage();
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+    }
+
+    @test 'StartMessage.toArray gives correct output'() {
+        const message = new messages.StartMessage();
+        const array = message.toArray();
+        expect(array.length).to.equal(1);
+        expect(array[0]).to.equal(0xFA);
+    }
+
+    @test 'ContinueMessage.duplicate creates exact copy'() {
+        const message = new messages.ContinueMessage();
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+    }
+
+    @test 'ContinueMessage.toArray gives correct output'() {
+        const message = new messages.ContinueMessage();
+        const array = message.toArray();
+        expect(array.length).to.equal(1);
+        expect(array[0]).to.equal(0xFB);
+    }
+
+    @test 'StopMessage.duplicate creates exact copy'() {
+        const message = new messages.StopMessage();
+        const duplicate = message.duplicate();
+        expect(duplicate).to.not.equal(message);
+    }
+
+    @test 'StopMessage.toArray gives correct output'() {
+        const message = new messages.StopMessage();
+        const array = message.toArray();
+        expect(array.length).to.equal(1);
+        expect(array[0]).to.equal(0xFC);
+    }
 }

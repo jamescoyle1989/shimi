@@ -12,7 +12,8 @@
     "test": "nyc ./node_modules/.bin/_mocha 'test/*.test.ts'",
     "build": "tsc && npx webpack",
     "doc": "npx typedoc",
-    "pub": "tsc && npx webpack && npm publish"
+    "pub": "tsc && npx webpack && npm publish",
+    "coverage": "nyc check-coverage"
   },
   "keywords": [
     "midi",

@@ -156,4 +156,43 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
         midiIn.receiveData([0xF8]);
         expect(tickCount).to.equal(2);
     }
+
+    @test 'receiveData keeps track of running state'() {
+        const midiIn = new MidiIn(new MockPort());
+        const noteOnMessages = [];
+        midiIn.noteOn.add(m => noteOnMessages.push(m.message));
+        midiIn.receiveData([0x91, 5, 6]);
+        midiIn.receiveData([7, 8]);
+        expect(noteOnMessages.length).to.equal(2);
+        expect(noteOnMessages[0].channel).to.equal(1);
+        expect(noteOnMessages[0].pitch).to.equal(5);
+        expect(noteOnMessages[0].velocity).to.equal(6);
+        expect(noteOnMessages[1].channel).to.equal(1);
+        expect(noteOnMessages[1].pitch).to.equal(7);
+        expect(noteOnMessages[1].velocity).to.equal(8);
+    }
+
+    @test 'receiveData triggers start'() {
+        const midiIn = new MidiIn(new MockPort());
+        const messages = [];
+        midiIn.start.add(m => messages.push(m.message));
+        midiIn.receiveData([0xF2])
+        expect(messages.length).to.equal(1);
+    }
+
+    @test 'receiveData triggers continue'() {
+        const midiIn = new MidiIn(new MockPort());
+        const messages = [];
+        midiIn.continue.add(m => messages.push(m.message));
+        midiIn.receiveData([0xF3])
+        expect(messages.length).to.equal(1);
+    }
+
+    @test 'receiveData triggers stop'() {
+        const midiIn = new MidiIn(new MockPort());
+        const messages = [];
+        midiIn.stop.add(m => messages.push(m.message));
+        midiIn.receiveData([0xF4])
+        expect(messages.length).to.equal(1);
+    }
 }

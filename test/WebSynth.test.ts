@@ -1,6 +1,6 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { Note } from '../src';
+import { Note, NoteOffMessage, NoteOnMessage } from '../src';
 import WebSynth, {WebSynthChannel} from '../src/WebSynth';
 
 
@@ -124,5 +124,53 @@ class DummyAudioContext {
         expect(synth.finished).to.be.false;
         synth.finish();
         expect(synth.finished).to.be.true;
+    }
+
+    @test 'NoteOnMessage creates new note'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        expect(synth.notes.length).to.equal(0);
+        synth.sendMessage(new NoteOnMessage(100, 93, 5));
+        expect(synth.notes.length).to.equal(1);
+        expect(synth.notes[0].pitch).to.equal(100);
+    }
+
+    @test 'NoteOffMessage stops existing notes'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        synth.sendMessage(new NoteOnMessage(100, 93, 5));
+        expect(synth.notes.length).to.equal(1);
+        synth.sendMessage(new NoteOffMessage(100, 0, 5));
+        expect(synth.notes.length).to.equal(0);
+    }
+
+    @test 'sendRawData can create new note'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        synth.sendRawData([0x91, 5, 6]);
+        expect(synth.notes.length).to.equal(1);
+        expect(synth.notes[0].channel).to.equal(1);
+        expect(synth.notes[0].pitch).to.equal(5);
+        expect(synth.notes[0].velocity).to.equal(6);
+    }
+
+    @test 'sendRawData keeps track of running state'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        synth.sendRawData([0x91, 5, 6]);
+        synth.sendRawData([7, 8]);
+        expect(synth.notes.length).to.equal(2);
+        expect(synth.notes[0].channel).to.equal(1);
+        expect(synth.notes[0].pitch).to.equal(5);
+        expect(synth.notes[0].velocity).to.equal(6);
+        expect(synth.notes[1].channel).to.equal(1);
+        expect(synth.notes[1].pitch).to.equal(7);
+        expect(synth.notes[1].velocity).to.equal(8);
+    }
+
+    @test 'withRef sets ref value'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels().withRef('Testy test');
+        expect(synth.ref).to.equal('Testy test');
     }
 }

@@ -188,8 +188,8 @@ export class ControlChangeMessage extends MidiMessageBase implements IMidiMessag
         ];
     }
 
-    duplicate(): NotePressureMessage {
-        return new NotePressureMessage(this.controller, this.value, this.channel);
+    duplicate(): ControlChangeMessage {
+        return new ControlChangeMessage(this.controller, this.value, this.channel);
     }
 }
 

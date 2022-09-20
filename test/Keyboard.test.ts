@@ -42,4 +42,29 @@ import TestEventSubscriber from './TestEventSubscriber';
         const keyboard = new Keyboard(subscriber);
         expect(keyboard.deactivate()).to.be.false;
     }
+
+    @test 'onKeyDown sets correct button state to 1'() {
+        const subscriber = new TestEventSubscriber();
+        const keyboard = new Keyboard(subscriber);
+        expect(keyboard.left.value).to.equal(0);
+        const event: any = { code: 'ArrowLeft' };
+        keyboard['_onKeyDown'](event);
+        expect(keyboard.left.value).to.equal(1);
+    }
+
+    @test 'onKeyUp sets correct button state to 0'() {
+        const subscriber = new TestEventSubscriber();
+        const keyboard = new Keyboard(subscriber);
+        keyboard.right.valueTracker.value = 1;
+        keyboard.right.valueTracker.accept();
+        const event: any = { code: 'ArrowRight' };
+        keyboard['_onKeyUp'](event);
+        expect(keyboard.right.value).to.equal(0);
+    }
+
+    @test 'withRef sets ref value'() {
+        const subscriber = new TestEventSubscriber();
+        const keyboard = new Keyboard(subscriber).withRef('Testy test');
+        expect(keyboard.ref).to.equal('Testy test');
+    }
 }

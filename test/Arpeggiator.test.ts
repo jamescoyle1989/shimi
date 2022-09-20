@@ -110,4 +110,29 @@ import { Chord } from '../src';
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].pitch).to.equal(38);
     }
+
+    @test 'withRef sets ref value'() {
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(new Arpeggio(4), metronome, midiOut).withRef('Testy test');
+        expect(arpeggiator.ref).to.equal('Testy test');
+    }
+
+    @test 'finish ends all notes'() {
+        const arpeggio = new Arpeggio(4);
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
+        arpeggiator.chord = new Chord().addPitches([36, 40, 43]);
+
+        metronome.update(10);
+        arpeggiator.update(10);
+        expect(midiOut.notes.length).to.equal(1);
+        expect(midiOut.notes[0].on).to.be.true;
+
+        arpeggiator.finish();
+        expect(arpeggiator.finished).to.be.true;
+        expect(midiOut.notes[0].on).to.be.false;
+    }
 }

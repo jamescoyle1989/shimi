@@ -377,4 +377,41 @@ function getBendValFromPercent(percent: number): number[] {
         expect(midiOut.notes.length).to.equal(0);
         expect(clipPlayer.finished).to.be.true;
     }
+
+    @test 'start sets running to true'() {
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut);
+        clipPlayer.running = false;
+
+        clipPlayer.start();
+        expect(clipPlayer.running).to.be.true;
+    }
+
+    @test 'pause sets running to false'() {
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut);
+
+        expect(clipPlayer.running).to.be.true;
+        clipPlayer.pause();
+        expect(clipPlayer.running).to.be.false;
+    }
+
+    @test 'stop sets running to false'() {
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut);
+
+        expect(clipPlayer.running).to.be.true;
+        clipPlayer.stop();
+        expect(clipPlayer.running).to.be.false;
+    }
+
+    @test 'withRef sets ref value'() {
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut).withRef('Testy test');
+        expect(clipPlayer.ref).to.equal('Testy test');
+    }
 }

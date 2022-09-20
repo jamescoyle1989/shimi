@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
-- Added project changelog file
+### Added
+
+- Project changelog file
+
+### Fixed
+
+- ControlChangeMessage.duplicate() no longer produces a NotePressureMessage
 
 
 ## 1.0.1 (2022-09-12)
