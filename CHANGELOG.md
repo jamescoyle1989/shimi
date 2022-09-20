@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Project changelog file
 
+- Project badges
+
 ### Fixed
 
 - ControlChangeMessage.duplicate() no longer produces a NotePressureMessage

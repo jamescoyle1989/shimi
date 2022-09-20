@@ -3,6 +3,13 @@
 ![logo](https://raw.githubusercontent.com/jamescoyle1989/shimi/master/assets/logo180px.png)
 
 
+![GitHub](https://img.shields.io/github/license/jamescoyle1989/shimi)
+![npm bundle size](https://img.shields.io/bundlephobia/min/shimi)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/jamescoyle1989/shimi)
+![GitHub last commit](https://img.shields.io/github/last-commit/jamescoyle1989/shimi)
+![npm](https://img.shields.io/npm/dw/shimi)
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/jamescoyle1989/shimi)
+
 ## Overview
 
 Shimi is a lightweight javascript MIDI library.
@@ -61,6 +68,12 @@ run();
 ## Install
 ```
 $ npm install shimi
+```
+
+or
+
+```
+<script src="https://unpkg.com/shimi"></script>
 ```
 
 
