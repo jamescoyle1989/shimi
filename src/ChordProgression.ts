@@ -2,6 +2,7 @@
 
 import Chord from './Chord';
 import Range from './Range';
+import { safeMod } from './utils';
 
 
 /**
@@ -82,7 +83,7 @@ export default class ChordProgression extends Range {
      * @param rangeEnd 
      * @returns 
      */
-    getChordsInRange(rangeStart: number, rangeEnd: number) {
+    getChordsInRange(rangeStart: number, rangeEnd: number): Array<ChordProgressionChord> {
         const output = [];
         for (const chord of this.chords) {
             if (rangeStart <= rangeEnd) {
@@ -97,5 +98,15 @@ export default class ChordProgression extends Range {
             }
         }
         return output;
+    }
+
+    /**
+     * Returns the chord that occurs at the given point in time within the chord progression.
+     * @param beat The beat of the chord, relative to the start of the chord progression.
+     * @returns 
+     */
+    getChordAt(beat: number): ChordProgressionChord {
+        beat = safeMod(beat, this.duration);
+        return this.chords.find(x => x.start <= beat && x.end > beat);
     }
 }

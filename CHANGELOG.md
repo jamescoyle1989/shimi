@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+
+## 1.1.0 (2022-09-23)
+
 ### Added
 
-- ChordProgression classes
+- ChordProgression & ChordProgressionPlayer classes
 
 
 ## 1.0.2 (2022-09-20)

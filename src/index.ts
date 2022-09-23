@@ -5,6 +5,7 @@ import ButtonInput, { ButtonEvent, ButtonEventData } from './ButtonInput';
 import Chord from './Chord';
 import ChordFinder from './ChordFinder';
 import ChordProgression from './ChordProgression';
+import ChordProgressionPlayer from './ChordProgressionPlayer';
 import { Clip, ClipBend, ClipCC, ClipNote } from './Clip';
 import ClipPlayer from './ClipPlayer';
 import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRecorder';
@@ -47,7 +48,7 @@ export {
     ButtonInput, ButtonEvent, ButtonEventData,
     Chord,
     ChordFinder,
-    ChordProgression,
+    ChordProgression, ChordProgressionPlayer,
     Clip, ClipBend, ClipCC, ClipNote,
     ClipPlayer,
     ClipRecorder, ClipRecorderEvent, ClipRecorderEventData,

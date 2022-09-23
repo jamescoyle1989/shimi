@@ -84,4 +84,14 @@ import Chord from '../src/Chord';
         expect(chordsInRange[1].start).to.equal(8);
         expect(chordsInRange[2].start).to.equal(12);
     }
+
+    @test 'getChordAt returns the correct chord at the selected point in time'() {
+        const chordProgression = new ChordProgression(16)
+            .addChord(0, 4, new Chord().addPitches([12, 16, 19]))
+            .addChord(4, 4, new Chord().addPitches([12, 17, 21]))
+            .addChord(8, 4, new Chord().addPitches([11, 14, 19]))
+            .addChord(12, 4, new Chord().addPitches([12, 16, 19]));
+        const chord = chordProgression.getChordAt(9);
+        expect(chord.start).to.equal(8);
+    }
 }
