@@ -111,19 +111,19 @@ export interface IPitchContainer {
     /**
      * The contains method should return true only if the passed in pitch is contained within the implementing object. It is up to whoever's doing the implementation to determine whether pitches 1 or more octaves apart from a pitch within the container should be considered contained.
      * 
-     * For example: `dMajorScale.contains(shimi.pitch('F6'))` returns false.
+     * For example: `dMajorScale.contains('F6')` returns false.
      * 
-     * @param pitch The MIDI numerical representation of the pitch we want to check if contained.
+     * @param pitch The MIDI numerical representation of the pitch we want to check if contained. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      */
-    contains(pitch: number): boolean;
+    contains(pitch: number | string): boolean;
 
     /**
      * The fitPitch method should take in a pitch, and return a new (or possibly the same pitch) that better fits the pitches within the container that the method was called on.
      * 
      * For example: `CmajorChord.fitPitch(39, { maxMovement: 1, preferredDirection: shimi.FitDirection.random})` returns 40 (E).
      * 
-     * @param pitch The MIDI numerical representation of the pitch to be fitted to the pitches within the container.
+     * @param pitch The MIDI numerical representation of the pitch to be fitted to the pitches within the container. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param options The options that determine how the pitch is fitted.
      */
-    fitPitch(pitch: number, options?: Partial<FitPitchOptions>): number
+    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number
 }

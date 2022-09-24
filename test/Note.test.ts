@@ -39,4 +39,9 @@ import Note from '../src/Note';
         expect(note.stop()).to.be.false;
         expect(note.on).to.be.false;
     }
+
+    @test 'constructor can take pitch string'() {
+        const note = new Note('C2', 80, 0);
+        expect(note.pitch).to.equal(36);
+    }
 }

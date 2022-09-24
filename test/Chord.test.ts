@@ -277,4 +277,30 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord.pitches[2]).to.equal(12);
         expect(chord.pitches[3]).to.equal(13);
     }
+
+    @test 'addPitch can take a pitch name'() {
+        const chord = new Chord().addPitch('C4');
+        expect(chord.pitches[0]).to.equal(60);
+    }
+
+    @test 'addPitches can take a pitch names'() {
+        const chord = new Chord().addPitches(['C4', 'E4']);
+        expect(chord.pitches[0]).to.equal(60);
+        expect(chord.pitches[1]).to.equal(64);
+    }
+
+    @test 'setRoot can take a pitch name'() {
+        const chord = new Chord().setRoot('A#3');
+        expect(chord.root).to.equal(58);
+    }
+
+    @test 'contains can take a pitch name'() {
+        const chord = new Chord().addPitches(['C4', 'E4', 'G4']);
+        expect(chord.contains('G')).to.be.true;
+    }
+
+    @test 'fitPitch can take a pitch name'() {
+        const chord = new Chord().addPitches(['C4', 'E4', 'G4']);
+        expect(chord.fitPitch('Ab2')).to.equal(43);
+    }
 }

@@ -18,6 +18,11 @@ import { FitDirection } from '../src/IPitchContainer';
         expect(scale.pitches[6]).to.equal(1);
     }
 
+    @test 'constructor can take string value of pitch'() {
+        const scale = new Scale(ScaleTemplate.major, 'D');
+        expect(scale.root).to.equal(2);
+    }
+
     @test 'constructor correctly builds scale name'() {
         const scale = ScaleTemplate.phrygian.create(6);
         expect(scale.name).to.equal('F♯ Phrygian');
@@ -350,5 +355,34 @@ import { FitDirection } from '../src/IPitchContainer';
         expect(scale1.pitches[4]).to.equal(scale2.pitches[4]);
         expect(scale1.pitches[5]).to.equal(scale2.pitches[5]);
         expect(scale1.pitches[6]).to.equal(scale2.pitches[6]);
+    }
+
+    @test 'contains can take pitch string'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.contains('G')).to.be.true;
+        expect(scale.contains('Ab')).to.be.false;
+    }
+
+    @test 'indexOf can take pitch string'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.indexOf('C5')).to.equal(0);
+        expect(scale.indexOf('F3')).to.equal(3);
+        expect(scale.indexOf('Gb')).to.equal(-1);
+    }
+
+    @test 'getPitchName can take pitch string'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.getPitchName('Fb')).to.equal('E');
+    }
+
+    @test 'pitchesInRange can take pitch strings'() {
+        const scale = ScaleTemplate.major.create(0);
+        const pitches = scale.pitchesInRange('C0', 'G0');
+        expect(pitches.length).to.equal(5);
+    }
+
+    @test 'fitPitch can take pitch string'() {
+        const scale = ScaleTemplate.harmonicMinor.create(0);
+        expect(scale.fitPitch('A0')).to.equal(20);
     }
 }

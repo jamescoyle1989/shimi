@@ -66,10 +66,10 @@ export default class ScaleTemplate {
 
     /**
      * Returns a new Scale object for a specific root, with properties inherited from the Template that created it.
-     * @param root The root of the new Scale object.
+     * @param root The root of the new Scale object. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @returns 
      */
-    create(root: number): Scale {
+    create(root: number | string): Scale {
         return new Scale(this, root);
     }
 

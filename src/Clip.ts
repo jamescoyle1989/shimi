@@ -4,6 +4,7 @@ import Range from './Range';
 import Note from './Note';
 import { ITween } from './Tweens';
 import { sum } from './IterationUtils';
+import { parsePitch } from './utils';
 
 
 /**
@@ -35,19 +36,22 @@ export class ClipNote extends Range {
     /**
      * @param start What beat within the clip that the note starts on.
      * @param duration How many beats the note lasts.
-     * @param pitch The MIDI pitch of the note, valid values range from 0 - 127.
+     * @param pitch The MIDI pitch of the note, valid values range from 0 - 127. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param velocity The note's velocity, valid values range from 0 - 127, or a function that maps beats to values.
      * @param channel Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide.
      */
     constructor(
         start: number, 
         duration: number, 
-        pitch: number, 
+        pitch: number | string, 
         velocity: number | ITween, 
         channel: number = null
     ) {
         super(start, duration);
-        this.pitch = pitch;
+        if (typeof(pitch) == 'string')
+            this.pitch = parsePitch(pitch);
+        else
+            this.pitch = pitch;
         this.velocity = velocity;
         this.channel = channel;
     }

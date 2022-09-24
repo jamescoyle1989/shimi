@@ -1,7 +1,7 @@
 'use strict';
 
 import { IPitchContainer, FitPitchOptions, FitDirection, FitPrecision } from './IPitchContainer';
-import { safeMod } from './utils';
+import { parsePitch, safeMod } from './utils';
 
 
 /**
@@ -75,10 +75,13 @@ export default class Chord implements IPitchContainer {
     /**
      * Adds a new pitch to the chord. This method ensures that pitches are stored in ascending order.
      * 
-     * @param pitch The pitch to add to the chord. This is only added if the chord doesn't already contain the pitch.
+     * @param pitch The pitch to add to the chord. This is only added if the chord doesn't already contain the pitch. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @returns Returns the chord instance, so that method calls can be chained together.
      */
-    addPitch(pitch: number): Chord {
+    addPitch(pitch: number | string): Chord {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+        
         if (!this._pitches.find(x => x == pitch)) {
             this._name = null;
             for (let i = 0; i < this._pitches.length; i++) {
@@ -95,10 +98,10 @@ export default class Chord implements IPitchContainer {
     /**
      * Adds multiple new pitches to the chord. This method ensures that pitches are stored in ascending order.
      * 
-     * @param pitches The pitches to add to the chord. Each one will only be added if the chord doesn't already contain the pitch.
+     * @param pitches The pitches to add to the chord. Each one will only be added if the chord doesn't already contain the pitch. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @returns Returns the chord instance, so that method calls can be chained together.
      */
-    addPitches(pitches: number[]): Chord {
+    addPitches(pitches: Array<number | string>): Chord {
         for (const p of pitches)
             this.addPitch(p);
         return this;
@@ -123,10 +126,13 @@ export default class Chord implements IPitchContainer {
     /**
      * Sets the root pitch of the chord, also adds the root pitch to the list of pitches if the chord doesn't already contain it.
      * 
-     * @param pitch The pitch to be set as the new chord root.
+     * @param pitch The pitch to be set as the new chord root. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @returns Returns the chord instance, so that method calls can be chained together.
      */
-    setRoot(pitch: number): Chord {
+    setRoot(pitch: number | string): Chord {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+        
         if (this._root != pitch) {
             if (pitch == undefined || pitch == null)
                 this._root = null;
@@ -163,9 +169,12 @@ export default class Chord implements IPitchContainer {
     /**
      * Returns true if the chord contains the passed in pitch. The method doesn't care if the pitches are in different octaves.
      * 
-     * @param pitch The pitch to check if contained by the chord.
+     * @param pitch The pitch to check if contained by the chord. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      */
-    contains(pitch: number): boolean {
+    contains(pitch: number | string): boolean {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+
         pitch = safeMod(pitch, 12);
         return this.pitches.find(p => safeMod(p, 12) == pitch) != undefined;
     }
@@ -173,11 +182,14 @@ export default class Chord implements IPitchContainer {
     /**
      * Returns a pitch near to the passed in pitch, but which should fit better with the notes within the chord.
      * 
-     * @param pitch The pitch which we want to fit to the chord
+     * @param pitch The pitch which we want to fit to the chord. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param options The options allow us to configure how we want the pitch to be fitted to the chord
      * @returns Returns a new pitch number
      */
-    fitPitch(pitch: number, options?: Partial<FitPitchOptions>): number {
+    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+        
         const fullOptions = new FitPitchOptions(options);
 
         let fitFunction = p => this._isTightFit(p, fullOptions);

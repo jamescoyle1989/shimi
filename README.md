@@ -23,13 +23,13 @@ It includes its own wrapper around the WebAudio API, for generating sounds from 
 
 ## Example
 
-Here is a simple example, using shimi with loopMIDI to play the start of 'Twinkle Twinkle Little Star' every time the user presses the spacebar:
+Here is a simple example, using shimi to play the start of 'Twinkle Twinkle Little Star' every time the user presses the spacebar:
 
 ```
-async function run() {
-    const midiAccess = await shimi.MidiAccess.request();
-    const midiPort = midiAccess.getOutPort('loopMIDI Port');
-    const midiOut = new shimi.MidiOut(midiPort);
+<script src="https://unpkg.com/shimi"></script>
+<script>
+function run() {
+    const midiOut = new shimi.WebSynth(new AudioContext()).withDefaultChannels();
 
     const keyboard = new shimi.Keyboard(new shimi.EventSubscriber(document));
     keyboard.activate();
@@ -45,13 +45,13 @@ async function run() {
     //Twinkle Twinkle Little Star
     const clip = new shimi.Clip(8);
     clip.notes.push(
-        new shimi.ClipNote(0, 1, shimi.pitch('C4'), 80),
-        new shimi.ClipNote(1, 1, shimi.pitch('C4'), 80),
-        new shimi.ClipNote(2, 1, shimi.pitch('G4'), 80),
-        new shimi.ClipNote(3, 1, shimi.pitch('G4'), 80),
-        new shimi.ClipNote(4, 1, shimi.pitch('A4'), 80),
-        new shimi.ClipNote(5, 1, shimi.pitch('A4'), 80),
-        new shimi.ClipNote(6, 2, shimi.pitch('G4'), 80)
+        new shimi.ClipNote(0, 1, 'C4', 80),
+        new shimi.ClipNote(1, 1, 'C4', 80),
+        new shimi.ClipNote(2, 1, 'G4', 80),
+        new shimi.ClipNote(3, 1, 'G4', 80),
+        new shimi.ClipNote(4, 1, 'A4', 80),
+        new shimi.ClipNote(5, 1, 'A4', 80),
+        new shimi.ClipNote(6, 2, 'G4', 80)
     );
 	
     //Start a new playthrough of the clip each time the spacebar is pressed
@@ -62,6 +62,7 @@ async function run() {
     });
 }
 run();
+</script>
 ```
 
 

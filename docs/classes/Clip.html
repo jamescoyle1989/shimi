@@ -16,7 +16,7 @@
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>The Clip class represents a collection of notes, control changes, and bends, arranged over a certain number of beats, to allow them to be played in a musical expression.</p>
 <p>An example of using a clip to contain the first 2 bars of the melody Twinkle Twinkle Little Star:</p>
-<pre><code><span class="hl-1"> </span><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-3">clip</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">Clip</span><span class="hl-1">(</span><span class="hl-7">8</span><span class="hl-1">);</span><br/><span class="hl-1"> </span><span class="hl-5">clip</span><span class="hl-1">.</span><span class="hl-5">Notes</span><span class="hl-1">.</span><span class="hl-2">push</span><span class="hl-1">(</span><br/><span class="hl-1">     </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">ClipNote</span><span class="hl-1">(</span><span class="hl-7">0</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">pitch</span><span class="hl-1">(</span><span class="hl-6">&#39;C4&#39;</span><span class="hl-1">), </span><span class="hl-7">80</span><span class="hl-1">),</span><br/><span class="hl-1">     </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">ClipNote</span><span class="hl-1">(</span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">pitch</span><span class="hl-1">(</span><span class="hl-6">&#39;C4&#39;</span><span class="hl-1">), </span><span class="hl-7">80</span><span class="hl-1">),</span><br/><span class="hl-1">     </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">ClipNote</span><span class="hl-1">(</span><span class="hl-7">2</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">pitch</span><span class="hl-1">(</span><span class="hl-6">&#39;G4&#39;</span><span class="hl-1">), </span><span class="hl-7">80</span><span class="hl-1">),</span><br/><span class="hl-1">     </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">ClipNote</span><span class="hl-1">(</span><span class="hl-7">3</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">pitch</span><span class="hl-1">(</span><span class="hl-6">&#39;G4&#39;</span><span class="hl-1">), </span><span class="hl-7">80</span><span class="hl-1">),</span><br/><span class="hl-1">     </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">ClipNote</span><span class="hl-1">(</span><span class="hl-7">4</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">pitch</span><span class="hl-1">(</span><span class="hl-6">&#39;A4&#39;</span><span class="hl-1">), </span><span class="hl-7">80</span><span class="hl-1">),</span><br/><span class="hl-1">     </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">ClipNote</span><span class="hl-1">(</span><span class="hl-7">5</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">pitch</span><span class="hl-1">(</span><span class="hl-6">&#39;A4&#39;</span><span class="hl-1">), </span><span class="hl-7">80</span><span class="hl-1">),</span><br/><span class="hl-1">     </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">ClipNote</span><span class="hl-1">(</span><span class="hl-7">6</span><span class="hl-1">, </span><span class="hl-7">2</span><span class="hl-1">, </span><span class="hl-5">shimi</span><span class="hl-1">.</span><span class="hl-2">pitch</span><span class="hl-1">(</span><span class="hl-6">&#39;G4&#39;</span><span class="hl-1">), </span><span class="hl-7">80</span><span class="hl-1">)</span><br/><span class="hl-1"> );</span>
+<pre><code><span class="hl-0"> </span><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-6">clip</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">Clip</span><span class="hl-0">(</span><span class="hl-7">8</span><span class="hl-0">);</span><br/><span class="hl-0"> </span><span class="hl-1">clip</span><span class="hl-0">.</span><span class="hl-1">Notes</span><span class="hl-0">.</span><span class="hl-5">push</span><span class="hl-0">(</span><br/><span class="hl-0">     </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">ClipNote</span><span class="hl-0">(</span><span class="hl-7">0</span><span class="hl-0">, </span><span class="hl-7">1</span><span class="hl-0">, </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">pitch</span><span class="hl-0">(</span><span class="hl-2">&#39;C4&#39;</span><span class="hl-0">), </span><span class="hl-7">80</span><span class="hl-0">),</span><br/><span class="hl-0">     </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">ClipNote</span><span class="hl-0">(</span><span class="hl-7">1</span><span class="hl-0">, </span><span class="hl-7">1</span><span class="hl-0">, </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">pitch</span><span class="hl-0">(</span><span class="hl-2">&#39;C4&#39;</span><span class="hl-0">), </span><span class="hl-7">80</span><span class="hl-0">),</span><br/><span class="hl-0">     </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">ClipNote</span><span class="hl-0">(</span><span class="hl-7">2</span><span class="hl-0">, </span><span class="hl-7">1</span><span class="hl-0">, </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">pitch</span><span class="hl-0">(</span><span class="hl-2">&#39;G4&#39;</span><span class="hl-0">), </span><span class="hl-7">80</span><span class="hl-0">),</span><br/><span class="hl-0">     </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">ClipNote</span><span class="hl-0">(</span><span class="hl-7">3</span><span class="hl-0">, </span><span class="hl-7">1</span><span class="hl-0">, </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">pitch</span><span class="hl-0">(</span><span class="hl-2">&#39;G4&#39;</span><span class="hl-0">), </span><span class="hl-7">80</span><span class="hl-0">),</span><br/><span class="hl-0">     </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">ClipNote</span><span class="hl-0">(</span><span class="hl-7">4</span><span class="hl-0">, </span><span class="hl-7">1</span><span class="hl-0">, </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">pitch</span><span class="hl-0">(</span><span class="hl-2">&#39;A4&#39;</span><span class="hl-0">), </span><span class="hl-7">80</span><span class="hl-0">),</span><br/><span class="hl-0">     </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">ClipNote</span><span class="hl-0">(</span><span class="hl-7">5</span><span class="hl-0">, </span><span class="hl-7">1</span><span class="hl-0">, </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">pitch</span><span class="hl-0">(</span><span class="hl-2">&#39;A4&#39;</span><span class="hl-0">), </span><span class="hl-7">80</span><span class="hl-0">),</span><br/><span class="hl-0">     </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">ClipNote</span><span class="hl-0">(</span><span class="hl-7">6</span><span class="hl-0">, </span><span class="hl-7">2</span><span class="hl-0">, </span><span class="hl-1">shimi</span><span class="hl-0">.</span><span class="hl-5">pitch</span><span class="hl-0">(</span><span class="hl-2">&#39;G4&#39;</span><span class="hl-0">), </span><span class="hl-7">80</span><span class="hl-0">)</span><br/><span class="hl-0"> );</span>
 </code></pre>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
@@ -28,7 +28,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">Clip</span></li></ul></section></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:181</li></ul></aside>
+<li>Defined in Clip.ts:185</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -81,7 +81,7 @@
 <h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="Range.html">Range</a>.<a href="Range.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in Clip.ts:200</li></ul></aside></li></ul></section></section>
+<li>Defined in Clip.ts:204</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="bends" class="tsd-anchor"></a>
@@ -90,21 +90,21 @@
 <div class="tsd-comment tsd-typography"><p>The collection of pitch bends that the clip contains.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:195</li></ul></aside></section>
+<li>Defined in Clip.ts:199</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="controlChanges" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>control<wbr/>Changes</span><a href="#controlChanges" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">control<wbr/>Changes<span class="tsd-signature-symbol">:</span> <a href="ClipCC.html" class="tsd-signature-type" data-tsd-kind="Class">ClipCC</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 <div class="tsd-comment tsd-typography"><p>The collection of control changes that the clip contains.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:190</li></ul></aside></section>
+<li>Defined in Clip.ts:194</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="notes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notes</span><a href="#notes" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">notes<span class="tsd-signature-symbol">:</span> <a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 <div class="tsd-comment tsd-typography"><p>The collection of notes that the clip contains.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:185</li></ul></aside></section></section>
+<li>Defined in Clip.ts:189</li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="duration" class="tsd-anchor"></a>
@@ -207,7 +207,7 @@
 <h3>Returns</h3></div>
 <h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:208</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:212</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getBendsIntersectingRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Bends<wbr/>Intersecting<wbr/>Range</span><a href="#getBendsIntersectingRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -229,7 +229,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipBend.html" class="tsd-signature-type" data-tsd-kind="Class">ClipBend</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:319</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:323</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getControlChangesIntersectingRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Control<wbr/>Changes<wbr/>Intersecting<wbr/>Range</span><a href="#getControlChangesIntersectingRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -251,7 +251,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipCC.html" class="tsd-signature-type" data-tsd-kind="Class">ClipCC</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:309</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:313</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getNotesEndingInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Notes<wbr/>Ending<wbr/>In<wbr/>Range</span><a href="#getNotesEndingInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -273,7 +273,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:299</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:303</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getNotesStartingInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Notes<wbr/>Starting<wbr/>In<wbr/>Range</span><a href="#getNotesStartingInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -295,7 +295,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:289</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:293</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getPercent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Percent</span><a href="#getPercent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -332,7 +332,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:266</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:270</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="quantize" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>quantize</span><a href="#quantize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -356,7 +356,7 @@ Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a he
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:230</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:234</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="reverse" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reverse</span><a href="#reverse" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -366,7 +366,7 @@ Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a he
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:274</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:278</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="transpose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>transpose</span><a href="#transpose" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -383,7 +383,7 @@ Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a he
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:257</li></ul></aside></li></ul></section></section></div>
+<li>Defined in Clip.ts:261</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

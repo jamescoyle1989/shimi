@@ -343,4 +343,9 @@ import { Clip, ClipCC, ClipBend, ClipNote } from '../src/Clip';
         expect(clip.controlChanges[0].start).to.equal(3);
         expect(clip.controlChanges[1].start).to.equal(2.5);
     }
+
+    @test 'ClipNote can take pitch as name'() {
+        const clipNote = new ClipNote(0, 1, 'Bb5', 80);
+        expect(clipNote.pitch).to.equal(82);
+    }
 }

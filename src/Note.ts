@@ -1,6 +1,7 @@
 'use strict';
 
 import PropertyTracker from './PropertyTracker';
+import { parsePitch } from './utils';
 
 /**
  * The Note class models a single musical note which can be started and stopped, to be played at a specific pitch & velocity, on a specific channel.
@@ -46,13 +47,13 @@ export default class Note {
     ref: string;
 
     /**
-     * @param pitch The MIDI pitch of the note, valid values range from 0 - 127.
+     * @param pitch The MIDI pitch of the note, valid values range from 0 - 127. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param velocity The note's velocity (loudness), valid values range from 0 - 127.
      * @param channel Which channel should the note play on, valid values range from 0 - 15.
      * @param ref Provides way of identifying notes so they can be easily retrieved later.
      */
-    constructor(pitch: number, velocity: number, channel: number, ref?: string) {
-        this._pitch = pitch;
+    constructor(pitch: number | string, velocity: number, channel: number, ref?: string) {
+        this._pitch = (typeof(pitch) == 'string') ? parsePitch(pitch) : pitch;
         this.velocityTracker = new PropertyTracker(velocity);
         this.onTracker = new PropertyTracker(false);
         this.on = true;

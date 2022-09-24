@@ -22,4 +22,9 @@ import ScaleTemplate from '../src/ScaleTemplate';
         expect(template.shape[0]).to.equal(0);
         expect(template.shape[1]).to.equal(2);
     }
+
+    @test 'create can take pitch string'() {
+        const scale = ScaleTemplate.major.create('D');
+        expect(scale.root).to.equal(2);
+    }
 }

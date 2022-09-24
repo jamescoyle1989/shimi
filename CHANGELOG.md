@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.2.0 (2022-09-24)
+
+### Added
+
+- Wide support for passing pitch names into shimi objects, instead of just pitch numbers
+
+
 ## 1.1.0 (2022-09-23)
 
 ### Added

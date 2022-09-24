@@ -2,7 +2,7 @@
 
 import { IPitchContainer, FitPitchOptions, FitDirection } from './IPitchContainer';
 import ScaleTemplate from './ScaleTemplate';
-import { safeMod, sortComparison } from './utils';
+import { parsePitch, safeMod, sortComparison } from './utils';
 
 
 /** This class is used by the Scale class to hold information about the proper naming of pitches, relative to some specific scale */
@@ -65,11 +65,13 @@ export default class Scale implements IPitchContainer {
 
     /**
      * @param template The ScaleTemplate object which defines the scale type that this scale uses.
-     * @param root The root of the scale.
+     * @param root The root of the scale. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      */
-    constructor(template: ScaleTemplate, root: number) {
-        root = safeMod(root, 12);
-        this._pitches = template.shape.map(x => (root + x) % 12);
+    constructor(template: ScaleTemplate, root: number | string) {
+        let rootNum = (typeof(root) == 'string') ? parsePitch(root) : root;
+        
+        rootNum = safeMod(rootNum, 12);
+        this._pitches = template.shape.map(x => (rootNum + x) % 12);
 
         this._template = template;
 
@@ -79,21 +81,28 @@ export default class Scale implements IPitchContainer {
     }
 
     /** 
-     * Returns true if the passed in pitch belongs to the scale.
+     * Returns true if the passed in pitch belongs to the scale. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * 
      * For example: 
      * ```
-     * cMajor.contains(shimi.pitch('Db7')) //returns false
-     * cMajor.contains(shimi.pitch('A8')) //returns true
+     * cMajor.contains(7) //returns true
+     * cMajor.contains('Db7') //returns false
+     * cMajor.contains('A8') //returns true
      * ```
      */
-    contains(pitch: number): boolean {
+    contains(pitch: number | string): boolean {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+        
         pitch = safeMod(pitch, 12);
         return this.pitches.find(p => p == pitch) != undefined;
     }
 
-    /** Returns the index of the passed in pitch, or -1 if it's not contained */
-    indexOf(pitch: number): number {
+    /** Returns the index of the passed in pitch, or -1 if it's not contained. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information. */
+    indexOf(pitch: number | string): number {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+        
         pitch = safeMod(pitch, 12);
         for (let i = 0; i < this.pitches.length; i++) {
             if (this.pitches[i] == pitch)
@@ -107,14 +116,18 @@ export default class Scale implements IPitchContainer {
      * 
      * For example:
      * ```
-     * cMajor.getPitchName(shimi.pitch('E'))    //returns 'E'
-     * cMinor.getPitchName(shimi.pitch('E'))    //returns 'E♮'
+     * cMajor.getPitchName(7)      //returns 'G'
+     * cMajor.getPitchName('E')    //returns 'E'
+     * cMinor.getPitchName('E')    //returns 'E♮'
      * ```
-     * @param pitch The pitch to get the string representation of.
+     * @param pitch The pitch to get the string representation of. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param showOctave Whether to show a number after the name showing which octave we're in.
      * @returns 
      */
-    getPitchName(pitch: number, showOctave: boolean = false): string {
+    getPitchName(pitch: number | string, showOctave: boolean = false): string {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+        
         let output = this._pitchNames[safeMod(pitch, 12)].toString();
         if (showOctave)
             output += Math.floor(pitch / 12) - 1;
@@ -160,14 +173,19 @@ export default class Scale implements IPitchContainer {
     }
 
     /**
-     * The pitchesInRange method takes 2 numerical values, and returns all scale pitches which exist within that range. The search is inclusive of the passed in pitch parameters.
+     * The pitchesInRange method takes 2 numerical values, and returns all scale pitches which exist within that range. The search is inclusive of the passed in pitch parameters. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * 
      * Note, if lowPitch > highPitch, then rather than throw an error, lowPitch & highPitch are swapped in their roles.
      * @param lowPitch The low pitch to compare against.
      * @param highPitch The high pitch to compare against.
      * @returns 
      */
-    pitchesInRange(lowPitch: number, highPitch: number): Array<number> {
+    pitchesInRange(lowPitch: number | string, highPitch: number | string): Array<number> {
+        if (typeof(lowPitch) == 'string')
+            lowPitch = parsePitch(lowPitch);
+        if (typeof(highPitch) == 'string')
+            highPitch = parsePitch(highPitch);
+        
         if (lowPitch > highPitch)
             return this.pitchesInRange(highPitch, lowPitch);
 
@@ -187,11 +205,14 @@ export default class Scale implements IPitchContainer {
 
     /**
      * Returns a pitch near to the passed in pitch, but which should fit better with the notes within the scale.
-     * @param pitch The pitch which we want to fit to the scale.
+     * @param pitch The pitch which we want to fit to the scale. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param options The options allow us to configure how we want the pitch to be fitted to the scale.
      * @returns Returns a new pitch number.
      */
-    fitPitch(pitch: number, options?: Partial<FitPitchOptions>): number {
+    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+        
         options = new FitPitchOptions(options);
 
         //Set direction to either 1 or -1, 1 means prefer upward motion, -1 means prefer downward motion
