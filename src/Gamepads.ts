@@ -27,7 +27,7 @@ export default class Gamepads implements IClockChild {
     /**
      * @param updateProvider This is a function that will be called with each update to get new Gamepad data.
      * 
-     * Typically this should be something like: `new Gamepads(navigator.getGamepads);`
+     * Typically this should be something like: `new Gamepads(() => navigator.getGamepads());`
      */
     constructor(updateProvider: () => Gamepad[]) {
         this._updateProvider = updateProvider;
@@ -53,7 +53,7 @@ export default class Gamepads implements IClockChild {
 
         //Try to match unmatched gamepads
         for (let i = 0; i < newGamepads.length && i < 4; i++) {
-            if (this._matched[i] == null) {
+            if (this._matched[i] == null && newGamepads[i] != null) {
                 for (let j = 0; j < this._unmatched.length; j++) {
                     const unmatched = this._unmatched[j];
                     if (unmatched.canMatch(newGamepads[i])) {
@@ -112,7 +112,7 @@ export default class Gamepads implements IClockChild {
      * Provides a way for setting the ref through a chained function call. For example:
      * 
      * ```
-     * clock.addChild(new Gamepads(navigator.getGamepads).withRef('gamepads'));
+     * clock.addChild(new Gamepads(() => navigator.getGamepads()).withRef('gamepads'));
      * ```
      * 
      * @param ref The ref to set on the object.

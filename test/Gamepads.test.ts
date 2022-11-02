@@ -71,6 +71,10 @@ function getTestInputs(): any[] {
     ];
 }
 
+function getNullTestInputs(): any[] {
+    return [null, null, null, null];
+}
+
 
 @suite class GamepadsTests {
     @test 'update can match unmatched gamepads'() {
@@ -99,5 +103,11 @@ function getTestInputs(): any[] {
         gamepads.add(new PS4Controller());
         gamepads.update(10);
         expect(gamepads.activeGamepads.length).to.equal(1);
+    }
+
+    @test 'update doesnt throw error when new gamepad data is null'() {
+        const gamepads = new Gamepads(getNullTestInputs);
+        gamepads.add(new PS4Controller());
+        gamepads.update(10);
     }
 }
