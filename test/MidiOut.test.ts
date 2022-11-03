@@ -155,4 +155,14 @@ export class MockPort {
         midiOut.suppressPortValidationErrors = true;
         expect(midiOut.sendRawData([99, 48, 139, 77])).to.be.false;
     }
+
+    @test 'stopNotes ends all notes if no filter provided'() {
+        const midiOut = new MidiOut(new MockPort());
+        midiOut.addNote(new Note(20, 20, 0));
+        midiOut.addNote(new Note(30, 30, 1));
+        midiOut.addNote(new Note(40, 40, 2));
+        expect(midiOut.notes.filter(x => x.on).length).to.equal(3);
+        midiOut.stopNotes();
+        expect(midiOut.notes.filter(x => x.on).length).to.equal(0);
+    }
 }

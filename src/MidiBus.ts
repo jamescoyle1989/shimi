@@ -139,9 +139,9 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
         return note;
     }
 
-    stopNotes(filter: (note: Note) => boolean): void {
+    stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
-            if (filter(n))
+            if (!filter || filter(n))
                 n.stop();
         }
     }

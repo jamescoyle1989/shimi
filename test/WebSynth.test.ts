@@ -173,4 +173,15 @@ class DummyAudioContext {
         const synth = new WebSynth(audioContext).withDefaultChannels().withRef('Testy test');
         expect(synth.ref).to.equal('Testy test');
     }
+
+    @test 'stopNotes ends all notes if no filter provided'() {
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        synth.addNote(new Note(20, 20, 0));
+        synth.addNote(new Note(30, 30, 1));
+        synth.addNote(new Note(40, 40, 2));
+        expect(synth.notes.filter(x => x.on).length).to.equal(3);
+        synth.stopNotes();
+        expect(synth.notes.filter(x => x.on).length).to.equal(0);
+    }
 }

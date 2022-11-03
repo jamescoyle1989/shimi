@@ -84,11 +84,11 @@ export default class MidiOut implements IMidiOut, IClockChild {
 
     /**
      * Calls the stop() method of all notes which have been added to the MidiOut that meet the passed in criteria.
-     * @param filter The criteria for determining which notes need to be stopped.
+     * @param filter The criteria for determining which notes need to be stopped. If no filter provided, then all notes are stopped.
      */
-    stopNotes(filter: (note: Note) => boolean): void {
+    stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
-            if (filter(n))
+            if (!filter || filter(n))
                 n.stop();
         }
     }
@@ -196,9 +196,9 @@ export interface IMidiOut {
 
     /**
      * The stopNotes method allows for stopping any number of notes currently being sent by the MIDI out.
-     * @param filter The filter parameter is a function that runs against each note on the MIDI out. Notes for which the function returns true are stopped.
+     * @param filter The filter parameter is a function that runs against each note on the MIDI out. Notes for which the function returns true are stopped. If no filter provided, then all notes are stopped.
      */
-    stopNotes(filter: (note: Note) => boolean): void;
+    stopNotes(filter?: (note: Note) => boolean): void;
 
     /**
      * The sendMessage method allows sending individual messages. This is not recommended to be used for note messages, though still supported. Its primary use is for control changes, bend messages, etc.

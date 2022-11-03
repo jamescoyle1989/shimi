@@ -7,6 +7,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.3.0 (2022-11-03)
+
+### Added
+
+- Support for stopping all notes on IMidiOut by not passing in a filter parameter
+
+
+## 1.2.1 (2022-11-02)
+
+### Fixed
+
+- Gamepads class properly handles incoming null controller values
+
+
 ## 1.2.0 (2022-09-24)
 
 ### Added

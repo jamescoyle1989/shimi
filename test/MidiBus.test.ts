@@ -220,4 +220,14 @@ import Note from '../src/Note';
         midiBus.receiveData([0xF8]);
         expect(tickCount).to.equal(2);
     }
+
+    @test 'stopNotes ends all notes if no filter provided'() {
+        const midiBus = new MidiBus();
+        midiBus.addNote(new Note(20, 20, 0));
+        midiBus.addNote(new Note(30, 30, 1));
+        midiBus.addNote(new Note(40, 40, 2));
+        expect(midiBus.notes.filter(x => x.on).length).to.equal(3);
+        midiBus.stopNotes();
+        expect(midiBus.notes.filter(x => x.on).length).to.equal(0);
+    }
 }

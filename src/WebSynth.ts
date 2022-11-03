@@ -152,11 +152,11 @@ export default class WebSynth implements IMidiOut, IClockChild {
 
     /**
      * Calls the stop() method of all notes which have been added to the WebSynth that meet the passed in criteria.
-     * @param filter The criteria for determining which notes need to be stopped.
+     * @param filter The criteria for determining which notes need to be stopped. If no filter provided, then all notes are stopped.
      */
-    stopNotes(filter: (note: Note) => boolean): void {
+    stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
-            if (filter(n)) {
+            if (!filter || filter(n)) {
                 for (const osc of n['oscillators'])
                     osc.stop();
                 delete n['oscillators'];
