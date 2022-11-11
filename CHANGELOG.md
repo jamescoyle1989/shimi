@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.4.2 (2022-11-10)
+
+- Fix for MIDI Message objects not being able to take pitch value by name
+
+
 ## 1.4.1 (2022-11-10)
 
 - Fixed PS4Controller matching logic

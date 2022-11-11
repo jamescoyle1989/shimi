@@ -29,7 +29,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/IMidiMessage.html" class="tsd-signature-type" data-tsd-kind="Interface">IMidiMessage</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in MidiMessages.ts:41</li></ul></aside>
+<li>Defined in MidiMessages.ts:43</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -55,14 +55,14 @@
 <section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_NoteOffMessage">new <wbr/>Note<wbr/>Off<wbr/>Message<span class="tsd-signature-symbol">(</span>pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, velocity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, channel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="NoteOffMessage.html" class="tsd-signature-type" data-tsd-kind="Class">NoteOffMessage</a><a href="#constructor.new_NoteOffMessage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_NoteOffMessage">new <wbr/>Note<wbr/>Off<wbr/>Message<span class="tsd-signature-symbol">(</span>pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, velocity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, channel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="NoteOffMessage.html" class="tsd-signature-type" data-tsd-kind="Class">NoteOffMessage</a><a href="#constructor.new_NoteOffMessage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>pitch: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>Acceptable values range from 0 to 127.</p>
+<h5>pitch: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>Acceptable values range from 0 to 127. Alternatively the pitch can be supplied by name.</p>
 </div></li>
 <li>
 <h5>velocity: <span class="tsd-signature-type">number</span></h5>
@@ -75,7 +75,7 @@
 <h4 class="tsd-returns-title">Returns <a href="NoteOffMessage.html" class="tsd-signature-type" data-tsd-kind="Class">NoteOffMessage</a></h4><aside class="tsd-sources">
 <p>Overrides MidiMessageBase.constructor</p>
 <ul>
-<li>Defined in MidiMessages.ts:56</li></ul></aside></li></ul></section></section>
+<li>Defined in MidiMessages.ts:58</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="channel" class="tsd-anchor"></a>
@@ -84,21 +84,21 @@
 <div class="tsd-comment tsd-typography"><p>Acceptable values range from 0 to 15.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in MidiMessages.ts:49</li></ul></aside></section>
+<li>Defined in MidiMessages.ts:51</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="pitch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pitch</span><a href="#pitch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">pitch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 <div class="tsd-comment tsd-typography"><p>Acceptable values range from 0 to 127.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in MidiMessages.ts:43</li></ul></aside></section>
+<li>Defined in MidiMessages.ts:45</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="velocity" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>velocity</span><a href="#velocity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">velocity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 <div class="tsd-comment tsd-typography"><p>Acceptable values range from 0 to 127.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in MidiMessages.ts:46</li></ul></aside></section></section>
+<li>Defined in MidiMessages.ts:48</li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="duplicate" class="tsd-anchor"></a>
@@ -111,7 +111,7 @@
 <h4 class="tsd-returns-title">Returns <a href="NoteOffMessage.html" class="tsd-signature-type" data-tsd-kind="Class">NoteOffMessage</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMidiMessage.html">IMidiMessage</a>.<a href="../interfaces/IMidiMessage.html#duplicate">duplicate</a></p>
 <ul>
-<li>Defined in MidiMessages.ts:71</li></ul></aside></li></ul></section>
+<li>Defined in MidiMessages.ts:73</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Array</span><a href="#toArray" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -122,7 +122,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMidiMessage.html">IMidiMessage</a>.<a href="../interfaces/IMidiMessage.html#toArray">toArray</a></p>
 <ul>
-<li>Defined in MidiMessages.ts:63</li></ul></aside></li></ul></section></section></div>
+<li>Defined in MidiMessages.ts:65</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

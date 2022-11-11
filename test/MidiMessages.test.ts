@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import { PitchBendMessage } from '../src/MidiMessages';
 import * as messages from '../src/MidiMessages';
+import { pitch } from '../src';
 
 
 @suite class MidiMessageTests {
@@ -259,5 +260,20 @@ import * as messages from '../src/MidiMessages';
         const array = message.toArray();
         expect(array.length).to.equal(1);
         expect(array[0]).to.equal(0xFC);
+    }
+
+    @test 'NoteOffMessage can take pitch name'() {
+        const message = new messages.NoteOffMessage('C4', 80, 0);
+        expect(message.pitch).to.equal(60);
+    }
+
+    @test 'NoteOnMessage can take pitch name'() {
+        const message = new messages.NoteOnMessage('C4', 80, 0);
+        expect(message.pitch).to.equal(60);
+    }
+
+    @test 'NotePressureMessage can take pitch name'() {
+        const message = new messages.NotePressureMessage('C4', 80, 0);
+        expect(message.pitch).to.equal(60);
     }
 }

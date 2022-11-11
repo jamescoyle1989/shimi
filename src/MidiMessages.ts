@@ -1,5 +1,7 @@
 'use strict';
 
+import { parsePitch } from './utils';
+
 
 /**
  * IMidiMessage defines an interface which all MIDI message objects should implement in order to be widely useable with the MIDI inputs/outputs that consume them.
@@ -49,13 +51,13 @@ export class NoteOffMessage extends MidiMessageBase implements IMidiMessage {
     channel: number = 0;
 
     /**
-     * @param pitch Acceptable values range from 0 to 127.
+     * @param pitch Acceptable values range from 0 to 127. Alternatively the pitch can be supplied by name.
      * @param velocity Acceptable values range from 0 to 127.
      * @param channel Acceptable values range from 0 to 15.
      */
-    constructor(pitch: number, velocity: number, channel: number) {
+    constructor(pitch: number | string, velocity: number, channel: number) {
         super();
-        this.pitch = pitch;
+        this.pitch = (typeof(pitch) == 'string') ? parsePitch(pitch) : pitch;
         this.velocity = velocity;
         this.channel = channel;
     }
@@ -89,13 +91,13 @@ export class NoteOnMessage extends MidiMessageBase implements IMidiMessage {
     channel: number = 0;
 
     /**
-     * @param pitch Acceptable values range from 0 to 127.
+     * @param pitch Acceptable values range from 0 to 127. Alternatively the pitch can be supplied by name.
      * @param velocity Acceptable values range from 0 to 127.
      * @param channel Acceptable values range from 0 to 15.
      */
-    constructor(pitch: number, velocity: number, channel: number) {
+    constructor(pitch: number | string, velocity: number, channel: number) {
         super();
-        this.pitch = pitch;
+        this.pitch = (typeof(pitch) == 'string') ? parsePitch(pitch) : pitch;
         this.velocity = velocity;
         this.channel = channel;
     }
@@ -129,13 +131,13 @@ export class NotePressureMessage extends MidiMessageBase implements IMidiMessage
     channel: number = 0;
 
     /**
-     * @param pitch Acceptable values range from 0 to 127.
+     * @param pitch Acceptable values range from 0 to 127. Alternatively the pitch can be supplied by name.
      * @param velocity Acceptable values range from 0 to 127.
      * @param channel Acceptable values range from 0 to 15.
      */
-    constructor(pitch: number, velocity: number, channel: number) {
+    constructor(pitch: number | string, velocity: number, channel: number) {
         super();
-        this.pitch = pitch;
+        this.pitch = (typeof(pitch) == 'string') ? parsePitch(pitch) : pitch;
         this.velocity = velocity;
         this.channel = channel;
     }
