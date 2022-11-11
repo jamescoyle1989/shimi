@@ -146,6 +146,6 @@ export default class PS4Controller implements IGamepad {
      * @returns 
      */
     canMatch(gamepadObject: Gamepad): boolean {
-        return gamepadObject.buttons.length == 16 || gamepadObject.axes.length == 4;
+        return gamepadObject.buttons.length == 16 && gamepadObject.axes.length == 4;
     }
 }

@@ -110,4 +110,40 @@ function getNullTestInputs(): any[] {
         gamepads.add(new PS4Controller());
         gamepads.update(10);
     }
+
+    @test 'PS4Controller canMatch matches on both button count and axis count'() {
+        const ps4Controller = new PS4Controller();
+        const correctButtonCount: any = {
+            buttons: [
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0}
+            ],
+            axes: [0,0,0]
+        }
+        expect(ps4Controller.canMatch(correctButtonCount)).to.be.false;
+
+        const correctAxisCount: any = {
+            buttons: [
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0}
+            ],
+            axes: [0,0,0,0]
+        };
+        expect(ps4Controller.canMatch(correctAxisCount)).to.be.false;
+
+        const correctButtonAndAxisCount: any = {
+            buttons: [
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0},{value:0},{value:0}
+            ],
+            axes: [0,0,0,0]
+        };
+        expect(ps4Controller.canMatch(correctButtonAndAxisCount)).to.be.true;
+    }
 }
