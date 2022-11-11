@@ -23,6 +23,8 @@ function getTestInputs(): any[] {
                 { value: (Math.random() > 0.5) ? 1 : 0 },
                 { value: (Math.random() > 0.5) ? 1 : 0 },
                 { value: (Math.random() > 0.5) ? 1 : 0 },
+                { value: (Math.random() > 0.5) ? 1 : 0 },
+                { value: (Math.random() > 0.5) ? 1 : 0 },
                 { value: (Math.random() > 0.5) ? 1 : 0 }
             ],
             axes: [
@@ -118,7 +120,8 @@ function getNullTestInputs(): any[] {
                 {value:0},{value:0},{value:0},{value:0},
                 {value:0},{value:0},{value:0},{value:0},
                 {value:0},{value:0},{value:0},{value:0},
-                {value:0},{value:0},{value:0},{value:0}
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0}
             ],
             axes: [0,0,0]
         }
@@ -129,7 +132,8 @@ function getNullTestInputs(): any[] {
                 {value:0},{value:0},{value:0},{value:0},
                 {value:0},{value:0},{value:0},{value:0},
                 {value:0},{value:0},{value:0},{value:0},
-                {value:0},{value:0},{value:0}
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0}
             ],
             axes: [0,0,0,0]
         };
@@ -140,7 +144,8 @@ function getNullTestInputs(): any[] {
                 {value:0},{value:0},{value:0},{value:0},
                 {value:0},{value:0},{value:0},{value:0},
                 {value:0},{value:0},{value:0},{value:0},
-                {value:0},{value:0},{value:0},{value:0}
+                {value:0},{value:0},{value:0},{value:0},
+                {value:0},{value:0}
             ],
             axes: [0,0,0,0]
         };

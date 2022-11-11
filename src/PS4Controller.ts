@@ -100,6 +100,14 @@ export default class PS4Controller implements IGamepad {
     get R3_Y(): SliderInput { return this._r3_y; }
     private _r3_y: SliderInput = new SliderInput('R3_Y');
 
+    /** ButtonInput for PS button. */
+    get PS(): ButtonInput { return this._ps; }
+    private _ps: ButtonInput = new ButtonInput('PS');
+
+    /** ButtonInput for touchpad. */
+    get touchpad(): ButtonInput { return this._touchpad; }
+    private _touchpad: ButtonInput = new ButtonInput('touchpad');
+
 
     constructor() {
         this._buttons = [
@@ -118,7 +126,9 @@ export default class PS4Controller implements IGamepad {
             this.up,
             this.down,
             this.left,
-            this.right
+            this.right,
+            this.PS,
+            this.touchpad
         ];
 
         this._axes = [
@@ -146,6 +156,6 @@ export default class PS4Controller implements IGamepad {
      * @returns 
      */
     canMatch(gamepadObject: Gamepad): boolean {
-        return gamepadObject.buttons.length == 16 && gamepadObject.axes.length == 4;
+        return gamepadObject.buttons.length == this.buttons.length && gamepadObject.axes.length == this.axes.length;
     }
 }
