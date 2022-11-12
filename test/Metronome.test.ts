@@ -183,4 +183,68 @@ import Metronome from '../src/Metronome';
         m.enabled = true;
         expect(continueMessageCount).to.equal(1);
     }
+
+    @test 'atBarBeatMultiple returns 0 if at bar start'() {
+        const m = new Metronome(120);
+        expect(m.atBarBeatMultiple(0.5)).to.equal(0);
+    }
+
+    @test 'atBarBeatMultiple returns -1 if not on division'() {
+        const m = new Metronome(60);
+        m.update(250);
+        expect(m.atBarBeatMultiple(0.5)).to.equal(-1);
+    }
+
+    @test 'atBarBeatMultiple returns multiple recently behind current beat'() {
+        const m = new Metronome(60);
+        m.update(1950);
+        m.update(100);
+        expect(m.atBarBeatMultiple(1)).to.equal(2);
+    }
+
+    @test 'atBarBeatMultiple returns most recent multiple if many fall within update window'() {
+        const m = new Metronome(60);
+        m.update(1400);
+        m.update(700);
+        expect(m.atBarBeatMultiple(0.5)).to.equal(4);
+    }
+
+    @test 'atBarBeatMultiple handles wrapping around bar lines'() {
+        const m = new Metronome(60);
+        m.update(3700);
+        m.update(400);
+        expect(m.atBarBeatMultiple(1)).to.equal(0);
+    }
+
+    @test 'atBarQuarterNoteMultiple returns 0 if at bar start'() {
+        const m = new Metronome(120);
+        expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(0);
+    }
+
+    @test 'atBarQuarterNoteMultiple returns -1 if not on division'() {
+        const m = new Metronome(60);
+        m.update(250);
+        expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(-1);
+    }
+
+    @test 'atBarQuarterNoteMultiple returns multiple recently behind current beat'() {
+        const m = new Metronome(60);
+        m.update(1950);
+        m.update(100);
+        expect(m.atBarQuarterNoteMultiple(1)).to.equal(2);
+    }
+
+    @test 'atBarQuarterNoteMultiple returns most recent multiple if many fall within update window'() {
+        const m = new Metronome(60);
+        m.update(1400);
+        m.update(700);
+        expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(4);
+    }
+
+    @test 'atBarQuarterNoteMultiple handles wrapping around bar lines'() {
+        const m = new Metronome(60);
+        m.update(3700);
+        m.update(400);
+        expect(m.atBarQuarterNoteMultiple(1)).to.equal(0);
+    }
 }

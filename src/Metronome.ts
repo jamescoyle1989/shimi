@@ -141,6 +141,20 @@ export interface IMetronome {
     atBarQuarterNote(quarterNote: number): boolean;
 
     /**
+     * This takes in a beat division and checks if the metronome is currently at some multiple of that division within the current bar, returning what multiple of the division we're currently at.
+     * For example: atBarBeatMultiple(0.5) returns 0 if we're at beat 0, 1 if we're at beat 0.5, 2 if we're at beat 1, etc. If not at a multiple of the division, then -1 is returned.
+     * @param division The beat division to check if the metronome is at a multiple of.
+     */
+    atBarBeatMultiple(division: number): number;
+
+    /**
+     * This takes in a quarter note division and checks if the metronome is currently at some multiple of that division within the current bar, returning what multiple of the division we're currently at.
+     * For example: atBarQuarterNoteMultiple(0.5) returns 0 if we're at QN 0, 1 if we're at QN 0.5, 2 if we're at QN 1, etc. If not at a multiple of the division, then -1 is returned.
+     * @param division The beat division to check if the metronome is at a multiple of.
+     */
+    atBarQuarterNoteMultiple(division: number): number;
+
+    /**
      * This method is exposed primarily for the TickReceiver, so it can get a metronome to update, using its own calculation of how many quarter notes to update by.
      * 
      * This method should not be called by consumers of the library.
@@ -198,6 +212,19 @@ export class MetronomeBase {
                 return true;
         }
         return false;
+    }
+
+    protected _atBarPositionMultiple(division: number, tracker: PropertyTracker<number>): number {
+        var oldMultiple = tracker.oldValue / division;
+        var newMultiple = tracker.value / division;
+
+        if (newMultiple % 1 === 0)
+            return newMultiple;
+
+        if (Math.floor(oldMultiple) === Math.floor(newMultiple))
+            return -1;
+
+        return Math.floor(newMultiple);
     }
 }
 
@@ -363,6 +390,24 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
      */
     atBarQuarterNote(quarterNote: number): boolean {
         return super._atBarPosition(quarterNote, this._barQuarterNote);
+    }
+
+    /**
+     * This takes in a beat division and checks if the metronome is currently at some multiple of that division within the current bar, returning what multiple of the division we're currently at.
+     * For example: atBarBeatMultiple(0.5) returns 0 if we're at beat 0, 1 if we're at beat 0.5, 2 if we're at beat 1, etc. If not at a multiple of the division, then -1 is returned.
+     * @param division The beat division to check if the metronome is at a multiple of.
+     */
+    atBarBeatMultiple(division: number): number {
+        return super._atBarPositionMultiple(division, this._barBeat);
+    }
+
+    /**
+     * This takes in a quarter note division and checks if the metronome is currently at some multiple of that division within the current bar, returning what multiple of the division we're currently at.
+     * For example: atBarQuarterNoteMultiple(0.5) returns 0 if we're at QN 0, 1 if we're at QN 0.5, 2 if we're at QN 1, etc. If not at a multiple of the division, then -1 is returned.
+     * @param division The beat division to check if the metronome is at a multiple of.
+     */
+    atBarQuarterNoteMultiple(division: number): number {
+        return super._atBarPositionMultiple(division, this._barQuarterNote);
     }
 
     /**
