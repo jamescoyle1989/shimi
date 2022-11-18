@@ -80,25 +80,41 @@ export default class PS4Controller implements IGamepad {
     get L3(): ButtonInput { return this._l3; }
     private _l3: ButtonInput = new ButtonInput('L3');
 
-    /** SliderInput for the X-axis of the left analog stick. */
+    /** SliderInput for the X-axis of the left analog stick. -1 = fully left, +1 = fully right */
     get L3_X(): SliderInput { return this._l3_x; }
     private _l3_x: SliderInput = new SliderInput('L3_X');
 
-    /** SliderInput for the Y-axis of the left analog stick. */
+    /** SliderInput for the Y-axis of the left analog stick. -1 = fully up, +1 = fully down */
     get L3_Y(): SliderInput { return this._l3_y; }
     private _l3_y: SliderInput = new SliderInput('L3_Y');
+
+    /** How far away from center the L3 analog stick is */
+    get L3_magnitude(): SliderInput { return this._l3_magnitude; }
+    private _l3_magnitude: SliderInput = new SliderInput('L3_magnitude');
+
+    /** The angle of the L3 analog stick, measured clockwise in degrees from the stick pointing directly upwards. Values fall in the range (-180, 180] */
+    get L3_rotation(): SliderInput { return this._l3_rotation; }
+    private _l3_rotation: SliderInput = new SliderInput('L3_rotation');
 
     /** ButtonInput for R3 (when you push in the right analog stick). */
     get R3(): ButtonInput { return this._r3; }
     private _r3: ButtonInput = new ButtonInput('R3');
 
-    /** SliderInput for the X-axis of the right analog stick. */
+    /** SliderInput for the X-axis of the right analog stick. -1 = fully left, +1 = fully right */
     get R3_X(): SliderInput { return this._r3_x; }
     private _r3_x: SliderInput = new SliderInput('R3_X');
 
-    /** SliderInput for the Y-axis of the right analog stick. */
+    /** SliderInput for the Y-axis of the right analog stick. -1 = fully up, +1 = fully down */
     get R3_Y(): SliderInput { return this._r3_y; }
     private _r3_y: SliderInput = new SliderInput('R3_Y');
+
+    /** How far away from center the R3 analog stick is */
+    get R3_magnitude(): SliderInput { return this._r3_magnitude; }
+    private _r3_magnitude: SliderInput = new SliderInput('R3_magnitude');
+
+    /** The angle of the R3 analog stick, measured clockwise in degrees from the stick pointing directly upwards. Values fall in the range (-180, 180] */
+    get R3_rotation(): SliderInput { return this._r3_rotation; }
+    private _r3_rotation: SliderInput = new SliderInput('R3_rotation');
 
     /** ButtonInput for PS button. */
     get PS(): ButtonInput { return this._ps; }
@@ -148,6 +164,24 @@ export default class PS4Controller implements IGamepad {
             button.update(deltaMs);
         for (const axis of this.axes)
             axis.update(deltaMs);
+        
+        this.L3_magnitude.valueTracker.value = Math.sqrt(Math.pow(this.L3_X.value, 2) + Math.pow(this.L3_Y.value, 2));
+        this.L3_magnitude.update(deltaMs);
+        
+        this.R3_magnitude.valueTracker.value = Math.sqrt(Math.pow(this.R3_X.value, 2) + Math.pow(this.R3_Y.value, 2));
+        this.R3_magnitude.update(deltaMs);
+
+        if (this.L3_X.value == 0 && this.L3_Y.value == 0)
+            this.L3_rotation.valueTracker.value = 0;
+        else
+            this.L3_rotation.valueTracker.value = Math.atan2(this.L3_X.value, -this.L3_Y.value) * 180 / Math.PI;
+        this.L3_rotation.update(deltaMs);
+
+        if (this.R3_X.value == 0 && this.R3_Y.value == 0)
+            this.R3_rotation.valueTracker.value = 0;
+        else
+            this.R3_rotation.valueTracker.value = Math.atan2(this.R3_X.value, -this.R3_Y.value) * 180 / Math.PI;
+        this.R3_rotation.update(deltaMs);
     }
 
     /**
