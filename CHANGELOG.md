@@ -7,32 +7,51 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.6.1 (2022-11-19)
+
+### Fixed
+
+- Prevented PS4 analog stick magnitude from exceeding 1
+
+
 ## 1.6.0 (2022-11-18)
+
+### Added
 
 - Added properties for tracking magnitude & rotation of the PS4Controller analog sticks
 
 
 ## 1.5.0 (2022-11-12)
 
+### Added
+
 - Added atBarBeatMultiple & atBarQuarterNoteMultiple methods to IMetronome
 
 
 ## 1.4.3 (2022-11-10)
+
+### Fixed
 
 - Fixed PS4Controller not picking up PS & touchpad buttons
 
 
 ## 1.4.2 (2022-11-10)
 
+### Fixed
+
 - Fix for MIDI Message objects not being able to take pitch value by name
 
 
 ## 1.4.1 (2022-11-10)
 
+### Fixed
+
 - Fixed PS4Controller matching logic
 
 
 ## 1.4.0 (2022-11-03)
+
+### Added
 
 - Added integration with Travis CI & Coveralls
 

@@ -88,7 +88,7 @@ export default class PS4Controller implements IGamepad {
     get L3_Y(): SliderInput { return this._l3_y; }
     private _l3_y: SliderInput = new SliderInput('L3_Y');
 
-    /** How far away from center the L3 analog stick is */
+    /** How far away from center the L3 analog stick is. Value ranges from 0 to 1. */
     get L3_magnitude(): SliderInput { return this._l3_magnitude; }
     private _l3_magnitude: SliderInput = new SliderInput('L3_magnitude');
 
@@ -108,7 +108,7 @@ export default class PS4Controller implements IGamepad {
     get R3_Y(): SliderInput { return this._r3_y; }
     private _r3_y: SliderInput = new SliderInput('R3_Y');
 
-    /** How far away from center the R3 analog stick is */
+    /** How far away from center the R3 analog stick is. Value ranges from 0 to 1. */
     get R3_magnitude(): SliderInput { return this._r3_magnitude; }
     private _r3_magnitude: SliderInput = new SliderInput('R3_magnitude');
 
@@ -165,10 +165,10 @@ export default class PS4Controller implements IGamepad {
         for (const axis of this.axes)
             axis.update(deltaMs);
         
-        this.L3_magnitude.valueTracker.value = Math.sqrt(Math.pow(this.L3_X.value, 2) + Math.pow(this.L3_Y.value, 2));
+        this.L3_magnitude.valueTracker.value = Math.min(1, Math.sqrt(Math.pow(this.L3_X.value, 2) + Math.pow(this.L3_Y.value, 2)));
         this.L3_magnitude.update(deltaMs);
         
-        this.R3_magnitude.valueTracker.value = Math.sqrt(Math.pow(this.R3_X.value, 2) + Math.pow(this.R3_Y.value, 2));
+        this.R3_magnitude.valueTracker.value = Math.min(1, Math.sqrt(Math.pow(this.R3_X.value, 2) + Math.pow(this.R3_Y.value, 2)));
         this.R3_magnitude.update(deltaMs);
 
         if (this.L3_X.value == 0 && this.L3_Y.value == 0)

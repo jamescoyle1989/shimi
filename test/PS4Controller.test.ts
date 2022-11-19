@@ -45,11 +45,11 @@ import PS4Controller from '../src/PS4Controller';
 
     @test 'PS4Controller updates L3_magnitude'() {
         const ps4Controller = new PS4Controller();
-        ps4Controller.L3_X.valueTracker.value = 3;
-        ps4Controller.L3_Y.valueTracker.value = 4;
+        ps4Controller.L3_X.valueTracker.value = 0.3;
+        ps4Controller.L3_Y.valueTracker.value = 0.4;
         expect(ps4Controller.L3_magnitude.value).to.equal(0);
         ps4Controller.update(1);
-        expect(ps4Controller.L3_magnitude.value).to.equal(5);
+        expect(ps4Controller.L3_magnitude.value).to.equal(0.5);
     }
 
     @test 'PS4Controller L3_magnitude sends out changed event if value changed'() {
@@ -70,13 +70,21 @@ import PS4Controller from '../src/PS4Controller';
         expect(ps4Controller.L3_magnitude.activeMs).to.equal(59);
     }
 
+    @test 'PS4Controller L3_magnitude is capped at 1'() {
+        const ps4Controller = new PS4Controller();
+        ps4Controller.L3_X.valueTracker.value = 1;
+        ps4Controller.L3_Y.valueTracker.value = 1;
+        ps4Controller.update(1);
+        expect(ps4Controller.L3_magnitude.value).to.equal(1);
+    }
+
     @test 'PS4Controller updates R3_magnitude'() {
         const ps4Controller = new PS4Controller();
-        ps4Controller.R3_X.valueTracker.value = 3;
-        ps4Controller.R3_Y.valueTracker.value = 4;
+        ps4Controller.R3_X.valueTracker.value = 0.3;
+        ps4Controller.R3_Y.valueTracker.value = 0.4;
         expect(ps4Controller.R3_magnitude.value).to.equal(0);
         ps4Controller.update(1);
-        expect(ps4Controller.R3_magnitude.value).to.equal(5);
+        expect(ps4Controller.R3_magnitude.value).to.equal(0.5);
     }
 
     @test 'PS4Controller R3_magnitude sends out changed event if value changed'() {
@@ -95,6 +103,14 @@ import PS4Controller from '../src/PS4Controller';
         ps4Controller.R3_X.valueTracker.value = 1;
         ps4Controller.update(59);
         expect(ps4Controller.R3_magnitude.activeMs).to.equal(59);
+    }
+
+    @test 'PS4Controller R3_magnitude is capped at 1'() {
+        const ps4Controller = new PS4Controller();
+        ps4Controller.R3_X.valueTracker.value = 1;
+        ps4Controller.R3_Y.valueTracker.value = 1;
+        ps4Controller.update(1);
+        expect(ps4Controller.R3_magnitude.value).to.equal(1);
     }
 
     @test 'PS4Controller updates L3_rotation'() {
