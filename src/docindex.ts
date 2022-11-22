@@ -31,6 +31,7 @@ import {
     SongPositionMessage, StartMessage, ContinueMessage, StopMessage
 } from './MidiMessages';
 import MidiOut, { IMidiOut } from './MidiOut';
+import MiscController from './MiscController';
 import Note from './Note';
 import { parsePitch as pitch } from './utils';
 import PropertyTracker from './PropertyTracker';
@@ -81,6 +82,7 @@ export {
     MidiBus,
     MidiIn, MidiInEvent, MidiInEventData, IMidiIn,
     MidiOut, IMidiOut,
+    MiscController,
     Note,
     pitch,
     PropertyTracker,
