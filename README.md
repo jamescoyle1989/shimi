@@ -9,7 +9,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/jamescoyle1989/shimi)
 ![npm](https://img.shields.io/npm/dw/shimi)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/jamescoyle1989/shimi)
-[![Build Status](https://app.travis-ci.com/jamescoyle1989/shimi.svg?branch=master)](https://app.travis-ci.com/jamescoyle1989/shimi)
+![CircleCI](https://img.shields.io/circleci/build/github/jamescoyle1989/shimi)
 [![Coverage Status](https://coveralls.io/repos/github/jamescoyle1989/shimi/badge.svg?branch=master)](https://coveralls.io/github/jamescoyle1989/shimi?branch=master)
 
 ## Overview
