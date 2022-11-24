@@ -13,7 +13,7 @@
     "build": "tsc && npx webpack",
     "doc": "npx typedoc",
     "pub": "tsc && npx webpack && npm publish",
-    "coverage": "nyc npm test && nyc report --reporter=html"
+    "coverage": "nyc npm test && nyc report --reporter=lcov"
   },
   "keywords": [
     "midi",
