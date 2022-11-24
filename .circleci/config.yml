@@ -13,6 +13,6 @@ workflows:
   test_coverage:
     jobs:
       - node/run:
-        npm-run: coverage
+          npm-run: coverage
 
       - coveralls/upload
