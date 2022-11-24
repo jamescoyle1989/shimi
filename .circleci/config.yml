@@ -12,6 +12,7 @@ orbs:
 workflows:
   test_coverage:
     jobs:
-      - node/coverage:
-          version: '16.10'
-          pkg-manager: npm
+      - node/run:
+        npm-run: coverage
+
+      - coverals/upload

@@ -3,3 +3,4 @@ raw
 dist
 .nyc_output
 .vscode
+coverage
