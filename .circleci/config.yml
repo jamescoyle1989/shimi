@@ -15,4 +15,4 @@ workflows:
       - node/run:
         npm-run: coverage
 
-      - coverals/upload
+      - coveralls/upload
