@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  coveralls: ergeon/coveralls-orb@1.2.0
+  coveralls: coveralls/coveralls@1.0.6
 
 jobs:
   build:
