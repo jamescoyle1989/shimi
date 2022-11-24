@@ -1,5 +1,4 @@
-usage:
-  version: 2.1
+version: 2.1
 
 orbs:
   coveralls: ergeon/coveralls-orb@1.2.0
@@ -7,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/node:10.0.0
+      - image: cimg/node:10.0.0
 
     steps:
       - checkout
