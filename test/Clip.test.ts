@@ -1,6 +1,7 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import { Clip, ClipCC, ClipBend, ClipNote } from '../src/Clip';
+import Tween from '../src/Tweens';
 
 
 @suite class ClipTests {
@@ -347,5 +348,81 @@ import { Clip, ClipCC, ClipBend, ClipNote } from '../src/Clip';
     @test 'ClipNote can take pitch as name'() {
         const clipNote = new ClipNote(0, 1, 'Bb5', 80);
         expect(clipNote.pitch).to.equal(82);
+    }
+
+    @test 'addNote can add new note'() {
+        const clip = new Clip(4);
+        clip.addNote(0, 1, 'C4', 80);
+        expect(clip.notes.length).to.equal(1);
+        expect(clip.notes[0].pitch).to.equal(60);
+    }
+
+    @test 'addNote returns reference to parent clip object'() {
+        const clip = new Clip(4)
+            .addNote(0, 1, 'C4', 80);
+        expect(clip.notes.length).to.equal(1);
+    }
+
+    @test 'addNote can take array of note starts'() {
+        const clip = new Clip(4)
+            .addNote([0,1,2,3], 1, 'C4', 80);
+        expect(clip.notes.length).to.equal(4);
+    }
+
+    @test 'addNote can take array of pitches'() {
+        const clip = new Clip(4)
+            .addNote([0,2], 1, ['C4','G4'], 80);
+        expect(clip.notes.length).to.equal(4);
+    }
+
+    @test 'addCC can add new control change'() {
+        const clip = new Clip(4);
+        clip.addCC(0, 1, 20, Tween.sineIn(0, 100));
+        expect(clip.controlChanges.length).to.equal(1);
+    }
+
+    @test 'addCC returns reference to parent clip object'() {
+        const clip = new Clip(4)
+            .addCC(0, 1, 21, Tween.cubicInOut(20, 100));
+        expect(clip.controlChanges.length).to.equal(1);
+    }
+
+    @test 'addCC can take array of start beats'() {
+        const clip = new Clip(4)
+            .addCC([0,2], 2, 20, Tween.linear(0, 127));
+        expect(clip.controlChanges.length).to.equal(2);
+        expect(clip.controlChanges[0].start).to.equal(0);
+        expect(clip.controlChanges[1].start).to.equal(2);
+    }
+
+    @test 'addBend can add new bend'() {
+        const clip = new Clip(4);
+        clip.addBend(0, 2, Tween.sineInOut(0, 1).then(Tween.sineInOut(1, 0)));
+        expect(clip.bends.length).to.equal(1);
+    }
+
+    @test 'addBend returns reference to parent clip object'() {
+        const clip = new Clip(4)
+            .addBend(0, 1, Tween.sineIn(0, 1));
+        expect(clip.bends.length).to.equal(1);
+    }
+
+    @test 'addBend can take array of start beats'() {
+        const clip = new Clip(4)
+            .addBend([0,2], 2, Tween.linear(0, 1).then(Tween.linear(1, 0)));
+        expect(clip.bends[0].start).to.equal(0);
+        expect(clip.bends[1].start).to.equal(2);
+    }
+
+    @test 'addNote supports passing in ref'() {
+        const clip = new Clip(4)
+            .addNote(1, 1, 'C4', 80, null, 'a reference');
+        expect(clip.notes[0].ref).to.equal('a reference');
+    }
+
+    @test 'ClipNote passes ref down to note that it creates'() {
+        const clipNote = new ClipNote(0, 1, 60, 80, null, 'hello');
+        const note = clipNote.createNote(1, 0);
+        expect(note.ref).to.equal('hello');
     }
 }

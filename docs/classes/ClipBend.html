@@ -25,7 +25,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">ClipBend</span></li></ul></section></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:129</li></ul></aside>
+<li>Defined in Clip.ts:137</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -60,24 +60,24 @@
 <ul class="tsd-parameter-list">
 <li>
 <h5>start: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>What beat within the clip that the control change starts</p>
+<div class="tsd-comment tsd-typography"><p>What beat within the clip that the bend starts</p>
 </div></li>
 <li>
 <h5>duration: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>How many beats the control change lasts</p>
+<div class="tsd-comment tsd-typography"><p>How many beats the bend lasts</p>
 </div></li>
 <li>
 <h5>percent: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a></h5>
-<div class="tsd-comment tsd-typography"><p>How much bend to apply, valid values range from 0 - 127, or a function that maps beats to values</p>
+<div class="tsd-comment tsd-typography"><p>How much bend to apply, valid values range from 0 - 127, or a Tween object which defines a strategy for how to change over the course of the bend&#39;s lifetime.</p>
 </div></li>
 <li>
 <h5>channel: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = null</span></h5>
-<div class="tsd-comment tsd-typography"><p>Which channel to play the control change on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide</p>
+<div class="tsd-comment tsd-typography"><p>Which channel to play the bend on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipBend.html" class="tsd-signature-type" data-tsd-kind="Class">ClipBend</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="Range.html">Range</a>.<a href="Range.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in Clip.ts:153</li></ul></aside></li></ul></section></section>
+<li>Defined in Clip.ts:161</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="channel" class="tsd-anchor"></a>
@@ -89,7 +89,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:143</li></ul></aside></li>
+<li>Defined in Clip.ts:151</li></ul></aside></li>
 <li class="tsd-signature" id="channel.channel-2"><span class="tsd-signature-symbol">set</span> channel<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -99,7 +99,7 @@
 <h5>value: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:144</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:152</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="duration" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>duration</span><a href="#duration" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -158,7 +158,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:138</li></ul></aside></li>
+<li>Defined in Clip.ts:146</li></ul></aside></li>
 <li class="tsd-signature" id="percent.percent-2"><span class="tsd-signature-symbol">set</span> percent<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -168,7 +168,7 @@
 <h5>value: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:139</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:147</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="start" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>start</span><a href="#start" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">

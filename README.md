@@ -39,22 +39,15 @@ function run() {
     const metronome = new shimi.Metronome(120);
 
     const clock = new shimi.Clock();
-    clock.children.push(keyboard);
-    clock.children.push(metronome);
-    clock.children.push(midiOut);
+    clock.children.push(keyboard, metronome, midiOut);
     clock.start();
 
     //Twinkle Twinkle Little Star
-    const clip = new shimi.Clip(8);
-    clip.notes.push(
-        new shimi.ClipNote(0, 1, 'C4', 80),
-        new shimi.ClipNote(1, 1, 'C4', 80),
-        new shimi.ClipNote(2, 1, 'G4', 80),
-        new shimi.ClipNote(3, 1, 'G4', 80),
-        new shimi.ClipNote(4, 1, 'A4', 80),
-        new shimi.ClipNote(5, 1, 'A4', 80),
-        new shimi.ClipNote(6, 2, 'G4', 80)
-    );
+    const clip = new shimi.Clip(8)
+        .addNote([0,1], 1, 'C4', 80)
+        .addNote([2,3], 1, 'G4', 80)
+        .addNote([4,5], 1, 'A4', 80)
+        .addNote(6, 2, 'G4', 80);
 	
     //Start a new playthrough of the clip each time the spacebar is pressed
     keyboard.space.pressed.add(() => {

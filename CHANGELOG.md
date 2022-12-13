@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.8.0 (2022-12-12)
+
+- Clip supports addNote, addCC & addBend methods.
+
+- ClipNote supports ref property, which gets passed down to notes that it creates.
+
+
 ## 1.7.0 (2022-11-21)
 
 ### Added

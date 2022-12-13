@@ -33,19 +33,24 @@ export class ClipNote extends Range {
     set channel(value: number) { this._channel = value; }
     private _channel: number = null;
 
+    /** Provides way of identifying notes so they can be easily retrieved later. */
+    ref: string;
+
     /**
      * @param start What beat within the clip that the note starts on.
      * @param duration How many beats the note lasts.
      * @param pitch The MIDI pitch of the note, valid values range from 0 - 127. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param velocity The note's velocity, valid values range from 0 - 127, or a function that maps beats to values.
      * @param channel Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide.
+     * @param ref Provides way of identifying notes so they can be easily retrieved later.
      */
     constructor(
         start: number, 
         duration: number, 
         pitch: number | string, 
         velocity: number | ITween, 
-        channel: number = null
+        channel: number = null,
+        ref: string = null
     ) {
         super(start, duration);
         if (typeof(pitch) == 'string')
@@ -54,11 +59,13 @@ export class ClipNote extends Range {
             this.pitch = pitch;
         this.velocity = velocity;
         this.channel = channel;
+        this.ref = ref;
     }
 
     /**
      * The createNote method is primarily intended for use by the ClipPlayer to generate a new Note object from the ClipNote.
      * @param channel This is the preferred channel to use if the ClipNote doesn't specify one.
+     * @param percent How far into the note we should start from
      * @returns 
      */
     createNote(channel: number, percent: number): Note {
@@ -67,7 +74,8 @@ export class ClipNote extends Range {
             (typeof(this.velocity) == 'number') ? 
                 this.velocity : 
                 this.velocity.update(percent), 
-            this.channel ?? channel
+            this.channel ?? channel,
+            this.ref
         );
     }
 }
@@ -103,7 +111,7 @@ export class ClipCC extends Range {
      * @param start What beat within the clip that the control change starts.
      * @param duration How many beats the control change lasts.
      * @param controller The MIDI controller to modify, valid values range from 0 - 127.
-     * @param value The value to set, valid values range from 0 - 127, or a function that maps beats to values.
+     * @param value The value to set, valid values range from 0 - 127, or a Tween object which defines a strategy for how to change over the course of the control change's lifetime.
      * @param channel Which channel to play the control change on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide.
      */
     constructor(
@@ -145,10 +153,10 @@ export class ClipBend extends Range {
     private _channel: number = null;
 
     /**
-     * @param start What beat within the clip that the control change starts
-     * @param duration How many beats the control change lasts
-     * @param percent How much bend to apply, valid values range from 0 - 127, or a function that maps beats to values
-     * @param channel Which channel to play the control change on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide
+     * @param start What beat within the clip that the bend starts
+     * @param duration How many beats the bend lasts
+     * @param percent How much bend to apply, valid values range from 0 - 127, or a Tween object which defines a strategy for how to change over the course of the bend's lifetime.
+     * @param channel Which channel to play the bend on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide
      */
     constructor(
         start: number, 
@@ -168,16 +176,11 @@ export class ClipBend extends Range {
  * 
  * An example of using a clip to contain the first 2 bars of the melody Twinkle Twinkle Little Star:
  * ```
- *  const clip = new shimi.Clip(8);
- *  clip.Notes.push(
- *      new shimi.ClipNote(0, 1, shimi.pitch('C4'), 80),
- *      new shimi.ClipNote(1, 1, shimi.pitch('C4'), 80),
- *      new shimi.ClipNote(2, 1, shimi.pitch('G4'), 80),
- *      new shimi.ClipNote(3, 1, shimi.pitch('G4'), 80),
- *      new shimi.ClipNote(4, 1, shimi.pitch('A4'), 80),
- *      new shimi.ClipNote(5, 1, shimi.pitch('A4'), 80),
- *      new shimi.ClipNote(6, 2, shimi.pitch('G4'), 80)
- *  );
+ *  const clip = new shimi.Clip(8)
+ *      .addNote([0,1], 1, 'C4', 80)
+ *      .addNote([2,3], 1, 'G4', 80)
+ *      .addNote([4,5], 1, 'A4', 80)
+ *      .addNote(6, 2, 'G4', 80);
  * ```
  * 
  * @category Clips
@@ -203,6 +206,79 @@ export class Clip extends Range {
      */
     constructor(duration: number) {
         super(0, duration);
+    }
+
+    /**
+     * Adds a note to the clip. The start & pitch parameters can each take arrays of values, allowing for multiple notes to be added at once for the same pitches and start beats.
+     * @param start What beat within the clip that the note starts on. Can take array of multiple note starts
+     * @param duration How many beats the note lasts.
+     * @param pitch The MIDI pitch of the note, valid values range from 0 - 127. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information. Can take array of multiple pitch values
+     * @param velocity The note's velocity, valid values range from 0 - 127, or a function that maps beats to values.
+     * @param channel Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide.
+     * @param ref Provides way of identifying notes so they can be easily retrieved later.
+     * @returns Returns the Clip object which the note(s) is being added to.
+     */
+    addNote(
+        start: number | Array<number>, 
+        duration: number, 
+        pitch: number | string | Array<number | string>, 
+        velocity: number | ITween, 
+        channel: number = null,
+        ref: string = null
+    ): Clip {
+        if (typeof(start) === 'number')
+            start = [start];
+        if (typeof(pitch) === 'number' || typeof(pitch) === 'string')
+            pitch = [pitch];
+        for (const s of start) {
+            for (const p of pitch)
+                this.notes.push(new ClipNote(s, duration, p, velocity, channel, ref));
+        }
+        return this;
+    }
+
+    /**
+     * Adds a control change to the clip. The start parameter can take an array of values, allowing for multiple similar control changes to be added at once.
+     * @param start What beat within the clip that the control change starts. Can take array of multiple start values.
+     * @param duration How many beats the control change lasts.
+     * @param controller The MIDI controller to modify, valid values range from 0 - 127.
+     * @param value The value to set, valid values range from 0 - 127, or a Tween object which defines a strategy for how to change over the course of the control change's lifetime.
+     * @param channel Which channel to play the control change on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide.
+     * @returns Returns the Clip object which the control change(s) is being added to.
+     */
+    addCC(
+        start: number | Array<number>, 
+        duration: number, 
+        controller: number, 
+        value: number | ITween, 
+        channel: number = null
+    ): Clip {
+        if (typeof(start) === 'number')
+            start = [start];
+        for (const s of start)
+            this.controlChanges.push(new ClipCC(s, duration, controller, value, channel));
+        return this;
+    }
+
+    /**
+     * Adds a bend to the clip. The start parameter can take an array of values, allowing for multiple similar bends to be added at once.
+     * @param start What beat within the clip that the bend starts
+     * @param duration How many beats the bend lasts
+     * @param percent How much bend to apply, valid values range from 0 - 127, or a Tween object which defines a strategy for how to change over the course of the bend's lifetime.
+     * @param channel Which channel to play the bend on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide
+     * @returns Returns the Clip object which the bend(s) is being added to.
+     */
+    addBend(
+        start: number | Array<number>, 
+        duration: number, 
+        percent: number | ITween, 
+        channel: number = null
+    ): Clip {
+        if (typeof(start) === 'number')
+            start = [start];
+        for (const s of start)
+            this.bends.push(new ClipBend(s, duration, percent, channel));
+        return this;
     }
 
     /**
