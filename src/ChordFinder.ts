@@ -1,8 +1,9 @@
 'use strict';
 
-import { safeMod, sortComparison } from './utils';
+import { parsePitch, safeMod, sortComparison } from './utils';
 import Scale from './Scale';
 import { distinct, mode } from './IterationUtils';
+import Chord from './Chord';
 
 
 /**
@@ -303,5 +304,107 @@ export default class ChordFinder {
             count++;
         }
         return count;
+    }
+
+
+
+
+    /**
+     * Just like the findChord method, this method returns a ChordLookupResult object with details about the best chord fit it could find.
+     * However, this method performs its lookup by chord name, rather than the individual pitches that are in the chord
+     * @param chordName The name of the chord to look for
+     * @returns 
+     */
+    findChordByName(chordName: string): ChordLookupResult {
+        //Loop through each lookup, trying to match the pattern of the chord name to the chord lookup info
+        let previousLookup: ChordLookupData = null;
+        for (const lookup of this.lookupData) {
+            //When adding a new chord lookup, it gets added 12 times, for each of the 12 notes
+            //This is a simple optimisation to prevent us from doing 12 times the work that's actually necessary
+            if (previousLookup != null && previousLookup.shapeName == lookup.shapeName && previousLookup.name == lookup.name)
+                continue;
+            const result = this._tryLookupMatchToChordName(lookup, chordName);
+            if (result)
+                return result;
+            previousLookup = lookup;
+        }
+        return null;
+    }
+
+    private _tryLookupMatchToChordName(
+        lookupData: ChordLookupData, 
+        chordName: string
+    ): ChordLookupResult {
+        const output = new ChordLookupResult();
+        output.shapeName = lookupData.shapeName;
+
+        let regex = this._getRegexStringFromLookupDataName(lookupData.name);
+        let result = new RegExp(regex).exec(chordName);
+        if (result) {
+            output.name = lookupData.name;
+        }
+        else {
+            regex = this._getRegexStringFromLookupDataName(lookupData.inverseName);
+            result = new RegExp(regex).exec(chordName);
+            if (!result)
+                return null;
+            output.name = lookupData.inverseName;
+        }
+
+        output.root = parsePitch(result.groups.r) + 12;
+        if (result.groups.b != undefined)
+            output.bass = parsePitch(result.groups.b);
+        else
+            output.bass = output.root;
+
+        output.pitches = lookupData.intervals.map(x => x + output.root);
+        if (output.bass != output.root) {
+            const bassIndex = output.pitches.findIndex(x => x % 12 == output.bass);
+            if (bassIndex < 0)
+                output.pitches.push(output.bass);
+            else
+                output.pitches[bassIndex] = output.bass;
+        }
+        output.pitches = output.pitches.sort((a, b) => sortComparison(a, b, x => x));
+
+        return output;
+    }
+
+    private _getRegexStringFromLookupDataName(lookupName: string) {
+        let output = lookupName;
+        while (true) {
+            const leftBraceIndex = output.indexOf('{');
+            const rightBraceIndex = output.indexOf('}');
+            if (leftBraceIndex < 0 && rightBraceIndex < 0)
+                break;
+            if ((leftBraceIndex < 0) != (rightBraceIndex < 0))
+                throw new Error(`'${lookupName}' contains unmatched braces`);
+            if (rightBraceIndex < leftBraceIndex)
+                throw new Error(`'${lookupName}' contains unmatched braces`);
+
+            const braceContents = output.slice(leftBraceIndex + 1, rightBraceIndex);
+            output = output.slice(0, leftBraceIndex) + 
+                `(?<${braceContents}>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)` +
+                output.slice(rightBraceIndex + 1);
+        }
+        return '^' + output + '$';
+    }
+
+
+    /**
+     * Takes a chord name as parameter, and attempts to return a new Chord object which matches the named chord
+     * @param chordName The name of the chord that we want to create
+     * @returns 
+     */
+    newChord(chordName: string): Chord {
+        const result = this.findChordByName(chordName);
+        if (result == null)
+            return null;
+
+        const chord = new Chord()
+            .addPitches(result.pitches)
+            .setRoot(result.root);
+        
+        return chord;
     }
 }

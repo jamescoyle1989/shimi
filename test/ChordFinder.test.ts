@@ -141,4 +141,59 @@ import ScaleTemplate from '../src/ScaleTemplate';
         expect(result.bass).to.equal(2);
         expect(result.name).to.equal('{r}m');
     }
+
+    @test 'findChordByName allows looking up chord by string'() {
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const result = finder.findChordByName('F#m7');
+        expect(result.shapeName).to.equal('m7');
+        expect(result.root).to.equal(18);
+        expect(result.bass).to.equal(18);
+        expect(result.name).to.equal('{r}m7');
+    }
+
+    @test 'getRegexStringFromLookupDataName correctly replaces braces'() {
+        const finder = new ChordFinder();
+        const result = finder['_getRegexStringFromLookupDataName']('{r}M7');
+        expect(result).to.equal('^(?<r>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)M7$');
+    }
+
+    @test 'getRegexStringFromLookupDataName throws error if unmatched number of braces'() {
+        const finder = new ChordFinder();
+        expect(() => finder['_getRegexStringFromLookupDataName']('{r}M7{')).to.throw();
+    }
+
+    @test 'getRegexStringFromLookupDataName correctly handles inversions'() {
+        const finder = new ChordFinder();
+        const result = finder['_getRegexStringFromLookupDataName']('{r}7/{b}');
+        expect(result).to.equal('^(?<r>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)7\/(?<b>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)$');
+    }
+
+    @test '_tryLookupMatchToChordName returns result of successful match'() {
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const result = finder['_tryLookupMatchToChordName'](
+            finder.lookupData.find(x => x.shapeName == 'm9'), 
+            'Ebm9/F'
+        );
+        expect(result.shapeName).to.equal('m9');
+        expect(result.name).to.equal('{r}m9/{b}');
+        expect(result.root).to.equal(15);
+        expect(result.bass).to.equal(5);
+        
+        expect(result.pitches.length).to.equal(5);
+        expect(result.pitches[0]).to.equal(5);
+        expect(result.pitches[1]).to.equal(15);
+        expect(result.pitches[2]).to.equal(18);
+        expect(result.pitches[3]).to.equal(22);
+        expect(result.pitches[4]).to.equal(25);
+    }
+
+    @test 'newChord returns new chord object'() {
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const chord = finder.newChord('D');
+        expect(chord.root).to.equal(14);
+        expect(chord.pitches.length).to.equal(3);
+        expect(chord.pitches[0]).to.equal(14);
+        expect(chord.pitches[1]).to.equal(18);
+        expect(chord.pitches[2]).to.equal(21);
+    }
 }

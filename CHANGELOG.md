@@ -7,7 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.9.0 (2022-12-16)
+
+### Added
+
+- ChordFinder supports searching for chords by name
+
+
 ## 1.8.0 (2022-12-12)
+
+### Added
 
 - Clip supports addNote, addCC & addBend methods.
 
