@@ -7,6 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.10.0 (2022-12-20)
+
+### Added
+
+- Chord supports 'near' method
+- The 'near' extension method on number now supports pitch names
+
+
 ## 1.9.0 (2022-12-16)
 
 ### Added

@@ -1,4 +1,4 @@
-import { safeMod } from "./utils";
+import { safeMod, parsePitch } from './utils';
 
 
 
@@ -20,7 +20,10 @@ declare global {
  * @param target The target pitch which the returned value should be near to
  * @returns 
  */
-export function near(target: number): number {
+export function near(target: number | string): number {
+    if (typeof(target) === 'string')
+        target = parsePitch(target);
+        
     let pitchDiff = target - this;
     if (safeMod(pitchDiff, 12) == 6) {
         if (pitchDiff > 0)

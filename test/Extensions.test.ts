@@ -12,4 +12,8 @@ import '../src/Extensions';
         expect((48).near(66)).to.equal(60);
         expect((48).near(30)).to.equal(36);
     }
+
+    @test 'near can take string representation of pitch'() {
+        expect((2).near('C2')).to.equal(38);
+    }
 }

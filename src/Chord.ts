@@ -1,7 +1,7 @@
 'use strict';
 
 import { IPitchContainer, FitPitchOptions, FitDirection, FitPrecision } from './IPitchContainer';
-import { parsePitch, safeMod } from './utils';
+import { parsePitch, safeMod, sortComparison } from './utils';
 
 
 /**
@@ -177,6 +177,42 @@ export default class Chord implements IPitchContainer {
 
         pitch = safeMod(pitch, 12);
         return this.pitches.find(p => safeMod(p, 12) == pitch) != undefined;
+    }
+
+    /**
+     * Modifies the pitches within a chord up/down octaves so that they are nearer to the desired pitch
+     * @param pitch The pitch which the chord should be moved closer to
+     * @param allowInversions Defaults to false, meaning the entire chord must be moved up/down as one. If true, then single pitches within the chord can be moved, allowing for inversions.
+     * @returns Returns the chord instance which the method was called on.
+     */
+    near(pitch: number | string, allowInversions: boolean = false): Chord {
+        if (typeof(pitch) == 'string')
+            pitch = parsePitch(pitch);
+
+        const avgPitch = this.pitches.reduce((p,c) => p + c, 0) / this.pitches.length;
+
+        //Round to the nearest half-octave, then proceed manually, so that we can prefer rounding mid-points down rather than up.
+        let octaveDiff = Math.round((pitch - avgPitch) / 6);
+        if (octaveDiff % 2 == 1)
+            octaveDiff = (octaveDiff < 0) ? octaveDiff + 1 : octaveDiff - 1;
+        octaveDiff /= 2;
+
+        if (octaveDiff != 0) {
+            for (let i = 0; i < this.pitches.length; i++)
+                this.pitches[i] += octaveDiff * 12;
+        }
+
+        if (allowInversions) {
+            for (let i = 0; i < this.pitches.length; i++) {
+                if (pitch - this.pitches[i] > 6)
+                    this.pitches[i] += 12;
+                else if (this.pitches[i] - pitch > 6)
+                    this.pitches[i] -= 12;
+            }
+            this._pitches = this.pitches.sort((a, b) => sortComparison(a, b, x => x));
+        }
+        
+        return this;
     }
 
     /**

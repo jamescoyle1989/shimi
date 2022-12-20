@@ -55,6 +55,7 @@
 <a href="Chord.html#contains" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>contains</span></a>
 <a href="Chord.html#fitPitch" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>fit<wbr/>Pitch</span></a>
 <a href="Chord.html#getPitch" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Pitch</span></a>
+<a href="Chord.html#near" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>near</span></a>
 <a href="Chord.html#removePitches" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Pitches</span></a>
 <a href="Chord.html#setRoot" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>set<wbr/>Root</span></a>
 </div></section></div></details></section></section>
@@ -220,7 +221,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IPitchContainer.html">IPitchContainer</a>.<a href="../interfaces/IPitchContainer.html#fitPitch">fitPitch</a></p>
 <ul>
-<li>Defined in Chord.ts:189</li></ul></aside></li></ul></section>
+<li>Defined in Chord.ts:225</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getPitch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Pitch</span><a href="#getPitch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -243,6 +244,29 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
 <li>Defined in Chord.ts:162</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="near" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>near</span><a href="#near" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="near.near-1">near<span class="tsd-signature-symbol">(</span>pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, allowInversions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a><a href="#near.near-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Modifies the pitches within a chord up/down octaves so that they are nearer to the desired pitch</p>
+
+<h3>Returns</h3><p>Returns the chord instance which the method was called on.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>pitch: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>The pitch which the chord should be moved closer to</p>
+</div></li>
+<li>
+<h5>allowInversions: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+<div class="tsd-comment tsd-typography"><p>Defaults to false, meaning the entire chord must be moved up/down as one. If true, then single pitches within the chord can be moved, allowing for inversions.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in Chord.ts:188</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="removePitches" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove<wbr/>Pitches</span><a href="#removePitches" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -325,6 +349,7 @@
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Chord.html#contains" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>contains</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Chord.html#fitPitch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>fit<wbr/>Pitch</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Chord.html#getPitch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Pitch</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="Chord.html#near" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>near</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Chord.html#removePitches" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Pitches</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Chord.html#setRoot" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>set<wbr/>Root</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">

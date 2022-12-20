@@ -303,4 +303,36 @@ Chord.nameGenerator = (chord: Chord) => {
         const chord = new Chord().addPitches(['C4', 'E4', 'G4']);
         expect(chord.fitPitch('Ab2')).to.equal(43);
     }
+
+    @test 'near moves chord near to target note'() {
+        const chord = new Chord().addPitches([0,4,7]).near(26);
+        expect(chord.pitches.length).to.equal(3);
+        expect(chord.pitches[0]).to.equal(24);
+        expect(chord.pitches[1]).to.equal(28);
+        expect(chord.pitches[2]).to.equal(31);
+    }
+
+    @test 'near can take pitch name as parameter'() {
+        const chord = new Chord().addPitches([0,4,7]).near('E1');
+        expect(chord.pitches.length).to.equal(3);
+        expect(chord.pitches[0]).to.equal(24);
+        expect(chord.pitches[1]).to.equal(28);
+        expect(chord.pitches[2]).to.equal(31);
+    }
+
+    @test 'If there are 2 equally close options for near to select, it will choose the one closest to the chords current position'() {
+        const chord = new Chord().addPitches([0,3,6]).near(21);
+        expect(chord.pitches.length).to.equal(3);
+        expect(chord.pitches[0]).to.equal(12);
+        expect(chord.pitches[1]).to.equal(15);
+        expect(chord.pitches[2]).to.equal(18);
+    }
+
+    @test 'If allowInversions is true, then near will optimise for maximum closeness to the target'() {
+        const chord = new Chord().addPitches([0,4,7]).near(12, true);
+        expect(chord.pitches.length).to.equal(3);
+        expect(chord.pitches[0]).to.equal(7);
+        expect(chord.pitches[1]).to.equal(12);
+        expect(chord.pitches[2]).to.equal(16);
+    }
 }
