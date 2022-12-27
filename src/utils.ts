@@ -60,3 +60,10 @@ export function parsePitch(name: string): number {
 
     return safeMod(output, 12) + ((octave + 1) * 12);
 }
+
+
+export function toHertz(pitch: number | string): number {
+    if (typeof(pitch) === 'string')
+        pitch = parsePitch(pitch);
+    return Math.pow(2, ((pitch - 69) / 12)) * 440;
+}

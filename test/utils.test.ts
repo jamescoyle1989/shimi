@@ -1,6 +1,6 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { parsePitch } from '../src/utils';
+import { parsePitch, toHertz } from '../src/utils';
 
 
 @suite class UtilsTests {
@@ -53,5 +53,13 @@ import { parsePitch } from '../src/utils';
 
     @test 'parsePitch handles natural symbol'() {
         expect(parsePitch('E♮1')).to.equal(28);
+    }
+
+    @test 'toHertz converts middle C into correct hertz value'() {
+        expect(toHertz(60)).to.be.approximately(261.63, 0.01);
+    }
+
+    @test 'toHertz converts A4 to correct hertz value'() {
+        expect(toHertz('A4')).to.equal(440);
     }
 }

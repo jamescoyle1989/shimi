@@ -43,5 +43,13 @@
     "typedoc": "0.23.14",
     "webpack": "5.74.0",
     "webpack-cli": "4.10.0"
+  },
+  "peerDependencies": {
+    "tone": "14.7.77"
+  },
+  "peerDependenciesMeta": {
+    "tone": {
+      "optional": true
+    }
   }
 }
