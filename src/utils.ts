@@ -62,6 +62,11 @@ export function parsePitch(name: string): number {
 }
 
 
+/**
+ * Converts a MIDI pitch or note name into a hertz value.
+ * @param pitch The MIDI pitch, or note name to be converted
+ * @returns 
+ */
 export function toHertz(pitch: number | string): number {
     if (typeof(pitch) === 'string')
         pitch = parsePitch(pitch);

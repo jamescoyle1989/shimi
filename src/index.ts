@@ -40,6 +40,7 @@ import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TickReceiver from './TickReceiver';
 import TickSender from './TickSender';
 import TimeSig, { TimeSigDivision } from './TimeSig';
+import ToneJSMidiOut from './ToneJSMidiOut';
 import Tween from './Tweens';
 import WebSynth, { WebSynthChannel } from './WebSynth';
 
@@ -81,6 +82,7 @@ export {
     TickReceiver,
     TickSender,
     TimeSig, TimeSigDivision,
+    ToneJSMidiOut,
     Tween,
     WebSynth, WebSynthChannel
 }

@@ -33,7 +33,7 @@ import {
 import MidiOut, { IMidiOut } from './MidiOut';
 import MiscController from './MiscController';
 import Note from './Note';
-import { parsePitch as pitch } from './utils';
+import { parsePitch as pitch, toHertz } from './utils';
 import PropertyTracker from './PropertyTracker';
 import PS4Controller from './PS4Controller';
 import Range from './Range';
@@ -45,6 +45,7 @@ import SliderInput, { SliderEvent, SliderEventData } from './SliderInput';
 import TickReceiver from './TickReceiver';
 import TickSender from './TickSender';
 import TimeSig, { TimeSigDivision } from './TimeSig';
+import ToneJSMidiOut, { ToneJSMidiOutChannel } from './ToneJSMidiOut';
 import Tween, { 
     ITween, LinearTween, 
     SineInOutTween, SineInTween, SineOutTween, 
@@ -84,7 +85,7 @@ export {
     MidiOut, IMidiOut,
     MiscController,
     Note,
-    pitch,
+    pitch, toHertz,
     PropertyTracker,
     PS4Controller,
     Range,
@@ -96,6 +97,7 @@ export {
     TickReceiver,
     TickSender,
     TimeSig, TimeSigDivision,
+    ToneJSMidiOut, ToneJSMidiOutChannel,
     Tween, ITween, LinearTween, MultiTween, StepsTween, 
         SineInOutTween, SineInTween, SineOutTween, 
         QuadraticInOutTween, QuadraticInTween, QuadraticOutTween,

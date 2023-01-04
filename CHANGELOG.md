@@ -7,6 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.11.0 (2023-01-03)
+
+### Added
+
+- ToneJSMidiOut supports integration with ToneJS library
+- The toHertz method, which converts MIDI pitch values into their corresponding hertz value
+
+
 ## 1.10.0 (2022-12-20)
 
 ### Added

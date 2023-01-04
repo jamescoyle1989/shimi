@@ -8,42 +8,87 @@ import * as messages from './MidiMessages';
 
 
 
+/**
+ * The ToneJSMidiOutChannel class represents one particular MIDI channel within the ToneJSMidiOut. It holds a reference to a ToneJS instrument object, and handles the conversion from received MIDI messages into actions to perform on the ToneJS instrument.
+ * 
+ * @category Midi IO
+ */
 export class ToneJSMidiOutChannel {
+    /**
+     * The ToneJS instrument which will be responsible for playback.
+     */
     get target(): any { return this._target; }
     private _target: any;
 
+    /**
+     * A collection of current control values. This array is instanciated in the constructor with 128 indices, each one initially set to 0. As control change MIDI messages are received, these values get updated.
+     */
     controlValues: Array<number>;
 
+    /**
+     * Stores whether the ToneJS instrument being held is polyphonic. This is mainly for internal purposes, to determine how calls are made to the target.
+     */
     get isPolyphonic(): boolean { return this._isPolyphonic; }
     private _isPolyphonic: boolean = false;
+
+    /**
+     * The ToneJSMidiOut instance which this channel object belongs to.
+     */
+    get parent(): ToneJSMidiOut { return this._parent; }
+    private _parent: ToneJSMidiOut;
     
-    constructor(target: any) {
+    /**
+     * @param target The ToneJS instrument which will be responsible for playback.
+     * @param parent The ToneJSMidiOut instance which this channel object belongs to.
+     */
+    constructor(target: any, parent: ToneJSMidiOut) {
         this._target = target;
+        this._parent = parent;
         this.controlValues = Array(128).fill(0);
         if (target.name == 'Sampler' || target.name == 'PolySynth')
             this._isPolyphonic = true;
     }
 
+    /**
+     * This method gets called by ToneJSMidiOut whenever a new note needs to be started.
+     * @param note The note object that playback is to be started for.
+     */
     onNoteStart(note: Note) {
         if (this.target.name == 'NoiseSynth')
-            this.target.triggerAttack(null, note.velocity / 127);
+            this.target.triggerAttack(this.parent.toneJS.now(), note.velocity / 127);
         else
-            this.target.triggerAttack(toHertz(note.pitch), null, note.velocity / 127);
+            this.target.triggerAttack(toHertz(note.pitch), this.parent.toneJS.now(), note.velocity / 127);
     }
 
+    /**
+     * This method gets called by ToneJSMidiOut whenever a note needs to be stopped.
+     * @param note The note object that playback is to be stopped for.
+     */
     onNoteStop(note: Note) {
         if (this._isPolyphonic)
-            this.target.triggerRelease(toHertz(note.pitch), null);
+            this.target.triggerRelease(toHertz(note.pitch), this.parent.toneJS.now());
         else
-            this.target.triggerRelease(null);
+            this.target.triggerRelease(this.parent.toneJS.now());
     }
 
+    /**
+     * This property is null by default, but can take a function value which gets called every time the channel receives a new control change message.
+     */
     onControlChange: (controlChange: messages.ControlChangeMessage, target: any) => void = null;
 }
 
 
 
+/**
+ * The ToneJSMidiOut implements the IMidiOut, and provides an integration with the ToneJS javascript library. This allows for MIDI data coming from shimi to control sound generation in the browser by ToneJS.
+ * 
+ * @category Midi IO
+ */
 export default class ToneJSMidiOut implements IMidiOut {
+    
+    /**
+     * The collection of channels that MIDI data can be sent out to. Each channel that's being used should hold a reference to a ToneJS instrument object.
+     */
     get channels(): Array<ToneJSMidiOutChannel> { return this._channels; }
     private _channels: Array<ToneJSMidiOutChannel> = [
         null, null, null, null,
@@ -52,12 +97,45 @@ export default class ToneJSMidiOut implements IMidiOut {
         null, null, null, null
     ];
 
+    /**
+     * A reference to the ToneJS library.
+     */
+    get toneJS() { return this._toneJS; }
+    private _toneJS: any;
+
+    /**
+     * Requires that a reference to the toneJS library be passed in as a parameter, for example:
+     * 
+     * ```
+     * import * as Tone from 'tone';
+     * new ToneJSMidiOut(Tone);
+     * ```
+     */
+    constructor(toneJS: any) {
+        if (!toneJS)
+            throw new Error('toneJS reference cannot be falsy');
+        this._toneJS = toneJS;
+    }
+
+    /**
+     * Sets up a target destination against a particular channel number, which MIDI messages with the corresponding number will be sent to.
+     * 
+     * Example:
+     * 
+     * ```
+     * const midiOut = new ToneJSMidiOut(Tone);
+     * midiOut.setChannel(0, new Tone.Synth().toDestination());
+     * ```
+     * 
+     * @param channel The channel number to be set up. Valid values range from 0 to 15.
+     * @param target The ToneJS instrument object which will MIDI messages will ultimately end up affecting.
+     */
     setChannel(channel: number, target: any) {
         if (channel < 0 || channel > 15)
             throw new Error('Channel must be numbered 0 - 15');
 
         if (target)
-            this._channels[channel] = new ToneJSMidiOutChannel(target);
+            this._channels[channel] = new ToneJSMidiOutChannel(target, this);
         else
             this._channels[channel] = null;
     }
