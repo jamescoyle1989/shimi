@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.11.1 (2023-01-04)
+
+### Fixed
+
+- ToneJSMidiOut can ignore note stops if another note has more recently started
+
+
 ## 1.11.0 (2023-01-03)
 
 ### Added

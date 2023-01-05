@@ -185,8 +185,20 @@ export default class ToneJSMidiOut implements IMidiOut {
             const note = this._notes[i];
             if (!note.on) {
                 if (note.onTracker.isDirty) {
+                    let sendNoteOff = true;
                     const channelObj = this._channels[note.channel];
-                    if (channelObj)
+                    if (channelObj) {
+                        for (let j = i + 1; j < this.notes.length; j++) {
+                            const note2 = this.notes[j];
+                            if (note.channel == note2.channel && note2.on && !note2.onTracker.isDirty) {
+                                if (!channelObj.isPolyphonic || note.pitch == note2.pitch) {
+                                    sendNoteOff = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (sendNoteOff)
                         channelObj.onNoteStop(note);
                     note.onTracker.accept();
                 }

@@ -274,4 +274,59 @@ class TestPolySynth extends TestBaseSynth {
         midiOut.setChannel(0, new TestNoiseSynth());
         expect(midiOut.channels[0].parent).to.equal(midiOut);
     }
+
+    @test 'Stopped notes on monophonic synth have no effect if another note started more recently'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestMonoSynth();
+        midiOut.setChannel(0, synth);
+        const note1 = midiOut.addNote(new Note('C4', 127, 0));
+        midiOut.update(10);
+        const note2 = midiOut.addNote(new Note('G4', 127, 0));
+        midiOut.update(10);
+        note1.stop();
+        midiOut.update(10);
+        note2.stop();
+        midiOut.update(10);
+        expect(synth.messages.length).to.equal(3);
+        expect(synth.messages[0]).to.equal('triggerAttack(262, now, 1.00)');
+        expect(synth.messages[1]).to.equal('triggerAttack(392, now, 1.00)');
+        expect(synth.messages[2]).to.equal('triggerRelease(now)');
+    }
+
+    @test 'Stopped notes on polyphonic synth have no effect if another note of same pitch started more recently'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestPolySynth('Sampler');
+        midiOut.setChannel(0, synth);
+        const note1 = midiOut.addNote(new Note('A4', 127, 0));
+        midiOut.update(10);
+        const note2 = midiOut.addNote(new Note('A4', 127, 0));
+        midiOut.update(10);
+        note1.stop();
+        midiOut.update(10);
+        note2.stop();
+        midiOut.update(10);
+        expect(synth.messages.length).to.equal(3);
+        expect(synth.messages[0]).to.equal('triggerAttack(440, now, 1.00)');
+        expect(synth.messages[1]).to.equal('triggerAttack(440, now, 1.00)');
+        expect(synth.messages[2]).to.equal('triggerRelease(440, now)');
+    }
+
+    @test 'Overlapping stopped notes work normally on poly synth when pitches are different'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestPolySynth('Sampler');
+        midiOut.setChannel(0, synth);
+        const note1 = midiOut.addNote(new Note('C4', 127, 0));
+        midiOut.update(10);
+        const note2 = midiOut.addNote(new Note('G4', 127, 0));
+        midiOut.update(10);
+        note1.stop();
+        midiOut.update(10);
+        note2.stop();
+        midiOut.update(10);
+        expect(synth.messages.length).to.equal(4);
+        expect(synth.messages[0]).to.equal('triggerAttack(262, now, 1.00)');
+        expect(synth.messages[1]).to.equal('triggerAttack(392, now, 1.00)');
+        expect(synth.messages[2]).to.equal('triggerRelease(262, now)');
+        expect(synth.messages[3]).to.equal('triggerRelease(392, now)');
+    }
 }
