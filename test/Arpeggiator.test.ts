@@ -135,4 +135,16 @@ import { Chord } from '../src';
         expect(arpeggiator.finished).to.be.true;
         expect(midiOut.notes[0].on).to.be.false;
     }
+
+    @test 'update method doesnt fail if trying to play note when no chord set'() {
+        const arpeggio = new Arpeggio(4);
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
+        arpeggiator.chord = null;
+
+        metronome.update(10);
+        arpeggiator.update(10);
+    }
 }

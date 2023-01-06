@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.11.2 (2023-01-06)
+
+### Fixed
+
+- Arpeggiator no longer throws error on update when trying to create note if no chord has been set
+
+
 ## 1.11.1 (2023-01-04)
 
 ### Fixed

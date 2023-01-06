@@ -117,13 +117,17 @@ export default class Arpeggiator implements IClockChild {
 
         //Loop through each clip note in the current range and add a new note for each one
         //Store the clipNote that each note came from, so we can track down notes when it's time to stop them
-        for (const arpNote of this.arpeggio.getNotesStartingInRange(oldArpeggioBeat, newArpeggioBeat)) {
-            const note = arpNote.createNote(this.chord, this.channel);
-            note['arpNote'] = arpNote;
-            if (this.noteModifier)
-                this.noteModifier(note);
-            this._notes.push(note);
-            this.midiOut.addNote(note);
+        if (this.chord) {
+            for (const arpNote of this.arpeggio.getNotesStartingInRange(oldArpeggioBeat, newArpeggioBeat)) {
+                const note = arpNote.createNote(this.chord, this.channel);
+                if (!note)
+                    continue;
+                note['arpNote'] = arpNote;
+                if (this.noteModifier)
+                    this.noteModifier(note);
+                this._notes.push(note);
+                this.midiOut.addNote(note);
+            }
         }
     }
 
