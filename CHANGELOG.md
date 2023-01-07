@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 1.12.0 (2023-01-06)
+
+### Added
+
+- Arpeggio supports addNote method, for easier creation of arpeggio notes
+
+
 ## 1.11.2 (2023-01-06)
 
 ### Fixed

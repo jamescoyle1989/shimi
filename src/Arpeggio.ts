@@ -98,6 +98,30 @@ export class Arpeggio extends Range {
     }
 
     /**
+     * Adds a note to the arpeggio. The start parameter can take an array of values, allowing for multiple notes to be added at once for the same pitch.
+     * @param start What beat within the arpeggio that the note starts on. Can take an array of multiple note starts
+     * @param duration How many beats the note lasts
+     * @param pitch A function which takes in a chord object as a parameter, and should return a MIDI pitch value (valid values range from 0 - 127). The most common way to use this is something like `c => c.getPitch(0)`
+     * @param velocity The note's velocity, valid values range from 0 - 127
+     * @param channel Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the arpeggio to decide.
+     * @returns Returns the Arpeggio object which the note(s) is being added to.
+     */
+    addNote(
+        start: number | Array<number>,
+        duration: number,
+        pitch: (c: Chord) => number, 
+        velocity: number,
+        channel: number = null
+    ): Arpeggio {
+        if (typeof(start) === 'number')
+            start = [start];
+        for (const s of start)
+            this.notes.push(new ArpeggioNote(s, duration, pitch, velocity, channel));
+
+        return this;
+    }
+
+    /**
      * Mainly intended for use by the Arpeggiator. Returns the collection of ArpeggioNote objects which start within the given beat range.
      * @param start The beat to start searching from.
      * @param end The beat to end the search at.

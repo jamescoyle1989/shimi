@@ -46,4 +46,24 @@ import Chord from '../src/Chord';
         expect(endingNotes.length).to.equal(1);
         expect(endingNotes[0].velocity).to.equal(83);
     }
+
+    @test 'addNote can add new note'() {
+        const arp = new Arpeggio(4);
+        arp.addNote(0, 1, c => c.getPitch(0), 80);
+        expect(arp.notes.length).to.equal(1);
+        expect(arp.notes[0].start).to.equal(0);
+        expect(arp.notes[0].duration).to.equal(1);
+    }
+
+    @test 'addNote returns reference to parent arpeggio object'() {
+        const arp = new Arpeggio(4)
+            .addNote(0, 1, c => c.getPitch(0), 80);
+        expect(arp.notes.length).to.equal(1);
+    }
+
+    @test 'addNote can take array of note starts'() {
+        const arp = new Arpeggio(4)
+            .addNote([0,1,2,3], 1, c => c.getPitch(0), 80);
+        expect(arp.notes.length).to.equal(4);
+    }
 }
