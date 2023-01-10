@@ -1,6 +1,6 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai'
-import { ControlChangeMessage, Note, NoteOffMessage, NoteOnMessage } from '../src';
+import { ControlChangeMessage, Note, NoteOffMessage, NoteOnMessage, PitchBendMessage } from '../src';
 import ToneJSMidiOut from '../src/ToneJSMidiOut';
 import { parsePitch } from '../src/utils';
 
@@ -22,10 +22,20 @@ class TestBaseSynth {
     }
 }
 
+class TestSignal {
+    constructor(value: any) {
+        this.value = value;
+    }
+
+    value: any;
+}
+
 class TestMonoSynth extends TestBaseSynth {
     constructor(name?: string) {
         super(name);
     }
+
+    frequency: TestSignal = new TestSignal(440);
 
     triggerAttack(frequency: number, time: any, velocity: number = 1) {
         this.messages.push(`triggerAttack(${frequency.toFixed(0)}, ${time}, ${velocity.toFixed(2)})`);
@@ -328,5 +338,50 @@ class TestPolySynth extends TestBaseSynth {
         expect(synth.messages[1]).to.equal('triggerAttack(392, now, 1.00)');
         expect(synth.messages[2]).to.equal('triggerRelease(262, now)');
         expect(synth.messages[3]).to.equal('triggerRelease(392, now)');
+    }
+
+    @test 'Channel onPitchBend method updates frequency on target'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestMonoSynth('AMSynth');
+        midiOut.setChannel(0, synth);
+        midiOut.channels[0].onPitchBend(new PitchBendMessage(0.5, 0));
+        expect(midiOut.channels[0].target.frequency.value).to.be.approximately(466.16, 0.01);
+    }
+
+    @test 'Channel onPitchBend method doesnt do anything if polyphonic'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestPolySynth('Sampler');
+        midiOut.setChannel(0, synth);
+        midiOut.channels[0].onPitchBend(new PitchBendMessage(1, 0));
+        //If polyphonic channel attempted to do anything, an error would occur here
+    }
+
+    @test 'Channel onPitchBend method can handle sequential pitch bends'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestMonoSynth('AMSynth');
+        midiOut.setChannel(0, synth);
+        midiOut.channels[0].onPitchBend(new PitchBendMessage(1, 0));
+        expect(midiOut.channels[0].target.frequency.value).to.be.approximately(493.88, 0.01);
+        midiOut.channels[0].onPitchBend(new PitchBendMessage(0.5, 0));
+        expect(midiOut.channels[0].target.frequency.value).to.be.approximately(466.16, 0.01);
+    }
+
+    @test 'Channel onPitchBend method can handle sequential pitch bends with note changes'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestMonoSynth('AMSynth');
+        midiOut.setChannel(0, synth);
+        midiOut.channels[0].onPitchBend(new PitchBendMessage(1, 0));
+        expect(midiOut.channels[0].target.frequency.value).to.be.approximately(493.88, 0.01);
+        midiOut.channels[0].target.frequency.value = 987.77
+        midiOut.channels[0].onPitchBend(new PitchBendMessage(0, 0));
+        expect(midiOut.channels[0].target.frequency.value).to.be.approximately(880, 0.01);
+    }
+
+    @test 'MidiOut properly passes pitch bend messages to channel'() {
+        const midiOut = new ToneJSMidiOut(new ToneTest());
+        const synth = new TestMonoSynth('AMSynth');
+        midiOut.setChannel(2, synth);
+        midiOut.sendMessage(new PitchBendMessage(1, 2));
+        expect(midiOut.channels[2].target.frequency.value).to.be.approximately(493.88, 0.01);
     }
 }

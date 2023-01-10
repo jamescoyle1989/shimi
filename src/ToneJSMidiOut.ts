@@ -31,6 +31,8 @@ export class ToneJSMidiOutChannel {
     get isPolyphonic(): boolean { return this._isPolyphonic; }
     private _isPolyphonic: boolean = false;
 
+    private _pitchBendPercent: number = 0;
+
     /**
      * The ToneJSMidiOut instance which this channel object belongs to.
      */
@@ -69,6 +71,24 @@ export class ToneJSMidiOutChannel {
             this.target.triggerRelease(toHertz(note.pitch), this.parent.toneJS.now());
         else
             this.target.triggerRelease(this.parent.toneJS.now());
+    }
+
+    /**
+     * This method gets called by ToneJSMidiOut whenever a pitch bend message is received for this channel. Note, this method will only take action if the attached ToneJS instrument is monophonic. Using pitch bends in conjunction with frequency manipulation through ToneJS's set of tools will lead to weird results
+     * @param pitchBend The pitch bend message that was received
+     * @returns Returns true if any action was taken.
+     */
+    onPitchBend(pitchBend: messages.PitchBendMessage): boolean {
+        if (this._isPolyphonic)
+            return false;
+
+        const pitchBendChange = pitchBend.percent - this._pitchBendPercent;
+        this._pitchBendPercent = pitchBend.percent;
+        
+        const oldFreq = this.target.frequency.value;
+        const newFreq = oldFreq * Math.pow(2, (pitchBendChange * 2) / 12);
+        this.target.frequency.value = newFreq;
+        return true;
     }
 
     /**
@@ -248,6 +268,11 @@ export default class ToneJSMidiOut implements IMidiOut {
                     channelObj.onControlChange(message, channelObj.target);
                 return true;
             }
+        }
+        else if (message instanceof messages.PitchBendMessage) {
+            const channelObj = this._channels[message.channel];
+            if (channelObj)
+                return channelObj.onPitchBend(message);
         }
         
         return false;
