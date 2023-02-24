@@ -69,8 +69,8 @@
 <div class="tsd-comment tsd-typography"><p>The denominator represents the bottom number in a time signature.</p>
 </div></li>
 <li>
-<h5>swing: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
-<div class="tsd-comment tsd-typography"><p>The swing parameter defines how long the first half of each beat lasts compared to the second half. The default value for this is 0, meaning that there&#39;s no swing, and both halfs last the same amount of time. The valid values from this range from -1 to +1, where +1 means that the first half of the beat takes up the entire beat length, and -1 means that the second half of the beat takes up the entire beat length. See the swing property for more information.</p>
+<h5>swing: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0.5</span></h5>
+<div class="tsd-comment tsd-typography"><p>The swing parameter defines how long the first half of each beat lasts compared to the second half. The default value for this is 0.5, meaning that there&#39;s no swing, and both halfs of the beat are evenly divided. The valid values for this range from 0 to 1, where 1 means that the first half of the beat takes up the entire beat length, and 0 means that the second half of the beat takes up the entire beat length. See the swing property for more information.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="TimeSig.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSig</a></h4><aside class="tsd-sources">
 <ul>
@@ -99,9 +99,9 @@
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="swing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>swing</span><a href="#swing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">swing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
-<div class="tsd-comment tsd-typography"><p>The swing property defines how long the first half of each beat lasts compared to the second half. The default value for this is 0, meaning that there&#39;s no swing, and both halfs last the same amount of time. The valid values from this range from -1 to +1, where +1 means that the first half of the beat takes up the entire beat length, and -1 means that the second half of the beat takes up the entire beat length.</p>
-<p>A swing value of 0.333 would give you your classic jazz swing, where the first half of the beat lasts twice as long as the second half. A 0.5 value would be a far stronger swing, with the first half of each beat lasting 3 times as long as the second half.</p>
-<p>A negative swing value is far more rare, but works along the same principle as positive values, just in the other direction</p>
+<div class="tsd-comment tsd-typography"><p>The swing property defines how long the first half of each beat lasts compared to the second half. The default value for this is 0.5, meaning that there&#39;s no swing, and both halfs of the beat are evenly divided. The valid values for this range from 0 to 1, where 1 means that the first half of the beat takes up the entire beat length, and 0 means that the second half of the beat takes up the entire beat length.</p>
+<p>A swing value of 2/3 would give you your classic jazz swing, where the first half of the beat lasts twice as long as the second half. A 0.75 value would be a far stronger swing, with the first half of each beat lasting 3 times as long as the second half.</p>
+<p>A swing value &lt; 0.5 is far more rare, but works along the same principle as positive values, just in the other direction</p>
 </div><aside class="tsd-sources">
 <ul>
 <li>Defined in TimeSig.ts:62</li></ul></aside></section></section>
@@ -134,7 +134,7 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="applySwing.applySwing-1">apply<wbr/>Swing<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, swing<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#applySwing.applySwing-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The applySwing method accepts a number representing a position within a bar, and returns the swung value of it. For example, if <code>swing = 0.5</code>, then <code>applySwing(3.5) = 3.75</code></p>
+<div class="tsd-comment tsd-typography"><p>The applySwing method accepts a number representing a position within a bar, and returns the swung value of it. For example, if <code>swing = 0.75</code>, then <code>applySwing(3.5) = 3.75</code></p>
 
 <h3>Returns</h3></div>
 <div class="tsd-parameters">
@@ -194,8 +194,8 @@
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>swing: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
-<div class="tsd-comment tsd-typography"><p>Optional parameter, 0 if not used. Defines the swing to be used in the new TimeSig object.</p>
+<h5>swing: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0.5</span></h5>
+<div class="tsd-comment tsd-typography"><p>Optional parameter, 0.5 if not used. Defines the swing to be used in the new TimeSig object.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="TimeSig.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSig</a></h4><aside class="tsd-sources">
 <ul>

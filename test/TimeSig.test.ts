@@ -6,14 +6,14 @@ import TimeSig from '../src/TimeSig';
 @suite class TimeSigTests {
     @test 'constructor properly sets up divisions'() {
         const timeSig = new TimeSig(
-            [{count:1.5, swing:0.333}, {count:1.5, swing:0.333}, 1, 1],
+            [{count:1.5, swing:0.666}, {count:1.5, swing:0.666}, 1, 1],
             4
         );
         expect(timeSig.divisions.length).to.equal(4);
         expect(timeSig.divisions[0].count).to.equal(1.5);
-        expect(timeSig.divisions[0].swing).to.equal(0.333);
+        expect(timeSig.divisions[0].swing).to.equal(0.666);
         expect(timeSig.divisions[1].count).to.equal(1.5);
-        expect(timeSig.divisions[1].swing).to.equal(0.333);
+        expect(timeSig.divisions[1].swing).to.equal(0.666);
         expect(timeSig.divisions[2].count).to.equal(1);
         expect(timeSig.divisions[2].swing).to.equal(null);
         expect(timeSig.divisions[3].count).to.equal(1);
@@ -33,7 +33,7 @@ import TimeSig from '../src/TimeSig';
     }
 
     @test 'applySwing returns correct values'() {
-        const timeSig = TimeSig.commonTime(0.33333);
+        const timeSig = TimeSig.commonTime(0.66666);
         expect(timeSig.applySwing(0)).to.equal(0);
         expect(timeSig.applySwing(0.5)).to.be.closeTo(0.375, 0.001)
         expect(timeSig.applySwing(1)).to.equal(1);
@@ -50,7 +50,7 @@ import TimeSig from '../src/TimeSig';
 
     @test 'quarterNoteToBeat returns correct values'() {
         const timeSig = new TimeSig(
-            [{count:1.5, swing:0.33333}, {count:1.5, swing:0.33333}, 1, 1],
+            [{count:1.5, swing:0.66666}, {count:1.5, swing:0.66666}, 1, 1],
             4
         );
         expect(timeSig.quarterNoteToBeat(0)).to.equal(0);
@@ -69,7 +69,7 @@ import TimeSig from '../src/TimeSig';
 
     @test 'beatToQuarterNote returns correct values'() {
         const timeSig = new TimeSig(
-            [{count:1.5, swing:0.33333}, {count:1.5, swing:0.33333}, 1, 1],
+            [{count:1.5, swing:0.66666}, {count:1.5, swing:0.66666}, 1, 1],
             4
         );
         expect(timeSig.beatToQuarterNote(0)).to.equal(0);

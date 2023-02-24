@@ -80,7 +80,7 @@ import Metronome from '../src/Metronome';
     }
 
     @test 'update applies swing'() {
-        const m = new Metronome(60, TimeSig.commonTime(0.5));
+        const m = new Metronome(60, TimeSig.commonTime(0.75));
         m.update(750);
         expect(m.barQuarterNote).to.be.closeTo(0.75, 0.001);
         expect(m.barBeat).to.be.closeTo(0.5, 0.001);
@@ -89,7 +89,7 @@ import Metronome from '../src/Metronome';
     }
 
     @test 'update doesnt apply swing if in final beat of irregular bar'() {
-        const m = new Metronome(60, new TimeSig([1,1,1,0.9], 4, 0.5));
+        const m = new Metronome(60, new TimeSig([1,1,1,0.9], 4, 0.75));
         m.update(3000);
         expect(m.barQuarterNote).to.equal(3);
         expect(m.barBeat).to.equal(3);
@@ -129,7 +129,7 @@ import Metronome from '../src/Metronome';
     }
 
     @test 'setSongPosition updates metronome values'() {
-        const m = new Metronome(120, TimeSig.commonTime(0.5));
+        const m = new Metronome(120, TimeSig.commonTime(0.75));
         m.setSongPosition(9.75);
         expect(m.totalQuarterNote).to.equal(9.75);
         expect(m.totalQuarterNoteTracker.isDirty).to.be.false;

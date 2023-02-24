@@ -53,11 +53,11 @@ export default class TimeSig {
     denominator: number = 4;
 
     /**
-     * The swing property defines how long the first half of each beat lasts compared to the second half. The default value for this is 0, meaning that there's no swing, and both halfs last the same amount of time. The valid values from this range from -1 to +1, where +1 means that the first half of the beat takes up the entire beat length, and -1 means that the second half of the beat takes up the entire beat length.
+     * The swing property defines how long the first half of each beat lasts compared to the second half. The default value for this is 0.5, meaning that there's no swing, and both halfs of the beat are evenly divided. The valid values for this range from 0 to 1, where 1 means that the first half of the beat takes up the entire beat length, and 0 means that the second half of the beat takes up the entire beat length.
      * 
-     * A swing value of 0.333 would give you your classic jazz swing, where the first half of the beat lasts twice as long as the second half. A 0.5 value would be a far stronger swing, with the first half of each beat lasting 3 times as long as the second half.
+     * A swing value of 2/3 would give you your classic jazz swing, where the first half of the beat lasts twice as long as the second half. A 0.75 value would be a far stronger swing, with the first half of each beat lasting 3 times as long as the second half.
      * 
-     * A negative swing value is far more rare, but works along the same principle as positive values, just in the other direction
+     * A swing value < 0.5 is far more rare, but works along the same principle as positive values, just in the other direction
      */
     swing: number = 0;
 
@@ -67,12 +67,12 @@ export default class TimeSig {
      * 
      * Individual items within the divisions array can also be swapped out for `{count: number, swing: number}` objects in order to define swing values for specific beats within a bar. Not all metronomes support this behaviour though.
      * @param denominator The denominator represents the bottom number in a time signature.
-     * @param swing The swing parameter defines how long the first half of each beat lasts compared to the second half. The default value for this is 0, meaning that there's no swing, and both halfs last the same amount of time. The valid values from this range from -1 to +1, where +1 means that the first half of the beat takes up the entire beat length, and -1 means that the second half of the beat takes up the entire beat length. See the swing property for more information.
+     * @param swing The swing parameter defines how long the first half of each beat lasts compared to the second half. The default value for this is 0.5, meaning that there's no swing, and both halfs of the beat are evenly divided. The valid values for this range from 0 to 1, where 1 means that the first half of the beat takes up the entire beat length, and 0 means that the second half of the beat takes up the entire beat length. See the swing property for more information.
      */
     constructor(
         divisions: Array<number | {count: number, swing: number}>,
         denominator: number,
-        swing: number = 0
+        swing: number = 0.5
     ) {
         if (denominator <= 0 || (Math.log2(denominator) % 1) != 0)
             throw new Error('Invalid denominator');
@@ -105,7 +105,7 @@ export default class TimeSig {
     }
 
     /**
-     * The applySwing method accepts a number representing a position within a bar, and returns the swung value of it. For example, if `swing = 0.5`, then `applySwing(3.5) = 3.75`
+     * The applySwing method accepts a number representing a position within a bar, and returns the swung value of it. For example, if `swing = 0.75`, then `applySwing(3.5) = 3.75`
      * @param position The position to apply swing to.
      * @param swing Optional parameter, if not provided, then the TimeSig's swing value will be used.
      * @returns 
@@ -120,7 +120,7 @@ export default class TimeSig {
 
         //Get a swing value that goes from 0.01 to 0.99
         //This corresponds to the percent through the division where the midpoint is
-        swingAmount = 0.5 + (Math.max(-0.98, Math.min(0.98, swingAmount)) / 2);
+        swingAmount = Math.max(-0.99, Math.min(0.99, swingAmount));
         const swingMid = swingAmount;
         if (position <= swingMid)
             output += (position / swingMid) * 0.5;
@@ -149,7 +149,7 @@ export default class TimeSig {
                 else {
                     //Get a swing value that goes from 0.01 to 0.99
                     //This corresponds to the percent through the division where the midpoint is
-                    swingAmount = 0.5 + (Math.max(-0.98, Math.min(0.98, swingAmount)) / 2);
+                    swingAmount = Math.max(-0.99, Math.min(0.99, swingAmount));
                     const swingMidQN = swingAmount * division.count;
                     if (quarterNote <= swingMidQN)
                         beat += (quarterNote / swingMidQN) * 0.5;
@@ -177,12 +177,12 @@ export default class TimeSig {
             }
             else {
                 let swingAmount = division.swing ?? this.swing;
-                if (swingAmount == 0)
+                if (swingAmount == 0.5)
                     quarterNote += beat * division.count;
                 else {
                     //Get a swing value that goes from 0.01 to 0.99
                     //This corresponds to the percent through the division where the midpoint is
-                    swingAmount = 0.5 + (Math.max(-0.98, Math.min(0.98, swingAmount)) / 2);
+                    swingAmount = Math.max(-0.99, Math.min(0.99, swingAmount));
                     const swingMidQN = swingAmount * division.count;
                     if (beat <= 0.5)
                         quarterNote += (beat * 2) * swingMidQN;
@@ -200,10 +200,10 @@ export default class TimeSig {
      * A static method to easily define common time.
      * 
      * `TimeSig.commonTime();` is the same as `new TimeSig([1, 1, 1, 1], 4);`
-     * @param swing Optional parameter, 0 if not used. Defines the swing to be used in the new TimeSig object.
+     * @param swing Optional parameter, 0.5 if not used. Defines the swing to be used in the new TimeSig object.
      * @returns 
      */
-    static commonTime(swing: number = 0) {
+    static commonTime(swing: number = 0.5) {
         return new TimeSig([1,1,1,1], 4, swing);
     }
 }

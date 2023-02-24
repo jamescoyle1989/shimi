@@ -80,7 +80,7 @@ import Flexinome from '../src/Flexinome';
     }
 
     @test 'update applies swing'() {
-        const m = new Flexinome(60, new TimeSig([1.5,1.5,1,1], 4, 0.33333));
+        const m = new Flexinome(60, new TimeSig([1.5,1.5,1,1], 4, 0.66666));
         m.update(500);
         expect(m.barQuarterNote).to.be.closeTo(0.5, 0.001);
         expect(m.barBeat).to.be.closeTo(0.25, 0.001);
@@ -89,7 +89,7 @@ import Flexinome from '../src/Flexinome';
     }
 
     @test 'update applies swing from individual divisions'() {
-        const m = new Flexinome(60, new TimeSig([{count:1.5, swing:0.33333},1.5,1,1], 4));
+        const m = new Flexinome(60, new TimeSig([{count:1.5, swing:0.66666},1.5,1,1], 4));
         m.update(500);
         expect(m.barQuarterNote).to.be.closeTo(0.5, 0.001);
         expect(m.barBeat).to.be.closeTo(0.25, 0.001);
@@ -114,7 +114,7 @@ import Flexinome from '../src/Flexinome';
     }
 
     @test 'setSongPosition updates metronome values'() {
-        const m = new Flexinome(120, TimeSig.commonTime(0.5));
+        const m = new Flexinome(120, TimeSig.commonTime(0.75));
         m.setSongPosition(9.75);
         expect(m.totalQuarterNote).to.equal(9.75);
         expect(m.totalQuarterNoteTracker.isDirty).to.be.false;
