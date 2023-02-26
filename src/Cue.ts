@@ -1,7 +1,7 @@
 'use strict';
 
 import { IMetronome } from './Metronome';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 
 
 /**
@@ -14,8 +14,12 @@ class CueBase implements IClockChild {
     private _ref: string;
 
     /** Signifies whether the Cue has stopped. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the Cue finishes. This is included because it's part of the IClockChild definition. In practice, there's no reason to use it though, since the whole point of a Cue object is that it's already lining up some action to be performed once it finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** The action to perform once the cue has finished waiting. */
     get action(): () => void { return this._action; }
@@ -37,7 +41,8 @@ class CueBase implements IClockChild {
 
     /** Calling this tells the Cue to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

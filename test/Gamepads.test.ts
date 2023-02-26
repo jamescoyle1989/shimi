@@ -112,4 +112,14 @@ function getNullTestInputs(): any[] {
         gamepads.add(new PS4Controller());
         gamepads.update(10);
     }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const gamepads = new Gamepads(getNullTestInputs);
+        let testVar = 0;
+        gamepads.finished.add(() => testVar = 3);
+
+        gamepads.finish();
+        expect(testVar).to.equal(3);
+    }
 }

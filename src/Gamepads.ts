@@ -1,6 +1,6 @@
 'use strict';
 
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import ButtonInput from './ButtonInput';
 import SliderInput from './SliderInput';
 
@@ -100,12 +100,17 @@ export default class Gamepads implements IClockChild {
     private _ref: string;
 
     /** Returns true if the `finish()` method has been called. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the `finish()` method has been called. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** Calling this tells the Gamepads object to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

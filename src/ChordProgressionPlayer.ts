@@ -4,7 +4,7 @@ import Chord from './Chord';
 import ChordProgression, { ChordProgressionChord } from './ChordProgression';
 import { IMetronome } from './Metronome';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 
 
 /**
@@ -79,8 +79,12 @@ export default class ChordProgressionPlayer implements IClockChild {
     private _ref: string;
 
     /** Returns true if the chord progression player has finished playing its chord progression. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the chord progression player finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** Returns the chord that is currently being played. */
     get currentChord(): ChordProgressionChord { return this._currentChord; }
@@ -129,7 +133,8 @@ export default class ChordProgressionPlayer implements IClockChild {
 
     /** Calling this tells the player to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

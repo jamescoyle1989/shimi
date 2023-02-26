@@ -247,4 +247,14 @@ import Metronome from '../src/Metronome';
         m.update(400);
         expect(m.atBarQuarterNoteMultiple(1)).to.equal(0);
     }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const m = new Metronome(60);
+        let testVar = 0;
+        m.finished.add(() => testVar = 3);
+
+        m.finish();
+        expect(testVar).to.equal(3);
+    }
 }

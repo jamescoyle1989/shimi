@@ -67,4 +67,15 @@ import TestEventSubscriber from './TestEventSubscriber';
         const keyboard = new Keyboard(subscriber).withRef('Testy test');
         expect(keyboard.ref).to.equal('Testy test');
     }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const subscriber = new TestEventSubscriber();
+        const keyboard = new Keyboard(subscriber);
+        let testVar = 0;
+        keyboard.finished.add(() => testVar = 3);
+
+        keyboard.finish();
+        expect(testVar).to.equal(3);
+    }
 }

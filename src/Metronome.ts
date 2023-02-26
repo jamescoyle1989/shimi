@@ -2,7 +2,7 @@
 
 import TimeSig from './TimeSig';
 import PropertyTracker from './PropertyTracker';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
@@ -355,8 +355,12 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
     }
 
     /** Returns true if the Metronome has been instructed to stop everything by the `finish()` method. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the Metronome finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /**
      * @param tempo The tempo to run the metronome at.
@@ -468,8 +472,9 @@ export default class Metronome extends MetronomeBase implements IMetronome, IClo
 
     /** Calling this tells the metronome to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this._enabled.value = false;
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

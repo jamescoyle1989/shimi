@@ -1,4 +1,4 @@
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMetronome } from './Metronome';
 import { IMidiIn, MidiInEventData } from './MidiIn';
 import { SongPositionMessage } from './MidiMessages';
@@ -90,14 +90,19 @@ export default class TickReceiver implements IClockChild {
     }
 
     /** Returns true if the Metronome has been instructed to stop everything by the `finish()` method. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the arpeggiator finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** Calling this tells the TickReceiver to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this.midiIn.tick.remove(x => x.logic == this._onMidiTick);
         this.midiIn.songPosition.remove(x => x.logic == this._onSongPosition);
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
     
     /**

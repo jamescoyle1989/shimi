@@ -2,7 +2,7 @@
 
 import { Arpeggio, ArpeggioNote } from './Arpeggio';
 import Chord from './Chord';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { Note } from './index';
 import { IMetronome } from './Metronome';
 import { IMidiOut } from './MidiOut';
@@ -77,8 +77,12 @@ export default class Arpeggiator implements IClockChild {
     private _noteModifier: (note: Note) => void;
 
     /** Signifies whether the arpeggiator has stopped. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the arpeggiator finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     private _notes: Note[] = [];
 
@@ -133,8 +137,9 @@ export default class Arpeggiator implements IClockChild {
 
     /** Calling this tells the arpeggiator to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this._endAllNotes();
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

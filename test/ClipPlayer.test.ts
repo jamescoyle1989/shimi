@@ -117,7 +117,7 @@ function getBendValFromPercent(percent: number): number[] {
         expect(clipPlayer.beatsPassed).to.be.greaterThan(0);
     }
 
-    @test 'Update sets finished if beatsPassed exceeds beatCount'() {
+    @test 'Update sets isFinished if beatsPassed exceeds beatCount'() {
         //Setup
         const metronome = new Metronome(120);
         const midiOut = new MidiOut(new DummyPort());
@@ -125,9 +125,9 @@ function getBendValFromPercent(percent: number): number[] {
         clipPlayer.beatCount = 1;
 
         metronome.update(510);
-        expect(clipPlayer.finished).to.be.false;
+        expect(clipPlayer.isFinished).to.be.false;
         clipPlayer.update(10);
-        expect(clipPlayer.finished).to.be.true;
+        expect(clipPlayer.isFinished).to.be.true;
     }
 
     @test 'noteModifier gets called for each new note thats created'() {
@@ -375,7 +375,7 @@ function getBendValFromPercent(percent: number): number[] {
         metronome.update(100);
         clipPlayer.update(100);
         expect(midiOut.notes.length).to.equal(0);
-        expect(clipPlayer.finished).to.be.true;
+        expect(clipPlayer.isFinished).to.be.true;
     }
 
     @test 'start sets running to true'() {
@@ -413,5 +413,17 @@ function getBendValFromPercent(percent: number): number[] {
         const midiOut = new MidiOut(new DummyPort());
         const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut).withRef('Testy test');
         expect(clipPlayer.ref).to.equal('Testy test');
+    }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clipPlayer = new ClipPlayer(new Clip(16), metronome, midiOut);
+        let testVar = 0;
+        clipPlayer.finished.add(() => testVar = 3);
+
+        clipPlayer.finish();
+        expect(testVar).to.equal(3);
     }
 }

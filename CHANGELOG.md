@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Changed 
+
+- IClockChild finished property to isFinished. The finished property is now a subscribable event.
+
+- Swing value now ranges from 0 to 1, with default value 0.5. Rather than -1 to +1, with default value 0.
+
+
 
 ## 1.13.0 (2023-01-09)
 

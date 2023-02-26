@@ -43,6 +43,7 @@
 <a href="ChordProgressionPlayer.html#chordProgression" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>chord<wbr/>Progression</span></a>
 <a href="ChordProgressionPlayer.html#currentChord" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>current<wbr/>Chord</span></a>
 <a href="ChordProgressionPlayer.html#finished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>finished</span></a>
+<a href="ChordProgressionPlayer.html#isFinished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>is<wbr/>Finished</span></a>
 <a href="ChordProgressionPlayer.html#metronome" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>metronome</span></a>
 <a href="ChordProgressionPlayer.html#ref" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>ref</span></a>
 <a href="ChordProgressionPlayer.html#speed" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>speed</span></a>
@@ -74,7 +75,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ChordProgressionPlayer.html" class="tsd-signature-type" data-tsd-kind="Class">ChordProgressionPlayer</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ChordProgressionPlayer.ts:100</li></ul></aside></li></ul></section></section>
+<li>Defined in ChordProgressionPlayer.ts:104</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="beatCount" class="tsd-anchor"></a>
@@ -116,7 +117,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ChordEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ChordEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="ChordProgressionPlayer.html" class="tsd-signature-type" data-tsd-kind="Class">ChordProgressionPlayer</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ChordProgressionPlayer.ts:92</li></ul></aside></li></ul></section>
+<li>Defined in ChordProgressionPlayer.ts:96</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="chordProgression" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>chord<wbr/>Progression</span><a href="#chordProgression" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -146,16 +147,27 @@
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ChordProgressionChord.html" class="tsd-signature-type" data-tsd-kind="Class">ChordProgressionChord</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ChordProgressionPlayer.ts:86</li></ul></aside></li></ul></section>
+<li>Defined in ChordProgressionPlayer.ts:90</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="finished" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>finished</span><a href="#finished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-<li class="tsd-signature" id="finished.finished-1"><span class="tsd-signature-symbol">get</span> finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+<li class="tsd-signature" id="finished.finished-1"><span class="tsd-signature-symbol">get</span> finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>This event fires when the chord progression player finishes.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></h4><aside class="tsd-sources">
+<p>Implementation of IClockChild.finished</p>
+<ul>
+<li>Defined in ChordProgressionPlayer.ts:86</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="isFinished" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Finished</span><a href="#isFinished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="isFinished.isFinished-1"><span class="tsd-signature-symbol">get</span> isFinished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Returns true if the chord progression player has finished playing its chord progression.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
-<p>Implementation of IClockChild.finished</p>
+<p>Implementation of IClockChild.isFinished</p>
 <ul>
 <li>Defined in ChordProgressionPlayer.ts:82</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="metronome" class="tsd-anchor"></a>
@@ -252,7 +264,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#finish">finish</a></p>
 <ul>
-<li>Defined in ChordProgressionPlayer.ts:131</li></ul></aside></li></ul></section>
+<li>Defined in ChordProgressionPlayer.ts:135</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -271,7 +283,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#update">update</a></p>
 <ul>
-<li>Defined in ChordProgressionPlayer.ts:110</li></ul></aside></li></ul></section>
+<li>Defined in ChordProgressionPlayer.ts:114</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="withRef" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>with<wbr/>Ref</span><a href="#withRef" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -293,7 +305,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/IClockChild.html" class="tsd-signature-type" data-tsd-kind="Interface">IClockChild</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#withRef">withRef</a></p>
 <ul>
-<li>Defined in ChordProgressionPlayer.ts:145</li></ul></aside></li></ul></section></section></div>
+<li>Defined in ChordProgressionPlayer.ts:150</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -324,6 +336,7 @@
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ChordProgressionPlayer.html#chordProgression" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>chord<wbr/>Progression</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ChordProgressionPlayer.html#currentChord" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>current<wbr/>Chord</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ChordProgressionPlayer.html#finished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>finished</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ChordProgressionPlayer.html#isFinished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>is<wbr/>Finished</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ChordProgressionPlayer.html#metronome" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>metronome</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ChordProgressionPlayer.html#ref" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>ref</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ChordProgressionPlayer.html#speed" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>speed</a></li>

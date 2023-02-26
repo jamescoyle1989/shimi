@@ -12,7 +12,7 @@ import ChordProgressionPlayer, { ChordEventData, ChordEvent } from './ChordProgr
 import { Clip, ClipBend, ClipCC, ClipNote } from './Clip';
 import ClipPlayer from './ClipPlayer';
 import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRecorder';
-import Clock, { IClockChild } from './Clock';
+import Clock, { IClockChild, ClockChildFinishedEvent, ClockChildFinishedEventData } from './Clock';
 import Cue, { BeatCue, MsCue, ConditionalCue } from './Cue';
 import EventSubscriber, { IEventSubscriber } from './EventSubscriber';
 import { near } from './Extensions';
@@ -66,7 +66,7 @@ export {
     Clip, ClipBend, ClipCC, ClipNote,
     ClipPlayer,
     ClipRecorder, ClipRecorderEvent, ClipRecorderEventData,
-    Clock, IClockChild,
+    Clock, IClockChild, ClockChildFinishedEvent, ClockChildFinishedEventData,
     Cue, BeatCue, MsCue, ConditionalCue,
     EventSubscriber, IEventSubscriber,
     near,

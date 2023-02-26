@@ -137,4 +137,16 @@ import { SongPositionMessage, TickMessage } from '../src/MidiMessages';
         midiIn.songPosition.trigger(new MidiInEventData(midiIn, new SongPositionMessage(6)));
         expect(metronome.totalQuarterNote).to.equal(1.5);
     }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const midiIn = new MidiIn(new MockPort());
+        const metronome = new Metronome(120);
+        const receiver = new TickReceiver(midiIn, metronome);
+        let testVar = 0;
+        receiver.finished.add(() => testVar = 3);
+
+        receiver.finish();
+        expect(testVar).to.equal(3);
+    }
 }

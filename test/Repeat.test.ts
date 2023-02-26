@@ -19,10 +19,10 @@ import Repeat from '../src/Repeat';
         const repeat = Repeat.forMs(99, () => updateValue++);
         repeat.update(50);
         expect(updateValue).to.equal(1);
-        expect(repeat.finished).to.be.false;
+        expect(repeat.isFinished).to.be.false;
         repeat.update(50);
         expect(updateValue).to.equal(1);
-        expect(repeat.finished).to.be.true;
+        expect(repeat.isFinished).to.be.true;
     }
 
     @test 'ConditionalRepeat executes action until condition is met'() {
@@ -33,10 +33,10 @@ import Repeat from '../src/Repeat';
         expect(updateValue).to.equal(1);
         repeat.update(100);
         expect(updateValue).to.equal(2);
-        expect(repeat.finished).to.be.false;
+        expect(repeat.isFinished).to.be.false;
         trigger = true;
         repeat.update(100);
-        expect(repeat.finished).to.be.true;
+        expect(repeat.isFinished).to.be.true;
     }
 
     @test 'BeatRepeat executes action until beatCount has passed'() {
@@ -47,11 +47,11 @@ import Repeat from '../src/Repeat';
         metronome.update(900);
         repeat.update(900);
         expect(updateValue).to.equal(1);
-        expect(repeat.finished).to.be.false;
+        expect(repeat.isFinished).to.be.false;
         metronome.update(101);
         repeat.update(101);
         expect(updateValue).to.equal(1);
-        expect(repeat.finished).to.be.true;
+        expect(repeat.isFinished).to.be.true;
     }
 
     @test 'ConditionalRepeat includes ms action arg'() {
@@ -120,5 +120,16 @@ import Repeat from '../src/Repeat';
         metronome.update(1500);
         repeat.update(1500);
         expect(updateValue).to.equal(2.5);
+    }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const metronome = new Metronome(60);
+        const repeat = Repeat.forBeats(metronome, 4, args => {});
+        let testVar = 0;
+        repeat.finished.add(() => testVar = 3);
+
+        repeat.finish();
+        expect(testVar).to.equal(3);
     }
 }

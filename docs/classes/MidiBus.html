@@ -45,6 +45,7 @@
 <a href="MidiBus.html#continue" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>continue</span></a>
 <a href="MidiBus.html#controlChange" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>control<wbr/>Change</span></a>
 <a href="MidiBus.html#finished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>finished</span></a>
+<a href="MidiBus.html#isFinished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>is<wbr/>Finished</span></a>
 <a href="MidiBus.html#noteOff" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>note<wbr/>Off</span></a>
 <a href="MidiBus.html#noteOn" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>note<wbr/>On</span></a>
 <a href="MidiBus.html#notePressure" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>note<wbr/>Pressure</span></a>
@@ -114,12 +115,23 @@
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="finished" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>finished</span><a href="#finished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-<li class="tsd-signature" id="finished.finished-1"><span class="tsd-signature-symbol">get</span> finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+<li class="tsd-signature" id="finished.finished-1"><span class="tsd-signature-symbol">get</span> finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>This event fires when the arpeggiator finishes.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></h4><aside class="tsd-sources">
+<p>Implementation of IClockChild.finished</p>
+<ul>
+<li>Defined in MidiBus.ts:191</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="isFinished" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Finished</span><a href="#isFinished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="isFinished.isFinished-1"><span class="tsd-signature-symbol">get</span> isFinished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Returns true if the MidiBus has been instructed to stop everything by the <code>finish()</code> method.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
-<p>Implementation of IClockChild.finished</p>
+<p>Implementation of IClockChild.isFinished</p>
 <ul>
 <li>Defined in MidiBus.ts:187</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="noteOff" class="tsd-anchor"></a>
@@ -283,7 +295,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#finish">finish</a></p>
 <ul>
-<li>Defined in MidiBus.ts:191</li></ul></aside></li></ul></section>
+<li>Defined in MidiBus.ts:195</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="receiveData" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>receive<wbr/>Data</span><a href="#receiveData" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -381,7 +393,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#update">update</a></p>
 <ul>
-<li>Defined in MidiBus.ts:216</li></ul></aside></li></ul></section>
+<li>Defined in MidiBus.ts:221</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="withRef" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>with<wbr/>Ref</span><a href="#withRef" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -403,7 +415,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/IClockChild.html" class="tsd-signature-type" data-tsd-kind="Interface">IClockChild</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#withRef">withRef</a></p>
 <ul>
-<li>Defined in MidiBus.ts:206</li></ul></aside></li></ul></section></section></div>
+<li>Defined in MidiBus.ts:211</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -432,6 +444,7 @@
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MidiBus.html#continue" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>continue</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MidiBus.html#controlChange" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>control<wbr/>Change</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MidiBus.html#finished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>finished</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MidiBus.html#isFinished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>is<wbr/>Finished</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MidiBus.html#noteOff" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>note<wbr/>Off</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MidiBus.html#noteOn" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>note<wbr/>On</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MidiBus.html#notePressure" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>note<wbr/>Pressure</a></li>

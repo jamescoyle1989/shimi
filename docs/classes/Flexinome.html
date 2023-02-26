@@ -54,6 +54,7 @@
 <a href="Flexinome.html#continued" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>continued</span></a>
 <a href="Flexinome.html#enabled" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>enabled</span></a>
 <a href="Flexinome.html#finished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>finished</span></a>
+<a href="Flexinome.html#isFinished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>is<wbr/>Finished</span></a>
 <a href="Flexinome.html#positionChanged" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>position<wbr/>Changed</span></a>
 <a href="Flexinome.html#ref" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>ref</span></a>
 <a href="Flexinome.html#started" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>started</span></a>
@@ -99,7 +100,7 @@
 <h4 class="tsd-returns-title">Returns <a href="Flexinome.html" class="tsd-signature-type" data-tsd-kind="Class">Flexinome</a></h4><aside class="tsd-sources">
 <p>Overrides MetronomeBase.constructor</p>
 <ul>
-<li>Defined in Flexinome.ts:145</li></ul></aside></li></ul></section></section>
+<li>Defined in Flexinome.ts:149</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="bar" class="tsd-anchor"></a>
@@ -181,7 +182,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ShimiEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="ShimiEventData.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEventData</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of IMetronome.continued</p>
 <ul>
-<li>Defined in Flexinome.ts:293</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:298</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="enabled" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>enabled</span><a href="#enabled" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -209,12 +210,23 @@
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="finished" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>finished</span><a href="#finished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-<li class="tsd-signature" id="finished.finished-1"><span class="tsd-signature-symbol">get</span> finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+<li class="tsd-signature" id="finished.finished-1"><span class="tsd-signature-symbol">get</span> finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>This event fires when the Flexinome finishes.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></h4><aside class="tsd-sources">
+<p>Implementation of IClockChild.finished</p>
+<ul>
+<li>Defined in Flexinome.ts:142</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="isFinished" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Finished</span><a href="#isFinished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="isFinished.isFinished-1"><span class="tsd-signature-symbol">get</span> isFinished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Returns true if the Flexinome has been instructed to stop everything by the <code>finish()</code> method.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
-<p>Implementation of IClockChild.finished</p>
+<p>Implementation of IClockChild.isFinished</p>
 <ul>
 <li>Defined in Flexinome.ts:138</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="positionChanged" class="tsd-anchor"></a>
@@ -227,7 +239,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ShimiEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="ShimiEventData.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEventData</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of IMetronome.positionChanged</p>
 <ul>
-<li>Defined in Flexinome.ts:281</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:286</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="ref" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>ref</span><a href="#ref" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -260,7 +272,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ShimiEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="ShimiEventData.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEventData</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of IMetronome.started</p>
 <ul>
-<li>Defined in Flexinome.ts:287</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:292</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="stopped" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>stopped</span><a href="#stopped" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -271,7 +283,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ShimiEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEvent</a><span class="tsd-signature-symbol">&lt;</span><a href="ShimiEventData.html" class="tsd-signature-type" data-tsd-kind="Class">ShimiEventData</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/IMetronome.html" class="tsd-signature-type" data-tsd-kind="Interface">IMetronome</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of IMetronome.stopped</p>
 <ul>
-<li>Defined in Flexinome.ts:299</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:304</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="tempo" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>tempo</span><a href="#tempo" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -419,7 +431,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMetronome.html">IMetronome</a>.<a href="../interfaces/IMetronome.html#atBarBeat">atBarBeat</a></p>
 <ul>
-<li>Defined in Flexinome.ts:160</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:164</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="atBarBeatMultiple" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>at<wbr/>Bar<wbr/>Beat<wbr/>Multiple</span><a href="#atBarBeatMultiple" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -438,7 +450,7 @@ For example: atBarBeatMultiple(0.5) returns 0 if we&#39;re at beat 0, 1 if we&#3
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMetronome.html">IMetronome</a>.<a href="../interfaces/IMetronome.html#atBarBeatMultiple">atBarBeatMultiple</a></p>
 <ul>
-<li>Defined in Flexinome.ts:178</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:182</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="atBarQuarterNote" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>at<wbr/>Bar<wbr/>Quarter<wbr/>Note</span><a href="#atBarQuarterNote" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -457,7 +469,7 @@ For example: atBarBeatMultiple(0.5) returns 0 if we&#39;re at beat 0, 1 if we&#3
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMetronome.html">IMetronome</a>.<a href="../interfaces/IMetronome.html#atBarQuarterNote">atBarQuarterNote</a></p>
 <ul>
-<li>Defined in Flexinome.ts:169</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:173</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="atBarQuarterNoteMultiple" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>at<wbr/>Bar<wbr/>Quarter<wbr/>Note<wbr/>Multiple</span><a href="#atBarQuarterNoteMultiple" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -476,7 +488,7 @@ For example: atBarQuarterNoteMultiple(0.5) returns 0 if we&#39;re at QN 0, 1 if 
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMetronome.html">IMetronome</a>.<a href="../interfaces/IMetronome.html#atBarQuarterNoteMultiple">atBarQuarterNoteMultiple</a></p>
 <ul>
-<li>Defined in Flexinome.ts:187</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:191</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="finish" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>finish</span><a href="#finish" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -487,7 +499,7 @@ For example: atBarQuarterNoteMultiple(0.5) returns 0 if we&#39;re at QN 0, 1 if 
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#finish">finish</a></p>
 <ul>
-<li>Defined in Flexinome.ts:237</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:241</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setSongPosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Song<wbr/>Position</span><a href="#setSongPosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -506,7 +518,7 @@ For example: atBarQuarterNoteMultiple(0.5) returns 0 if we&#39;re at QN 0, 1 if 
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMetronome.html">IMetronome</a>.<a href="../interfaces/IMetronome.html#setSongPosition">setSongPosition</a></p>
 <ul>
-<li>Defined in Flexinome.ts:263</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:268</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -525,7 +537,7 @@ For example: atBarQuarterNoteMultiple(0.5) returns 0 if we&#39;re at QN 0, 1 if 
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#update">update</a></p>
 <ul>
-<li>Defined in Flexinome.ts:196</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:200</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="updateFromQuarterNoteDelta" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>From<wbr/>Quarter<wbr/>Note<wbr/>Delta</span><a href="#updateFromQuarterNoteDelta" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -545,7 +557,7 @@ For example: atBarQuarterNoteMultiple(0.5) returns 0 if we&#39;re at QN 0, 1 if 
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMetronome.html">IMetronome</a>.<a href="../interfaces/IMetronome.html#updateFromQuarterNoteDelta">updateFromQuarterNoteDelta</a></p>
 <ul>
-<li>Defined in Flexinome.ts:208</li></ul></aside></li></ul></section>
+<li>Defined in Flexinome.ts:212</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="withRef" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>with<wbr/>Ref</span><a href="#withRef" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -567,7 +579,7 @@ For example: atBarQuarterNoteMultiple(0.5) returns 0 if we&#39;re at QN 0, 1 if 
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/IClockChild.html" class="tsd-signature-type" data-tsd-kind="Interface">IClockChild</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#withRef">withRef</a></p>
 <ul>
-<li>Defined in Flexinome.ts:252</li></ul></aside></li></ul></section></section></div>
+<li>Defined in Flexinome.ts:257</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -601,6 +613,7 @@ For example: atBarQuarterNoteMultiple(0.5) returns 0 if we&#39;re at QN 0, 1 if 
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Flexinome.html#continued" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>continued</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Flexinome.html#enabled" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>enabled</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Flexinome.html#finished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>finished</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Flexinome.html#isFinished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>is<wbr/>Finished</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Flexinome.html#positionChanged" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>position<wbr/>Changed</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Flexinome.html#ref" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>ref</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="Flexinome.html#started" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>started</a></li>

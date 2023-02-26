@@ -118,12 +118,12 @@ class DummyAudioContext {
         expect(note['oscillators']).to.be.undefined;
     }
 
-    @test 'finish sets finished to true'() {
+    @test 'finish sets isFinished to true'() {
         const audioContext: any = new DummyAudioContext();
         const synth = new WebSynth(audioContext).withDefaultChannels();
-        expect(synth.finished).to.be.false;
+        expect(synth.isFinished).to.be.false;
         synth.finish();
-        expect(synth.finished).to.be.true;
+        expect(synth.isFinished).to.be.true;
     }
 
     @test 'NoteOnMessage creates new note'() {
@@ -183,5 +183,16 @@ class DummyAudioContext {
         expect(synth.notes.filter(x => x.on).length).to.equal(3);
         synth.stopNotes();
         expect(synth.notes.filter(x => x.on).length).to.equal(0);
+    }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebSynth(audioContext).withDefaultChannels();
+        let testVar = 0;
+        synth.finished.add(() => testVar = 3);
+
+        synth.finish();
+        expect(testVar).to.equal(3);
     }
 }

@@ -4,7 +4,7 @@ import { IMidiIn, MidiInEvent, MidiInEventData } from './MidiIn';
 import { IMidiOut } from './MidiOut';
 import * as messages from './MidiMessages';
 import Note from './Note';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 
 
 /**
@@ -184,13 +184,18 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     private _ref: string;
 
     /** Returns true if the MidiBus has been instructed to stop everything by the `finish()` method. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the arpeggiator finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** Calling this tells the MidiBus to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this.stopNotes(n => true);
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

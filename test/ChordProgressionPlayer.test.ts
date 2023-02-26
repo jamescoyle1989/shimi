@@ -58,10 +58,10 @@ const chordProgression2 = new ChordProgression(16)
         player.beatCount = 1;
         metronome.update(500);
         player.update(500);
-        expect(player.finished).to.be.false;
+        expect(player.isFinished).to.be.false;
         metronome.update(501);
         player.update(501);
-        expect(player.finished).to.be.true;
+        expect(player.isFinished).to.be.true;
     }
 
     @test 'Update takes into account speed'() {
@@ -77,5 +77,16 @@ const chordProgression2 = new ChordProgression(16)
         const metronome = new Metronome(120);
         const player = new ChordProgressionPlayer(chordProgression1, metronome).withRef('Testy test');
         expect(player.ref).to.equal('Testy test');
+    }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const metronome = new Metronome(120);
+        const player = new ChordProgressionPlayer(chordProgression2, metronome);
+        let testVar = 0;
+        player.finished.add(() => testVar = 3);
+
+        player.finish();
+        expect(testVar).to.equal(3);
     }
 }

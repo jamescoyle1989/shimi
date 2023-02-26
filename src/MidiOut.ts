@@ -1,6 +1,6 @@
 'use strict';
 
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import Note from './Note';
 import { IMidiMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage } from './MidiMessages';
 
@@ -28,8 +28,12 @@ export default class MidiOut implements IMidiOut, IClockChild {
     private _ref: string;
 
     /** Returns true if the MidiOut has been instructed to stop everything by the `finish()` method. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the MidiOut finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /**
      * Whenever the MidiOut attempts to send MIDI data, it does some validation that there is a MIDI port actually connected. If not then it throws an error.
@@ -47,8 +51,9 @@ export default class MidiOut implements IMidiOut, IClockChild {
 
     /** Calling this tells the MidiOut to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this.stopNotes(n => true);
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

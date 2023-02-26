@@ -34,13 +34,13 @@ import { Clip } from '../src/Clip';
         expect(clipRecorder['_clip'].duration).to.equal(0);
     }
 
-    @test 'Update doesnt do anything if finished is true'() {
+    @test 'Update doesnt do anything if isFinished is true'() {
         const metronome = new Metronome(120);
         const clipRecorder = new ClipRecorder(
             metronome, 
             new MidiIn(new DummyPort())
         );
-        expect(clipRecorder.finished).to.be.false;
+        expect(clipRecorder.isFinished).to.be.false;
         //Update metronome so it has some difference between old and new beat values
         metronome.update(10);
 
@@ -81,16 +81,16 @@ import { Clip } from '../src/Clip';
         expect(clipRecorder.beatsPassed).to.be.greaterThan(0);
     }
 
-    @test 'Update sets finished if beatsPassed exceeds beatCount'() {
+    @test 'Update sets isFinished if beatsPassed exceeds beatCount'() {
         const metronome = new Metronome(120);
         const clipRecorder = new ClipRecorder(
             metronome, 
             new MidiIn(new DummyPort())
         );
         metronome.update(2010);
-        expect(clipRecorder.finished).to.be.false;
+        expect(clipRecorder.isFinished).to.be.false;
         clipRecorder.update(2010);
-        expect(clipRecorder.finished).to.be.true;
+        expect(clipRecorder.isFinished).to.be.true;
     }
 
     @test 'New notes get recorded'() {
@@ -120,7 +120,7 @@ import { Clip } from '../src/Clip';
         midiBus.sendMessage(new messages.NoteOnMessage(60, 80, 2));
         metronome.update(750);
         clipRecorder.update(750);
-        expect(clipRecorder.finished).to.be.true;
+        expect(clipRecorder.isFinished).to.be.true;
         expect(clipRecorder['_clip'].notes.length).to.equal(1);
         expect(clipRecorder['_clip'].notes[0].pitch).to.equal(60);
         expect(clipRecorder['_clip'].notes[0].velocity).to.equal(80);
@@ -235,5 +235,16 @@ import { Clip } from '../src/Clip';
         clipRecorder.midiIn = midiBus;
         midiBus.sendMessage(new messages.ControlChangeMessage(50, 70, 3));
         expect(clipRecorder['_clip'].controlChanges.length).to.equal(0);
+    }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const metronome = new Metronome(120);
+        const clipRecorder = new ClipRecorder(metronome, null);
+        let testVar = 0;
+        clipRecorder.finished.add(() => testVar = 3);
+
+        clipRecorder.finish();
+        expect(testVar).to.equal(3);
     }
 }

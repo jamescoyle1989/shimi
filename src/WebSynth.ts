@@ -1,6 +1,6 @@
 'use strict';
 
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMidiMessage } from './MidiMessages';
 import { IMidiOut } from './MidiOut';
 import Note from './Note';
@@ -230,8 +230,12 @@ export default class WebSynth implements IMidiOut, IClockChild {
     private _ref: string;
 
     /** Returns true if the WebSynth has been instructed to stop everything by the `finish()` method. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the WebSynth finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
@@ -261,7 +265,8 @@ export default class WebSynth implements IMidiOut, IClockChild {
     /** Calling this tells the WebSynth to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this.stopNotes(n => true);
-        this._finished = true;
+        this._isFinished = true;
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

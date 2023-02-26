@@ -24,9 +24,9 @@ import MidiOut from '../src/MidiOut';
         let updateValue: number = 0;
         const cue = Cue.afterMs(100, () => updateValue = 59);
         cue.update(80);
-        expect(cue.finished).to.be.false;
+        expect(cue.isFinished).to.be.false;
         cue.update(20);
-        expect(cue.finished).to.be.true;
+        expect(cue.isFinished).to.be.true;
     }
 
     @test 'ConditionCue executes action once condition is met'() {
@@ -47,10 +47,10 @@ import MidiOut from '../src/MidiOut';
         let updateValue: number = 0;
         const cue = Cue.when(() => trigger, () => updateValue = 59);
         cue.update(100000);
-        expect(cue.finished).to.be.false;
+        expect(cue.isFinished).to.be.false;
         trigger = true;
         cue.update(10);
-        expect(cue.finished).to.be.true;
+        expect(cue.isFinished).to.be.true;
     }
 
     @test 'BeatCue executes action after beatCount has passed'() {
@@ -75,9 +75,22 @@ import MidiOut from '../src/MidiOut';
 
         metronome.update(900);
         cue.update(900);
-        expect(cue.finished).to.be.false;
+        expect(cue.isFinished).to.be.false;
         metronome.update(101);
         cue.update(101);
-        expect(cue.finished).to.be.true;
+        expect(cue.isFinished).to.be.true;
+    }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const metronome = new Metronome(60);
+        const midiOut = new MidiOut(new DummyPort());
+        let updateValue: number = 0;
+        const cue = Cue.afterBeats(metronome, 1, () => updateValue = 59);
+        let testVar = 0;
+        cue.finished.add(() => testVar = 3);
+
+        cue.finish();
+        expect(testVar).to.equal(3);
     }
 }

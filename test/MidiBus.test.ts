@@ -230,4 +230,14 @@ import Note from '../src/Note';
         midiBus.stopNotes();
         expect(midiBus.notes.filter(x => x.on).length).to.equal(0);
     }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const midiBus = new MidiBus();
+        let testVar = 0;
+        midiBus.finished.add(() => testVar = 3);
+
+        midiBus.finish();
+        expect(testVar).to.equal(3);
+    }
 }

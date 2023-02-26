@@ -1,7 +1,7 @@
 'use strict';
 
 import ButtonInput from './ButtonInput';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IEventSubscriber } from './EventSubscriber';
 
 
@@ -21,8 +21,12 @@ export default class Keyboard implements IClockChild {
     private _ref: string;
 
     /** If true, then the keyboard has been deactivated and marked for disposal. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the keyboard has been deactivated and marked for disposal. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
 
     /** ButtonInput for the Escape key. */
@@ -498,8 +502,9 @@ export default class Keyboard implements IClockChild {
 
     /** Calling this tells the Keyboard to deactivate itself and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this.deactivate();
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

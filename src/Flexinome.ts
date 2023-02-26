@@ -2,7 +2,7 @@
 
 import TimeSig from './TimeSig';
 import PropertyTracker from './PropertyTracker';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMetronome, MetronomeBase } from './Metronome';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
@@ -135,8 +135,12 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
     }
 
     /** Returns true if the Flexinome has been instructed to stop everything by the `finish()` method. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the Flexinome finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /**
      * @param tempo The tempo to run the flexinome at.
@@ -235,8 +239,9 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
 
     /** Calling this tells the flexinome to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this._enabled.value = false;
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

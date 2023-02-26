@@ -1,6 +1,6 @@
 'use strict';
 
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMidiIn, MidiInEventData } from './MidiIn';
 import { IMetronome } from './Metronome';
 import { Clip, ClipBend, ClipCC, ClipNote } from './Clip';
@@ -62,7 +62,7 @@ export default class ClipRecorder implements IClockChild {
 
 
     private _addMidiInSubscriptions() {
-        if (this._midiIn && !this.finished) {
+        if (this._midiIn && !this.isFinished) {
             this._midiIn.noteOn.add(this._onNoteOn);
             this._midiIn.noteOff.add(this._onNoteOff);
             this._midiIn.controlChange.add(this._onControlChange);
@@ -199,7 +199,7 @@ export default class ClipRecorder implements IClockChild {
      * @returns 
      */
     update(deltaMs: number): void {
-        if (this.finished || !this.midiIn || !this.metronome)
+        if (this.isFinished || !this.midiIn || !this.metronome)
             return;
         
         const beatDiff = this.metronome.totalBeat - this.metronome.totalBeatTracker.oldValue;
@@ -221,12 +221,16 @@ export default class ClipRecorder implements IClockChild {
     }
 
     /** Returns true if the clip recorder has finished recording. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the clip recorder finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** Calling this tells the clip recorder to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this._removeMidiInSubscriptions();
 
         if (this.beatCount == null)
@@ -238,6 +242,7 @@ export default class ClipRecorder implements IClockChild {
         }
         this._inProgressNotes = [];
         this.newClip.trigger(new ClipRecorderEventData(this, this._clip));
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

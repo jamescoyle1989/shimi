@@ -165,4 +165,14 @@ export class MockPort {
         midiOut.stopNotes();
         expect(midiOut.notes.filter(x => x.on).length).to.equal(0);
     }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const midiOut = new MidiOut(new MockPort());
+        let testVar = 0;
+        midiOut.finished.add(() => testVar = 3);
+
+        midiOut.finish();
+        expect(testVar).to.equal(3);
+    }
 }

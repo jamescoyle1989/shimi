@@ -1,5 +1,8 @@
 'use strict';
 
+import ShimiEvent, { ShimiEventData } from './ShimiEvent';
+
+
 /**
  * The Clock class is the basis on which many other classes throughout the shimi library rely upon to receive frequent and regular updates. 
  * 
@@ -87,11 +90,34 @@ export default class Clock {
         this._lastUpdateTime = newTime;
 
         for (const child of this._children) {
-            if (!child.finished)
+            if (!child.isFinished)
                 child.update(deltaMs);
         }
-        this._children = this._children.filter(c => !c.finished);
+        this._children = this._children.filter(c => !c.isFinished);
     }
+}
+
+
+/**
+ * The ClockChildFinishedEventData class extends ShimiEventData. It contains a reference to the source IClockChild that finished.
+ * 
+ * @category Timing
+ */
+export class ClockChildFinishedEventData extends ShimiEventData<IClockChild> {
+    constructor(source: IClockChild) {
+        super(source);
+    }
+}
+
+
+/**
+ * The ClockChildFinishedEvent class extends ShimiEvent, providing an object which can be subscribed to.
+ * 
+ * When the event is fired, it calls all subscribed event handlers, passing in a ClockChildFinishedEventData object containing information about the IClockChild object that triggered the event.
+ * 
+ * @category Timing
+ */
+export class ClockChildFinishedEvent extends ShimiEvent<ClockChildFinishedEventData, IClockChild> {
 }
 
 
@@ -127,7 +153,12 @@ export interface IClockChild {
     /**
      * When this property is true, on the next update cycle, the clock will automatically remove the object from its list of children.
      */
-    get finished(): boolean;
+    get isFinished(): boolean;
+
+    /** This event is fired when the clock child finishes running */
+    get finished(): ClockChildFinishedEvent;
+
+
 
     /**
      * The update method gets called by Clock each cycle to allow the implementing object to update itself, there should be no reason for consumers of the library to call this.

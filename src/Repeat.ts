@@ -1,6 +1,6 @@
 'use strict';
 
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMetronome } from './Metronome';
 
 
@@ -14,8 +14,12 @@ class RepeatBase<TArgs> implements IClockChild {
     private _ref: string;
 
     /** Signifies whether the Repeat has stopped. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the Repeat finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** The action to perform for every update that the repeat is active. */
     get action(): (args: TArgs) => void { return this._action; }
@@ -37,7 +41,8 @@ class RepeatBase<TArgs> implements IClockChild {
 
     /** Calling this tells the Repeat to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

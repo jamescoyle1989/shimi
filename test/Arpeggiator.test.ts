@@ -132,7 +132,7 @@ import { Chord } from '../src';
         expect(midiOut.notes[0].on).to.be.true;
 
         arpeggiator.finish();
-        expect(arpeggiator.finished).to.be.true;
+        expect(arpeggiator.isFinished).to.be.true;
         expect(midiOut.notes[0].on).to.be.false;
     }
 
@@ -146,5 +146,17 @@ import { Chord } from '../src';
 
         metronome.update(10);
         arpeggiator.update(10);
+    }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(new Arpeggio(4), metronome, midiOut);
+        let testVar = 0;
+        arpeggiator.finished.add(() => testVar = 3);
+
+        arpeggiator.finish();
+        expect(testVar).to.equal(3);
     }
 }

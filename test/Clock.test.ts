@@ -12,13 +12,13 @@ class TestClockChild implements IClockChild {
         return this;
     }
 
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
 
     totalDeltaMs: number = 0;
 
     finish() {
-        this._finished = true;
+        this._isFinished = true;
     }
     
     callback: (deltaMs: number) => void;
@@ -104,7 +104,7 @@ class TestClockChild implements IClockChild {
 
         clock.stopChildren(c => c.ref == 'abc');
         expect(clock.children.length).to.equal(2);
-        expect(clockChild1.finished).to.be.true;
-        expect(clockChild2.finished).to.be.false;
+        expect(clockChild1.isFinished).to.be.true;
+        expect(clockChild2.isFinished).to.be.false;
     }
 }

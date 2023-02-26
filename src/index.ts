@@ -9,7 +9,7 @@ import ChordProgressionPlayer from './ChordProgressionPlayer';
 import { Clip, ClipBend, ClipCC, ClipNote } from './Clip';
 import ClipPlayer from './ClipPlayer';
 import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRecorder';
-import Clock from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData } from './Clock';
 import Cue from './Cue';
 import EventSubscriber from './EventSubscriber';
 import './Extensions';
@@ -54,7 +54,7 @@ export {
     Clip, ClipBend, ClipCC, ClipNote,
     ClipPlayer,
     ClipRecorder, ClipRecorderEvent, ClipRecorderEventData,
-    Clock,
+    Clock, ClockChildFinishedEvent, ClockChildFinishedEventData,
     Cue,
     EventSubscriber,
     Flexinome,

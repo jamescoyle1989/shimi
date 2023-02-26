@@ -3,7 +3,7 @@
 import { Clip, ClipNote } from './Clip';
 import { IMetronome } from './Metronome';
 import Note from './Note';
-import { IClockChild } from './Clock';
+import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMidiOut } from './MidiOut';
 import { ControlChangeMessage, PitchBendMessage } from './MidiMessages';
 
@@ -91,8 +91,12 @@ export default class ClipPlayer implements IClockChild {
     private _beatsPassed: number = 0;
 
     /** Returns true if the clip player has finished playing its clip. */
-    get finished(): boolean { return this._finished; }
-    private _finished: boolean = false;
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the clip player finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     private _notes: Note[] = [];
 
@@ -205,8 +209,9 @@ export default class ClipPlayer implements IClockChild {
 
     /** Calling this tells the clip player to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
-        this._finished = true;
+        this._isFinished = true;
         this._endAllNotes();
+        this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
     /**

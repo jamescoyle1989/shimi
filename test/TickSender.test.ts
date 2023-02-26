@@ -185,4 +185,16 @@ import { SongPositionMessage } from '../src/MidiMessages';
         update();
         expect(tickCount).to.equal(4);  //180
     }
+
+    @test 'finished event gets fired'() {
+        //Setup
+        const metronome = new Metronome(120);
+        const midiOut = new MidiBus();
+        const tickSender = new TickSender(metronome, midiOut);
+        let testVar = 0;
+        tickSender.finished.add(() => testVar = 3);
+
+        tickSender.finish();
+        expect(testVar).to.equal(3);
+    }
 }
