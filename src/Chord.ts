@@ -229,14 +229,14 @@ export default class Chord implements IPitchContainer {
         const fullOptions = new FitPitchOptions(options);
 
         let fitFunction = p => this._isTightFit(p, fullOptions);
-        if (fullOptions.precision == FitPrecision.medium) fitFunction = p => this._isMediumFit(p, fullOptions);
-        if (fullOptions.precision == FitPrecision.loose) fitFunction = p => this._isLooseFit(p, fullOptions);
+        if (fullOptions.precision == 'MEDIUM') fitFunction = p => this._isMediumFit(p, fullOptions);
+        if (fullOptions.precision == 'LOOSE') fitFunction = p => this._isLooseFit(p, fullOptions);
 
         //Set direction to either 1 or -1, 1 means prefer upward motion, -1 means prefer downward motion
         let direction = 1;
-        if (fullOptions.preferredDirection == FitDirection.down)
+        if (fullOptions.preferredDirection == 'DOWN')
             direction = -1;
-        else if (fullOptions.preferredDirection == FitDirection.random)
+        else if (fullOptions.preferredDirection == 'RANDOM')
             direction = (Math.random() >= 0.5) ? 1 : -1;
 
         //Set starting positions for pitch1 & pitch2, these will move in opposite directions

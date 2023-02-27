@@ -233,12 +233,12 @@ import { FitDirection } from '../src/IPitchContainer';
 
     @test 'fitPitch can prefer moving downwards'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.fitPitch(39, {preferredDirection: FitDirection.down})).to.equal(38);
+        expect(scale.fitPitch(39, {preferredDirection: 'DOWN'})).to.equal(38);
     }
 
     @test 'fitPitch can prefer moving upwards'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.fitPitch(39, {preferredDirection: FitDirection.up})).to.equal(40);
+        expect(scale.fitPitch(39, {preferredDirection: 'UP'})).to.equal(40);
     }
 
     @test 'fitPitch can prefer moving to root'() {

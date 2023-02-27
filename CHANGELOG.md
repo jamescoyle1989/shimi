@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Swing value now ranges from 0 to 1, with default value 0.5. Rather than -1 to +1, with default value 0.
 
+- FitDirection & FitPrecision enums replaced with union types
+
 
 
 ## 1.13.0 (2023-01-09)

@@ -99,12 +99,12 @@ Chord.nameGenerator = (chord: Chord) => {
 
     @test 'fitPitch can prefer moving downwards'() {
         const chord = new Chord().addPitches([12, 15, 19]);
-        expect(chord.fitPitch(17, {preferredDirection: FitDirection.down})).to.equal(15);
+        expect(chord.fitPitch(17, {preferredDirection: 'DOWN'})).to.equal(15);
     }
 
     @test 'fitPitch can prefer moving upwards'() {
         const chord = new Chord().addPitches([12, 15, 19]);
-        expect(chord.fitPitch(17, {preferredDirection: FitDirection.up})).to.equal(19);
+        expect(chord.fitPitch(17, {preferredDirection: 'UP'})).to.equal(19);
     }
 
     @test 'fitPitch can prefer moving to root'() {
@@ -120,9 +120,9 @@ Chord.nameGenerator = (chord: Chord) => {
     @test 'fitPitch can do medium fit with scale'() {
         const chord = new Chord().addPitches([12, 16, 19]);
         const scale = ScaleTemplate.major.create(0);
-        expect(chord.fitPitch(12.5, {precision: FitPrecision.medium, scale: scale})).to.equal(12);
-        expect(chord.fitPitch(13, {precision: FitPrecision.medium, scale: scale})).to.equal(12);
-        expect(chord.fitPitch(13.5, {precision: FitPrecision.medium, scale: scale})).to.equal(14);
+        expect(chord.fitPitch(12.5, {precision: 'MEDIUM', scale: scale})).to.equal(12);
+        expect(chord.fitPitch(13, {precision: 'MEDIUM', scale: scale})).to.equal(12);
+        expect(chord.fitPitch(13.5, {precision: 'MEDIUM', scale: scale})).to.equal(14);
     }
 
     @test '_isTightFit returns expected results'() {

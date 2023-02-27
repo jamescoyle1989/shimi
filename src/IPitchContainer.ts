@@ -1,46 +1,47 @@
 import Scale from "./Scale";
 
 
+const FIT_DIRECTION = {
+    UP: 'UP',
+    DOWN: 'DOWN',
+    RANDOM: 'RANDOM'
+} as const;
+
 /**
  * FitDirection is referenced by the [FitPitchOptions](../classes/FitPitchOptions.html) class to define the preferred direction for pitches to be moved to fit some chord or scale.
  * 
+ * UP: Prefer moving upwards
+ * 
+ * DOWN (default): Prefer moving downwards
+ * 
+ * RANDOM: Have no preference on movement direction
+ * 
  * @category Chords & Scales
  */
-export enum FitDirection {
-    /** We prefer moving up to the next fitting pitch. */
-    'up' = 1,
-    /** We prefer moving down to the next fitting pitch. */
-    'down' = -1,
-    /** We have no preference which direction we move to the next fitting pitch. */
-    'random' = 0
-}
+export type FitDirection = keyof typeof FIT_DIRECTION;
 
+
+
+const FIT_PRECISION = {
+    LOOSE: 'LOOSE',
+    MEDIUM: 'MEDIUM',
+    TIGHT: 'TIGHT'
+} as const;
 
 /**
  * Fit Precision is referenced by the [FitPitchOptions](../classes/FitPitchOptions.html) class to define how closely we must fit a pitch to the scale or chord it's being fitted to.
  * 
  * Note, if fitting to just a scale without chord, then it doesn't matter which option you choose, since it will just fit to the closest pitch which the scale contains
  * 
+ * LOOSE: When fitting to just a chord, then any pitch is potentially considered a fit, though pitches that the chord contains are given higher preference. When fitting to both scale and chord, the pitch must be contained within either the chord or the scale. Again, preference is given to those in the chord.
+ * 
+ * MEDIUM: When fitting to just a chord, the pitch (or an octave relative) must not be a semi-tone away from any of the chord's pitches. When fitting to both scale and chord, the pitch must be contained within the chord or the scale, and if not in the chord, then not be a semi-tone away from any of the chord's pitches. Preference will always be given to pitches that are in the chord.
+ * 
+ * TIGHT (default): This is the strictest option. When fitting to a chord, it's only considered a tight fit if the pitch (or an octave relative) is contained within the chord.
+ * 
  * @category Chords & Scales
  */
-export enum FitPrecision {
-    /**
-     * When fitting to just a chord, then any pitch is potentially considered a fit, though pitches that the chord contains are given higher preference.
-     * 
-     * When fitting to both scale and chord, the pitch must be contained within either the chord or the scale. Again, preference is given to those in the chord.
-     */
-    'loose' = 1,
-    /** 
-     * When fitting to just a chord, the pitch (or an octave relative) must not be a semi-tone away from any of the chord's pitches.
-     * 
-     * When fitting to both scale and chord, the pitch must be contained within the chord or the scale, and if not in the chord, then not be a semi-tone away from any of the chord's pitches.
-     * 
-     * Preference will always be given to pitches that are in the chord.
-     */
-    'medium' = 2,
-    /** This is the strictest option. When fitting to a chord, it's only considered a tight fit if the pitch (or an octave relative) is contained within the chord. */
-    'tight' = 3
-}
+export type FitPrecision = keyof typeof FIT_PRECISION;
 
 
 /**
@@ -68,18 +69,18 @@ export class FitPitchOptions {
     preferRoot: boolean = true;
 
     /**
-     * The preferredDirection defines that if 2 equally good matches are found, which direction the pitch fitting logic will choose. See the FitDirection enum for further information about the FitDirection options.
+     * The preferredDirection defines that if 2 equally good matches are found, which direction the pitch fitting logic will choose. See the FitDirection type for further information about the FitDirection options.
      * 
      * The default value of preferredDirection is FitDirection.down.
      */
-    preferredDirection: FitDirection = FitDirection.down;
+    preferredDirection: FitDirection = 'DOWN';
 
     /**
-     * The precision property defines how close of a fit to the target that a pitch must be before it's considered a valid fit. See the FitPrecision enum for detailed information about the criteria of each of the FitPrecision options.
+     * The precision property defines how close of a fit to the target that a pitch must be before it's considered a valid fit. See the FitPrecision type for detailed information about the criteria of each of the FitPrecision options.
      * 
      * The default value of precision is FitPrecision.tight.
      */
-    precision: FitPrecision = FitPrecision.tight;
+    precision: FitPrecision = 'TIGHT';
 
     /**
      * The scale property is only relevant when fitting a pitch to a chord.

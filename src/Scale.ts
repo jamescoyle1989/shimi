@@ -217,9 +217,9 @@ export default class Scale implements IPitchContainer {
 
         //Set direction to either 1 or -1, 1 means prefer upward motion, -1 means prefer downward motion
         let direction = 1;
-        if (options.preferredDirection == FitDirection.down)
+        if (options.preferredDirection == 'DOWN')
             direction = -1;
-        else if (options.preferredDirection == FitDirection.random)
+        else if (options.preferredDirection == 'RANDOM')
             direction = (Math.random() >= 0.5) ? 1 : -1;
 
         //Set starting positions for pitch1 & pitch2, these will move in opposite directions

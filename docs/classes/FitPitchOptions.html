@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">FitPitchOptions</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in IPitchContainer.ts:51</li></ul></aside>
+<li>Defined in IPitchContainer.ts:52</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -57,7 +57,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="FitPitchOptions.html" class="tsd-signature-type" data-tsd-kind="Class">FitPitchOptions</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in IPitchContainer.ts:98</li></ul></aside></li></ul></section></section>
+<li>Defined in IPitchContainer.ts:99</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="maxMovement" class="tsd-anchor"></a>
@@ -68,15 +68,15 @@
 <p>The default value of maxMovement is 2.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in IPitchContainer.ts:59</li></ul></aside></section>
+<li>Defined in IPitchContainer.ts:60</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="precision" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>precision</span><a href="#precision" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">precision<span class="tsd-signature-symbol">:</span> <a href="../enums/FitPrecision.html" class="tsd-signature-type" data-tsd-kind="Enumeration">FitPrecision</a><span class="tsd-signature-symbol"> = FitPrecision.tight</span></div>
-<div class="tsd-comment tsd-typography"><p>The precision property defines how close of a fit to the target that a pitch must be before it&#39;s considered a valid fit. See the FitPrecision enum for detailed information about the criteria of each of the FitPrecision options.</p>
+<div class="tsd-signature">precision<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;LOOSE&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MEDIUM&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TIGHT&quot;</span><span class="tsd-signature-symbol"> = &#39;TIGHT&#39;</span></div>
+<div class="tsd-comment tsd-typography"><p>The precision property defines how close of a fit to the target that a pitch must be before it&#39;s considered a valid fit. See the FitPrecision type for detailed information about the criteria of each of the FitPrecision options.</p>
 <p>The default value of precision is FitPrecision.tight.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in IPitchContainer.ts:82</li></ul></aside></section>
+<li>Defined in IPitchContainer.ts:83</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="preferRoot" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>prefer<wbr/>Root</span><a href="#preferRoot" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">prefer<wbr/>Root<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
@@ -85,15 +85,15 @@
 <p>The default value of preferRoot is true.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in IPitchContainer.ts:68</li></ul></aside></section>
+<li>Defined in IPitchContainer.ts:69</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="preferredDirection" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>preferred<wbr/>Direction</span><a href="#preferredDirection" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">preferred<wbr/>Direction<span class="tsd-signature-symbol">:</span> <a href="../enums/FitDirection.html" class="tsd-signature-type" data-tsd-kind="Enumeration">FitDirection</a><span class="tsd-signature-symbol"> = FitDirection.down</span></div>
-<div class="tsd-comment tsd-typography"><p>The preferredDirection defines that if 2 equally good matches are found, which direction the pitch fitting logic will choose. See the FitDirection enum for further information about the FitDirection options.</p>
+<div class="tsd-signature">preferred<wbr/>Direction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;UP&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DOWN&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;RANDOM&quot;</span><span class="tsd-signature-symbol"> = &#39;DOWN&#39;</span></div>
+<div class="tsd-comment tsd-typography"><p>The preferredDirection defines that if 2 equally good matches are found, which direction the pitch fitting logic will choose. See the FitDirection type for further information about the FitDirection options.</p>
 <p>The default value of preferredDirection is FitDirection.down.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in IPitchContainer.ts:75</li></ul></aside></section>
+<li>Defined in IPitchContainer.ts:76</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="scale" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>scale</span><a href="#scale" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">scale<span class="tsd-signature-symbol">:</span> <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a><span class="tsd-signature-symbol"> = null</span></div>
@@ -102,7 +102,7 @@
 <p>By default, scale is left null.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in IPitchContainer.ts:91</li></ul></aside></section></section></div>
+<li>Defined in IPitchContainer.ts:92</li></ul></aside></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
