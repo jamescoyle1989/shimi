@@ -6,13 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+
+
+## 2.0.0 (2024-03-04)
+
 ### Changed 
 
 - IClockChild finished property to isFinished. The finished property is now a subscribable event.
 
 - Swing value now ranges from 0 to 1, with default value 0.5. Rather than -1 to +1, with default value 0.
 
-- FitDirection & FitPrecision enums replaced with union types
+- FitDirection & FitPrecision enums replaced with union types. Enums aren't best practice in Typescript.
+
+- WebSynth is now WebAudioMidiOut. It has also been cut back to being a far more basic component. Since advanced cases would now be handled through the ToneJSMidiOut.
 
 
 

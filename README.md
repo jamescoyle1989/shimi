@@ -31,7 +31,7 @@ Here is a simple example, using shimi to play the start of 'Twinkle Twinkle Litt
 <script src="https://unpkg.com/shimi"></script>
 <script>
 function run() {
-    const midiOut = new shimi.WebSynth(new AudioContext()).withDefaultChannels();
+    const midiOut = new shimi.WebAudioMidiOut(new AudioContext()).withDefaultChannels();
 
     const keyboard = new shimi.Keyboard(new shimi.EventSubscriber(document));
     keyboard.activate();

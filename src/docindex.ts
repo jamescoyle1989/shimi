@@ -53,7 +53,7 @@ import Tween, {
     CubicInOutTween, CubicInTween, CubicOutTween,
     QuarticInOutTween, QuarticInTween, QuarticOutTween,
     MultiTween, StepsTween } from './Tweens';
-import WebSynth, { WebSynthChannel, IWebSynthChannel } from './WebSynth';
+import WebAudioMidiOut, { WebAudioMidiOutChannel } from './WebAudioMidiOut';
 
 export {
     Arpeggiator,
@@ -103,5 +103,5 @@ export {
         QuadraticInOutTween, QuadraticInTween, QuadraticOutTween,
         CubicInOutTween, CubicInTween, CubicOutTween,
         QuarticInOutTween, QuarticInTween, QuarticOutTween,
-    WebSynth, WebSynthChannel, IWebSynthChannel
+    WebAudioMidiOut, WebAudioMidiOutChannel
 }

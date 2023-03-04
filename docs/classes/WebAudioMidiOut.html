@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>WebSynth | shimi</title><meta name="description" content="Documentation for shimi"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>WebAudioMidiOut | shimi</title><meta name="description" content="Documentation for shimi"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -11,23 +11,23 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">shimi</a></li>
-<li><a href="WebSynth.html">WebSynth</a></li></ul>
-<h1>Class WebSynth</h1></div>
+<li><a href="WebAudioMidiOut.html">WebAudioMidiOut</a></li></ul>
+<h1>Class WebAudioMidiOut</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>The WebSynth class is a very simple synthesizer implementation, built on top of the Web Audio API. In its current form, it is not intended to be used for producing particularly rich, musical sounds, but instead just as a way to be able to easily get some sound out from shimi without having to rely on an external device or piece of software for playback.</p>
-<p>The WebSynth class implements the IMidiOut interface, so that you can very easily swap out the WebSynth for external devices as and when needed.</p>
+<div class="tsd-comment tsd-typography"><p>The WebAudioMidiOut class is a very simple synthesizer implementation, built on top of the Web Audio API. It is intended to primarily be a quick and dirty way to get some sound out through the web browser. For more advanced sound generation, use either the ToneJSMidiOut for in-browser sounds, or MidiOut for working with external instruments.</p>
+<p>The WebAudioMidiOut class implements the IMidiOut interface, so that you can very easily swap out the WebAudioMidiOut for external devices as and when needed.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><span class="target">WebSynth</span></li></ul></section>
+<li><span class="target">WebAudioMidiOut</span></li></ul></section>
 <section class="tsd-panel">
 <h4>Implements</h4>
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/IMidiOut.html" class="tsd-signature-type" data-tsd-kind="Interface">IMidiOut</a></li>
 <li><a href="../interfaces/IClockChild.html" class="tsd-signature-type" data-tsd-kind="Interface">IClockChild</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in WebSynth.ts:78</li></ul></aside>
+<li>Defined in WebAudioMidiOut.ts:68</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -35,46 +35,46 @@
 <div class="tsd-accordion-details">
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Constructors</h3>
-<div class="tsd-index-list"><a href="WebSynth.html#constructor" class="tsd-index-link tsd-kind-constructor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#4D7FFF" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-512-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-512-text"></path></svg><span>constructor</span></a>
+<div class="tsd-index-list"><a href="WebAudioMidiOut.html#constructor" class="tsd-index-link tsd-kind-constructor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#4D7FFF" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-512-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-512-text"></path></svg><span>constructor</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Accessors</h3>
-<div class="tsd-index-list"><a href="WebSynth.html#audioContext" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4D4D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-262144-path"></rect><path d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z" fill="var(--color-text)" id="icon-262144-text"></path></svg><span>audio<wbr/>Context</span></a>
-<a href="WebSynth.html#finished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>finished</span></a>
-<a href="WebSynth.html#isFinished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>is<wbr/>Finished</span></a>
-<a href="WebSynth.html#notes" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>notes</span></a>
-<a href="WebSynth.html#ref" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>ref</span></a>
+<div class="tsd-index-list"><a href="WebAudioMidiOut.html#audioContext" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4D4D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-262144-path"></rect><path d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z" fill="var(--color-text)" id="icon-262144-text"></path></svg><span>audio<wbr/>Context</span></a>
+<a href="WebAudioMidiOut.html#finished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>finished</span></a>
+<a href="WebAudioMidiOut.html#isFinished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>is<wbr/>Finished</span></a>
+<a href="WebAudioMidiOut.html#notes" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>notes</span></a>
+<a href="WebAudioMidiOut.html#ref" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>ref</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
-<div class="tsd-index-list"><a href="WebSynth.html#addNote" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>add<wbr/>Note</span></a>
-<a href="WebSynth.html#finish" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>finish</span></a>
-<a href="WebSynth.html#sendMessage" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>send<wbr/>Message</span></a>
-<a href="WebSynth.html#sendRawData" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>send<wbr/>Raw<wbr/>Data</span></a>
-<a href="WebSynth.html#stopNotes" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>stop<wbr/>Notes</span></a>
-<a href="WebSynth.html#update" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>update</span></a>
-<a href="WebSynth.html#withChannel" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>with<wbr/>Channel</span></a>
-<a href="WebSynth.html#withDefaultChannels" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>with<wbr/>Default<wbr/>Channels</span></a>
-<a href="WebSynth.html#withRef" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>with<wbr/>Ref</span></a>
+<div class="tsd-index-list"><a href="WebAudioMidiOut.html#addNote" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>add<wbr/>Note</span></a>
+<a href="WebAudioMidiOut.html#finish" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>finish</span></a>
+<a href="WebAudioMidiOut.html#sendMessage" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>send<wbr/>Message</span></a>
+<a href="WebAudioMidiOut.html#sendRawData" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>send<wbr/>Raw<wbr/>Data</span></a>
+<a href="WebAudioMidiOut.html#stopNotes" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>stop<wbr/>Notes</span></a>
+<a href="WebAudioMidiOut.html#update" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>update</span></a>
+<a href="WebAudioMidiOut.html#withChannel" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>with<wbr/>Channel</span></a>
+<a href="WebAudioMidiOut.html#withDefaultChannels" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>with<wbr/>Default<wbr/>Channels</span></a>
+<a href="WebAudioMidiOut.html#withRef" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>with<wbr/>Ref</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
 <section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_WebSynth">new <wbr/>Web<wbr/>Synth<span class="tsd-signature-symbol">(</span>audioContext<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AudioContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WebSynth.html" class="tsd-signature-type" data-tsd-kind="Class">WebSynth</a><a href="#constructor.new_WebSynth" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_WebAudioMidiOut">new <wbr/>Web<wbr/>Audio<wbr/>Midi<wbr/>Out<span class="tsd-signature-symbol">(</span>audioContext<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AudioContext</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WebAudioMidiOut.html" class="tsd-signature-type" data-tsd-kind="Class">WebAudioMidiOut</a><a href="#constructor.new_WebAudioMidiOut" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5>audioContext: <span class="tsd-signature-type">AudioContext</span></h5>
-<div class="tsd-comment tsd-typography"><p>The AudioContext instance which the WebSynth is operating within.
-Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
+<div class="tsd-comment tsd-typography"><p>The AudioContext instance which the WebAudioMidiOut is operating within.
+Example: <code>new shimi.WebAudioMidiOut(new AudioContext());</code></p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="WebSynth.html" class="tsd-signature-type" data-tsd-kind="Class">WebSynth</a></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="WebAudioMidiOut.html" class="tsd-signature-type" data-tsd-kind="Class">WebAudioMidiOut</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in WebSynth.ts:94</li></ul></aside></li></ul></section></section>
+<li>Defined in WebAudioMidiOut.ts:84</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="audioContext" class="tsd-anchor"></a>
@@ -82,56 +82,56 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
 <li class="tsd-signature" id="audioContext.audioContext-1"><span class="tsd-signature-symbol">get</span> audioContext<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AudioContext</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The AudioContext instance which the WebSynth is operating within.</p>
+<div class="tsd-comment tsd-typography"><p>The AudioContext instance which the WebAudioMidiOut is operating within.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">AudioContext</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in WebSynth.ts:81</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:71</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="finished" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>finished</span><a href="#finished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
 <li class="tsd-signature" id="finished.finished-1"><span class="tsd-signature-symbol">get</span> finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>This event fires when the WebSynth finishes.</p>
+<div class="tsd-comment tsd-typography"><p>This event fires when the WebAudioMidiOut finishes.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ClockChildFinishedEvent.html" class="tsd-signature-type" data-tsd-kind="Class">ClockChildFinishedEvent</a></h4><aside class="tsd-sources">
 <p>Implementation of IClockChild.finished</p>
 <ul>
-<li>Defined in WebSynth.ts:237</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:227</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="isFinished" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Finished</span><a href="#isFinished" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
 <li class="tsd-signature" id="isFinished.isFinished-1"><span class="tsd-signature-symbol">get</span> isFinished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Returns true if the WebSynth has been instructed to stop everything by the <code>finish()</code> method.</p>
+<div class="tsd-comment tsd-typography"><p>Returns true if the WebAudioMidiOut has been instructed to stop everything by the <code>finish()</code> method.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of IClockChild.isFinished</p>
 <ul>
-<li>Defined in WebSynth.ts:233</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:223</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="notes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notes</span><a href="#notes" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
 <li class="tsd-signature" id="notes.notes-1"><span class="tsd-signature-symbol">get</span> notes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The notes collection consists of notes which have been started, but not ended yet.</p>
-<p>The WebSynth will cycle through this collection on each update, checking to see if it needs to stop the playback of any notes.</p>
+<p>The WebAudioMidiOut will cycle through this collection on each update, checking to see if it needs to stop the playback of any notes.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Implementation of IMidiOut.notes</p>
 <ul>
-<li>Defined in WebSynth.ts:134</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:125</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="ref" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>ref</span><a href="#ref" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
 <li class="tsd-signature" id="ref.ref-1"><span class="tsd-signature-symbol">get</span> ref<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Provides a way of identifying WebSynth so it can be easily retrieved later</p>
+<div class="tsd-comment tsd-typography"><p>Provides a way of identifying a WebAudioMidiOut so it can be easily retrieved later</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Implementation of IClockChild.ref</p>
 <ul>
-<li>Defined in WebSynth.ts:228</li></ul></aside></li>
+<li>Defined in WebAudioMidiOut.ts:218</li></ul></aside></li>
 <li class="tsd-signature" id="ref.ref-2"><span class="tsd-signature-symbol">set</span> ref<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -142,7 +142,7 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of IClockChild.ref</p>
 <ul>
-<li>Defined in WebSynth.ts:229</li></ul></aside></li></ul></section></section>
+<li>Defined in WebAudioMidiOut.ts:219</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addNote" class="tsd-anchor"></a>
@@ -150,8 +150,8 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="addNote.addNote-1">add<wbr/>Note<span class="tsd-signature-symbol">(</span>note<span class="tsd-signature-symbol">: </span><a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a><a href="#addNote.addNote-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Adds a new note to the WebSynth&#39;s collection, returning the note that was added.</p>
-<p>If <code>note.on == true</code>, then the the WebSynth immediately starts up new oscillators for it.</p>
+<div class="tsd-comment tsd-typography"><p>Adds a new note to the WebAudioMidiOut&#39;s collection, returning the note that was added.</p>
+<p>If <code>note.on == true</code>, then the the WebAudioMidiOut immediately starts up new oscillators for it.</p>
 
 <h3>Returns</h3></div>
 <div class="tsd-parameters">
@@ -159,23 +159,23 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <ul class="tsd-parameter-list">
 <li>
 <h5>note: <a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a></h5>
-<div class="tsd-comment tsd-typography"><p>The note to add to the WebSynth.</p>
+<div class="tsd-comment tsd-typography"><p>The note to add to the WebAudioMidiOut.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMidiOut.html">IMidiOut</a>.<a href="../interfaces/IMidiOut.html#addNote">addNote</a></p>
 <ul>
-<li>Defined in WebSynth.ts:144</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:135</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="finish" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>finish</span><a href="#finish" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="finish.finish-1">finish<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#finish.finish-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Calling this tells the WebSynth to stop whatever it&#39;s doing and that it will no longer be used.</p>
+<div class="tsd-comment tsd-typography"><p>Calling this tells the WebAudioMidiOut to stop whatever it&#39;s doing and that it will no longer be used.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#finish">finish</a></p>
 <ul>
-<li>Defined in WebSynth.ts:266</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:255</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="sendMessage" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>send<wbr/>Message</span><a href="#sendMessage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -194,13 +194,13 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMidiOut.html">IMidiOut</a>.<a href="../interfaces/IMidiOut.html#sendMessage">sendMessage</a></p>
 <ul>
-<li>Defined in WebSynth.ts:174</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:164</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="sendRawData" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>send<wbr/>Raw<wbr/>Data</span><a href="#sendRawData" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="sendRawData.sendRawData-1">send<wbr/>Raw<wbr/>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#sendRawData.sendRawData-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Receives a byte-array representation of a MIDI message. The method interprets the message into an IMidiMessage object, and calls the <code>WebSynth.sendMessage</code> method with it.</p>
+<div class="tsd-comment tsd-typography"><p>Receives a byte-array representation of a MIDI message. The method interprets the message into an IMidiMessage object, and calls the <code>WebAudioMidiOut.sendMessage</code> method with it.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -212,13 +212,13 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMidiOut.html">IMidiOut</a>.<a href="../interfaces/IMidiOut.html#sendRawData">sendRawData</a></p>
 <ul>
-<li>Defined in WebSynth.ts:191</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:181</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="stopNotes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>stop<wbr/>Notes</span><a href="#stopNotes" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="stopNotes.stopNotes-1">stop<wbr/>Notes<span class="tsd-signature-symbol">(</span>filter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>note<span class="tsd-signature-symbol">: </span><a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#stopNotes.stopNotes-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Calls the stop() method of all notes which have been added to the WebSynth that meet the passed in criteria.</p>
+<div class="tsd-comment tsd-typography"><p>Calls the stop() method of all notes which have been added to the WebAudioMidiOut that meet the passed in criteria.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -241,7 +241,7 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IMidiOut.html">IMidiOut</a>.<a href="../interfaces/IMidiOut.html#stopNotes">stopNotes</a></p>
 <ul>
-<li>Defined in WebSynth.ts:157</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:148</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -260,15 +260,15 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#update">update</a></p>
 <ul>
-<li>Defined in WebSynth.ts:245</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:235</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="withChannel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>with<wbr/>Channel</span><a href="#withChannel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="withChannel.withChannel-1">with<wbr/>Channel<span class="tsd-signature-symbol">(</span>channelNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, channelImplementation<span class="tsd-signature-symbol">: </span><a href="../interfaces/IWebSynthChannel.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebSynthChannel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WebSynth.html" class="tsd-signature-type" data-tsd-kind="Class">WebSynth</a><a href="#withChannel.withChannel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="withChannel.withChannel-1">with<wbr/>Channel<span class="tsd-signature-symbol">(</span>channelNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, gain<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WebAudioMidiOut.html" class="tsd-signature-type" data-tsd-kind="Class">WebAudioMidiOut</a><a href="#withChannel.withChannel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Define an IWebSynthChannel object to use for a specific MIDI channel number.</p>
+<div class="tsd-comment tsd-typography"><p>Define what sound to use for a specific MIDI channel number.</p>
 
-<h3>Returns</h3><p>Returns the WebSynth instance, to allow for chaining of operations.</p>
+<h3>Returns</h3><p>Returns the WebAudioMidiOut instance, to allow for chaining of operations.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -278,34 +278,38 @@ Example: <code>new shimi.WebSynth(new AudioContext());</code></p>
 <div class="tsd-comment tsd-typography"><p>The channel being defined, valid values range from 0 - 15.</p>
 </div></li>
 <li>
-<h5>channelImplementation: <a href="../interfaces/IWebSynthChannel.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebSynthChannel</a></h5>
-<div class="tsd-comment tsd-typography"><p>The implementation of IWebSynthChannel to apply to the specified channel number.</p>
+<h5>type: <span class="tsd-signature-type">any</span></h5>
+<div class="tsd-comment tsd-typography"><p>The type of waveform being produced, valid values are: &#39;sine&#39;, &#39;square&#39;, &#39;triangle&#39;, or &#39;sawtooth&#39;.</p>
+</div></li>
+<li>
+<h5>gain: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0.1</span></h5>
+<div class="tsd-comment tsd-typography"><p>The amount of gain to be applied to the waveform. Default value is 0.1.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="WebSynth.html" class="tsd-signature-type" data-tsd-kind="Class">WebSynth</a></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="WebAudioMidiOut.html" class="tsd-signature-type" data-tsd-kind="Class">WebAudioMidiOut</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in WebSynth.ts:104</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:95</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="withDefaultChannels" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>with<wbr/>Default<wbr/>Channels</span><a href="#withDefaultChannels" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="withDefaultChannels.withDefaultChannels-1">with<wbr/>Default<wbr/>Channels<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WebSynth.html" class="tsd-signature-type" data-tsd-kind="Class">WebSynth</a><a href="#withDefaultChannels.withDefaultChannels-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="withDefaultChannels.withDefaultChannels-1">with<wbr/>Default<wbr/>Channels<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WebAudioMidiOut.html" class="tsd-signature-type" data-tsd-kind="Class">WebAudioMidiOut</a><a href="#withDefaultChannels.withDefaultChannels-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Defines all undefined channels with instances of WebSynthChannel.
+<div class="tsd-comment tsd-typography"><p>Automatically sets up all undefined channels with default sounds.
 It cycles through defining each channel with sine, square, sawtooth &amp; triangle wave in turn, so that channels, 0, 4, 8 &amp; 12 would be sine, 1, 5, 9 &amp; 13 would be square, etc.</p>
 <p>Example usage:
-const synth = new shimi.WebSynth(new AudioContext()).withDefaultChannels();</p>
+const synth = new shimi.WebAudioMidiOut(new AudioContext()).withDefaultChannels();</p>
 
-<h3>Returns</h3><p>Returns the WebSynth instance, to allow for chaining of operations.</p>
+<h3>Returns</h3><p>Returns the WebAudioMidiOut instance, to allow for chaining of operations.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <a href="WebSynth.html" class="tsd-signature-type" data-tsd-kind="Class">WebSynth</a></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="WebAudioMidiOut.html" class="tsd-signature-type" data-tsd-kind="Class">WebAudioMidiOut</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in WebSynth.ts:117</li></ul></aside></li></ul></section>
+<li>Defined in WebAudioMidiOut.ts:108</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="withRef" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>with<wbr/>Ref</span><a href="#withRef" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="withRef.withRef-1">with<wbr/>Ref<span class="tsd-signature-symbol">(</span>ref<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/IClockChild.html" class="tsd-signature-type" data-tsd-kind="Interface">IClockChild</a><a href="#withRef.withRef-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Provides a way for setting the ref through a chained function call. For example:</p>
-<pre><code><span class="hl-1">clock</span><span class="hl-0">.</span><span class="hl-5">addChild</span><span class="hl-0">(</span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-5">WebSynth</span><span class="hl-0">(</span><span class="hl-1">context</span><span class="hl-0">).</span><span class="hl-5">withDefaultChannels</span><span class="hl-0">().</span><span class="hl-5">withRef</span><span class="hl-0">(</span><span class="hl-2">&#39;output&#39;</span><span class="hl-0">));</span>
+<pre><code><span class="hl-1">clock</span><span class="hl-0">.</span><span class="hl-5">addChild</span><span class="hl-0">(</span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-5">WebAudioMidiOut</span><span class="hl-0">(</span><span class="hl-1">context</span><span class="hl-0">).</span><span class="hl-5">withDefaultChannels</span><span class="hl-0">().</span><span class="hl-5">withRef</span><span class="hl-0">(</span><span class="hl-2">&#39;output&#39;</span><span class="hl-0">));</span>
 </code></pre>
 
 <h3>Returns</h3><p>The calling object.</p>
@@ -320,7 +324,7 @@ const synth = new shimi.WebSynth(new AudioContext()).withDefaultChannels();</p>
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/IClockChild.html" class="tsd-signature-type" data-tsd-kind="Interface">IClockChild</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClockChild.html">IClockChild</a>.<a href="../interfaces/IClockChild.html#withRef">withRef</a></p>
 <ul>
-<li>Defined in WebSynth.ts:282</li></ul></aside></li></ul></section></section></div>
+<li>Defined in WebAudioMidiOut.ts:271</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -342,23 +346,23 @@ const synth = new shimi.WebSynth(new AudioContext()).withDefaultChannels();</p>
 <ul></ul></li></ul></div></details></nav>
 <nav class="tsd-navigation secondary menu-sticky">
 <ul>
-<li class="current tsd-kind-class"><a href="WebSynth.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-class)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-128-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-128-text"></path></svg><span>Web<wbr/>Synth</span></a>
+<li class="current tsd-kind-class"><a href="WebAudioMidiOut.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-class)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-128-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-128-text"></path></svg><span>Web<wbr/>Audio<wbr/>Midi<wbr/>Out</span></a>
 <ul>
-<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="WebSynth.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-512-path"></use><use href="#icon-512-text"></use></svg>constructor</a></li>
-<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebSynth.html#audioContext" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>audio<wbr/>Context</a></li>
-<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebSynth.html#finished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>finished</a></li>
-<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebSynth.html#isFinished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>is<wbr/>Finished</a></li>
-<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebSynth.html#notes" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>notes</a></li>
-<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebSynth.html#ref" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>ref</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#addNote" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Note</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#finish" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>finish</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#sendMessage" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>send<wbr/>Message</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#sendRawData" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>send<wbr/>Raw<wbr/>Data</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#stopNotes" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>stop<wbr/>Notes</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#update" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>update</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#withChannel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>with<wbr/>Channel</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#withDefaultChannels" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>with<wbr/>Default<wbr/>Channels</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebSynth.html#withRef" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>with<wbr/>Ref</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="WebAudioMidiOut.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-512-path"></use><use href="#icon-512-text"></use></svg>constructor</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebAudioMidiOut.html#audioContext" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>audio<wbr/>Context</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebAudioMidiOut.html#finished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>finished</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebAudioMidiOut.html#isFinished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>is<wbr/>Finished</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebAudioMidiOut.html#notes" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>notes</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="WebAudioMidiOut.html#ref" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>ref</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#addNote" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Note</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#finish" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>finish</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#sendMessage" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>send<wbr/>Message</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#sendRawData" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>send<wbr/>Raw<wbr/>Data</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#stopNotes" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>stop<wbr/>Notes</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#update" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>update</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#withChannel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>with<wbr/>Channel</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#withDefaultChannels" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>with<wbr/>Default<wbr/>Channels</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="WebAudioMidiOut.html#withRef" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>with<wbr/>Ref</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

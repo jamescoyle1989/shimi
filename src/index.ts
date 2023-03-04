@@ -42,7 +42,7 @@ import TickSender from './TickSender';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 import ToneJSMidiOut from './ToneJSMidiOut';
 import Tween from './Tweens';
-import WebSynth, { WebSynthChannel } from './WebSynth';
+import WebAudioMidiOut, { WebAudioMidiOutChannel } from './WebAudioMidiOut';
 
 export {
     Arpeggiator,
@@ -84,5 +84,5 @@ export {
     TimeSig, TimeSigDivision,
     ToneJSMidiOut,
     Tween,
-    WebSynth, WebSynthChannel
+    WebAudioMidiOut, WebAudioMidiOutChannel
 }

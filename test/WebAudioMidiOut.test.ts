@@ -1,7 +1,7 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import { Note, NoteOffMessage, NoteOnMessage } from '../src';
-import WebSynth, {WebSynthChannel} from '../src/WebSynth';
+import WebAudioMidiOut, {WebAudioMidiOutChannel} from '../src/WebAudioMidiOut';
 
 
 class DummyAudioContext {
@@ -28,10 +28,10 @@ class DummyAudioContext {
 }
 
 
-@suite class WebSynthTests {
+@suite class WebAudioMidiOutTests {
     @test 'addNote adds to note collection'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         expect(synth.notes.length).to.equal(0);
         synth.addNote(new Note(50, 89, 3));
         expect(synth.notes.length).to.equal(1);
@@ -39,34 +39,28 @@ class DummyAudioContext {
 
     @test 'addNote starts a new note sound if the note is on'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note = new Note(70, 38, 2);
         expect(note.on).to.be.true;
-        expect(note['oscillators']).to.be.undefined;
+        expect(note['oscillator']).to.be.undefined;
         synth.addNote(note);
-        expect(note['oscillators']).to.be.not.undefined;
+        expect(note['oscillator']).to.be.not.undefined;
     }
 
     @test 'oscillator stops on update if note is turned off'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note = new Note(57, 89, 8);
         synth.addNote(note);
-        expect(note['oscillators']).to.be.not.undefined;
+        expect(note['oscillator']).to.be.not.undefined;
         note.on = false;
         synth.update(10);
-        expect(note['oscillators']).to.be.undefined;
-    }
-
-    @test 'pitchToFrequency returns correct value'() {
-        const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
-        expect(synth['_pitchToFrequency'](69)).to.equal(440);
+        expect(note['oscillator']).to.be.undefined;
     }
 
     @test 'stopNotes ends notes'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         synth.addNote(new Note(47, 28, 9));
         synth.stopNotes(n => true);
         expect(synth.notes.length).to.equal(0);
@@ -74,9 +68,9 @@ class DummyAudioContext {
 
     @test 'withChannel populates a specific channel'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext);
+        const synth = new WebAudioMidiOut(audioContext);
         expect(synth['_channels'][2]).to.be.null;
-        synth.withChannel(2, new WebSynthChannel(synth.audioContext, 'sawtooth'));
+        synth.withChannel(2, new WebAudioMidiOutChannel(synth.audioContext, 'sawtooth'));
         expect(synth['_channels'][2]).to.be.not.null;
         expect(synth['_channels'][1]).to.be.null;
         expect(synth['_channels'][3]).to.be.null;
@@ -84,43 +78,42 @@ class DummyAudioContext {
 
     @test 'withDefaultChannels populates all channels'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         for (let i = 0; i < 16; i++)
             expect(synth['_channels'][i]).to.be.not.null;
     }
 
     @test 'withDefaultChannels doesnt overwrite already set channels'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext);
-        const channel = new WebSynthChannel(synth.audioContext, 'square');
-        synth.withChannel(5, channel).withDefaultChannels();
-        expect(synth['_channels'][5]).to.equal(channel);
+        const synth = new WebAudioMidiOut(audioContext);
+        synth.withChannel(5, 'square', 1).withDefaultChannels();
+        expect(synth['_channels'][5].gain).to.equal(1);
     }
 
     @test 'when stopping a note, it doesnt matter if another one already started'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note1 = synth.addNote(new Note(60, 80, 1));
         const note2 = synth.addNote(new Note(60, 80, 1));
-        expect(note1['oscillators']).to.be.not.undefined;
-        expect(note2['oscillators']).to.be.not.undefined;
+        expect(note1['oscillator']).to.be.not.undefined;
+        expect(note2['oscillator']).to.be.not.undefined;
         note1.stop();
         synth.update(10);
-        expect(note1['oscillators']).to.be.undefined;
+        expect(note1['oscillator']).to.be.undefined;
     }
 
     @test 'finish stops all active notes'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note = synth.addNote(new Note(60, 80, 1));
-        expect(note['oscillators']).to.be.not.undefined;
+        expect(note['oscillator']).to.be.not.undefined;
         synth.finish();
-        expect(note['oscillators']).to.be.undefined;
+        expect(note['oscillator']).to.be.undefined;
     }
 
     @test 'finish sets isFinished to true'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         expect(synth.isFinished).to.be.false;
         synth.finish();
         expect(synth.isFinished).to.be.true;
@@ -128,7 +121,7 @@ class DummyAudioContext {
 
     @test 'NoteOnMessage creates new note'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         expect(synth.notes.length).to.equal(0);
         synth.sendMessage(new NoteOnMessage(100, 93, 5));
         expect(synth.notes.length).to.equal(1);
@@ -137,7 +130,7 @@ class DummyAudioContext {
 
     @test 'NoteOffMessage stops existing notes'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         synth.sendMessage(new NoteOnMessage(100, 93, 5));
         expect(synth.notes.length).to.equal(1);
         synth.sendMessage(new NoteOffMessage(100, 0, 5));
@@ -146,7 +139,7 @@ class DummyAudioContext {
 
     @test 'sendRawData can create new note'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         synth.sendRawData([0x91, 5, 6]);
         expect(synth.notes.length).to.equal(1);
         expect(synth.notes[0].channel).to.equal(1);
@@ -156,7 +149,7 @@ class DummyAudioContext {
 
     @test 'sendRawData keeps track of running state'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         synth.sendRawData([0x91, 5, 6]);
         synth.sendRawData([7, 8]);
         expect(synth.notes.length).to.equal(2);
@@ -170,13 +163,13 @@ class DummyAudioContext {
 
     @test 'withRef sets ref value'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels().withRef('Testy test');
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels().withRef('Testy test');
         expect(synth.ref).to.equal('Testy test');
     }
 
     @test 'stopNotes ends all notes if no filter provided'() {
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         synth.addNote(new Note(20, 20, 0));
         synth.addNote(new Note(30, 30, 1));
         synth.addNote(new Note(40, 40, 2));
@@ -188,7 +181,7 @@ class DummyAudioContext {
     @test 'finished event gets fired'() {
         //Setup
         const audioContext: any = new DummyAudioContext();
-        const synth = new WebSynth(audioContext).withDefaultChannels();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         let testVar = 0;
         synth.finished.add(() => testVar = 3);
 

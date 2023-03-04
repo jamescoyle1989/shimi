@@ -5,35 +5,24 @@ import { IMidiMessage } from './MidiMessages';
 import { IMidiOut } from './MidiOut';
 import Note from './Note';
 import * as messages from './MidiMessages';
+import { toHertz } from './utils';
 
-
-/** 
- * IWebSynthChannel defines an interface for how to play notes on a specific channel of the WebSynth.
- * 
- * @category Midi IO
- */
-export interface IWebSynthChannel {
-    /**
-     * This method gets called whenever a new note is to be played on one of the WebSynth's channels.
-     * 
-     * It is expected to return an array of one or more osciallators for each note to be played on the channel.
-     * @param note This is the note that is due to begin being played.
-     * @param frequency This is the frequency of the note being played.
-     */
-    createOscillators(note: Note, frequency: number): Array<OscillatorNode>;
-}
 
 /**
- * The default implementation of IWebSynthChannel. This allows for creation of simple sine, square, triangle & sawtooth waves.
+ * Represents a single channel within the WebAudioMidiOut. This allows for creation of simple sine, square, triangle & sawtooth waves.
  * 
  * @category Midi IO
  */
-export class WebSynthChannel {
+export class WebAudioMidiOutChannel {
     /** The AudioContext instance which the synth channel is operating within. */
     audioContext: AudioContext;
 
     /** The GainNode used for setting the loudness of notes. */
-    gain: GainNode;
+    private _gainNode: GainNode;
+
+    /** The numeric value of the amount of gain being applied to each note. */
+    get gain(): number { return this._gainNode.gain.value; }
+    set gain(value: number) { this._gainNode.gain.value = value; }
 
     /** The type of waveform being produced, valid values are: 'sine', 'square', 'triangle', or 'sawtooth'. */
     type: any;
@@ -41,46 +30,47 @@ export class WebSynthChannel {
     /**
      * @param audioContext The AudioContext instance which the synth channel is operating within.
      * @param type The type of waveform being produced, valid values are: 'sine', 'square', 'triangle', or 'sawtooth'.
+     * @param gain The amount of gain to be applied to the waveform. Default value is 0.1.
      */
-    constructor(audioContext: AudioContext, type: any) {
+    constructor(audioContext: AudioContext, type: any, gain: number = 0.1) {
         this.audioContext = audioContext;
         this.type = type;
-        this.gain = audioContext.createGain();
-        this.gain.gain.value = 0.1;
-        this.gain.connect(this.audioContext.destination);
+        this._gainNode = audioContext.createGain();
+        this._gainNode.gain.value = gain;
+        this._gainNode.connect(this.audioContext.destination);
     }
 
     /**
      * This method gets called whenever a new note is to be played on the synth channel.
      * 
-     * It returns an array containing a single OscillatorNode instance.
+     * It returns a new OscillatorNode instance.
      * @param note This is the note that is due to begin being played.
      * @param frequency This is the frequency of the note being played.
      */
-    createOscillators(note: Note, frequency: number): Array<OscillatorNode> {
+    createOscillator(frequency: number): OscillatorNode {
         const oscillator = this.audioContext.createOscillator();
         oscillator.type = this.type;
-        oscillator.connect(this.gain);
+        oscillator.connect(this._gainNode);
         oscillator.frequency.value = frequency;
         oscillator.start();
-        return [oscillator];
+        return oscillator;
     };
 }
 
 
 /** 
- * The WebSynth class is a very simple synthesizer implementation, built on top of the Web Audio API. In its current form, it is not intended to be used for producing particularly rich, musical sounds, but instead just as a way to be able to easily get some sound out from shimi without having to rely on an external device or piece of software for playback.
+ * The WebAudioMidiOut class is a very simple synthesizer implementation, built on top of the Web Audio API. It is intended to primarily be a quick and dirty way to get some sound out through the web browser. For more advanced sound generation, use either the ToneJSMidiOut for in-browser sounds, or MidiOut for working with external instruments.
  * 
- * The WebSynth class implements the IMidiOut interface, so that you can very easily swap out the WebSynth for external devices as and when needed.
+ * The WebAudioMidiOut class implements the IMidiOut interface, so that you can very easily swap out the WebAudioMidiOut for external devices as and when needed.
  * 
  * @category Midi IO
  */
-export default class WebSynth implements IMidiOut, IClockChild {
+export default class WebAudioMidiOut implements IMidiOut, IClockChild {
     private _audioContext: AudioContext;
-    /** The AudioContext instance which the WebSynth is operating within. */
+    /** The AudioContext instance which the WebAudioMidiOut is operating within. */
     get audioContext() { return this._audioContext; }
     
-    private _channels: Array<IWebSynthChannel> = [
+    private _channels: Array<WebAudioMidiOutChannel> = [
         null,null,null,null,
         null,null,null,null,
         null,null,null,null,
@@ -88,37 +78,38 @@ export default class WebSynth implements IMidiOut, IClockChild {
     ];
 
     /**
-     * @param audioContext The AudioContext instance which the WebSynth is operating within.
-     * Example: `new shimi.WebSynth(new AudioContext());`
+     * @param audioContext The AudioContext instance which the WebAudioMidiOut is operating within.
+     * Example: `new shimi.WebAudioMidiOut(new AudioContext());`
      */
     constructor(audioContext: AudioContext) {
         this._audioContext = audioContext;
     }
 
     /**
-     * Define an IWebSynthChannel object to use for a specific MIDI channel number.
+     * Define what sound to use for a specific MIDI channel number.
      * @param channelNumber The channel being defined, valid values range from 0 - 15.
-     * @param channelImplementation The implementation of IWebSynthChannel to apply to the specified channel number.
-     * @returns Returns the WebSynth instance, to allow for chaining of operations.
+     * @param type The type of waveform being produced, valid values are: 'sine', 'square', 'triangle', or 'sawtooth'.
+     * @param gain The amount of gain to be applied to the waveform. Default value is 0.1.
+     * @returns Returns the WebAudioMidiOut instance, to allow for chaining of operations.
      */
-    withChannel(channelNumber: number, channelImplementation: IWebSynthChannel): WebSynth {
-        this._channels[channelNumber] = channelImplementation;
+    withChannel(channelNumber: number, type: any, gain: number = 0.1): WebAudioMidiOut {
+        this._channels[channelNumber] = new WebAudioMidiOutChannel(this._audioContext, type, gain);
         return this;
     }
 
     /**
-     * Defines all undefined channels with instances of WebSynthChannel.
+     * Automatically sets up all undefined channels with default sounds.
      * It cycles through defining each channel with sine, square, sawtooth & triangle wave in turn, so that channels, 0, 4, 8 & 12 would be sine, 1, 5, 9 & 13 would be square, etc.
      * 
      * Example usage:
-     * const synth = new shimi.WebSynth(new AudioContext()).withDefaultChannels();
-     * @returns Returns the WebSynth instance, to allow for chaining of operations.
+     * const synth = new shimi.WebAudioMidiOut(new AudioContext()).withDefaultChannels();
+     * @returns Returns the WebAudioMidiOut instance, to allow for chaining of operations.
      */
-    withDefaultChannels(): WebSynth {
+    withDefaultChannels(): WebAudioMidiOut {
         const types = ['sine', 'square', 'sawtooth', 'triangle'];
         for (let i = 0; i < 16; i++) {
             if (!this._channels[i])
-                this._channels[i] = new WebSynthChannel(this.audioContext, types[i % 4]);
+                this._channels[i] = new WebAudioMidiOutChannel(this.audioContext, types[i % 4]);
         }
         return this;
     }
@@ -129,16 +120,16 @@ export default class WebSynth implements IMidiOut, IClockChild {
     /**
      * The notes collection consists of notes which have been started, but not ended yet.
      * 
-     * The WebSynth will cycle through this collection on each update, checking to see if it needs to stop the playback of any notes.
+     * The WebAudioMidiOut will cycle through this collection on each update, checking to see if it needs to stop the playback of any notes.
      */
     get notes(): Array<Note> { return this._notes; }
     private _notes: Array<Note> = [];
 
     /**
-     * Adds a new note to the WebSynth's collection, returning the note that was added.
+     * Adds a new note to the WebAudioMidiOut's collection, returning the note that was added.
      * 
-     * If `note.on == true`, then the the WebSynth immediately starts up new oscillators for it.
-     * @param note The note to add to the WebSynth.
+     * If `note.on == true`, then the the WebAudioMidiOut immediately starts up new oscillators for it.
+     * @param note The note to add to the WebAudioMidiOut.
      * @returns 
      */
     addNote(note: Note): Note {
@@ -151,15 +142,14 @@ export default class WebSynth implements IMidiOut, IClockChild {
     }
 
     /**
-     * Calls the stop() method of all notes which have been added to the WebSynth that meet the passed in criteria.
+     * Calls the stop() method of all notes which have been added to the WebAudioMidiOut that meet the passed in criteria.
      * @param filter The criteria for determining which notes need to be stopped. If no filter provided, then all notes are stopped.
      */
     stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
             if (!filter || filter(n)) {
-                for (const osc of n['oscillators'])
-                    osc.stop();
-                delete n['oscillators'];
+                n['oscillator'].stop();
+                delete n['oscillator'];
                 n.stop();
             }
         }
@@ -185,7 +175,7 @@ export default class WebSynth implements IMidiOut, IClockChild {
     private _previousStatus: number = null;
 
     /**
-     * Receives a byte-array representation of a MIDI message. The method interprets the message into an IMidiMessage object, and calls the `WebSynth.sendMessage` method with it.
+     * Receives a byte-array representation of a MIDI message. The method interprets the message into an IMidiMessage object, and calls the `WebAudioMidiOut.sendMessage` method with it.
      * @param data An array of the data to be sent to the synth.
      */
     sendRawData(data: number[]): void {
@@ -224,16 +214,16 @@ export default class WebSynth implements IMidiOut, IClockChild {
 
     //IClockChild implementation start
 
-    /** Provides a way of identifying WebSynth so it can be easily retrieved later */
+    /** Provides a way of identifying a WebAudioMidiOut so it can be easily retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
     private _ref: string;
 
-    /** Returns true if the WebSynth has been instructed to stop everything by the `finish()` method. */
+    /** Returns true if the WebAudioMidiOut has been instructed to stop everything by the `finish()` method. */
     get isFinished(): boolean { return this._isFinished; }
     private _isFinished: boolean = false;
 
-    /** This event fires when the WebSynth finishes. */
+    /** This event fires when the WebAudioMidiOut finishes. */
     get finished(): ClockChildFinishedEvent { return this._finished; }
     private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
@@ -249,9 +239,8 @@ export default class WebSynth implements IMidiOut, IClockChild {
             const note = this._notes[i];
             if (!note.on) {
                 if (note.onTracker.isDirty) {
-                    for (const osc of note['oscillators'])
-                        osc.stop();
-                    delete note['oscillators'];
+                    note['oscillator'].stop();
+                    delete note['oscillator'];
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;
@@ -262,7 +251,7 @@ export default class WebSynth implements IMidiOut, IClockChild {
             this._notes = this._notes.filter(n => n.on);
     }
 
-    /** Calling this tells the WebSynth to stop whatever it's doing and that it will no longer be used. */
+    /** Calling this tells the WebAudioMidiOut to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this.stopNotes(n => true);
         this._isFinished = true;
@@ -273,7 +262,7 @@ export default class WebSynth implements IMidiOut, IClockChild {
      * Provides a way for setting the ref through a chained function call. For example:
      * 
      * ```
-     * clock.addChild(new WebSynth(context).withDefaultChannels().withRef('output'));
+     * clock.addChild(new WebAudioMidiOut(context).withDefaultChannels().withRef('output'));
      * ```
      * 
      * @param ref The ref to set on the object.
@@ -286,13 +275,8 @@ export default class WebSynth implements IMidiOut, IClockChild {
 
     //IClockChild implementation end
 
-
-    private _pitchToFrequency(pitch: number) {
-        return Math.pow(2, ((pitch - 69) / 12)) * 440;
-    }
-
     private _createOscillator(note: Note) {
         const channel = this._channels[note.channel];
-        note['oscillators'] = channel.createOscillators(note, this._pitchToFrequency(note.pitch));
+        note['oscillator'] = channel.createOscillator(toHertz(note.pitch));
     }
 }
