@@ -205,4 +205,95 @@ import { Tween } from '../src';
         expect(tween.update(0.75)).to.equal(0);
         expect(tween.update(1)).to.equal(10);
     }
+
+    @test 'LinearTween serializes properly'() {
+        const tween = Tween.linear(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"Linear","from":10,"to":20}');
+    }
+
+    @test 'MultiTween serializes properly'() {
+        const tween = Tween.linear(10, 20)
+            .then(Tween.linear(20, 0), 2);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"Multi","children":[{"type":"Linear","from":10,"to":20,"weight":1},{"type":"Linear","from":20,"to":0,"weight":2}]}');
+    }
+
+    @test 'SineInOutTween serializes properly'() {
+        const tween = Tween.sineInOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"SineInOut","from":10,"to":20}');
+    }
+
+    @test 'SineInTween serializes properly'() {
+        const tween = Tween.sineIn(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"SineIn","from":10,"to":20}');
+    }
+
+    @test 'SineOutTween serializes properly'() {
+        const tween = Tween.sineOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"SineOut","from":10,"to":20}');
+    }
+
+    @test 'StepsTween serializes properly'() {
+        const tween = Tween.steps(10, 20, 5);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"Steps","from":10,"to":20,"steps":5}');
+    }
+
+    @test 'QuadraticInOutTween serializes properly'() {
+        const tween = Tween.quadraticInOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"QuadraticInOut","from":10,"to":20}');
+    }
+
+    @test 'QuadraticInTween serializes properly'() {
+        const tween = Tween.quadraticIn(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"QuadraticIn","from":10,"to":20}');
+    }
+
+    @test 'QuadraticOutTween serializes properly'() {
+        const tween = Tween.quadraticOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"QuadraticOut","from":10,"to":20}');
+    }
+
+    @test 'CubicInOutTween serializes properly'() {
+        const tween = Tween.cubicInOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"CubicInOut","from":10,"to":20}');
+    }
+
+    @test 'CubicInTween serializes properly'() {
+        const tween = Tween.cubicIn(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"CubicIn","from":10,"to":20}');
+    }
+
+    @test 'CubicOutTween serializes properly'() {
+        const tween = Tween.cubicOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"CubicOut","from":10,"to":20}');
+    }
+
+    @test 'QuarticInOutTween serializes properly'() {
+        const tween = Tween.quarticInOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"QuarticInOut","from":10,"to":20}');
+    }
+
+    @test 'QuarticInTween serializes properly'() {
+        const tween = Tween.quarticIn(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"QuarticIn","from":10,"to":20}');
+    }
+
+    @test 'QuarticOutTween serializes properly'() {
+        const tween = Tween.quarticOut(10, 20);
+        const json = JSON.stringify(tween);
+        expect(json).to.equal('{"type":"QuarticOut","from":10,"to":20}');
+    }
 }

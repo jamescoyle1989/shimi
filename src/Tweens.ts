@@ -27,6 +27,9 @@ export interface ITween {
      * @param weight Weighting to determine how much of the tweening time that the new tween gets.
      */
     then(tween: ITween, weight?: number): ITween;
+
+    /** Used by the library for the custom serialization of tween objects */
+    toJSON(): any;
 }
 
 
@@ -78,6 +81,14 @@ export class LinearTween implements ITween {
      then(tween: ITween, weight: number = 1): ITween {
         return new MultiTween(this).then(tween, weight);
      }
+
+     toJSON() {
+        return {
+            type: 'Linear',
+            from: this.from,
+            to: this.to
+        };
+     }
 }
 
 
@@ -128,6 +139,17 @@ export class MultiTween implements ITween {
         this._children.push({tween, weight});
         return this;
     }
+
+    toJSON() {
+        return {
+            type: 'Multi',
+            children: this._children.map(x => {
+                const childOut = x.tween.toJSON();
+                childOut.weight = x.weight;
+                return childOut;
+            })
+        };
+    }
 }
 
 
@@ -152,6 +174,14 @@ export class SineInOutTween extends LinearTween {
      */
     tweenEquation(percent: number): number {
         return -(Math.cos(Math.PI * percent) - 1) / 2;
+    }
+
+    toJSON() {
+        return {
+            type: 'SineInOut',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 
@@ -178,6 +208,14 @@ export class SineInTween extends LinearTween {
     tweenEquation(percent: number): number {
         return 1 - Math.cos((percent * Math.PI) / 2);
     }
+
+    toJSON() {
+        return {
+            type: 'SineIn',
+            from: this.from,
+            to: this.to
+        };
+    }
 }
 
 
@@ -202,6 +240,14 @@ export class SineOutTween extends LinearTween {
      */
     tweenEquation(percent: number): number {
         return Math.sin((percent * Math.PI) / 2);
+    }
+
+    toJSON() {
+        return {
+            type: 'SineOut',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 
@@ -240,6 +286,15 @@ export class StepsTween extends LinearTween {
         
         return Math.floor(percent * (this.steps + 1)) / this.steps;
     }
+
+    toJSON() {
+        return {
+            type: 'Steps',
+            from: this.from,
+            to: this.to,
+            steps: this.steps
+        };
+    }
 }
 
 
@@ -270,6 +325,14 @@ export class QuadraticInOutTween extends LinearTween {
             return 1 - (2 * inversePercent * inversePercent);
         }
     }
+
+    toJSON() {
+        return {
+            type: 'QuadraticInOut',
+            from: this.from,
+            to: this.to
+        };
+    }
 }
 
 
@@ -294,6 +357,14 @@ export class QuadraticInTween extends LinearTween {
      */
     tweenEquation(percent: number): number {
         return percent * percent;
+    }
+
+    toJSON() {
+        return {
+            type: 'QuadraticIn',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 
@@ -320,6 +391,14 @@ export class QuadraticOutTween extends LinearTween {
     tweenEquation(percent: number): number {
         const inversePercent = 1 - percent;
         return 1 - (inversePercent * inversePercent);
+    }
+
+    toJSON() {
+        return {
+            type: 'QuadraticOut',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 
@@ -353,6 +432,14 @@ export class CubicInOutTween extends LinearTween {
             return 1 - (Math.pow(percent, 3) / 2);
         }
     }
+
+    toJSON() {
+        return {
+            type: 'CubicInOut',
+            from: this.from,
+            to: this.to
+        };
+    }
 }
 
 
@@ -377,6 +464,14 @@ export class CubicInTween extends LinearTween {
      */
     tweenEquation(percent: number): number {
         return Math.pow(percent, 3);
+    }
+
+    toJSON() {
+        return {
+            type: 'CubicIn',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 
@@ -403,6 +498,14 @@ export class CubicOutTween extends LinearTween {
     tweenEquation(percent: number): number {
         const inversePercent = 1 - percent;
         return 1 - Math.pow(inversePercent, 3);
+    }
+
+    toJSON() {
+        return {
+            type: 'CubicOut',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 
@@ -436,6 +539,14 @@ export class QuarticInOutTween extends LinearTween {
             return 1 - (Math.pow(percent, 4) / 2);
         }
     }
+
+    toJSON() {
+        return {
+            type: 'QuarticInOut',
+            from: this.from,
+            to: this.to
+        };
+    }
 }
 
 
@@ -460,6 +571,14 @@ export class QuarticInTween extends LinearTween {
      */
     tweenEquation(percent: number): number {
         return Math.pow(percent, 4);
+    }
+
+    toJSON() {
+        return {
+            type: 'QuarticIn',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 
@@ -486,6 +605,14 @@ export class QuarticOutTween extends LinearTween {
     tweenEquation(percent: number): number {
         const inversePercent = 1 - percent;
         return 1 - Math.pow(inversePercent, 4);
+    }
+
+    toJSON() {
+        return {
+            type: 'QuarticOut',
+            from: this.from,
+            to: this.to
+        };
     }
 }
 

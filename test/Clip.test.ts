@@ -488,4 +488,10 @@ import Tween from '../src/Tweens';
         const json = JSON.stringify(clip);
         expect(json).to.equal('{"start":0,"duration":4,"notes":[],"controlChanges":[],"bends":[{"start":2,"duration":1,"percent":0.5}]}');
     }
+
+    @test 'ClipBend serializes properly to JSON with tween'() {
+        const clipBend = new ClipBend(1, 2, Tween.linear(0, 1));
+        const json = JSON.stringify(clipBend);
+        expect(json).to.equal('{"start":1,"duration":2,"percent":{"type":"Linear","from":0,"to":1}}');
+    }
 }
