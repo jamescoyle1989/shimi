@@ -78,6 +78,20 @@ export class ClipNote extends Range {
             this.ref
         );
     }
+
+    toJSON() {
+        const output: any = {
+            start: this.start,
+            duration: this.duration,
+            pitch: this.pitch,
+            velocity: this.velocity
+        };
+        if (!!this.channel)
+            output.channel = this.channel;
+        if (!!this.ref)
+            output.ref = this.ref;
+        return output;
+    }
 }
 
 
@@ -126,6 +140,18 @@ export class ClipCC extends Range {
         this.value = value;
         this.channel = channel;
     }
+
+    toJSON() {
+        const output: any = {
+            start: this.start,
+            duration: this.duration,
+            controller: this.controller,
+            value: this.value
+        };
+        if (!!this.channel)
+            output.channel = this.channel;
+        return output;
+    }
 }
 
 
@@ -167,6 +193,17 @@ export class ClipBend extends Range {
         super(start, duration);
         this.percent = percent;
         this.channel = channel;
+    }
+
+    toJSON() {
+        const output: any = {
+            start: this.start,
+            duration: this.duration,
+            percent: this.percent
+        };
+        if (!!this.channel)
+            output.channel = this.channel;
+        return output;
     }
 }
 
@@ -436,5 +473,15 @@ export class Clip extends Range {
             return array.filter(x => Math.min(end, x.end) >= Math.max(start, x.start));
         else
             return array.filter(x => x.end >= start || x.start <= end);
+    }
+
+    toJSON() {
+        return {
+            start: this.start,
+            duration: this.duration,
+            notes: this.notes,
+            controlChanges: this.controlChanges,
+            bends: this.bends
+        };
     }
 }

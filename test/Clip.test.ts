@@ -425,4 +425,67 @@ import Tween from '../src/Tweens';
         const note = clipNote.createNote(1, 0);
         expect(note.ref).to.equal('hello');
     }
+
+    @test 'Clip serializes properly to json'() {
+        const clip = new Clip(4);
+        const json = JSON.stringify(clip);
+        expect(json).to.equal('{"start":0,"duration":4,"notes":[],"controlChanges":[],"bends":[]}');
+    }
+
+    @test 'ClipNote serializes properly to json'() {
+        const clipNote = new ClipNote(2, 1, 63, 80, 4, 'Test');
+        const json = JSON.stringify(clipNote);
+        expect(json).to.equal('{"start":2,"duration":1,"pitch":63,"velocity":80,"channel":4,"ref":"Test"}');
+    }
+
+    @test 'ClipNote serialization ignores channel and ref if theyre not set'() {
+        const clipNote = new ClipNote(2, 1, 63, 80);
+        const json = JSON.stringify(clipNote);
+        expect(json).to.equal('{"start":2,"duration":1,"pitch":63,"velocity":80}');
+    }
+
+    @test 'ClipCC serializes properly to json'() {
+        const clipCC = new ClipCC(2, 1, 30, 60, 5);
+        const json = JSON.stringify(clipCC);
+        expect(json).to.equal('{"start":2,"duration":1,"controller":30,"value":60,"channel":5}');
+    }
+
+    @test 'ClipCC serialization ignores channel if its not set'() {
+        const clipCC = new ClipCC(2, 1, 30, 60);
+        const json = JSON.stringify(clipCC);
+        expect(json).to.equal('{"start":2,"duration":1,"controller":30,"value":60}');
+    }
+
+    @test 'ClipBend serializes properly to json'() {
+        const clipBend = new ClipBend(2, 1, 0.5, 3);
+        const json = JSON.stringify(clipBend);
+        expect(json).to.equal('{"start":2,"duration":1,"percent":0.5,"channel":3}');
+    }
+
+    @test 'ClipBend serialization ignores channel if its not set'() {
+        const clipBend = new ClipBend(2, 1, 0.5);
+        const json = JSON.stringify(clipBend);
+        expect(json).to.equal('{"start":2,"duration":1,"percent":0.5}');
+    }
+
+    @test 'Clip serialization includes clip notes'() {
+        const clip = new Clip(4)
+            .addNote(2, 1, 63, 80);
+        const json = JSON.stringify(clip);
+        expect(json).to.equal('{"start":0,"duration":4,"notes":[{"start":2,"duration":1,"pitch":63,"velocity":80}],"controlChanges":[],"bends":[]}');
+    }
+
+    @test 'Clip serialization includes control changes'() {
+        const clip = new Clip(4)
+            .addCC(2, 1, 30, 60);
+        const json = JSON.stringify(clip);
+        expect(json).to.equal('{"start":0,"duration":4,"notes":[],"controlChanges":[{"start":2,"duration":1,"controller":30,"value":60}],"bends":[]}');
+    }
+
+    @test 'Clip serialization includes bends'() {
+        const clip = new Clip(4)
+            .addBend(2, 1, 0.5);
+        const json = JSON.stringify(clip);
+        expect(json).to.equal('{"start":0,"duration":4,"notes":[],"controlChanges":[],"bends":[{"start":2,"duration":1,"percent":0.5}]}');
+    }
 }
