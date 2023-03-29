@@ -1,6 +1,12 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { Tween } from '../src';
+import Tween, { 
+    LinearTween, MultiTween, StepsTween,
+    SineInOutTween, SineInTween, SineOutTween,
+    QuadraticInOutTween, QuadraticInTween, QuadraticOutTween,
+    CubicInOutTween, CubicInTween, CubicOutTween,
+    QuarticInOutTween, QuarticInTween, QuarticOutTween 
+} from '../src/Tweens';
 
 
 @suite class TweenTests {
@@ -295,5 +301,124 @@ import { Tween } from '../src';
         const tween = Tween.quarticOut(10, 20);
         const json = JSON.stringify(tween);
         expect(json).to.equal('{"type":"QuarticOut","from":10,"to":20}');
+    }
+
+    @test 'Tween.load loads LinearTween'() {
+        const tween = Tween.load({"type":"Linear","from":10,"to":20});
+        expect(tween).to.be.instanceOf(LinearTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads MultiTween'() {
+        const tween = Tween.load({"type":"Multi","children":[{"type":"Linear","from":10,"to":20,"weight":1},{"type":"Linear","from":20,"to":0,"weight":2}]});
+        expect(tween).to.be.instanceOf(MultiTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(0);
+        const multiTween = (tween as any) as MultiTween;
+        expect(multiTween['_children'][0].weight).to.equal(1);
+        expect(multiTween['_children'][0].tween).to.be.instanceOf(LinearTween);
+        expect(multiTween['_children'][0].tween.from).to.equal(10);
+        expect(multiTween['_children'][0].tween.to).to.equal(20);
+        expect(multiTween['_children'][1].weight).to.equal(2);
+        expect(multiTween['_children'][1].tween).to.be.instanceOf(LinearTween);
+        expect(multiTween['_children'][1].tween.from).to.equal(20);
+        expect(multiTween['_children'][1].tween.to).to.equal(0);
+    }
+
+    @test 'Tween.load loads StepsTween'() {
+        const tween = Tween.load({"type":"Steps","from":10,"to":20,"steps":5});
+        expect(tween).to.be.instanceOf(StepsTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+        expect((tween as StepsTween).steps).to.equal(5);
+    }
+
+    @test 'Tween.load loads SineInOutTween'() {
+        const tween = Tween.load({"type":"SineInOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(SineInOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads SineInTween'() {
+        const tween = Tween.load({"type":"SineIn","from":10,"to":20});
+        expect(tween).to.be.instanceOf(SineInTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads SineOutTween'() {
+        const tween = Tween.load({"type":"SineOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(SineOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads QuadraticInOutTween'() {
+        const tween = Tween.load({"type":"QuadraticInOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(QuadraticInOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads QuadraticInTween'() {
+        const tween = Tween.load({"type":"QuadraticIn","from":10,"to":20});
+        expect(tween).to.be.instanceOf(QuadraticInTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads QuadraticOutTween'() {
+        const tween = Tween.load({"type":"QuadraticOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(QuadraticOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads CubicInOutTween'() {
+        const tween = Tween.load({"type":"CubicInOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(CubicInOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads CubicInTween'() {
+        const tween = Tween.load({"type":"CubicIn","from":10,"to":20});
+        expect(tween).to.be.instanceOf(CubicInTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads CubicOutTween'() {
+        const tween = Tween.load({"type":"CubicOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(CubicOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads QuarticInOutTween'() {
+        const tween = Tween.load({"type":"QuarticInOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(QuarticInOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads QuarticInTween'() {
+        const tween = Tween.load({"type":"QuarticIn","from":10,"to":20});
+        expect(tween).to.be.instanceOf(QuarticInTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load loads QuarticOutTween'() {
+        const tween = Tween.load({"type":"QuarticOut","from":10,"to":20});
+        expect(tween).to.be.instanceOf(QuarticOutTween);
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'Tween.load throws error if unrecognised tween type'() {
+        expect(() => Tween.load({"type":"Pogo","from":10,"to":20})).to.throw();
     }
 }

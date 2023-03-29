@@ -103,8 +103,8 @@ export class MultiTween implements ITween {
     /**
      * @param firstChild The first tween in the chain.
      */
-    constructor(firstChild: ITween) {
-        this._children.push({tween: firstChild, weight: 1});
+    constructor(firstChild: ITween, weight: number = 1) {
+        this._children.push({tween: firstChild, weight});
     }
 
     /** The value to start the tween from. */
@@ -761,5 +761,40 @@ export default class Tween {
      */
     static quarticOut(from: number, to: number): QuarticOutTween {
         return new QuarticOutTween(from, to);
+    }
+
+    static load(tweenData: any) {
+        const type = tweenData.type;
+        if (type == 'Multi') {
+            const children = tweenData.children.map(x => ({
+                tween: Tween.load(x),
+                weight: x.weight
+            }));
+            const tween = new MultiTween(children[0].tween, children[0].weight);
+            for (let i = 1; i < children.length; i++)
+                tween.then(children[i].tween, children[i].weight);
+            return tween;
+        }
+
+        const from = tweenData.from;
+        const to = tweenData.to;
+        switch (type) {
+            case 'Linear': return Tween.linear(from, to);
+            case 'SineInOut': return Tween.sineInOut(from, to);
+            case 'SineIn': return Tween.sineIn(from, to);
+            case 'SineOut': return Tween.sineOut(from, to);
+            case 'Steps': return Tween.steps(from, to, tweenData.steps);
+            case 'QuadraticInOut': return Tween.quadraticInOut(from, to);
+            case 'QuadraticIn': return Tween.quadraticIn(from, to);
+            case 'QuadraticOut': return Tween.quadraticOut(from, to);
+            case 'CubicInOut': return Tween.cubicInOut(from, to);
+            case 'CubicIn': return Tween.cubicIn(from, to);
+            case 'CubicOut': return Tween.cubicOut(from, to);
+            case 'QuarticInOut': return Tween.quarticInOut(from, to);
+            case 'QuarticIn': return Tween.quarticIn(from, to);
+            case 'QuarticOut': return Tween.quarticOut(from, to);
+        }
+
+        throw new Error('Unrecognised tween type: ' + type);
     }
 }
