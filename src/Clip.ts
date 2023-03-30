@@ -2,7 +2,7 @@
 
 import Range from './Range';
 import Note from './Note';
-import { ITween } from './Tweens';
+import Tween, { ITween } from './Tweens';
 import { sum } from './IterationUtils';
 import { parsePitch } from './utils';
 
@@ -92,6 +92,21 @@ export class ClipNote extends Range {
             output.ref = this.ref;
         return output;
     }
+
+    static load(clipNoteData: any): ClipNote {
+        const velocity = (typeof(clipNoteData.velocity) === 'number')
+            ? clipNoteData.velocity
+            : Tween.load(clipNoteData.velocity);
+
+        return new ClipNote(
+            clipNoteData.start,
+            clipNoteData.duration,
+            clipNoteData.pitch,
+            velocity,
+            clipNoteData.channel,
+            clipNoteData.ref
+        );
+    }
 }
 
 
@@ -152,6 +167,20 @@ export class ClipCC extends Range {
             output.channel = this.channel;
         return output;
     }
+
+    static load(clipCCData: any): ClipCC {
+        const value = (typeof(clipCCData.value) === 'number')
+            ? clipCCData.value
+            : Tween.load(clipCCData.value);
+        
+        return new ClipCC(
+            clipCCData.start,
+            clipCCData.duration,
+            clipCCData.controller,
+            value,
+            clipCCData.channel
+        );
+    }
 }
 
 
@@ -204,6 +233,19 @@ export class ClipBend extends Range {
         if (!!this.channel)
             output.channel = this.channel;
         return output;
+    }
+
+    static load(clipBendData: any): ClipBend {
+        const percent = (typeof(clipBendData.percent) === 'number')
+            ? clipBendData.percent
+            : Tween.load(clipBendData.percent);
+        
+        return new ClipBend(
+            clipBendData.start,
+            clipBendData.duration,
+            percent,
+            clipBendData.channel
+        );
     }
 }
 
@@ -483,5 +525,14 @@ export class Clip extends Range {
             controlChanges: this.controlChanges,
             bends: this.bends
         };
+    }
+
+    static load(clipData: any): Clip {
+        const output = new Clip(clipData.duration);
+        output.start = clipData.start;
+        output.notes.push(...clipData.notes.map(x => ClipNote.load(x)));
+        output.controlChanges.push(...clipData.controlChanges.map(x => ClipCC.load(x)));
+        output.bends.push(...clipData.bends.map(x => ClipBend.load(x)));
+        return output;
     }
 }

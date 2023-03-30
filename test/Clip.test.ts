@@ -1,7 +1,7 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import { Clip, ClipCC, ClipBend, ClipNote } from '../src/Clip';
-import Tween from '../src/Tweens';
+import Tween, { LinearTween } from '../src/Tweens';
 
 
 @suite class ClipTests {
@@ -493,5 +493,65 @@ import Tween from '../src/Tweens';
         const clipBend = new ClipBend(1, 2, Tween.linear(0, 1));
         const json = JSON.stringify(clipBend);
         expect(json).to.equal('{"start":1,"duration":2,"percent":{"type":"Linear","from":0,"to":1}}');
+    }
+
+    @test 'Clip.load loads clip data'() {
+        const clip = Clip.load({"start":0,"duration":4,"notes":[{"start":2,"duration":1,"pitch":63,"velocity":80}],"controlChanges":[{"start":2,"duration":1,"controller":30,"value":60}],"bends":[{"start":2,"duration":1,"percent":0.5}]});
+        expect(clip.start).to.equal(0);
+        expect(clip.duration).to.equal(4);
+        expect(clip.notes.length).to.equal(1);
+        expect(clip.controlChanges.length).to.equal(1);
+        expect(clip.bends.length).to.equal(1);
+    }
+
+    @test 'ClipNote.load loads clip note data'() {
+        const clipNote = ClipNote.load({"start":2,"duration":1,"pitch":63,"velocity":80});
+        expect(clipNote.start).to.equal(2);
+        expect(clipNote.duration).to.equal(1);
+        expect(clipNote.pitch).to.equal(63);
+        expect(clipNote.velocity).to.equal(80);
+        expect(clipNote.channel).to.be.null;
+        expect(clipNote.ref).to.be.null;
+    }
+
+    @test 'ClipCC.load loads clip CC data'() {
+        const clipCC = ClipCC.load({"start":2,"duration":1,"controller":30,"value":60});
+        expect(clipCC.start).to.equal(2);
+        expect(clipCC.duration).to.equal(1);
+        expect(clipCC.controller).to.equal(30);
+        expect(clipCC.value).to.equal(60);
+        expect(clipCC.channel).to.be.null;
+    }
+
+    @test 'ClipBend.load loads clip bend data'() {
+        const clipBend = ClipBend.load({"start":2,"duration":1,"percent":0.5});
+        expect(clipBend.start).to.equal(2);
+        expect(clipBend.duration).to.equal(1);
+        expect(clipBend.percent).to.equal(0.5);
+        expect(clipBend.channel).to.be.null;
+    }
+
+    @test 'ClipNote.load can handle velocity tweens'() {
+        const clipNote = ClipNote.load({"start":2,"duration":1,"pitch":63,"velocity":{"type":"Linear","from":10,"to":20}});
+        expect(clipNote.velocity).to.be.instanceOf(LinearTween);
+        const tween = clipNote.velocity as LinearTween;
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'ClipCC.load can handle value tweens'() {
+        const clipCC = ClipCC.load({"start":2,"duration":1,"controller":30,"value":{"type":"Linear","from":10,"to":20}});
+        expect(clipCC.value).to.be.instanceOf(LinearTween);
+        const tween = clipCC.value as LinearTween;
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
+    }
+
+    @test 'clipBend.load can handle percent tweens'() {
+        const clipBend = ClipBend.load({"start":2,"duration":1,"percent":{"type":"Linear","from":10,"to":20}});
+        expect(clipBend.percent).to.be.instanceOf(LinearTween);
+        const tween = clipBend.percent as LinearTween;
+        expect(tween.from).to.equal(10);
+        expect(tween.to).to.equal(20);
     }
 }
