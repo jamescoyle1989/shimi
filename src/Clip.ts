@@ -79,6 +79,7 @@ export class ClipNote extends Range {
         );
     }
 
+    /** Used by the library for the custom serialization of Clips */
     toJSON() {
         const output: any = {
             start: this.start,
@@ -93,6 +94,7 @@ export class ClipNote extends Range {
         return output;
     }
 
+    /** Takes an object parsed from JSON ClipNote data to load into an actual clip note instance. */
     static load(clipNoteData: any): ClipNote {
         const velocity = (typeof(clipNoteData.velocity) === 'number')
             ? clipNoteData.velocity
@@ -156,6 +158,7 @@ export class ClipCC extends Range {
         this.channel = channel;
     }
 
+    /** Used by the library for the custom serialization of Clips */
     toJSON() {
         const output: any = {
             start: this.start,
@@ -168,6 +171,7 @@ export class ClipCC extends Range {
         return output;
     }
 
+    /** Takes an object parsed from JSON ClipCC data to load into an actual clip CC instance. */
     static load(clipCCData: any): ClipCC {
         const value = (typeof(clipCCData.value) === 'number')
             ? clipCCData.value
@@ -224,6 +228,7 @@ export class ClipBend extends Range {
         this.channel = channel;
     }
 
+    /** Used by the library for the custom serialization of Clips */
     toJSON() {
         const output: any = {
             start: this.start,
@@ -235,6 +240,7 @@ export class ClipBend extends Range {
         return output;
     }
 
+    /** Takes an object parsed from JSON ClipBend data to load into an actual clip bend instance. */
     static load(clipBendData: any): ClipBend {
         const percent = (typeof(clipBendData.percent) === 'number')
             ? clipBendData.percent
@@ -517,6 +523,7 @@ export class Clip extends Range {
             return array.filter(x => x.end >= start || x.start <= end);
     }
 
+    /** Used by the library for the custom serialization of Clips */
     toJSON() {
         return {
             start: this.start,
@@ -527,6 +534,7 @@ export class Clip extends Range {
         };
     }
 
+    /** Takes an object parsed from JSON Clip data to load into an actual clip instance. */
     static load(clipData: any): Clip {
         const output = new Clip(clipData.duration);
         output.start = clipData.start;

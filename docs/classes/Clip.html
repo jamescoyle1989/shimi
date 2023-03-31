@@ -28,7 +28,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">Clip</span></li></ul></section></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:188</li></ul></aside>
+<li>Defined in Clip.ts:273</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -65,7 +65,9 @@
 <a href="Clip.html#invert" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>invert</span></a>
 <a href="Clip.html#quantize" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>quantize</span></a>
 <a href="Clip.html#reverse" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>reverse</span></a>
+<a href="Clip.html#toJSON" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>toJSON</span></a>
 <a href="Clip.html#transpose" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>transpose</span></a>
+<a href="Clip.html#load" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>load</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
@@ -84,7 +86,7 @@
 <h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="Range.html">Range</a>.<a href="Range.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in Clip.ts:207</li></ul></aside></li></ul></section></section>
+<li>Defined in Clip.ts:292</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="bends" class="tsd-anchor"></a>
@@ -93,21 +95,21 @@
 <div class="tsd-comment tsd-typography"><p>The collection of pitch bends that the clip contains.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:202</li></ul></aside></section>
+<li>Defined in Clip.ts:287</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="controlChanges" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>control<wbr/>Changes</span><a href="#controlChanges" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">control<wbr/>Changes<span class="tsd-signature-symbol">:</span> <a href="ClipCC.html" class="tsd-signature-type" data-tsd-kind="Class">ClipCC</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 <div class="tsd-comment tsd-typography"><p>The collection of control changes that the clip contains.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:197</li></ul></aside></section>
+<li>Defined in Clip.ts:282</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="notes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>notes</span><a href="#notes" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">notes<span class="tsd-signature-symbol">:</span> <a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 <div class="tsd-comment tsd-typography"><p>The collection of notes that the clip contains.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:192</li></ul></aside></section></section>
+<li>Defined in Clip.ts:277</li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="duration" class="tsd-anchor"></a>
@@ -211,7 +213,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:271</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:356</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addCC" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>addCC</span><a href="#addCC" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -246,7 +248,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:249</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:334</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addNote" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>add<wbr/>Note</span><a href="#addNote" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -285,7 +287,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:221</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:306</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="contains" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>contains</span><a href="#contains" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -315,7 +317,7 @@
 <h3>Returns</h3></div>
 <h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:288</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:373</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getBendsIntersectingRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Bends<wbr/>Intersecting<wbr/>Range</span><a href="#getBendsIntersectingRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -337,7 +339,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipBend.html" class="tsd-signature-type" data-tsd-kind="Class">ClipBend</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:399</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:484</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getControlChangesIntersectingRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Control<wbr/>Changes<wbr/>Intersecting<wbr/>Range</span><a href="#getControlChangesIntersectingRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -359,7 +361,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipCC.html" class="tsd-signature-type" data-tsd-kind="Class">ClipCC</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:389</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:474</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getNotesEndingInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Notes<wbr/>Ending<wbr/>In<wbr/>Range</span><a href="#getNotesEndingInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -381,7 +383,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:379</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:464</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getNotesStartingInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Notes<wbr/>Starting<wbr/>In<wbr/>Range</span><a href="#getNotesStartingInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -403,7 +405,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:369</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:454</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getPercent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Percent</span><a href="#getPercent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -440,7 +442,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:346</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:431</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="quantize" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>quantize</span><a href="#quantize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -464,7 +466,7 @@ Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a he
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:310</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:395</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="reverse" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reverse</span><a href="#reverse" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -474,7 +476,28 @@ Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a he
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:354</li></ul></aside></li></ul></section>
+<li>Defined in Clip.ts:439</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toJSON" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>toJSON</span><a href="#toJSON" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="toJSON.toJSON-1">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>bends<span class="tsd-signature-symbol">: </span><a href="ClipBend.html" class="tsd-signature-type" data-tsd-kind="Class">ClipBend</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>controlChanges<span class="tsd-signature-symbol">: </span><a href="ClipCC.html" class="tsd-signature-type" data-tsd-kind="Class">ClipCC</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>notes<span class="tsd-signature-symbol">: </span><a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><a href="#toJSON.toJSON-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Used by the library for the custom serialization of Clips</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>bends<span class="tsd-signature-symbol">: </span><a href="ClipBend.html" class="tsd-signature-type" data-tsd-kind="Class">ClipBend</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>controlChanges<span class="tsd-signature-symbol">: </span><a href="ClipCC.html" class="tsd-signature-type" data-tsd-kind="Class">ClipCC</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>notes<span class="tsd-signature-symbol">: </span><a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
+<ul class="tsd-parameters">
+<li class="tsd-parameter">
+<h5>bends<span class="tsd-signature-symbol">: </span><a href="ClipBend.html" class="tsd-signature-type" data-tsd-kind="Class">ClipBend</a><span class="tsd-signature-symbol">[]</span></h5></li>
+<li class="tsd-parameter">
+<h5>control<wbr/>Changes<span class="tsd-signature-symbol">: </span><a href="ClipCC.html" class="tsd-signature-type" data-tsd-kind="Class">ClipCC</a><span class="tsd-signature-symbol">[]</span></h5></li>
+<li class="tsd-parameter">
+<h5>duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li>
+<li class="tsd-parameter">
+<h5>notes<span class="tsd-signature-symbol">: </span><a href="ClipNote.html" class="tsd-signature-type" data-tsd-kind="Class">ClipNote</a><span class="tsd-signature-symbol">[]</span></h5></li>
+<li class="tsd-parameter">
+<h5>start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li></ul><aside class="tsd-sources">
+<ul>
+<li>Defined in Clip.ts:527</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="transpose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>transpose</span><a href="#transpose" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -491,7 +514,22 @@ Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a he
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Clip.ts:337</li></ul></aside></li></ul></section></section></div>
+<li>Defined in Clip.ts:422</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="load" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>load</span><a href="#load" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="load.load-1">load<span class="tsd-signature-symbol">(</span>clipData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a><a href="#load.load-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Takes an object parsed from JSON Clip data to load into an actual clip instance.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>clipData: <span class="tsd-signature-type">any</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="Clip.html" class="tsd-signature-type" data-tsd-kind="Class">Clip</a></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in Clip.ts:538</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -535,7 +573,9 @@ Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a he
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Clip.html#invert" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>invert</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Clip.html#quantize" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>quantize</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Clip.html#reverse" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>reverse</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="Clip.html#transpose" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>transpose</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="Clip.html#toJSON" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>toJSON</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="Clip.html#transpose" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>transpose</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="Clip.html#load" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>load</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

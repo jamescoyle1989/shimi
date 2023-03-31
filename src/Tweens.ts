@@ -763,6 +763,7 @@ export default class Tween {
         return new QuarticOutTween(from, to);
     }
 
+    /** Takes an object parsed from JSON Tween data to load into an actual tween instance. */
     static load(tweenData: any) {
         const type = tweenData.type;
         if (type == 'Multi') {
