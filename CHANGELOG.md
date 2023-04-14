@@ -8,7 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 
-## 2.1.0 (2024-03-30)
+## 2.2.0 (2023-04-14)
+
+### Added
+
+- MidiAccess subscribes to onstatechange, and distributes its own event in response to it.
+
+
+
+## 2.1.0 (2023-03-30)
 
 ### Added
 
@@ -16,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 
-## 2.0.0 (2024-03-04)
+## 2.0.0 (2023-03-04)
 
 ### Changed 
 

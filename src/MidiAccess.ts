@@ -1,3 +1,35 @@
+'use strict';
+
+import ShimiEvent, { ShimiEventData } from './ShimiEvent';
+
+
+/**
+ * The MidiAccessPortEventData class extends ShimiEventData. It contains a reference to the source MidiAccess that created the event data, as well as information about a port that has changed.
+ * 
+ * @category Midi IO
+ */
+export class MidiAccessPortEventData extends ShimiEventData<MidiAccess> {
+    /** The port which has been added, removed, or changed in some way. */
+    get port(): any { return this._port; }
+    private _port: any;
+
+    constructor(source: MidiAccess, port: any) {
+        super(source);
+        this._port = port;
+    }
+}
+
+
+/**
+ * The MidiAccessPortEvent class extends ShimiEvent, providing an object which can be subscribed to.
+ * 
+ * It distributes events which point back to the source MidiAccess, and a MidiAccessPortEventData object that contains the event information.
+ * 
+ * @Category Midi IO
+ */
+export class MidiAccessPortEvent extends ShimiEvent<MidiAccessPortEventData, MidiAccess> {
+}
+
 
 /**
  * The MidiAccess class provides an interface for fetching MIDI ports which data can be sent to, or received from.
@@ -24,6 +56,25 @@ export default class MidiAccess {
     /** Please use the `MidiAccess.request()` method instead. */
     constructor(baseAccess: any) {
         this._baseAccess = baseAccess;
+        this._baseAccess.onstatechange = this._onBaseAccessStateChange;
+    }
+
+    private _onBaseAccessStateChange = (port) => {
+        this.portChanged.trigger(new MidiAccessPortEventData(this, port));
+    };
+
+    /**
+     * The portChanged event dispatches an event whenever a new port is added, or an existing port is removed/modified.
+     */
+    get portChanged(): MidiAccessPortEvent { return this._portChanged; }
+    private _portChanged: MidiAccessPortEvent = new MidiAccessPortEvent();
+
+    /** Disconnects the MidiAccess object from its baseAccess. This is called to free things up for garbage collection. The MidiAccess object is entirely useless after this method has been called on it. */
+    public detach() {
+        if (this._baseAccess) {
+            this._baseAccess.onstatechange = undefined;
+            this._baseAccess = null;
+        }
     }
 
     /**

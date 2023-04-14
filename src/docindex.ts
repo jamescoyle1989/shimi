@@ -21,7 +21,7 @@ import { FitDirection, FitPrecision, IPitchContainer, FitPitchOptions } from './
 import Gamepads, { IGamepad } from './Gamepads';
 import Keyboard from './Keyboard';
 import Metronome, { IMetronome } from './Metronome';
-import MidiAccess from './MidiAccess';
+import MidiAccess, { MidiAccessPortEvent, MidiAccessPortEventData } from './MidiAccess';
 import MidiBus from './MidiBus';
 import MidiIn, { MidiInEvent, MidiInEventData, IMidiIn } from './MidiIn';
 import { 
@@ -79,7 +79,7 @@ export {
         ChannelPressureMessage, PitchBendMessage, TickMessage,
         SongPositionMessage, StartMessage, ContinueMessage, StopMessage,
     Metronome, IMetronome,
-    MidiAccess,
+    MidiAccess, MidiAccessPortEvent, MidiAccessPortEventData,
     MidiBus,
     MidiIn, MidiInEvent, MidiInEventData, IMidiIn,
     MidiOut, IMidiOut,
