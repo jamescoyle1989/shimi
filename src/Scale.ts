@@ -98,7 +98,7 @@ export default class Scale implements IPitchContainer {
         return this.pitches.find(p => p == pitch) != undefined;
     }
 
-    /** Returns the index of the passed in pitch, or -1 if it's not contained. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information. */
+    /** Returns the index of the passed in pitch, or -1 if it's not contained. Can also take pitch names, see the [pitch](../functions/pitch.html) function for more information. */
     indexOf(pitch: number | string): number {
         if (typeof(pitch) == 'string')
             pitch = parsePitch(pitch);
@@ -109,6 +109,14 @@ export default class Scale implements IPitchContainer {
                 return i;
         }
         return -1;
+    }
+
+    /** Returns the scale degree of the passed in pitch, or -1 if it's not contained. Can also take pitch names, see the [pitch](../functions/pitch.html) function for more information. */
+    degreeOf(pitch: number | string): number {
+        let output = this.indexOf(pitch);
+        if (output >= 0)
+            output++;
+        return output;
     }
 
     /**

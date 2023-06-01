@@ -51,6 +51,21 @@ import { FitDirection } from '../src/IPitchContainer';
         expect(scale.indexOf(10)).to.equal(-1);
     }
 
+    @test 'degreeOf returns degree of pitch in scale'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.degreeOf(0)).to.equal(1);
+        expect(scale.degreeOf(4)).to.equal(3);
+        expect(scale.degreeOf(5)).to.equal(4);
+        expect(scale.degreeOf(9)).to.equal(6);
+    }
+
+    @test 'degreeOf returns -1 for pitches out of scale'() {
+        const scale = ScaleTemplate.major.create(0);
+        expect(scale.degreeOf(1)).to.equal(-1);
+        expect(scale.degreeOf(6)).to.equal(-1);
+        expect(scale.degreeOf(10)).to.equal(-1);
+    }
+
     @test 'PitchName.toString returns correct name'() {
         expect(new PitchName(60, 'C').toString()).to.equal('C');
         expect(new PitchName(61, 'C', 1).toString()).to.equal('C♯');
