@@ -4,7 +4,7 @@ import { safeMod, parsePitch } from './utils';
 
 declare global {
     interface Number {
-        near(target: number): number;
+        near(target: number | string): number;
     }
 }
 
