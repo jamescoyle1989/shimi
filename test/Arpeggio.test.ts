@@ -11,6 +11,24 @@ import Chord from '../src/Chord';
         expect(arpNote.createNote(undefined, 0)).to.be.null;
     }
 
+    @test 'createNote returns null if pitch is null'() {
+        const arpNote = new ArpeggioNote(0, 1, c => null, 80);
+        const chord = new Chord().addPitches([4, 8, 11]);
+        expect(arpNote.createNote(chord, 1)).to.be.null;
+    }
+
+    @test 'createNote returns null if pitch is less than 0'() {
+        const arpNote = new ArpeggioNote(0, 1, c => -1, 80);
+        const chord = new Chord().addPitches([4, 8, 11]);
+        expect(arpNote.createNote(chord, 1)).to.be.null;
+    }
+
+    @test 'createNote returns null if pitch is more than 127'() {
+        const arpNote = new ArpeggioNote(0, 1, c => 128, 80);
+        const chord = new Chord().addPitches([4, 8, 11]);
+        expect(arpNote.createNote(chord, 1)).to.be.null;
+    }
+
     @test 'createNote returns new note object'() {
         const chord = new Chord().addPitches([4, 8, 11]);
         const arpNote = new ArpeggioNote(0, 1, c => c.getPitch(1), 81, 3);

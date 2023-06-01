@@ -15,6 +15,7 @@ export class ArpeggioNote extends Range {
      * Stores a function that takes a chord as a parameter, and returns a pitch value
      * The recommended way to use this is with the [Chord.getPitch](https://jamescoyle1989.github.io/shimi/classes/Chord.html#getPitch) method, for example: `pitch = c => c.getPitch(0)`.
      * The pitch function is evaluated whenever the ArpeggioNote is deemed ready to play by a running Arpeggiator.
+     * The return value is expected to be in the range 0 - 127. Any pitch returned outside of that range will result in no note being created
      */
     get pitch(): (c: Chord) => number { return this._pitch; }
     set pitch(value: (c: Chord) => number) { this._pitch = value; }
@@ -59,8 +60,11 @@ export class ArpeggioNote extends Range {
     createNote(chord: Chord, channel: number): Note {
         if (!chord)
             return null;
+        const pitch = this.pitch(chord);
+        if (pitch == null || pitch < 0 || pitch > 127)
+            return null;
         return new Note(
-            this.pitch(chord),
+            pitch,
             this.velocity,
             this.channel ?? channel
         );
