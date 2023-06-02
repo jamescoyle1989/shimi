@@ -5,7 +5,7 @@ import Metronome from '../src/Metronome';
 import MidiOut from '../src/MidiOut';
 import Arpeggiator from '../src/Arpeggiator';
 import { Arpeggio, ArpeggioNote } from '../src/Arpeggio';
-import { Chord } from '../src';
+import { Chord, Tween } from '../src';
 
 
 @suite class ArpeggiatorTests {
@@ -76,6 +76,42 @@ import { Chord } from '../src';
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].on).to.be.true;
         expect(midiOut.notes[0].pitch).to.equal(36);
+    }
+
+    @test 'Update modifies the velocity of existing notes with tweens on them'() {
+        const arpeggio = new Arpeggio(4);
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), Tween.linear(0, 80)));
+        const metronome = new Metronome(60);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
+        arpeggiator.chord = new Chord().addPitches([36, 40, 43]);
+
+        metronome.update(250);
+        arpeggiator.update(250);
+        expect(midiOut.notes.length).to.equal(1);
+        expect(midiOut.notes[0].velocity).to.equal(20);
+
+        metronome.update(250);
+        arpeggiator.update(250);
+        expect(midiOut.notes[0].velocity).to.equal(40);
+
+        metronome.update(250);
+        arpeggiator.update(250);
+        expect(midiOut.notes[0].velocity).to.equal(60);
+    }
+
+    @test 'Update creates new notes with tweened velocity at correct starting value'() {
+        const arpeggio = new Arpeggio(4);
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), Tween.linear(0, 80)));
+        const metronome = new Metronome(60);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
+        arpeggiator.chord = new Chord().addPitches([36, 40, 43]);
+
+        metronome.update(500);
+        arpeggiator.update(500);
+        expect(midiOut.notes.length).to.equal(1);
+        expect(midiOut.notes[0].velocity).to.equal(40);
     }
 
     @test 'Update stops notes which should be ended'() {

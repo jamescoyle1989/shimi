@@ -2,40 +2,48 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import { Arpeggio, ArpeggioNote } from '../src/Arpeggio';
 import Chord from '../src/Chord';
+import { Tween } from '../src';
 
 
 @suite class ArpeggioTests {
     @test 'createNote returns null if no chord passed in'() {
         const arpNote = new ArpeggioNote(0, 1, c => c.getPitch(0), 80);
-        expect(arpNote.createNote(null, 0)).to.be.null;
-        expect(arpNote.createNote(undefined, 0)).to.be.null;
+        expect(arpNote.createNote(null, 0, 0)).to.be.null;
+        expect(arpNote.createNote(undefined, 0, 0)).to.be.null;
     }
 
     @test 'createNote returns null if pitch is null'() {
         const arpNote = new ArpeggioNote(0, 1, c => null, 80);
         const chord = new Chord().addPitches([4, 8, 11]);
-        expect(arpNote.createNote(chord, 1)).to.be.null;
+        expect(arpNote.createNote(chord, 1, 0)).to.be.null;
     }
 
     @test 'createNote returns null if pitch is less than 0'() {
         const arpNote = new ArpeggioNote(0, 1, c => -1, 80);
         const chord = new Chord().addPitches([4, 8, 11]);
-        expect(arpNote.createNote(chord, 1)).to.be.null;
+        expect(arpNote.createNote(chord, 1, 0)).to.be.null;
     }
 
     @test 'createNote returns null if pitch is more than 127'() {
         const arpNote = new ArpeggioNote(0, 1, c => 128, 80);
         const chord = new Chord().addPitches([4, 8, 11]);
-        expect(arpNote.createNote(chord, 1)).to.be.null;
+        expect(arpNote.createNote(chord, 1, 0)).to.be.null;
     }
 
     @test 'createNote returns new note object'() {
         const chord = new Chord().addPitches([4, 8, 11]);
         const arpNote = new ArpeggioNote(0, 1, c => c.getPitch(1), 81, 3);
-        const note = arpNote.createNote(chord, 1);
+        const note = arpNote.createNote(chord, 1, 0);
         expect(note.pitch).to.equal(8);
         expect(note.velocity).to.equal(81);
         expect(note.channel).to.equal(3);
+    }
+
+    @test 'createNote takes percent for setting initial velocity tween value'() {
+        const chord = new Chord().addPitches([4, 8, 11]);
+        const arpNote = new ArpeggioNote(0, 1, c => c.getPitch(1), Tween.linear(0, 80), 3);
+        const note = arpNote.createNote(chord, 1, 0.5);
+        expect(note.velocity).to.equal(40);
     }
 
     @test 'getNotesStartingInRange handles wrapping around start/end'() {
@@ -83,5 +91,10 @@ import Chord from '../src/Chord';
         const arp = new Arpeggio(4)
             .addNote([0,1,2,3], 1, c => c.getPitch(0), 80);
         expect(arp.notes.length).to.equal(4);
+    }
+
+    @test 'addNote can take velocity tween'() {
+        const arp = new Arpeggio(4)
+            .addNote(0, 1, c => c.getPitch(0), Tween.linear(1, 127));
     }
 }

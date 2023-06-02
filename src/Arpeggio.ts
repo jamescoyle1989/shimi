@@ -3,6 +3,7 @@
 import Range from './Range';
 import Chord from './Chord';
 import Note from './Note';
+import { ITween } from './Tweens';
 
 
 /**
@@ -21,10 +22,10 @@ export class ArpeggioNote extends Range {
     set pitch(value: (c: Chord) => number) { this._pitch = value; }
     private _pitch: (c: Chord) => number;
 
-    /** The note's velocity, valid values range from 0 - 127 */
-    get velocity(): number { return this._velocity; }
-    set velocity(value: number) { this._velocity = value; }
-    private _velocity: number;
+    /** The note's velocity, valid values range from 0 - 127, or an ITween object to allow for values that change over time. */
+    get velocity(): number | ITween { return this._velocity; }
+    set velocity(value: number | ITween) { this._velocity = value; }
+    private _velocity: number | ITween;
 
     /** Which channel to play the note on, valid values range from 0 - 15, or null to default to signal that the Arpeggiator's chosen channel should be used. */
     get channel(): number { return this._channel; }
@@ -35,14 +36,14 @@ export class ArpeggioNote extends Range {
      * @param start What beat within the clip that the note starts on
      * @param duration How many beats the note lasts
      * @param pitch The method that converts a chord object into a MIDI pitch value from 0 - 127
-     * @param velocity The note's velocity, valid values range from 0 - 127
+     * @param velocity The note's velocity, valid values range from 0 - 127, or an ITween object to allow for values that change over time.
      * @param channel Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide
      */
      constructor(
         start: number, 
         duration: number, 
         pitch: (c: Chord) => number, 
-        velocity: number, 
+        velocity: number | ITween, 
         channel: number = null
     ) {
         super(start, duration);
@@ -55,9 +56,10 @@ export class ArpeggioNote extends Range {
      * Intended for use by the Arpeggiator. This method generates a new Note object based on the passed in chord.
      * @param chord The chord which is being arpeggiated.
      * @param channel The default channel to use if the ArpeggioNote doesn't define one.
+     * @param percent How far into the note we should start from
      * @returns 
      */
-    createNote(chord: Chord, channel: number): Note {
+    createNote(chord: Chord, channel: number, percent: number): Note {
         if (!chord)
             return null;
         const pitch = this.pitch(chord);
@@ -65,7 +67,9 @@ export class ArpeggioNote extends Range {
             return null;
         return new Note(
             pitch,
-            this.velocity,
+            (typeof(this.velocity) == 'number') ? 
+                this.velocity : 
+                this.velocity.update(percent),
             this.channel ?? channel
         );
     }
@@ -114,7 +118,7 @@ export class Arpeggio extends Range {
         start: number | Array<number>,
         duration: number,
         pitch: (c: Chord) => number, 
-        velocity: number,
+        velocity: number | ITween,
         channel: number = null
     ): Arpeggio {
         if (typeof(start) === 'number')

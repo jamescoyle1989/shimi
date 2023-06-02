@@ -116,6 +116,8 @@ export default class Arpeggiator implements IClockChild {
             const arpNote: ArpeggioNote = note['arpNote'];
             if (!arpNote.contains(newArpeggioBeat))
                 note.stop();
+            else if (typeof(arpNote.velocity) != 'number')
+                note.velocity = arpNote.velocity.update((newArpeggioBeat - arpNote.start) / arpNote.duration);
         }
         this._notes = this._notes.filter(n => n.on);
 
@@ -123,7 +125,7 @@ export default class Arpeggiator implements IClockChild {
         //Store the clipNote that each note came from, so we can track down notes when it's time to stop them
         if (this.chord) {
             for (const arpNote of this.arpeggio.getNotesStartingInRange(oldArpeggioBeat, newArpeggioBeat)) {
-                const note = arpNote.createNote(this.chord, this.channel);
+                const note = arpNote.createNote(this.chord, this.channel, (newArpeggioBeat - arpNote.start) / arpNote.duration);
                 if (!note)
                     continue;
                 note['arpNote'] = arpNote;

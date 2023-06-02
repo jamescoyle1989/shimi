@@ -25,7 +25,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">ArpeggioNote</span></li></ul></section></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:13</li></ul></aside>
+<li>Defined in Arpeggio.ts:14</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -55,7 +55,7 @@
 <section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_ArpeggioNote">new <wbr/>Arpeggio<wbr/>Note<span class="tsd-signature-symbol">(</span>start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>c<span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span>, velocity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, channel<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ArpeggioNote.html" class="tsd-signature-type" data-tsd-kind="Class">ArpeggioNote</a><a href="#constructor.new_ArpeggioNote" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_ArpeggioNote">new <wbr/>Arpeggio<wbr/>Note<span class="tsd-signature-symbol">(</span>start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>c<span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span>, velocity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a>, channel<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ArpeggioNote.html" class="tsd-signature-type" data-tsd-kind="Class">ArpeggioNote</a><a href="#constructor.new_ArpeggioNote" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -84,8 +84,8 @@
 <h5>c: <a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4></li></ul></li></ul></li>
 <li>
-<h5>velocity: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>The note&#39;s velocity, valid values range from 0 - 127</p>
+<h5>velocity: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a></h5>
+<div class="tsd-comment tsd-typography"><p>The note&#39;s velocity, valid values range from 0 - 127, or an ITween object to allow for values that change over time.</p>
 </div></li>
 <li>
 <h5>channel: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = null</span></h5>
@@ -94,7 +94,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ArpeggioNote.html" class="tsd-signature-type" data-tsd-kind="Class">ArpeggioNote</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="Range.html">Range</a>.<a href="Range.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in Arpeggio.ts:41</li></ul></aside></li></ul></section></section>
+<li>Defined in Arpeggio.ts:42</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="channel" class="tsd-anchor"></a>
@@ -106,7 +106,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:30</li></ul></aside></li>
+<li>Defined in Arpeggio.ts:31</li></ul></aside></li>
 <li class="tsd-signature" id="channel.channel-2"><span class="tsd-signature-symbol">set</span> channel<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -116,7 +116,7 @@
 <h5>value: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:31</li></ul></aside></li></ul></section>
+<li>Defined in Arpeggio.ts:32</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="duration" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>duration</span><a href="#duration" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -191,7 +191,7 @@ The return value is expected to be in the range 0 - 127. Any pitch returned outs
 <h5>c: <a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4></li></ul></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:20</li></ul></aside></li>
+<li>Defined in Arpeggio.ts:21</li></ul></aside></li>
 <li class="tsd-signature" id="pitch.pitch-2"><span class="tsd-signature-symbol">set</span> pitch<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>c<span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -212,7 +212,7 @@ The return value is expected to be in the range 0 - 127. Any pitch returned outs
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:21</li></ul></aside></li></ul></section>
+<li>Defined in Arpeggio.ts:22</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="start" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>start</span><a href="#start" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -239,23 +239,23 @@ The return value is expected to be in the range 0 - 127. Any pitch returned outs
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="velocity" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>velocity</span><a href="#velocity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-<li class="tsd-signature" id="velocity.velocity-1"><span class="tsd-signature-symbol">get</span> velocity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+<li class="tsd-signature" id="velocity.velocity-1"><span class="tsd-signature-symbol">get</span> velocity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The note&#39;s velocity, valid values range from 0 - 127</p>
+<div class="tsd-comment tsd-typography"><p>The note&#39;s velocity, valid values range from 0 - 127, or an ITween object to allow for values that change over time.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:25</li></ul></aside></li>
-<li class="tsd-signature" id="velocity.velocity-2"><span class="tsd-signature-symbol">set</span> velocity<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li>Defined in Arpeggio.ts:26</li></ul></aside></li>
+<li class="tsd-signature" id="velocity.velocity-2"><span class="tsd-signature-symbol">set</span> velocity<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>value: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h5>value: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ITween.html" class="tsd-signature-type" data-tsd-kind="Interface">ITween</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:26</li></ul></aside></li></ul></section></section>
+<li>Defined in Arpeggio.ts:27</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="contains" class="tsd-anchor"></a>
@@ -280,7 +280,7 @@ The return value is expected to be in the range 0 - 127. Any pitch returned outs
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="createNote" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create<wbr/>Note</span><a href="#createNote" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="createNote.createNote-1">create<wbr/>Note<span class="tsd-signature-symbol">(</span>chord<span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a>, channel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a><a href="#createNote.createNote-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="createNote.createNote-1">create<wbr/>Note<span class="tsd-signature-symbol">(</span>chord<span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a>, channel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, percent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a><a href="#createNote.createNote-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Intended for use by the Arpeggiator. This method generates a new Note object based on the passed in chord.</p>
 
@@ -295,10 +295,14 @@ The return value is expected to be in the range 0 - 127. Any pitch returned outs
 <li>
 <h5>channel: <span class="tsd-signature-type">number</span></h5>
 <div class="tsd-comment tsd-typography"><p>The default channel to use if the ArpeggioNote doesn&#39;t define one.</p>
+</div></li>
+<li>
+<h5>percent: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>How far into the note we should start from</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Note.html" class="tsd-signature-type" data-tsd-kind="Class">Note</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Arpeggio.ts:60</li></ul></aside></li></ul></section>
+<li>Defined in Arpeggio.ts:62</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getPercent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Percent</span><a href="#getPercent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
