@@ -195,4 +195,21 @@ import { Chord, Tween } from '../src';
         arpeggiator.finish();
         expect(testVar).to.equal(3);
     }
+
+    @test 'changing chord stops all currently playing notes'() {
+        const arpeggio = new Arpeggio(4);
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
+        arpeggiator.chord = new Chord().addPitches([36, 40, 43]);
+
+        metronome.update(10);
+        arpeggiator.update(10);
+        expect(midiOut.notes.length).to.equal(1);
+        expect(midiOut.notes[0].on).to.be.true;
+
+        arpeggiator.chord = new Chord().addPitches([38, 42, 45]);
+        expect(midiOut.notes[0].on).to.be.false;
+    }
 }

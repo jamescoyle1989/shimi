@@ -22,9 +22,12 @@ export default class Arpeggiator implements IClockChild {
     set arpeggio(value: Arpeggio) { this._arpeggio = value; }
     private _arpeggio: Arpeggio;
 
-    /** Which chord to play */
+    /** Which chord to play. Setting this will cause all currently playing notes to stop. */
     get chord(): Chord { return this._chord; }
-    set chord(value: Chord) { this._chord = value; }
+    set chord(value: Chord) {
+        this._chord = value;
+        this._endAllNotes();
+    }
     private _chord: Chord;
 
     /** The default channel for arpeggiated notes to be played on. */
