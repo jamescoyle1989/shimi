@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 
+## 2.3.0 (2023-06-02)
+
+### Added
+
+- Arpeggio notes can take a tween for their velocity.
+
+- Scale has degreeOf method, for fetching the scale degree of a note.
+
+### Changed
+
+- Arpeggiator automatically ends all notes when its chord property is set.
+
+
+
 ## 2.2.0 (2023-04-14)
 
 ### Added
