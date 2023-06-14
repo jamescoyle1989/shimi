@@ -20,9 +20,9 @@ export default class Note {
 
     /** Tracks changes to the note velocity. */
     velocityTracker: PropertyTracker<number>;
-    /** The note's velocity (loudness), valid values range from 0 - 127. */
+    /** The note's velocity (loudness), valid values range from 0 - 127. The setter for this rounds the value to the nearest integer so that note velocity tweening will not recognise tiny marginal changes and send out unnecessary aftertouch messages. */
     get velocity(): number { return this.velocityTracker.value; }
-    set velocity(value: number) { this.velocityTracker.value = value; }
+    set velocity(value: number) { this.velocityTracker.value = Math.round(value); }
 
     /** 
      * Tracks changes to whether the note is playing.
@@ -54,7 +54,7 @@ export default class Note {
      */
     constructor(pitch: number | string, velocity: number, channel: number, ref?: string) {
         this._pitch = (typeof(pitch) == 'string') ? parsePitch(pitch) : pitch;
-        this.velocityTracker = new PropertyTracker(velocity);
+        this.velocityTracker = new PropertyTracker(Math.round(velocity));
         this.onTracker = new PropertyTracker(false);
         this.on = true;
         this._channel = channel;

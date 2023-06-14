@@ -171,7 +171,7 @@
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
 <li class="tsd-signature" id="velocity.velocity-1"><span class="tsd-signature-symbol">get</span> velocity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The note&#39;s velocity (loudness), valid values range from 0 - 127.</p>
+<div class="tsd-comment tsd-typography"><p>The note&#39;s velocity (loudness), valid values range from 0 - 127. The setter for this rounds the value to the nearest integer so that note velocity tweening will not recognise tiny marginal changes and send out unnecessary aftertouch messages.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>

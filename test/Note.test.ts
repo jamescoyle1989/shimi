@@ -44,4 +44,15 @@ import Note from '../src/Note';
         const note = new Note('C2', 80, 0);
         expect(note.pitch).to.equal(36);
     }
+
+    @test 'velocity setter rounds value'() {
+        const note = new Note('C4', 80, 1);
+        note.velocity = 83.14657;
+        expect(note.velocity).to.equal(83);
+    }
+
+    @test 'constructor rounds velocity value'() {
+        const note = new Note('C4', 123.123123, 0);
+        expect(note.velocity).to.equal(123);
+    }
 }

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Fixed
+
+- Note velocity gets rounded to the nearest integer, to prevent excessive aftertouch messages from note velocity tweens.
+
 
 
 ## 2.3.0 (2023-06-02)
