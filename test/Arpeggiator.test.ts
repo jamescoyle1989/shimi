@@ -212,4 +212,21 @@ import { Chord, Tween } from '../src';
         arpeggiator.chord = new Chord().addPitches([38, 42, 45]);
         expect(midiOut.notes[0].on).to.be.false;
     }
+
+    @test 'note that lasts entire arpeggio length still gets stopped'() {
+        const arpeggio = new Arpeggio(1)
+            .addNote(0, 1, c => c.getPitch(0), 80);
+        const metronome = new Metronome(60);
+        const midiOut = new MidiOut(new DummyPort());
+        const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
+        arpeggiator.chord = new Chord().addPitches([36, 40, 43]);
+
+        metronome.update(500);
+        arpeggiator.update(500);
+        const note = midiOut.notes[0];
+
+        metronome.update(600);
+        arpeggiator.update(600);
+        expect(note.on).to.be.false;
+    }
 }

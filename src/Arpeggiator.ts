@@ -113,11 +113,15 @@ export default class Arpeggiator implements IClockChild {
         const oldArpeggioBeat = this.beatTracker.oldValue;
         const newArpeggioBeat = this.beatTracker.value;
 
+        //If we've looped back round to the start of the arpeggio, end all notes which the player had started
+        if (oldArpeggioBeat > newArpeggioBeat)
+            this._endAllNotes();
+
         //Loop through each existing note that the arpeggiator has started
         //Stop notes that need to end
         for (const note of this._notes) {
             const arpNote: ArpeggioNote = note['arpNote'];
-            if (!arpNote.contains(newArpeggioBeat))
+            if (!arpNote.contains(newArpeggioBeat) || newArpeggioBeat < oldArpeggioBeat)
                 note.stop();
             else if (typeof(arpNote.velocity) != 'number')
                 note.velocity = arpNote.velocity.update((newArpeggioBeat - arpNote.start) / arpNote.duration);
