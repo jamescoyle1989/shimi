@@ -79,6 +79,18 @@ export class ClipNote extends Range {
         );
     }
 
+    /** Returns a copy of this ClipNote object */
+    duplicate(): ClipNote {
+        return new ClipNote(
+            this.start,
+            this.duration,
+            this.pitch,
+            this.velocity,
+            this.channel,
+            this.ref
+        );
+    }
+
     /** Used by the library for the custom serialization of Clips */
     toJSON() {
         const output: any = {
@@ -158,6 +170,17 @@ export class ClipCC extends Range {
         this.channel = channel;
     }
 
+    /** Returns a copy of this ClipCC object */
+    duplicate(): ClipCC {
+        return new ClipCC(
+            this.start,
+            this.duration,
+            this.controller,
+            this.value,
+            this.channel
+        );
+    }
+
     /** Used by the library for the custom serialization of Clips */
     toJSON() {
         const output: any = {
@@ -226,6 +249,16 @@ export class ClipBend extends Range {
         super(start, duration);
         this.percent = percent;
         this.channel = channel;
+    }
+
+    /** Returns a copy of this ClipCC object */
+    duplicate(): ClipBend {
+        return new ClipBend(
+            this.start,
+            this.duration,
+            this.percent,
+            this.channel
+        );
     }
 
     /** Used by the library for the custom serialization of Clips */
@@ -372,15 +405,9 @@ export class Clip extends Range {
      */
     duplicate(): Clip {
         const newClip = new Clip(this.duration);
-        newClip.notes.push(...this.notes.map(
-            x => new ClipNote(x.start, x.duration, x.pitch, x.velocity, x.channel)
-        ));
-        newClip.controlChanges.push(...this.controlChanges.map(
-            x => new ClipCC(x.start, x.duration, x.controller, x.value, x.channel)
-        ));
-        newClip.bends.push(...this.bends.map(
-            x => new ClipBend(x.start, x.duration, x.percent, x.channel)
-        ));
+        newClip.notes.push(...this.notes.map(x => x.duplicate()));
+        newClip.controlChanges.push(...this.controlChanges.map(x => x.duplicate()));
+        newClip.bends.push(...this.bends.map(x => x.duplicate()));
         return newClip;
     }
 

@@ -174,74 +174,57 @@ import Tween, { LinearTween } from '../src/Tweens';
         expect(clip2.end).to.equal(clip.end);
     }
 
+    @test 'clipNote.duplicate copies note values'() {
+        const clipNote1 = new ClipNote(1, 2, 3, 4, 5, 'test');
+        const clipNote2 = clipNote1.duplicate();
+        expect(clipNote2.start).to.equal(clipNote1.start);
+        expect(clipNote2.duration).to.equal(clipNote1.duration);
+        expect(clipNote2.pitch).to.equal(clipNote1.pitch);
+        expect(clipNote2.velocity).to.equal(clipNote1.velocity);
+        expect(clipNote2.ref).to.equal(clipNote1.ref);
+    }
+
     @test 'duplicate copies clip notes'() {
-        const clip = new Clip(8);
-        for (let i = 0; i < 5; i++) {
-            clip.notes.push(new ClipNote(
-                Math.random() * 8,
-                Math.random() * 2,
-                Math.floor(Math.random() * 127),
-                Math.floor(Math.random() * 127)
-            ));
-        }
+        const clip = new Clip(8)
+            .addNote([0,1,2,3], 1, 60, 80);
 
         const clip2 = clip.duplicate();
         expect(clip2.notes.length).to.equal(clip.notes.length);
-        for (let i = 0; i < clip2.notes.length; i++) {
-            const note = clip.notes[i];
-            const note2 = clip2.notes[i];
-            expect(note2.start).to.equal(note.start);
-            expect(note2.duration).to.equal(note.duration);
-            expect(note2.pitch).to.equal(note.pitch);
-            expect(note2.velocity).to.equal(note.velocity);
-            expect(note2.channel).to.equal(note.channel);
-        }
+    }
+
+    @test 'clipCC.duplicate copies cc values'() {
+        const cc1 = new ClipCC(1, 2, 3, 4, 5);
+        const cc2 = cc1.duplicate();
+        expect(cc2.start).to.equal(cc1.start);
+        expect(cc2.duration).to.equal(cc1.duration);
+        expect(cc2.controller).to.equal(cc1.controller);
+        expect(cc2.value).to.equal(cc1.value);
+        expect(cc2.channel).to.equal(cc1.channel);
     }
 
     @test 'duplicate copies clip control changes'() {
-        const clip = new Clip(8);
-        for (let i = 0; i < 5; i++) {
-            clip.controlChanges.push(new ClipCC(
-                Math.random() * 8,
-                Math.random() * 2,
-                Math.floor(Math.random() * 127),
-                Math.floor(Math.random() * 127)
-            ));
-        }
+        const clip = new Clip(8)
+            .addCC([0,1,2,3], 1, 2, 3);
 
         const clip2 = clip.duplicate();
         expect(clip2.controlChanges.length).to.equal(clip.controlChanges.length);
-        for (let i = 0; i < clip2.controlChanges.length; i++) {
-            const cc = clip.controlChanges[i];
-            const cc2 = clip2.controlChanges[i];
-            expect(cc2.start).to.equal(cc.start);
-            expect(cc2.duration).to.equal(cc.duration);
-            expect(cc2.controller).to.equal(cc.controller);
-            expect(cc2.value).to.equal(cc.value);
-            expect(cc2.channel).to.equal(cc.channel);
-        }
+    }
+
+    @test 'clipBend.duplicate copies bend values'() {
+        const bend1 = new ClipBend(1, 2, 3, 4);
+        const bend2 = bend1.duplicate();
+        expect(bend2.start).to.equal(bend1.start);
+        expect(bend2.duration).to.equal(bend1.duration);
+        expect(bend2.percent).to.equal(bend1.percent);
+        expect(bend2.channel).to.equal(bend1.channel);
     }
 
     @test 'duplicate copies clip bends'() {
-        const clip = new Clip(8);
-        for (let i = 0; i < 5; i++) {
-            clip.bends.push(new ClipBend(
-                Math.random() * 8,
-                Math.random() * 2,
-                (Math.random() * 2) - 1
-            ));
-        }
+        const clip = new Clip(8)
+            .addBend([0,1,2,3], 1, 0.5);
 
         const clip2 = clip.duplicate();
         expect(clip2.bends.length).to.equal(clip.bends.length);
-        for (let i = 0; i < clip2.bends.length; i++) {
-            const bend = clip.bends[i];
-            const bend2 = clip2.bends[i];
-            expect(bend2.start).to.equal(bend.start);
-            expect(bend2.duration).to.equal(bend.duration);
-            expect(bend2.percent).to.equal(bend.percent);
-            expect(bend2.channel).to.equal(bend.channel);
-        }
     }
 
     @test 'quantize validates that rhythm must be provided'() {
