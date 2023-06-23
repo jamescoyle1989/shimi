@@ -345,4 +345,45 @@ Chord.nameGenerator = (chord: Chord) => {
             expect(chord2.pitches[i]).to.equal(chord1.pitches[i]);
         expect(chord2.name).to.equal(chord1.name);
     }
+
+    @test 'addDegrees throws error if root not set'() {
+        const chord = new Chord();
+        expect(() => chord.addDegrees([3])).to.throw();
+    }
+
+    @test 'addDegrees defaults to adding major or perfect versions of degrees'() {
+        const chord = new Chord().setRoot(36)
+            .addDegrees([2,3,4,5,6,7]);
+        expect(chord.pitches.length).to.equal(7);
+        expect(chord.contains(38)).to.be.true;
+        expect(chord.contains(40)).to.be.true;
+        expect(chord.contains(41)).to.be.true;
+        expect(chord.contains(43)).to.be.true;
+        expect(chord.contains(45)).to.be.true;
+        expect(chord.contains(47)).to.be.true;
+    }
+
+    @test 'addDegrees uses scale to get a better fit of notes to a scale'() {
+        const scale = ScaleTemplate.naturalMinor.create(0);
+        const chord = new Chord().setRoot(36)
+            .addDegrees([3,5], scale);
+        expect(chord.contains(39)).to.be.true;
+        expect(chord.contains(43)).to.be.true;
+    }
+
+    @test 'addDegrees can add degrees over an octave'() {
+        const chord = new Chord().setRoot(36)
+            .addDegrees([9,11]);
+        expect(chord.contains(50)).to.be.true;
+        expect(chord.contains(53)).to.be.true;
+    }
+
+    @test 'Can chain together the specific degree add methods'() {
+        const scale = ScaleTemplate.diminished.create(0);
+        const chord = new Chord().setRoot(36)
+            .add3rd(scale).add5th().add6th(scale);
+        expect(chord.contains(39)).to.be.true;
+        expect(chord.contains(43)).to.be.true;
+        expect(chord.contains(45)).to.be.true;
+    }
 }

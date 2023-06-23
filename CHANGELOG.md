@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Chord method for creating a duplicate of itself.
 
+- Chord gets addDegree method, plus specific methods for add2nd, add3rd, add4th, etc...
+
 ### Fixed
 
 - Note velocity gets rounded to the nearest integer, to prevent excessive aftertouch messages from note velocity tweens.

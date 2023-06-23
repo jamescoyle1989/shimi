@@ -1,6 +1,7 @@
 'use strict';
 
 import { IPitchContainer, FitPitchOptions, FitDirection, FitPrecision } from './IPitchContainer';
+import Scale from './Scale';
 import { parsePitch, safeMod, sortComparison } from './utils';
 
 
@@ -186,6 +187,97 @@ export default class Chord implements IPitchContainer {
         output._root = this.root;
         output._name = this.name;
         return output;
+    }
+
+    /**
+     * Adds one or more pitches to a chord, based on chord degrees. For example, addDegrees([3,5]) would add a 3rd & 5th to the chord. The degrees added will always default to the major/perfect variety, though if the scale parameter is used, then the minor/diminished/augmented versions can be used if they would be deemed to be a better fit within the scale.
+     * @param degrees The degrees of the chord to be added.
+     * @param scale Optional, used to allow for better fitting pitch selection.
+     * @returns Returns the chord instance, so that method calls can be chained together.
+     */
+    addDegrees(degrees: Array<number>, scale: Scale = null): Chord {
+        if (this.root == null)
+            throw new Error('You cannot add degrees to the chord before its root has been set');
+        
+        //Map each degree to one less, this makes them 0-based and far easier to work with
+        for (const degree of degrees.map(x => x - 1)) {
+            let pitch = this.root;
+            if (degree >= 7)
+                pitch += Math.floor(degree / 7) * 12;
+
+            let degreeAddition = { main: 0, fallback: 0 };
+            switch (degree % 7) {
+                case 1:
+                    degreeAddition = { main: 2, fallback: 1 };
+                    break;
+                case 2:
+                    degreeAddition = { main: 4, fallback: 3 };
+                    break;
+                case 3:
+                    degreeAddition = { main: 5, fallback: 6 };
+                    break;
+                case 4:
+                    degreeAddition = { main: 7, fallback: 6 };
+                    break;
+                case 5:
+                    degreeAddition = { main: 9, fallback: 8 };
+                    break;
+                case 6:
+                    degreeAddition = { main: 11, fallback: 10 };
+                    break;
+            }
+            if (
+                scale == null ||
+                scale.contains(pitch + degreeAddition.main) ||
+                !scale.contains(pitch + degreeAddition.fallback)
+            )
+                pitch += degreeAddition.main;
+            else
+                pitch += degreeAddition.fallback;
+
+            this.addPitch(pitch);
+        }
+        return this;
+    }
+
+    /** Adds a 2nd degree to the chord, see addDegrees for more info. */
+    add2nd(scale: Scale = null): Chord {
+        return this.addDegrees([2], scale);
+    }
+
+    /** Adds a 3rd degree to the chord, see addDegrees for more info. */
+    add3rd(scale: Scale = null): Chord {
+        return this.addDegrees([3], scale);
+    }
+
+    /** Adds a 4th degree to the chord, see addDegrees for more info. */
+    add4th(scale: Scale = null): Chord {
+        return this.addDegrees([4], scale);
+    }
+
+    /** Adds a 5th degree to the chord, see addDegrees for more info. */
+    add5th(scale: Scale = null): Chord {
+        return this.addDegrees([5], scale);
+    }
+
+    /** Adds a 6th degree to the chord, see addDegrees for more info. */
+    add6th(scale: Scale = null): Chord {
+        return this.addDegrees([6], scale);
+    }
+
+    /** Adds a 7th degree to the chord, see addDegrees for more info. */
+    add7th(scale: Scale = null): Chord {
+        return this.addDegrees([7], scale);
+    }
+
+    /** Adds a 9th degree to the chord, see addDegrees for more info. */
+    add9th(scale: Scale = null): Chord {
+        return this.addDegrees([9], scale);
+    }
+
+    /** Adds a 11th degree to the chord, see addDegrees for more info. */
+    add11th(scale: Scale = null): Chord {
+        return this.addDegrees([11], scale);
     }
 
     /**
