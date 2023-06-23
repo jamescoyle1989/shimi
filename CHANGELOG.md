@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+
+
+## 2.4.0 (2023-06-23)
+
 ### Added
 
 - Chord method for creating a duplicate of itself.
