@@ -335,4 +335,14 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord.pitches[1]).to.equal(12);
         expect(chord.pitches[2]).to.equal(16);
     }
+
+    @test 'duplicate creates a copy of the chord'() {
+        const chord1 = new Chord().setRoot(36).addPitches([40, 43]);
+        const chord2 = chord1.duplicate();
+        expect(chord2.root).to.equal(chord1.root);
+        expect(chord2.pitches.length).to.equal(chord1.pitches.length);
+        for (let i = 0; i < chord2.pitches.length; i++)
+            expect(chord2.pitches[i]).to.equal(chord1.pitches[i]);
+        expect(chord2.name).to.equal(chord1.name);
+    }
 }

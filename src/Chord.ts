@@ -179,6 +179,15 @@ export default class Chord implements IPitchContainer {
         return this.pitches.find(p => safeMod(p, 12) == pitch) != undefined;
     }
 
+    /** Creates a copy of the chord. */
+    duplicate(): Chord {
+        const output = new Chord();
+        output._pitches = this.pitches.slice();
+        output._root = this.root;
+        output._name = this.name;
+        return output;
+    }
+
     /**
      * Modifies the pitches within a chord up/down octaves so that they are nearer to the desired pitch
      * @param pitch The pitch which the chord should be moved closer to

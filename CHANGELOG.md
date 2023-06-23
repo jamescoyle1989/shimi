@@ -6,11 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Added
+
+- Chord method for creating a duplicate of itself.
+
 ### Fixed
 
 - Note velocity gets rounded to the nearest integer, to prevent excessive aftertouch messages from note velocity tweens.
 
-- Long arpeggio notes don't get sustained between arpeggiator loops
+- Long arpeggio notes don't get sustained between arpeggiator loops.
 
 
 
