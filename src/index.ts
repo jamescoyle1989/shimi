@@ -11,6 +11,7 @@ import ClipPlayer from './ClipPlayer';
 import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRecorder';
 import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData } from './Clock';
 import Cue from './Cue';
+import Drums from './Drums';
 import EventSubscriber from './EventSubscriber';
 import './Extensions';
 import Flexinome from './Flexinome';
@@ -56,6 +57,7 @@ export {
     ClipRecorder, ClipRecorderEvent, ClipRecorderEventData,
     Clock, ClockChildFinishedEvent, ClockChildFinishedEventData,
     Cue,
+    Drums,
     EventSubscriber,
     Flexinome,
     FitDirection, FitPrecision,

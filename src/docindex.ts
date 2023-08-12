@@ -14,6 +14,7 @@ import ClipPlayer from './ClipPlayer';
 import ClipRecorder, { ClipRecorderEvent, ClipRecorderEventData } from './ClipRecorder';
 import Clock, { IClockChild, ClockChildFinishedEvent, ClockChildFinishedEventData } from './Clock';
 import Cue, { BeatCue, MsCue, ConditionalCue } from './Cue';
+import Drums from './Drums';
 import EventSubscriber, { IEventSubscriber } from './EventSubscriber';
 import { near } from './Extensions';
 import Flexinome from './Flexinome';
@@ -68,6 +69,7 @@ export {
     ClipRecorder, ClipRecorderEvent, ClipRecorderEventData,
     Clock, IClockChild, ClockChildFinishedEvent, ClockChildFinishedEventData,
     Cue, BeatCue, MsCue, ConditionalCue,
+    Drums,
     EventSubscriber, IEventSubscriber,
     near,
     Flexinome,

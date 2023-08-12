@@ -2,7 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Chord from '../src/Chord';
 import ChordFinder from '../src/ChordFinder';
-import { FitDirection, FitPitchOptions, FitPrecision } from '../src/IPitchContainer';
+import { FitPitchOptions } from '../src/IPitchContainer';
 import ScaleTemplate from '../src/ScaleTemplate';
 
 
