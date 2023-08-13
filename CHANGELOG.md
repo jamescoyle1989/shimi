@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Drums class to allow easy referencing of MIDI drums by name.
 
+- Updater class to eventually replace Clock class for improved library performance.
+
 
 
 ## 2.4.0 (2023-06-23)

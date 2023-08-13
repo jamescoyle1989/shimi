@@ -54,6 +54,7 @@ import Tween, {
     CubicInOutTween, CubicInTween, CubicOutTween,
     QuarticInOutTween, QuarticInTween, QuarticOutTween,
     MultiTween, StepsTween } from './Tweens';
+import Updater from './Updater';
 import WebAudioMidiOut, { WebAudioMidiOutChannel } from './WebAudioMidiOut';
 
 export {
@@ -105,5 +106,6 @@ export {
         QuadraticInOutTween, QuadraticInTween, QuadraticOutTween,
         CubicInOutTween, CubicInTween, CubicOutTween,
         QuarticInOutTween, QuarticInTween, QuarticOutTween,
+    Updater,
     WebAudioMidiOut, WebAudioMidiOutChannel
 }

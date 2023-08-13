@@ -43,6 +43,7 @@ import TickSender from './TickSender';
 import TimeSig, { TimeSigDivision } from './TimeSig';
 import ToneJSMidiOut from './ToneJSMidiOut';
 import Tween from './Tweens';
+import Updater from './Updater';
 import WebAudioMidiOut, { WebAudioMidiOutChannel } from './WebAudioMidiOut';
 
 export {
@@ -86,5 +87,6 @@ export {
     TimeSig, TimeSigDivision,
     ToneJSMidiOut,
     Tween,
+    Updater,
     WebAudioMidiOut, WebAudioMidiOutChannel
 }

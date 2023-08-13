@@ -1,8 +1,8 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import Clock, { IClockChild } from '../src/Clock';
+import Clock, { ClockChildFinishedEvent, IClockChild } from '../src/Clock';
 
-class TestClockChild implements IClockChild {
+export class TestClockChild implements IClockChild {
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
     private _ref: string;
@@ -14,6 +14,9 @@ class TestClockChild implements IClockChild {
 
     get isFinished(): boolean { return this._isFinished; }
     private _isFinished: boolean = false;
+
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     totalDeltaMs: number = 0;
 
