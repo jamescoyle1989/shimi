@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">TimeSig</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:34</li></ul></aside>
+<li>Defined in TimeSig.ts:38</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -41,6 +41,7 @@
 <h3 class="tsd-index-heading">Accessors</h3>
 <div class="tsd-index-list"><a href="TimeSig.html#beatsPerBar" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4D4D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-262144-path"></rect><path d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z" fill="var(--color-text)" id="icon-262144-text"></path></svg><span>beats<wbr/>Per<wbr/>Bar</span></a>
 <a href="TimeSig.html#quarterNotesPerBar" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>quarter<wbr/>Notes<wbr/>Per<wbr/>Bar</span></a>
+<a href="TimeSig.html#typeName" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>type<wbr/>Name</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
@@ -74,7 +75,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="TimeSig.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSig</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:72</li></ul></aside></li></ul></section></section>
+<li>Defined in TimeSig.ts:80</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="denominator" class="tsd-anchor"></a>
@@ -84,7 +85,7 @@
 <p>As far as I can tell, &#39;denominator&#39; isn&#39;t the proper name for this, but there also doesn&#39;t seem to be a well agreed upon actual proper name for it, so denominator is what we&#39;re going with.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:53</li></ul></aside></section>
+<li>Defined in TimeSig.ts:61</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="divisions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>divisions</span><a href="#divisions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">divisions<span class="tsd-signature-symbol">:</span> <a href="TimeSigDivision.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSigDivision</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
@@ -95,7 +96,7 @@
 <p>If working in 7/8, then <code>denominator = 8</code>, and we might have <code>divisions = [2, 2, 3]</code>. The 8 for denominator means we&#39;re counting in eighth notes. The divisions array means that we have 3 beats per bar, the first 2 are each 2 eighth notes long, and the 3rd is 3 eighth notes long.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:46</li></ul></aside></section>
+<li>Defined in TimeSig.ts:54</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="swing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>swing</span><a href="#swing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">swing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
@@ -104,7 +105,7 @@
 <p>A swing value &lt; 0.5 is far more rare, but works along the same principle as positive values, just in the other direction</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:62</li></ul></aside></section></section>
+<li>Defined in TimeSig.ts:70</li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="beatsPerBar" class="tsd-anchor"></a>
@@ -116,7 +117,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:98</li></ul></aside></li></ul></section>
+<li>Defined in TimeSig.ts:106</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="quarterNotesPerBar" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>quarter<wbr/>Notes<wbr/>Per<wbr/>Bar</span><a href="#quarterNotesPerBar" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -126,7 +127,17 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:101</li></ul></aside></li></ul></section></section>
+<li>Defined in TimeSig.ts:109</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="typeName" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>type<wbr/>Name</span><a href="#typeName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="typeName.typeName-1"><span class="tsd-signature-symbol">get</span> typeName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in TimeSig.ts:41</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="applySwing" class="tsd-anchor"></a>
@@ -150,7 +161,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:113</li></ul></aside></li></ul></section>
+<li>Defined in TimeSig.ts:121</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="beatToQuarterNote" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>beat<wbr/>To<wbr/>Quarter<wbr/>Note</span><a href="#beatToQuarterNote" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -165,7 +176,7 @@
 <h5>beat: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:166</li></ul></aside></li></ul></section>
+<li>Defined in TimeSig.ts:174</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="quarterNoteToBeat" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>quarter<wbr/>Note<wbr/>To<wbr/>Beat</span><a href="#quarterNoteToBeat" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -180,7 +191,7 @@
 <h5>quarterNote: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:133</li></ul></aside></li></ul></section>
+<li>Defined in TimeSig.ts:141</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="commonTime" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>common<wbr/>Time</span><a href="#commonTime" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -199,7 +210,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="TimeSig.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSig</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:206</li></ul></aside></li></ul></section></section></div>
+<li>Defined in TimeSig.ts:214</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -229,6 +240,7 @@
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="TimeSig.html#swing" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>swing</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="TimeSig.html#beatsPerBar" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>beats<wbr/>Per<wbr/>Bar</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="TimeSig.html#quarterNotesPerBar" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>quarter<wbr/>Notes<wbr/>Per<wbr/>Bar</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="TimeSig.html#typeName" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>type<wbr/>Name</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="TimeSig.html#applySwing" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>apply<wbr/>Swing</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="TimeSig.html#beatToQuarterNote" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>beat<wbr/>To<wbr/>Quarter<wbr/>Note</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="TimeSig.html#quarterNoteToBeat" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>quarter<wbr/>Note<wbr/>To<wbr/>Beat</a></li>

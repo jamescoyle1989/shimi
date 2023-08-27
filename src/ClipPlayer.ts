@@ -16,6 +16,10 @@ import { ControlChangeMessage, PitchBendMessage } from './MidiMessages';
  * @category Clips
  */
 export default class ClipPlayer implements IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ClipPlayer'; }
+
     /** The clip to play. */
     get clip(): Clip { return this._clip; }
     set clip(value: Clip) {

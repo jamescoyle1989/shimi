@@ -41,6 +41,7 @@
 <div class="tsd-index-list"><a href="ToneJSMidiOutChannel.html#isPolyphonic" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4D4D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-262144-path"></rect><path d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z" fill="var(--color-text)" id="icon-262144-text"></path></svg><span>is<wbr/>Polyphonic</span></a>
 <a href="ToneJSMidiOutChannel.html#parent" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>parent</span></a>
 <a href="ToneJSMidiOutChannel.html#target" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>target</span></a>
+<a href="ToneJSMidiOutChannel.html#typeName" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>type<wbr/>Name</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
@@ -68,7 +69,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ToneJSMidiOutChannel.html" class="tsd-signature-type" data-tsd-kind="Class">ToneJSMidiOutChannel</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:46</li></ul></aside></li></ul></section></section>
+<li>Defined in ToneJSMidiOut.ts:50</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="controlValues" class="tsd-anchor"></a>
@@ -77,7 +78,7 @@
 <div class="tsd-comment tsd-typography"><p>A collection of current control values. This array is instanciated in the constructor with 128 indices, each one initially set to 0. As control change MIDI messages are received, these values get updated.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:26</li></ul></aside></section>
+<li>Defined in ToneJSMidiOut.ts:30</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="onControlChange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Control<wbr/>Change</span><a href="#onControlChange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">on<wbr/>Control<wbr/>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>controlChange<span class="tsd-signature-symbol">: </span><a href="ControlChangeMessage.html" class="tsd-signature-type" data-tsd-kind="Class">ControlChangeMessage</a>, target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> = null</span></div>
@@ -99,7 +100,7 @@
 <h5>target: <span class="tsd-signature-type">any</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:97</li></ul></aside></section></section>
+<li>Defined in ToneJSMidiOut.ts:101</li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="isPolyphonic" class="tsd-anchor"></a>
@@ -111,7 +112,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:31</li></ul></aside></li></ul></section>
+<li>Defined in ToneJSMidiOut.ts:35</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="parent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>parent</span><a href="#parent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -121,7 +122,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ToneJSMidiOut.html" class="tsd-signature-type" data-tsd-kind="Class">ToneJSMidiOut</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:39</li></ul></aside></li></ul></section>
+<li>Defined in ToneJSMidiOut.ts:43</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="target" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>target</span><a href="#target" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -131,7 +132,17 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:20</li></ul></aside></li></ul></section></section>
+<li>Defined in ToneJSMidiOut.ts:24</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="typeName" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>type<wbr/>Name</span><a href="#typeName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="typeName.typeName-1"><span class="tsd-signature-symbol">get</span> typeName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in ToneJSMidiOut.ts:19</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="onNoteStart" class="tsd-anchor"></a>
@@ -150,7 +161,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:58</li></ul></aside></li></ul></section>
+<li>Defined in ToneJSMidiOut.ts:62</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="onNoteStop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Note<wbr/>Stop</span><a href="#onNoteStop" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -167,7 +178,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:69</li></ul></aside></li></ul></section>
+<li>Defined in ToneJSMidiOut.ts:73</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="onPitchBend" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Pitch<wbr/>Bend</span><a href="#onPitchBend" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -186,7 +197,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ToneJSMidiOut.ts:81</li></ul></aside></li></ul></section></section></div>
+<li>Defined in ToneJSMidiOut.ts:85</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -216,6 +227,7 @@
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ToneJSMidiOutChannel.html#isPolyphonic" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>is<wbr/>Polyphonic</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ToneJSMidiOutChannel.html#parent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>parent</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ToneJSMidiOutChannel.html#target" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>target</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="ToneJSMidiOutChannel.html#typeName" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>type<wbr/>Name</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ToneJSMidiOutChannel.html#onNoteStart" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>on<wbr/>Note<wbr/>Start</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ToneJSMidiOutChannel.html#onNoteStop" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>on<wbr/>Note<wbr/>Stop</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ToneJSMidiOutChannel.html#onPitchBend" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>on<wbr/>Pitch<wbr/>Bend</a></li></ul></li></ul></nav></div></div>

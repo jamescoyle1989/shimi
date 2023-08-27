@@ -13,6 +13,10 @@ import SliderInput from './SliderInput';
  * @category User Inputs
  */
 export default class Gamepads implements IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Gamepads'; }
+
     // The gamepads which have been added but not matched to an input yet
     private _unmatched: IGamepad[] = [];
 

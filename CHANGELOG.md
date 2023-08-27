@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Updater class to eventually replace Clock class for improved library performance.
 
+- Added typeName property to nearly all classes, as a way to do easy rudimentary type-checking.
+
+### Removed
+
+- All use of instanceof, as it has proved unreliable in real world usage.
 
 
 ## 2.4.0 (2023-06-23)

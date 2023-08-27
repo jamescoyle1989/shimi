@@ -12,6 +12,10 @@ import { ITween } from './Tweens';
  * @category Chords & Scales
  */
 export class ArpeggioNote extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ArpeggioNote'; }
+
     /**
      * Stores a function that takes a chord as a parameter, and returns a pitch value
      * The recommended way to use this is with the [Chord.getPitch](https://jamescoyle1989.github.io/shimi/classes/Chord.html#getPitch) method, for example: `pitch = c => c.getPitch(0)`.
@@ -95,6 +99,10 @@ export class ArpeggioNote extends Range {
  * @category Chords & Scales
  */
 export class Arpeggio extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Arpeggio'; }
+
     /** The collection of notes that make up the arpeggio shape. */
     notes: ArpeggioNote[] = [];
 

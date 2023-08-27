@@ -10,6 +10,10 @@ import { IMidiOut } from './MidiOut';
  * The TickSender is used for sending MIDI clock messages out, so that other MIDI devices can stay in sync with a shimi metronome.
  */
 export default class TickSender implements IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.TickSender'; }
+
     /**
      * The metronome object which the TickSender sends out clock messages for.
      */

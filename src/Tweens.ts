@@ -39,6 +39,10 @@ export interface ITween {
  * @category Tweens
  */
 export class LinearTween implements ITween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.LinearTween'; }
+
     /** The value to start the tween from. */
     get from(): number { return this._from; }
     private _from: number;
@@ -98,6 +102,10 @@ export class LinearTween implements ITween {
  * @category Tweens
  */
 export class MultiTween implements ITween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.MultiTween'; }
+
     private _children: Array<{tween: ITween, weight: number}> = [];
 
     /**
@@ -159,6 +167,10 @@ export class MultiTween implements ITween {
  * @category Tweens
  */
 export class SineInOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.SineInOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -192,6 +204,10 @@ export class SineInOutTween extends LinearTween {
  * @category Tweens
  */
 export class SineInTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.SineInTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -225,6 +241,10 @@ export class SineInTween extends LinearTween {
  * @category Tweens
  */
 export class SineOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.SineOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -258,6 +278,10 @@ export class SineOutTween extends LinearTween {
  * @category Tweens
  */
 export class StepsTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.StepsTween'; }
+
     /**
      * How many step movements to take in getting to the destination value.
      */
@@ -304,6 +328,10 @@ export class StepsTween extends LinearTween {
  * @category Tweens
  */
 export class QuadraticInOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.QuadraticInOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -342,6 +370,10 @@ export class QuadraticInOutTween extends LinearTween {
  * @category Tweens
  */
 export class QuadraticInTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.QuadraticInTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -375,6 +407,10 @@ export class QuadraticInTween extends LinearTween {
  * @category Tweens
  */
 export class QuadraticOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.QuadraticOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -409,6 +445,10 @@ export class QuadraticOutTween extends LinearTween {
  * @category Tweens
  */
 export class CubicInOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.CubicInOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -449,6 +489,10 @@ export class CubicInOutTween extends LinearTween {
  * @category Tweens
  */
 export class CubicInTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.CubicInTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -482,6 +526,10 @@ export class CubicInTween extends LinearTween {
  * @category Tweens
  */
 export class CubicOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.CubicOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -516,6 +564,10 @@ export class CubicOutTween extends LinearTween {
  * @category Tweens
  */
 export class QuarticInOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.QuarticInOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -556,6 +608,10 @@ export class QuarticInOutTween extends LinearTween {
  * @category Tweens
  */
 export class QuarticInTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.QuarticInTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
@@ -589,6 +645,10 @@ export class QuarticInTween extends LinearTween {
  * @category Tweens
  */
 export class QuarticOutTween extends LinearTween {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.QuarticOutTween'; }
+
     /**
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.

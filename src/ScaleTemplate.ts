@@ -17,6 +17,10 @@ import Scale from './Scale';
  * @category Chords & Scales
  */
 export default class ScaleTemplate {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ScaleTemplate'; }
+
     /** The name of the scale type, e.g. 'Major', 'Harmonic Minor', 'Phrygian', 'My Special Scale', etc. */
     get name(): string { return this._name; }
     set name(value: string) { this._name = value; }

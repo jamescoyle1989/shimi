@@ -9,6 +9,10 @@ import { parsePitch } from './utils';
  * @category Midi IO
  */
 export default class Note {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Note'; }
+
     /**
      * The MIDI pitch of the note, valid values range from 0 - 127.
      * 

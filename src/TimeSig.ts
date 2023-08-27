@@ -9,6 +9,10 @@ import { sum } from './IterationUtils';
  * @category Timing
  */
 export class TimeSigDivision {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.TimeSigDivision'; }
+
     /** The count is how many of note length (as defined by the TimeSig denominator) that this specific beat contains. */
     count: number = 1;
 
@@ -32,6 +36,10 @@ export class TimeSigDivision {
  * @category Timing
  */
 export default class TimeSig {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.TimeSig'; }
+
     /**
      * The divisions property contains an array of TimeSigDivision objects that define how to group note lengths (as defined by the denominator) together into beats. The sum of division counts equals the value of the top number in the time signature.
      * 

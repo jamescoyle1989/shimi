@@ -20,6 +20,10 @@ import { parsePitch, safeMod, sortComparison } from './utils';
  * @category Chords & Scales
  */
 export default class Chord implements IPitchContainer {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Chord'; }
+
     /** 
      * Contains the pitches that make up the chord.
      * 

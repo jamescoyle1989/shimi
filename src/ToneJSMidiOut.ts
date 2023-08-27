@@ -14,6 +14,10 @@ import * as messages from './MidiMessages';
  * @category Midi IO
  */
 export class ToneJSMidiOutChannel {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ToneJSMidiOutChannel'; }
+
     /**
      * The ToneJS instrument which will be responsible for playback.
      */
@@ -106,6 +110,9 @@ export class ToneJSMidiOutChannel {
  */
 export default class ToneJSMidiOut implements IMidiOut {
     
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ToneJSMidiOut'; }
+
     /**
      * The collection of channels that MIDI data can be sent out to. Each channel that's being used should hold a reference to a ToneJS instrument object.
      */
@@ -249,30 +256,38 @@ export default class ToneJSMidiOut implements IMidiOut {
      * @returns 
      */
     sendMessage(message: IMidiMessage): boolean {
-        if (message instanceof messages.NoteOffMessage) {
-            this.stopNotes(n => n.pitch == message.pitch && n.channel == message.channel);
+        const messageType = message.typeName;
+        if (messageType == 'shimi.NoteOffMessage') {
+            const noteOff = message as messages.NoteOffMessage;
+            this.stopNotes(n => n.pitch == noteOff.pitch && n.channel == noteOff.channel);
             return true;
         }
-        else if (message instanceof messages.NoteOnMessage)
-            return !!this.addNote(new Note(message.pitch, message.velocity, message.channel));
 
-        else if (message instanceof messages.ControlChangeMessage) {
-            const channelObj = this._channels[message.channel];
+        else if (messageType == 'shimi.NoteOnMessage') {
+            const noteOn = message as messages.NoteOnMessage;
+            return !!this.addNote(new Note(noteOn.pitch, noteOn.velocity, noteOn.channel));
+        }
+
+        else if (messageType == 'shimi.ControlChangeMessage') {
+            const controlChange = message as messages.ControlChangeMessage;
+            const channelObj = this._channels[controlChange.channel];
             if (channelObj) {
-                if (message.controller < 0 || message.controller > 127)
+                if (controlChange.controller < 0 || controlChange.controller > 127)
                     throw new Error('CC control must be between 0 & 127');
-                if (message.value < 0 || message.value > 127)
+                if (controlChange.value < 0 || controlChange.value > 127)
                     throw new Error('CC value must be between 0 & 127');
-                channelObj.controlValues[message.controller] = message.value;
+                channelObj.controlValues[controlChange.controller] = controlChange.value;
                 if (!!channelObj.onControlChange)
-                    channelObj.onControlChange(message, channelObj.target);
+                    channelObj.onControlChange(controlChange, channelObj.target);
                 return true;
             }
         }
-        else if (message instanceof messages.PitchBendMessage) {
-            const channelObj = this._channels[message.channel];
+
+        else if (messageType == 'shimi.PitchBendMessage') {
+            const pitchBend = message as messages.PitchBendMessage;
+            const channelObj = this._channels[pitchBend.channel];
             if (channelObj)
-                return channelObj.onPitchBend(message);
+                return channelObj.onPitchBend(pitchBend);
         }
         
         return false;

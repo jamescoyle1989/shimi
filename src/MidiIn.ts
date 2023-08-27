@@ -38,6 +38,10 @@ export class MidiInEvent<TMessage> extends ShimiEvent<MidiInEventData<TMessage>,
  * @category Midi IO
  */
 export default class MidiIn implements IMidiIn {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.MidiIn'; }
+
     /**
      * The MIDI port which data gets received from, see the MidiAccess class.
      * 

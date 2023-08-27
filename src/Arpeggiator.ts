@@ -17,6 +17,10 @@ import PropertyTracker from './PropertyTracker';
  * @category Chords & Scales
  */
 export default class Arpeggiator implements IClockChild {
+
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Arpeggiator'; }
+
     /** Which arpeggio to play */
     get arpeggio(): Arpeggio { return this._arpeggio; }
     set arpeggio(value: Arpeggio) { this._arpeggio = value; }

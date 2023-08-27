@@ -11,6 +11,10 @@ import ShimiEvent, { ShimiEventData } from './ShimiEvent';
  * @category Timing
  */
 export default class Clock {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Clock'; }
+
     /** 
      * How many milliseconds from one tick to the next.
      * 

@@ -11,6 +11,10 @@ import { safeMod } from './utils';
  * @category Chords & Scales
  */
 export class ChordProgressionChord extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ChordProgressionChord'; }
+
     /** The chord to be played at a specific point in the progression. */
     get chord(): Chord { return this._chord; }
     set chord(value: Chord) { this._chord = value; }
@@ -29,6 +33,10 @@ export class ChordProgressionChord extends Range {
  * @category Chords & Scales
  */
 export default class ChordProgression extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ChordProgression'; }
+
     /**
      * The collection of chords that the progression contains.
      */

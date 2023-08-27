@@ -40,6 +40,10 @@ export class ChordEvent<TSource> extends ShimiEvent<ChordEventData<TSource>, TSo
  * @category Chords & Scales
  */
 export default class ChordProgressionPlayer implements IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ChordProgressionPlayer'; }
+
     /** The chord progression to play */
     get chordProgression(): ChordProgression { return this._chordProgression; }
     set chordProgression(value: ChordProgression) {

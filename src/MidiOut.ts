@@ -11,6 +11,10 @@ import { IMidiMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage } from
  * @category Midi IO
  */
 export default class MidiOut implements IMidiOut, IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.MidiOut'; }
+
     /** The MIDI Out port which data gets sent to, see MidiAccess class. */
     port: any;
     

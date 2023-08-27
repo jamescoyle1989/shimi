@@ -38,6 +38,10 @@ export class PitchName {
  * @category Chords & Scales
  */
 export default class Scale implements IPitchContainer {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Scale'; }
+
     /** The name of the scale */
     get name(): string { return this._name; }
     set name(value: string) { this._name = value; }

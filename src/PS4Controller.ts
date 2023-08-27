@@ -11,6 +11,10 @@ import { IGamepad } from './Gamepads';
  * @category User Inputs
  */
 export default class PS4Controller implements IGamepad {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.PS4Controller'; }
+
     /** The collection of all buttons on the gamepad. */
     get buttons(): ButtonInput[] { return this._buttons; }
     private _buttons: ButtonInput[];

@@ -14,6 +14,10 @@ import { toHertz } from './utils';
  * @category Midi IO
  */
 export class WebAudioMidiOutChannel {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.WebAudioMidiOutChannel'; }
+
     /** The AudioContext instance which the synth channel is operating within. */
     audioContext: AudioContext;
 
@@ -66,6 +70,10 @@ export class WebAudioMidiOutChannel {
  * @category Midi IO
  */
 export default class WebAudioMidiOut implements IMidiOut, IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.WebAudioMidiOut'; }
+
     private _audioContext: AudioContext;
     /** The AudioContext instance which the WebAudioMidiOut is operating within. */
     get audioContext() { return this._audioContext; }
@@ -162,11 +170,15 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
      * @returns 
      */
     sendMessage(message: IMidiMessage): void {
-        if (message instanceof messages.NoteOffMessage) {
-            this.stopNotes(n => n.pitch == message.pitch && n.channel == message.channel);
+        const messageType = message.typeName;
+        if (messageType == 'shimi.NoteOffMessage') {
+            const noteOff = message as messages.NoteOffMessage;
+            this.stopNotes(n => n.pitch == noteOff.pitch && n.channel == noteOff.channel);
         }
-        else if (message instanceof messages.NoteOnMessage) {
-            const note = new Note(message.pitch, message.velocity, message.channel);
+
+        else if (messageType == 'shimi.NoteOnMessage') {
+            const noteOn = message as messages.NoteOnMessage;
+            const note = new Note(noteOn.pitch, noteOn.velocity, noteOn.channel);
             this.addNote(note);
         }
     }

@@ -9,6 +9,10 @@ import { parsePitch } from './utils';
  * @category Midi IO
  */
 export interface IMidiMessage {
+
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string;
+
     /**
      * The toArray method converts a MIDI message object into it's byte-array form which can be sent through a MIDI port to a connected piece of MIDI technology.
      */
@@ -41,6 +45,10 @@ export abstract class MidiMessageBase {
  * @category Midi IO
  */
 export class NoteOffMessage extends MidiMessageBase implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.NoteOffMessage'; };
+
     /** Acceptable values range from 0 to 127. */
     pitch: number = 0;
 
@@ -81,6 +89,10 @@ export class NoteOffMessage extends MidiMessageBase implements IMidiMessage {
  * @category Midi IO
  */
 export class NoteOnMessage extends MidiMessageBase implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.NoteOnMessage'; };
+
     /** Acceptable values range from 0 to 127. */
     pitch: number = 0;
 
@@ -121,6 +133,10 @@ export class NoteOnMessage extends MidiMessageBase implements IMidiMessage {
  * @category Midi IO
  */
 export class NotePressureMessage extends MidiMessageBase implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.NotePressureMessage'; };
+
     /** Acceptable values range from 0 to 127. */
     pitch: number = 0;
 
@@ -161,6 +177,10 @@ export class NotePressureMessage extends MidiMessageBase implements IMidiMessage
  * @category Midi IO
  */
 export class ControlChangeMessage extends MidiMessageBase implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ControlChangeMessage'; };
+
     /** Acceptable values range from 0 to 127. */
     controller: number = 0;
 
@@ -201,6 +221,10 @@ export class ControlChangeMessage extends MidiMessageBase implements IMidiMessag
  * @category Midi IO
  */
 export class ProgramChangeMessage extends MidiMessageBase implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ProgramChangeMessage'; };
+
     /** Acceptable values range from 0 to 127. */
     program: number = 0;
 
@@ -235,6 +259,10 @@ export class ProgramChangeMessage extends MidiMessageBase implements IMidiMessag
  * @category Midi IO
  */
 export class ChannelPressureMessage extends MidiMessageBase implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ChannelPressureMessage'; };
+
     /** Acceptable values range from 0 to 127. */
     value: number;
 
@@ -269,6 +297,10 @@ export class ChannelPressureMessage extends MidiMessageBase implements IMidiMess
  * @category Midi IO
  */
 export class PitchBendMessage extends MidiMessageBase implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.PitchBendMessage'; };
+
     /** Acceptable values range from -1 to +1, with 0 being no bend. */
     percent: number;
 
@@ -317,6 +349,10 @@ export class PitchBendMessage extends MidiMessageBase implements IMidiMessage {
  * @category Midi IO
  */
 export class TickMessage implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.TickMessage'; };
+
     constructor() {
     }
 
@@ -331,6 +367,10 @@ export class TickMessage implements IMidiMessage {
 
 
 export class SongPositionMessage implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.SongPositionMessage'; };
+
     /** The number of MIDI ticks that have occured since the start of the song, divided by 6. */
     value: number;
     
@@ -365,6 +405,10 @@ export class SongPositionMessage implements IMidiMessage {
  * @category Midi IO
  */
  export class StartMessage implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.StartMessage'; };
+
     constructor() {
     }
 
@@ -384,6 +428,10 @@ export class SongPositionMessage implements IMidiMessage {
  * @category Midi IO
  */
  export class ContinueMessage implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ContinueMessage'; };
+
     constructor() {
     }
 
@@ -403,6 +451,10 @@ export class SongPositionMessage implements IMidiMessage {
  * @category Midi IO
  */
  export class StopMessage implements IMidiMessage {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.StopMessage'; };
+
     constructor() {
     }
 

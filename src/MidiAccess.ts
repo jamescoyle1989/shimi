@@ -45,6 +45,10 @@ export class MidiAccessPortEvent extends ShimiEvent<MidiAccessPortEventData, Mid
  * @category Midi IO
  */
 export default class MidiAccess {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.MidiAccess'; }
+
     /** Calling this static method is the recommended way to get new instances of this class. It waits for the MIDI access request to be confirmed before returning a new MidiAccess instance. */
     public static async request(): Promise<MidiAccess> {
         const access = await navigator['requestMIDIAccess']();

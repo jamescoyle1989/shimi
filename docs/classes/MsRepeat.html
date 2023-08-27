@@ -25,7 +25,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">MsRepeat</span></li></ul></section></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in Repeat.ts:145</li></ul></aside>
+<li>Defined in Repeat.ts:149</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -42,6 +42,7 @@
 <a href="MsRepeat.html#isFinished" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>is<wbr/>Finished</span></a>
 <a href="MsRepeat.html#msCount" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>ms<wbr/>Count</span></a>
 <a href="MsRepeat.html#ref" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>ref</span></a>
+<a href="MsRepeat.html#typeName" class="tsd-index-link tsd-kind-accessor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg><span>type<wbr/>Name</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
@@ -81,7 +82,7 @@
 <h4 class="tsd-returns-title">Returns <a href="MsRepeat.html" class="tsd-signature-type" data-tsd-kind="Class">MsRepeat</a></h4><aside class="tsd-sources">
 <p>Overrides RepeatBase&lt;FiniteRepeatArgs&gt;.constructor</p>
 <ul>
-<li>Defined in Repeat.ts:156</li></ul></aside></li></ul></section></section>
+<li>Defined in Repeat.ts:164</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="action" class="tsd-anchor"></a>
@@ -139,13 +140,13 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Repeat.ts:147</li></ul></aside></li></ul></section>
+<li>Defined in Repeat.ts:155</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="ref" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>ref</span><a href="#ref" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="ref.ref-1"><span class="tsd-signature-symbol">get</span> ref<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Provides a way of identifying cues so they can be easily retrieved later.</p>
+<div class="tsd-comment tsd-typography"><p>Provides a way of identifying repeats so they can be easily retrieved later.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from RepeatBase.ref</p>
@@ -161,7 +162,17 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from RepeatBase.ref</p>
 <ul>
-<li>Defined in Repeat.ts:13</li></ul></aside></li></ul></section></section>
+<li>Defined in Repeat.ts:13</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="typeName" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>type<wbr/>Name</span><a href="#typeName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+<li class="tsd-signature" id="typeName.typeName-1"><span class="tsd-signature-symbol">get</span> typeName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in Repeat.ts:152</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="finish" class="tsd-anchor"></a>
@@ -192,7 +203,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Overrides RepeatBase.update</p>
 <ul>
-<li>Defined in Repeat.ts:165</li></ul></aside></li></ul></section>
+<li>Defined in Repeat.ts:173</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="withRef" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>with<wbr/>Ref</span><a href="#withRef" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -244,6 +255,7 @@
 <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="MsRepeat.html#isFinished" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>is<wbr/>Finished</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MsRepeat.html#msCount" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>ms<wbr/>Count</a></li>
 <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="MsRepeat.html#ref" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>ref</a></li>
+<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="MsRepeat.html#typeName" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-262144-path"></use><use href="#icon-262144-text"></use></svg>type<wbr/>Name</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="MsRepeat.html#finish" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>finish</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="MsRepeat.html#update" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>update</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="MsRepeat.html#withRef" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>with<wbr/>Ref</a></li></ul></li></ul></nav></div></div>

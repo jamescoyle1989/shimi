@@ -9,6 +9,10 @@ import { SongPositionMessage } from './MidiMessages';
  * @category Timing
  */
 export default class TickReceiver implements IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.TickReceiver'; }
+
     /** The MIDI In object which tick events are received from. */
     get midiIn(): IMidiIn { return this._midiIn; }
     set midiIn(value: IMidiIn) {

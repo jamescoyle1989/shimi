@@ -93,6 +93,10 @@ export class ChordLookupResult {
  * @category Chords & Scales
  */
 export default class ChordFinder {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ChordFinder'; }
+
     lookupData: ChordLookupData[] = [];
 
     /**

@@ -33,6 +33,10 @@ export class ButtonEvent extends ShimiEvent<ButtonEventData, ButtonInput> {
  * @category User Inputs
  */
 export default class ButtonInput {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ButtonInput'; }
+
     /** Tracks changes to the button's state. */
     valueTracker: PropertyTracker<number>;
 

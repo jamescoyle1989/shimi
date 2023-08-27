@@ -8,7 +8,7 @@ import { IMetronome } from './Metronome';
  * @category Timing
  */
 class RepeatBase<TArgs> implements IClockChild {
-    /** Provides a way of identifying cues so they can be easily retrieved later. */
+    /** Provides a way of identifying repeats so they can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
     private _ref: string;
@@ -87,6 +87,10 @@ export class RepeatArgs {
  * @category Timing
  */
 export class ConditionalRepeat extends RepeatBase<RepeatArgs> {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ConditionalRepeat'; }
+
     /** The condition which must be satisfied for the repeat to automatically finish. */
     get condition(): () => boolean { return this._condition; }
     private _condition: () => boolean;
@@ -143,6 +147,10 @@ export class FiniteRepeatArgs extends RepeatArgs {
  * @category Timing
  */
 export class MsRepeat extends RepeatBase<FiniteRepeatArgs> {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.MsRepeat'; }
+
     /** How many milliseconds the repetition should run for. */
     get msCount(): number { return this._msCount; }
     private _msCount: number;
@@ -200,6 +208,10 @@ export class BeatRepeatArgs extends FiniteRepeatArgs {
  * @category Timing
  */
 export class BeatRepeat extends RepeatBase<BeatRepeatArgs> {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.BeatRepeat'; }
+
     /** The metronome used to count how many beats have passed. */
     get metronome(): IMetronome { return this._metronome; }
     private _metronome: IMetronome;

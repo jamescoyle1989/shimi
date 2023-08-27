@@ -17,6 +17,10 @@ import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } fro
  * @category Midi IO
  */
 export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.MidiBus'; }
+
     /*  
         ----------------------
         IMidiIn implementation
@@ -148,18 +152,45 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
 
     /** Sends data from the passed in MIDI message to the connected MIDI port */
     sendMessage(message: messages.IMidiMessage): void {
-        if (message instanceof messages.NoteOffMessage) this.noteOff.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.NoteOnMessage) this.noteOn.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.NotePressureMessage) this.notePressure.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.ControlChangeMessage) this.controlChange.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.ProgramChangeMessage) this.programChange.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.ChannelPressureMessage) this.channelPressure.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.PitchBendMessage) this.pitchBend.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.TickMessage) this.tick.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.SongPositionMessage) this.songPosition.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.StartMessage) this.start.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.ContinueMessage) this.continue.trigger(new MidiInEventData(this, message));
-        else if (message instanceof messages.StopMessage) this.stop.trigger(new MidiInEventData(this, message));
+        const messageType = message.typeName;
+        switch (messageType) {
+            case 'shimi.NoteOffMessage':
+                this.noteOff.trigger(new MidiInEventData(this, message as messages.NoteOffMessage));
+                break;
+            case 'shimi.NoteOnMessage':
+                this.noteOn.trigger(new MidiInEventData(this, message as messages.NoteOnMessage));
+                break;
+            case 'shimi.NotePressureMessage':
+                this.notePressure.trigger(new MidiInEventData(this, message as messages.NotePressureMessage));
+                break;
+            case 'shimi.ControlChangeMessage':
+                this.controlChange.trigger(new MidiInEventData(this, message as messages.ControlChangeMessage));
+                break;
+            case 'shimi.ProgramChangeMessage':
+                this.programChange.trigger(new MidiInEventData(this, message as messages.ProgramChangeMessage));
+                break;
+            case 'shimi.ChannelPressureMessage':
+                this.channelPressure.trigger(new MidiInEventData(this, message as messages.ChannelPressureMessage));
+                break;
+            case 'shimi.PitchBendMessage':
+                this.pitchBend.trigger(new MidiInEventData(this, message as messages.PitchBendMessage));
+                break;
+            case 'shimi.TickMessage':
+                this.tick.trigger(new MidiInEventData(this, message as messages.TickMessage));
+                break;
+            case 'shimi.SongPositionMessage':
+                this.songPosition.trigger(new MidiInEventData(this, message as messages.SongPositionMessage));
+                break;
+            case 'shimi.StartMessage':
+                this.start.trigger(new MidiInEventData(this, message as messages.StartMessage));
+                break;
+            case 'shimi.ContinueMessage':
+                this.continue.trigger(new MidiInEventData(this, message as messages.ContinueMessage));
+                break;
+            case 'shimi.StopMessage':
+                this.stop.trigger(new MidiInEventData(this, message as messages.StopMessage));
+                break;
+        }
     }
 
     /**

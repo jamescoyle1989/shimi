@@ -44,6 +44,10 @@ export class ClipRecorderEvent extends ShimiEvent<ClipRecorderEventData, ClipRec
  * @category Clips
  */
 export default class ClipRecorder implements IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ClipRecorder'; }
+
     /** The metronome which the recorder uses for tracking passed beats. */
     get metronome(): IMetronome { return this._metronome; }
     set metronome(value: IMetronome) { this._metronome = value; }

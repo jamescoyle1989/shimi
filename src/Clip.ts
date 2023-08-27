@@ -13,6 +13,10 @@ import { parsePitch } from './utils';
  * @category Clips
  */
 export class ClipNote extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ClipNote'; }
+
     /** The MIDI pitch of the note, valid values range from 0 - 127. */
     get pitch(): number { return this._pitch; }
     set pitch(value: number) { this._pitch = value; }
@@ -130,6 +134,10 @@ export class ClipNote extends Range {
  * @category Clips
  */
 export class ClipCC extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ClipCC'; }
+
     /** The MIDI controller to modify, valid values range from 0 - 127. */
     get controller(): number { return this._controller; }
     set controller(value: number) { this._controller = value; }
@@ -217,6 +225,10 @@ export class ClipCC extends Range {
  * @category Clips
  */
 export class ClipBend extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ClipBend'; }
+
     /**
      * How much bend to apply, valid values range from -1 to +1, or an ITween object to allow for values that change over time.
      * 
@@ -304,6 +316,10 @@ export class ClipBend extends Range {
  * @category Clips
  */
 export class Clip extends Range {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Clip'; }
+
     /**
      * The collection of notes that the clip contains.
      */

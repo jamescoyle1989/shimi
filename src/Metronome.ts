@@ -239,6 +239,10 @@ export class MetronomeBase {
  * @category Timing
  */
 export default class Metronome extends MetronomeBase implements IMetronome, IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Metronome'; }
+
     private _tempo: number = 120;
     /** Get the current metronome tempo. */
     get tempo(): number { return this._tempo; }

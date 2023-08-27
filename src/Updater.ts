@@ -2,6 +2,10 @@ import { IClockChild } from "./Clock";
 
 
 export default class Updater {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Updater'; }
+
     /** List of child objects that get updated on each cycle. */
     get children(): Array<IClockChild> { return this._children;}
     private _children: Array<IClockChild> = [];

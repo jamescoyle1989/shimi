@@ -68,6 +68,10 @@ class CueBase implements IClockChild {
  * @category Timing
  */
 export class MsCue extends CueBase {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.MsCue'; }
+
     /** The number of milliseconds to wait before performing some action. */
     get msCount(): number { return this._msCount; }
     private _msCount: number;
@@ -103,6 +107,10 @@ export class MsCue extends CueBase {
  * @category Timing
  */
 export class ConditionalCue extends CueBase {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ConditionalCue'; }
+
     /** The condition which must be satisfied before performing some action. */
     get condition(): () => boolean { return this._condition; }
     private _condition: () => boolean;
@@ -135,6 +143,10 @@ export class ConditionalCue extends CueBase {
  * @category Timing
  */
 export class BeatCue extends CueBase {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.BeatCue'; }
+
     /** The metronome to use for counting beats. */
     get metronome(): IMetronome { return this._metronome; }
     private _metronome: IMetronome;

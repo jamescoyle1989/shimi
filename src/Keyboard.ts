@@ -11,6 +11,10 @@ import { IEventSubscriber } from './EventSubscriber';
  * @category User Inputs
  */
 export default class Keyboard implements IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Keyboard'; }
+
     /** The collection of all ButtonInputs that the Keyboard holds. */
     get buttons(): ButtonInput[] { return this._buttons; }
     private _buttons: ButtonInput[] = [];

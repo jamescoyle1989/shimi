@@ -19,6 +19,10 @@ import ShimiEvent, { ShimiEventData } from './ShimiEvent';
  * @category Timing
  */
 export default class Flexinome extends MetronomeBase implements IMetronome, IClockChild {
+    
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.Flexinome'; }
+
     private _tempo: number = 120;
     /** Get the current flexinome tempo. */
     get tempo(): number { return this._tempo; }
