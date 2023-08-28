@@ -426,4 +426,96 @@ function getBendValFromPercent(percent: number): number[] {
         clipPlayer.finish();
         expect(testVar).to.equal(3);
     }
+
+    @test 'No notes get played if muteNotes is true'() {
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clip = new Clip(16).addNote(0, 1, 60, 80);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
+        clipPlayer.muteNotes = true;
+
+        metronome.update(50);
+        clipPlayer.update(50);
+        expect(midiOut.notes.length).to.equal(0);
+    }
+
+    @test 'All existing notes get stopped when muteNotes is set to true'() {
+        const metronome = new Metronome(120);
+        const midiOut = new MidiOut(new DummyPort());
+        const clip = new Clip(16).addNote(0, 1, 60, 80);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
+        metronome.update(50);
+        clipPlayer.update(50);
+        expect(midiOut.notes[0].on).to.be.true;
+
+        clipPlayer.muteNotes = true;
+        expect(midiOut.notes[0].on).to.be.false;
+    }
+
+    @test 'No CCs get played when muteCCs is true'() {
+        const metronome = new Metronome(120);
+        const port = new DummyPort();
+        const midiOut = new MidiOut(port);
+        const clip = new Clip(16).addCC(0, 1, 10, 123);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
+        clipPlayer.muteCCs = true;
+
+        metronome.update(50);
+        clipPlayer.update(50);
+        expect(port.messages.length).to.equal(0);
+    }
+
+    @test 'No bends get played when muteBends is true'() {
+        const metronome = new Metronome(120);
+        const port = new DummyPort();
+        const midiOut = new MidiOut(port);
+        const clip = new Clip(16).addBend(0, 1, 0.5);
+        const clipPlayer = new ClipPlayer(clip, metronome, midiOut);
+        clipPlayer.muteBends = true;
+
+        metronome.update(50);
+        clipPlayer.update(50);
+        expect(port.messages.length).to.equal(0);
+    }
+
+    @test 'Setting muteAll to true turns on all mutes'() {
+        const clipPlayer = new ClipPlayer(null, null, null);
+
+        clipPlayer.muteAll = true;
+
+        expect(clipPlayer.muteNotes).to.be.true;
+        expect(clipPlayer.muteCCs).to.be.true;
+        expect(clipPlayer.muteBends).to.be.true;
+    }
+
+    @test 'Setting muteAll to false turns off all mutes'() {
+        const clipPlayer = new ClipPlayer(null, null, null);
+        clipPlayer.muteNotes = true;
+        clipPlayer.muteCCs = true;
+        clipPlayer.muteBends = true;
+
+        clipPlayer.muteAll = false;
+
+        expect(clipPlayer.muteNotes).to.be.false;
+        expect(clipPlayer.muteCCs).to.be.false;
+        expect(clipPlayer.muteBends).to.be.false;
+    }
+
+    @test 'Get muteAll returns true if all mutes are on'() {
+        const clipPlayer = new ClipPlayer(null, null, null);
+        clipPlayer.muteNotes = true;
+        clipPlayer.muteCCs = true;
+        clipPlayer.muteBends = true;
+
+        expect(clipPlayer.muteAll).to.be.true;
+    }
+
+    @test 'Get muteAll returns false if any mute is off'() {
+        const clipPlayer = new ClipPlayer(null, null, null);
+        clipPlayer.muteNotes = false;
+        clipPlayer.muteCCs = true;
+        clipPlayer.muteBends = true;
+
+        expect(clipPlayer.muteAll).to.be.false;
+    }
 }

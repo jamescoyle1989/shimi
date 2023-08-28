@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Added typeName property to nearly all classes, as a way to do easy rudimentary type-checking.
 
+- muteNotes, muteCCs, muteBends & muteAll properties added to ClipPlayer
+
 ### Removed
 
 - All use of instanceof, as it has proved unreliable in real world usage.
