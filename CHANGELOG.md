@@ -10,11 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Drums class to allow easy referencing of MIDI drums by name.
 
-- Updater class to eventually replace Clock class for improved library performance.
-
 - Added typeName property to nearly all classes, as a way to do easy rudimentary type-checking.
 
 - muteNotes, muteCCs, muteBends & muteAll properties added to ClipPlayer
+
+### Changed
+
+- Clock will now default to using a web worker where it can for running its update cycle
 
 ### Removed
 

@@ -1,5 +1,6 @@
 'use strict';
 
+import ClockUpdateSource from './ClockUpdateSource';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
 
@@ -20,8 +21,7 @@ export default class Clock {
      * 
      * Please note that the clock will not necessarily update exactly as often as defined here, but it should be pretty close.
      */
-    get msPerTick(): number { return this._msPerTick; }
-    private _msPerTick: number;
+    get msPerTick(): number { return this._updateSource.msPerTick; }
 
     /** List of objects that get updated by the clock each update cycle. */
     get children(): Array<IClockChild> { return this._children;}
@@ -29,10 +29,12 @@ export default class Clock {
 
     private _lastUpdateTime: number;
 
-    private _timer: NodeJS.Timer;
+    private _updateSource: ClockUpdateSource = null;
+
+    private _onUpdateSourceTick: () => void = () => this.updateChildren();
 
     /** Returns whether the clock is already running. */
-    get running(): boolean { return !!this._timer; }
+    get running(): boolean { return this._updateSource.running; }
 
     /**
      * @param msPerTick How many milliseconds from one tick to the next.
@@ -42,26 +44,23 @@ export default class Clock {
      * The default value is 5.
      */
     constructor(msPerTick: number = 5) {
-        this._msPerTick = msPerTick;
+        this._updateSource = new ClockUpdateSource(this._onUpdateSourceTick, msPerTick);
     }
 
     /** 
      * Starts the clock running regular updates. Returns false if the clock was already running, otherwise returns true.
      */
     start(): boolean {
-        if (this.running)
+        if (!this._updateSource.start())
             return false;
-        this._timer = setInterval(() => this.updateChildren(), this.msPerTick);
         this._lastUpdateTime = new Date().getTime();
         return true;
     }
 
     /** Stops the clock from running regular updates. Returns false if the clock was already stopped, otherwise returns true. */
     stop(): boolean {
-        if (!this.running)
+        if (!this._updateSource.stop())
             return false;
-        clearTimeout(this._timer);
-        this._timer = null;
         this._lastUpdateTime = null;
         return true;
     }
