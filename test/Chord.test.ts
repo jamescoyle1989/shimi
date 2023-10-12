@@ -378,12 +378,25 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord.contains(53)).to.be.true;
     }
 
-    @test 'Can chain together the specific degree add methods'() {
-        const scale = ScaleTemplate.diminished.create(0);
+    @test 'addDegrees can take negative values to use diminished versions of degrees'() {
         const chord = new Chord().setRoot(36)
-            .add3rd(scale).add5th().add6th(scale);
+            .addDegrees([-3,5]);
         expect(chord.contains(39)).to.be.true;
         expect(chord.contains(43)).to.be.true;
-        expect(chord.contains(45)).to.be.true;
+    }
+
+    @test 'addDegrees can handle higher number negative values'() {
+        const chord = new Chord().setRoot(36)
+            .addDegrees([3,5,-7,-9]);
+        expect(chord.contains(46)).to.be.true;
+        expect(chord.contains(49)).to.be.true;
+    }
+
+    @test 'addDegrees still uses diminished version even when scale provided prefers non-diminished'() {
+        const scale = ScaleTemplate.major.create(0);
+        const chord = new Chord().setRoot(43)
+            .addDegrees([-3,7], scale);
+        expect(chord.contains(46)).to.be.true;
+        expect(chord.contains(53)).to.be.true;
     }
 }

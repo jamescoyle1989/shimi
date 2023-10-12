@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - muteNotes, muteCCs, muteBends & muteAll properties added to ClipPlayer
 
+- Chord addDegrees method supports forcing addition of minor/diminished degrees
+
 ### Changed
 
 - Clock will now default to using a web worker where it can for running its update cycle
@@ -21,6 +23,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 
 - All use of instanceof, as it has proved unreliable in real world usage.
+
+### Deprecated
+
+- Chord add3rd, add5th, add7th, etc. methods
 
 
 ## 2.4.0 (2023-06-23)
