@@ -1,6 +1,6 @@
 'use strict';
 
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMidiIn, MidiInEventData } from './MidiIn';
 import { IMetronome } from './Metronome';
 import { Clip, ClipBend, ClipCC, ClipNote } from './Clip';
@@ -132,6 +132,8 @@ export default class ClipRecorder implements IClockChild {
     constructor(metronome: IMetronome, midiIn: IMidiIn) {
         this.metronome = metronome;
         this.midiIn = midiIn;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     private _getClipPosition(position: number): number {

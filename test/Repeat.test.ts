@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Metronome from '../src/Metronome';
 import Repeat from '../src/Repeat';
+import { Clock } from '../src';
 
 
 @suite class RepeatTests {
@@ -131,5 +132,14 @@ import Repeat from '../src/Repeat';
 
         repeat.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const repeat = Repeat.forMs(100, () => {});
+
+        expect(Clock.default.children).to.contain(repeat);
+
+        Clock.default = null;
     }
 }

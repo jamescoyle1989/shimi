@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import ChordProgression from '../src/ChordProgression';
 import Chord from '../src/Chord';
 import ChordProgressionPlayer from '../src/ChordProgressionPlayer';
-import { Metronome } from '../src';
+import { Clock, Metronome } from '../src';
 
 
 const chordProgression1 = new ChordProgression(16)
@@ -88,5 +88,14 @@ const chordProgression2 = new ChordProgression(16)
 
         player.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const player = new ChordProgressionPlayer(null, null);
+
+        expect(Clock.default.children).to.contain(player);
+
+        Clock.default = null;
     }
 }

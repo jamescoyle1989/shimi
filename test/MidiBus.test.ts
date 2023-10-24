@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import MidiBus from '../src/MidiBus';
 import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage, PitchBendMessage, ProgramChangeMessage } from '../src/MidiMessages';
 import Note from '../src/Note';
+import { Clock } from '../src';
 
 
 @suite class MidiBusTests {
@@ -239,5 +240,14 @@ import Note from '../src/Note';
 
         midiBus.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const bus = new MidiBus();
+
+        expect(Clock.default.children).to.contain(bus);
+
+        Clock.default = null;
     }
 }

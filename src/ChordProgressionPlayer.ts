@@ -4,7 +4,7 @@ import Chord from './Chord';
 import ChordProgression, { ChordProgressionChord } from './ChordProgression';
 import { IMetronome } from './Metronome';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 
 
 /**
@@ -108,6 +108,8 @@ export default class ChordProgressionPlayer implements IClockChild {
     constructor(chordProgression: ChordProgression, metronome: IMetronome) {
         this.chordProgression = chordProgression;
         this.metronome = metronome;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**

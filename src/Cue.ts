@@ -1,7 +1,7 @@
 'use strict';
 
 import { IMetronome } from './Metronome';
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 
 
 /**
@@ -30,6 +30,8 @@ class CueBase implements IClockChild {
      */
     constructor(action: () => void) {
         this._action = action;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**

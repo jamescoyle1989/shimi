@@ -12,6 +12,9 @@ import ShimiEvent, { ShimiEventData } from './ShimiEvent';
  * @category Timing
  */
 export default class Clock {
+
+    /** If set, then classes implementing the IClockChild interface should automatically add themselves to the default clock. */
+    static default: Clock = null;
     
     /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
     get typeName(): string { return 'shimi.Clock'; }

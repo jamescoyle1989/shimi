@@ -4,6 +4,7 @@ import DummyPort from './DummyPort';
 import Cue from '../src/Cue';
 import Metronome from '../src/Metronome';
 import MidiOut from '../src/MidiOut';
+import { Clock } from '../src';
 
 
 @suite class CueTests {
@@ -92,5 +93,14 @@ import MidiOut from '../src/MidiOut';
 
         cue.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const cue = Cue.afterMs(1000, () => {});
+
+        expect(Clock.default.children).to.contain(cue);
+
+        Clock.default = null;
     }
 }

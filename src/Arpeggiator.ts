@@ -2,7 +2,7 @@
 
 import { Arpeggio, ArpeggioNote } from './Arpeggio';
 import Chord from './Chord';
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { Note } from './index';
 import { IMetronome } from './Metronome';
 import { IMidiOut } from './MidiOut';
@@ -97,6 +97,8 @@ export default class Arpeggiator implements IClockChild {
         this.arpeggio = arpeggio;
         this.metronome = metronome;
         this.midiOut = midiOut;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**

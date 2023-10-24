@@ -1,6 +1,6 @@
 'use strict';
 
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import ButtonInput from './ButtonInput';
 import SliderInput from './SliderInput';
 
@@ -35,6 +35,8 @@ export default class Gamepads implements IClockChild {
      */
     constructor(updateProvider: () => Gamepad[]) {
         this._updateProvider = updateProvider;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**

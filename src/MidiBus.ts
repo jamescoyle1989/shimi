@@ -4,7 +4,7 @@ import { IMidiIn, MidiInEvent, MidiInEventData } from './MidiIn';
 import { IMidiOut } from './MidiOut';
 import * as messages from './MidiMessages';
 import Note from './Note';
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 
 
 /**
@@ -20,6 +20,11 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     
     /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
     get typeName(): string { return 'shimi.MidiBus'; }
+
+    constructor() {
+        if (!!Clock.default)
+            Clock.default.addChild(this);
+    }
 
     /*  
         ----------------------

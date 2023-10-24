@@ -7,6 +7,7 @@ import MidiIn from '../src/MidiIn';
 import MidiBus from '../src/MidiBus';
 import * as messages from '../src/MidiMessages';
 import { Clip } from '../src/Clip';
+import { Clock } from '../src';
 
 
 @suite class ClipRecorderTests {
@@ -246,5 +247,14 @@ import { Clip } from '../src/Clip';
 
         clipRecorder.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const recorder = new ClipRecorder(null, null);
+
+        expect(Clock.default.children).to.contain(recorder);
+
+        Clock.default = null;
     }
 }

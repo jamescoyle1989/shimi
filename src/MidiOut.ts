@@ -1,6 +1,6 @@
 'use strict';
 
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import Note from './Note';
 import { IMidiMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage } from './MidiMessages';
 
@@ -51,6 +51,8 @@ export default class MidiOut implements IMidiOut, IClockChild {
      */
     constructor(port: any) {
         this.port = port;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /** Calling this tells the MidiOut to stop whatever it's doing and that it will no longer be used. */

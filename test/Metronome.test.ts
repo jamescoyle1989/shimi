@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import TimeSig from '../src/TimeSig';
 import Metronome from '../src/Metronome';
+import { Clock } from '../src';
 
 
 @suite class MetronomeTests {
@@ -256,5 +257,14 @@ import Metronome from '../src/Metronome';
 
         m.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const m = new Metronome(60);
+
+        expect(Clock.default.children).to.contain(m);
+
+        Clock.default = null;
     }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMetronome } from './Metronome';
 
 
@@ -30,6 +30,8 @@ class RepeatBase<TArgs> implements IClockChild {
      */
     constructor(action: (args: TArgs) => void) {
         this._action = action;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**

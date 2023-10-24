@@ -1,6 +1,6 @@
 'use strict';
 
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMetronome } from './Metronome';
 import { ContinueMessage, SongPositionMessage, StartMessage, StopMessage, TickMessage } from './MidiMessages';
 import { IMidiOut } from './MidiOut';
@@ -60,6 +60,8 @@ export default class TickSender implements IClockChild {
         this.metronome = metronome;
         this.midiOut = midiOut;
         this.ticksPerQuarterNote = ticksPerQuarterNote;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     private _onPositionChanged = () => {

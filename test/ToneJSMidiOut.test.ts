@@ -1,6 +1,6 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai'
-import { ControlChangeMessage, Note, NoteOffMessage, NoteOnMessage, PitchBendMessage } from '../src';
+import { Clock, ControlChangeMessage, Note, NoteOffMessage, NoteOnMessage, PitchBendMessage } from '../src';
 import ToneJSMidiOut from '../src/ToneJSMidiOut';
 import { parsePitch } from '../src/utils';
 
@@ -383,5 +383,14 @@ class TestPolySynth extends TestBaseSynth {
         midiOut.setChannel(2, synth);
         midiOut.sendMessage(new PitchBendMessage(1, 2));
         expect(midiOut.channels[2].target.frequency.value).to.be.approximately(493.88, 0.01);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const synth = new ToneJSMidiOut(new ToneTest());
+
+        expect(Clock.default.children).to.contain(synth);
+
+        Clock.default = null;
     }
 }

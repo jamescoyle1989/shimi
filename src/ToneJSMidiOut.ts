@@ -5,6 +5,7 @@ import { IMidiOut } from './MidiOut';
 import Note from './Note';
 import { toHertz } from './utils';
 import * as messages from './MidiMessages';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 
 
 
@@ -108,7 +109,7 @@ export class ToneJSMidiOutChannel {
  * 
  * @category Midi IO
  */
-export default class ToneJSMidiOut implements IMidiOut {
+export default class ToneJSMidiOut implements IMidiOut, IClockChild {
     
     /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
     get typeName(): string { return 'shimi.ToneJSMidiOut'; }
@@ -142,6 +143,8 @@ export default class ToneJSMidiOut implements IMidiOut {
         if (!toneJS)
             throw new Error('toneJS reference cannot be falsy');
         this._toneJS = toneJS;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**
@@ -198,43 +201,6 @@ export default class ToneJSMidiOut implements IMidiOut {
             note.onTracker.accept();
         }
         return note;
-    }
-
-    /**
-     * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
-     * @param deltaMs How many milliseconds have passed since the last update cycle.
-     * @returns 
-     */
-    update(deltaMs: number): void {
-        let anyNotesStopped = false;
-
-        for (let i = 0; i < this._notes.length; i++) {
-            const note = this._notes[i];
-            if (!note.on) {
-                if (note.onTracker.isDirty) {
-                    let sendNoteOff = true;
-                    const channelObj = this._channels[note.channel];
-                    if (channelObj) {
-                        for (let j = i + 1; j < this.notes.length; j++) {
-                            const note2 = this.notes[j];
-                            if (note.channel == note2.channel && note2.on && !note2.onTracker.isDirty) {
-                                if (!channelObj.isPolyphonic || note.pitch == note2.pitch) {
-                                    sendNoteOff = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (sendNoteOff)
-                        channelObj.onNoteStop(note);
-                    note.onTracker.accept();
-                }
-                anyNotesStopped = true;
-            }
-        }
-
-        if (anyNotesStopped)
-            this._notes = this._notes.filter(n => n.on);
     }
 
 
@@ -315,4 +281,81 @@ export default class ToneJSMidiOut implements IMidiOut {
     }
 
     //IMidiOut implementation end
+
+
+    //IClockChild implementation start
+
+    /**
+     * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
+     * @param deltaMs How many milliseconds have passed since the last update cycle.
+     * @returns 
+     */
+    update(deltaMs: number): void {
+        let anyNotesStopped = false;
+
+        for (let i = 0; i < this._notes.length; i++) {
+            const note = this._notes[i];
+            if (!note.on) {
+                if (note.onTracker.isDirty) {
+                    let sendNoteOff = true;
+                    const channelObj = this._channels[note.channel];
+                    if (channelObj) {
+                        for (let j = i + 1; j < this.notes.length; j++) {
+                            const note2 = this.notes[j];
+                            if (note.channel == note2.channel && note2.on && !note2.onTracker.isDirty) {
+                                if (!channelObj.isPolyphonic || note.pitch == note2.pitch) {
+                                    sendNoteOff = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (sendNoteOff)
+                        channelObj.onNoteStop(note);
+                    note.onTracker.accept();
+                }
+                anyNotesStopped = true;
+            }
+        }
+
+        if (anyNotesStopped)
+            this._notes = this._notes.filter(n => n.on);
+    }
+
+    /** Returns true if the clip player has finished playing its clip. */
+    get isFinished(): boolean { return this._isFinished; }
+    private _isFinished: boolean = false;
+
+    /** This event fires when the clip player finishes. */
+    get finished(): ClockChildFinishedEvent { return this._finished; }
+    private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
+
+    /** Calling this tells the clip player to stop whatever it's doing and that it will no longer be used. */
+    finish(): void {
+        this._isFinished = true;
+        this.stopNotes();
+        this.finished.trigger(new ClockChildFinishedEventData(this));
+    }
+
+    /** Provides a way of identifying a clip player so that it can be easily retrieved later. */
+    get ref(): string { return this._ref; }
+    set ref(value: string) { this._ref = value; }
+    private _ref: string;
+
+    /**
+     * Provides a way for setting the ref through a chained function call. For example:
+     * 
+     * ```
+     * clock.addChild(new ClipPlayer(clip, metronome, midiOut).withRef('player'));
+     * ```
+     * 
+     * @param ref The ref to set on the object.
+     * @returns The calling object.
+     */
+    withRef(ref: string): IClockChild {
+        this._ref = ref;
+        return this;
+    }
+
+    //IClockChild implementation end
 }

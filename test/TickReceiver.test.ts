@@ -149,4 +149,14 @@ import { SongPositionMessage, TickMessage } from '../src/MidiMessages';
         receiver.finish();
         expect(testVar).to.equal(3);
     }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const midiIn = new MidiIn(new MockPort());
+        const tickReceiver = new TickReceiver(midiIn, new Metronome(120));
+
+        expect(Clock.default.children).to.contain(tickReceiver);
+
+        Clock.default = null;
+    }
 }

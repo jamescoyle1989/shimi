@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import TimeSig from '../src/TimeSig';
 import Flexinome from '../src/Flexinome';
+import { Clock } from '../src';
 
 
 @suite class FlexinomeTests {
@@ -241,5 +242,14 @@ import Flexinome from '../src/Flexinome';
 
         m.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const metronome = new Flexinome(120);
+
+        expect(Clock.default.children).to.contain(metronome);
+
+        Clock.default = null;
     }
 }

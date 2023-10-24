@@ -3,7 +3,7 @@
 import { Clip, ClipNote } from './Clip';
 import { IMetronome } from './Metronome';
 import Note from './Note';
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMidiOut } from './MidiOut';
 import { ControlChangeMessage, PitchBendMessage } from './MidiMessages';
 
@@ -140,6 +140,8 @@ export default class ClipPlayer implements IClockChild {
         this.clip = clip;
         this.metronome = metronome;
         this.midiOut = midiOut;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /** Start the running of the clip player. This is not needed unless you've previously explicitly paused or stopped it. */

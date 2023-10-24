@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { NoteOffMessage } from '../src/MidiMessages';
 import MidiOut from '../src/MidiOut';
 import Note from '../src/Note';
+import { Clock } from '../src';
 
 export class MockPort {
     data: number[];
@@ -174,5 +175,14 @@ export class MockPort {
 
         midiOut.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const midiOut = new MidiOut(new MockPort());
+
+        expect(Clock.default.children).to.contain(midiOut);
+
+        Clock.default = null;
     }
 }

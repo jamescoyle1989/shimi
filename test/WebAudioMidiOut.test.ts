@@ -1,6 +1,6 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { Note, NoteOffMessage, NoteOnMessage } from '../src';
+import { Clock, Note, NoteOffMessage, NoteOnMessage } from '../src';
 import WebAudioMidiOut, {WebAudioMidiOutChannel} from '../src/WebAudioMidiOut';
 
 
@@ -187,5 +187,15 @@ class DummyAudioContext {
 
         synth.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const audioContext: any = new DummyAudioContext();
+        const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
+
+        expect(Clock.default.children).to.contain(synth);
+
+        Clock.default = null;
     }
 }

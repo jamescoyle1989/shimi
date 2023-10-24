@@ -2,7 +2,7 @@
 
 import TimeSig from './TimeSig';
 import PropertyTracker from './PropertyTracker';
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMetronome, MetronomeBase } from './Metronome';
 import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 
@@ -158,6 +158,8 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
             this.timeSig = TimeSig.commonTime();
         this._timeSig.accept();
         this.tempo = tempo;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**

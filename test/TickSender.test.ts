@@ -197,4 +197,15 @@ import { SongPositionMessage } from '../src/MidiMessages';
         tickSender.finish();
         expect(testVar).to.equal(3);
     }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const metronome = new Metronome(120);
+        const midiOut = new MidiBus();
+        const tickSender = new TickSender(metronome, midiOut);
+
+        expect(Clock.default.children).to.contain(tickSender);
+
+        Clock.default = null;
+    }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMidiMessage } from './MidiMessages';
 import { IMidiOut } from './MidiOut';
 import Note from './Note';
@@ -91,6 +91,8 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
      */
     constructor(audioContext: AudioContext) {
         this._audioContext = audioContext;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     /**

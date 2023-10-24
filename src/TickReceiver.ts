@@ -1,4 +1,4 @@
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IMetronome } from './Metronome';
 import { IMidiIn, MidiInEventData } from './MidiIn';
 import { SongPositionMessage } from './MidiMessages';
@@ -53,6 +53,8 @@ export default class TickReceiver implements IClockChild {
         this.midiIn = midiIn;
         this.metronome = metronome;
         this.ticksPerQuarterNote = ticksPerQuarterNote;
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
 

@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Keyboard from '../src/Keyboard';
 import TestEventSubscriber from './TestEventSubscriber';
+import { Clock } from '../src';
 
 
 @suite class KeyboardTests {
@@ -77,5 +78,15 @@ import TestEventSubscriber from './TestEventSubscriber';
 
         keyboard.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const subscriber = new TestEventSubscriber();
+        const keyboard = new Keyboard(subscriber);
+
+        expect(Clock.default.children).to.contain(keyboard);
+
+        Clock.default = null;
     }
 }

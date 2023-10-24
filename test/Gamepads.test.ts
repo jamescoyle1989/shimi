@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Gamepads from '../src/Gamepads';
 import PS4Controller from '../src/PS4Controller';
+import { Clock } from '../src';
 
 
 function getTestInputs(): any[] {
@@ -121,5 +122,14 @@ function getNullTestInputs(): any[] {
 
         gamepads.finish();
         expect(testVar).to.equal(3);
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const gamepads = new Gamepads(getNullTestInputs);
+
+        expect(Clock.default.children).to.contain(gamepads);
+
+        Clock.default = null;
     }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 import ButtonInput from './ButtonInput';
-import { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
+import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import { IEventSubscriber } from './EventSubscriber';
 
 
@@ -474,6 +474,8 @@ export default class Keyboard implements IClockChild {
             this.numpad1, this.numpad2, this.numpad3, this.numpadEnter,
             this.numpad0, this.numpadDecimal
         );
+        if (!!Clock.default)
+            Clock.default.addChild(this);
     }
 
     private _activated: boolean = false;

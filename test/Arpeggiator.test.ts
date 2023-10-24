@@ -6,6 +6,7 @@ import MidiOut from '../src/MidiOut';
 import Arpeggiator from '../src/Arpeggiator';
 import { Arpeggio, ArpeggioNote } from '../src/Arpeggio';
 import { Chord, Tween } from '../src';
+import Clock from '../src/Clock';
 
 
 @suite class ArpeggiatorTests {
@@ -228,5 +229,14 @@ import { Chord, Tween } from '../src';
         metronome.update(600);
         arpeggiator.update(600);
         expect(note.on).to.be.false;
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const arpeggiator = new Arpeggiator(null, null, null);
+
+        expect(Clock.default.children).to.contain(arpeggiator);
+
+        Clock.default = null;
     }
 }

@@ -5,7 +5,7 @@ import { Clip, ClipBend, ClipCC, ClipNote } from '../src/Clip';
 import ClipPlayer from '../src/ClipPlayer';
 import Metronome from '../src/Metronome';
 import MidiOut from '../src/MidiOut';
-import { Tween } from '../src';
+import { Clock, Tween } from '../src';
 
 
 function getBendValFromPercent(percent: number): number[] {
@@ -517,5 +517,14 @@ function getBendValFromPercent(percent: number): number[] {
         clipPlayer.muteBends = true;
 
         expect(clipPlayer.muteAll).to.be.false;
+    }
+
+    @test 'Automatically adds itself to default clock if set'() {
+        Clock.default = new Clock();
+        const player = new ClipPlayer(null, null, null);
+
+        expect(Clock.default.children).to.contain(player);
+
+        Clock.default = null;
     }
 }
