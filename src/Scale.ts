@@ -341,6 +341,13 @@ export default class Scale implements IPitchContainer {
         for (const pitch of outOfScalePitches) {
             let nameOptions = pitchNames[pitch];
 
+            //Special rule for leading tone when root is sharp
+            //For example, in F# natural minor, the leading tone should be E#, not F
+            if (safeMod(pitch - this.root, 12) == 11 && results[0].accidental == 1) {
+                results.push(nameOptions.filter(x => x.accidental > 0)[0]);
+                continue;
+            }
+
             //If there's any option to go natural, always take it
             const naturalName = nameOptions.find(x => x.accidental == 0);
             if (naturalName) {

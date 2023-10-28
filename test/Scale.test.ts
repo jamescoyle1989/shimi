@@ -2,7 +2,6 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import ScaleTemplate from '../src/ScaleTemplate';
 import Scale, { PitchName } from '../src/Scale';
-import { FitDirection } from '../src/IPitchContainer';
 
 
 @suite class ScaleTests {
@@ -135,6 +134,54 @@ import { FitDirection } from '../src/IPitchContainer';
         expect(scale.getPitchName(8)).to.equal('G♯');
         expect(scale.getPitchName(9)).to.equal('A');
         expect(scale.getPitchName(10)).to.equal('B♭');
+        expect(scale.getPitchName(11)).to.equal('B');
+    }
+
+    @test 'F# natural minor has correct pitch names'() {
+        const scale = ScaleTemplate.naturalMinor.create(6);
+        expect(scale.getPitchName(0)).to.equal('C♮');
+        expect(scale.getPitchName(1)).to.equal('C♯');
+        expect(scale.getPitchName(2)).to.equal('D');
+        expect(scale.getPitchName(3)).to.equal('D♯');
+        expect(scale.getPitchName(4)).to.equal('E');
+        expect(scale.getPitchName(5)).to.equal('E♯');
+        expect(scale.getPitchName(6)).to.equal('F♯');
+        expect(scale.getPitchName(7)).to.equal('G♮');
+        expect(scale.getPitchName(8)).to.equal('G♯');
+        expect(scale.getPitchName(9)).to.equal('A');
+        expect(scale.getPitchName(10)).to.equal('A♯');
+        expect(scale.getPitchName(11)).to.equal('B');
+    }
+
+    @test 'G# natural minor has correct pitch names'() {
+        const scale = ScaleTemplate.naturalMinor.create(8);
+        expect(scale.getPitchName(0)).to.equal('C♮');
+        expect(scale.getPitchName(1)).to.equal('C♯');
+        expect(scale.getPitchName(2)).to.equal('D♮');
+        expect(scale.getPitchName(3)).to.equal('D♯');
+        expect(scale.getPitchName(4)).to.equal('E');
+        expect(scale.getPitchName(5)).to.equal('F♮');
+        expect(scale.getPitchName(6)).to.equal('F♯');
+        expect(scale.getPitchName(7)).to.equal('F𝄪');
+        expect(scale.getPitchName(8)).to.equal('G♯');
+        expect(scale.getPitchName(9)).to.equal('A♮');
+        expect(scale.getPitchName(10)).to.equal('A♯');
+        expect(scale.getPitchName(11)).to.equal('B');
+    }
+
+    @test 'F# harmonic minor has correct pitch names'() {
+        const scale = ScaleTemplate.harmonicMinor.create(6);
+        expect(scale.getPitchName(0)).to.equal('C♮');
+        expect(scale.getPitchName(1)).to.equal('C♯');
+        expect(scale.getPitchName(2)).to.equal('D');
+        expect(scale.getPitchName(3)).to.equal('D♯');
+        expect(scale.getPitchName(4)).to.equal('E♮');
+        expect(scale.getPitchName(5)).to.equal('E♯');
+        expect(scale.getPitchName(6)).to.equal('F♯');
+        expect(scale.getPitchName(7)).to.equal('G♮');
+        expect(scale.getPitchName(8)).to.equal('G♯');
+        expect(scale.getPitchName(9)).to.equal('A');
+        expect(scale.getPitchName(10)).to.equal('A♯');
         expect(scale.getPitchName(11)).to.equal('B');
     }
 
