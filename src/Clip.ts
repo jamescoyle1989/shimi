@@ -428,14 +428,15 @@ export class Clip extends Range {
     }
 
     /**
-     * Modify the start times of notes in the clip to be closer to some desired rhythmic pattern.
+     * Modify the start times of notes in the clip to be closer to some desired rhythmic pattern. Modifies the clip in place.
      * @param rhythm An array of numbers that specify a rhythm to quantize to.
      * For example [0.5] means that the clip should be quantized to eighth notes.
      * Alternatively, [0.5, 0.25, 0.25] means that the clip should be quantized to a heavy metal style gallop rhythm.
      * @param strength A number from 0 to 1, 1 means full quantization to the target rhythm
      * 0.5 will move notes half way towards the target rhythm, while 0 will do nothing
+     * @returns Returns the clip instance to allow for chaining.
      */
-    quantize(rhythm: number[], strength: number = 1): void {
+    quantize(rhythm: number[], strength: number = 1): Clip {
         if (!rhythm || rhythm.length == 0)
             throw new Error('You must provide a rhythm to quantize notes to');
         if (rhythm.find(x => x <= 0) != undefined)
@@ -456,36 +457,45 @@ export class Clip extends Range {
             //Move note start closer to nearestBeat
             note.start += strength * (nearestBeat - note.start);
         }
+        return this;
     }
 
     /**
-     * Transposes the notes in the clip up/down
+     * Transposes the notes in the clip up/down. Modifies the clip in place.
      * @param semitones How many semitones to transpose each note in the clip up by.
+     * @returns Returns the clip instance to allow for chaining.
      */
-    transpose(semitones: number): void {
+    transpose(semitones: number): Clip {
         for (const note of this.notes)
             note.pitch += semitones;
+        return this;
     }
 
     /**
      * Reflects the clip vertically around a center pitch.
+     * Modifies the clip in place.
      * @param reflectionPitch The pitch which notes in the clip are reflected around.
+     * @returns Returns the clip instance to allow for chaining.
      */
-    invert(reflectionPitch: number): void {
+    invert(reflectionPitch: number): Clip {
         for (const note of this.notes)
             note.pitch = (reflectionPitch * 2) - note.pitch;
+        return this;
     }
 
     /**
-     * Reflects the clip horizontally, with events from the start reflected to the end
+     * Reflects the clip horizontally, with events from the start reflected to the end.
+     * Modifies the clip in place.
+     * @returns Returns the clip instance to allow for chaining.
      */
-    reverse(): void {
+    reverse(): Clip {
         for (const note of this.notes)
             note.start = this.end - note.end;
         for (const cc of this.controlChanges)
             cc.start = this.end - cc.end;
         for (const bend of this.bends)
             bend.start = this.end - bend.end;
+        return this
     }
 
     /**

@@ -4,11 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+
 ## Unreleased
 
 ### Added
 
 - Can set Clock.default, which removes the need for IClockChild objects to be manually added to the clock.
+
+- Added Tween.multi, for better support creating multi-tweens.
+
+### Changed
+
+- Clip .quantize, .reverse, .invert & .transpose return clip instance.
 
 ### Fixed
 

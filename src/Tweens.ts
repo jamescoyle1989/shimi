@@ -684,6 +684,16 @@ export class QuarticOutTween extends LinearTween {
  */
 export default class Tween {
     /**
+     * Creates a new instance of MultiTween
+     * @param firstChild The first child to make up the multi-tween
+     * @param weight How much weight the first child gets within the overall tween
+     * @returns 
+     */
+    static multi(firstChild: ITween, weight: number = 1): MultiTween {
+        return new MultiTween(firstChild, weight);
+    }
+    
+    /**
      * Creates a new instance of LinearTween.
      * @param from The value to start the tween from.
      * @param to The value to end the tween at.
