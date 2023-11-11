@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Added Tween.multi, for better support creating multi-tweens.
 
+- Added PitchFitter class, which calculates pitch fitting over a range of notes to minimize overlaps.
+
 ### Changed
 
 - Clip .quantize, .reverse, .invert & .transpose return clip instance.
