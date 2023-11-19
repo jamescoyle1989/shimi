@@ -16,7 +16,7 @@ import Clock, { IClockChild, ClockChildFinishedEvent, ClockChildFinishedEventDat
 import Cue, { BeatCue, MsCue, ConditionalCue } from './Cue';
 import Drums from './Drums';
 import EventSubscriber, { IEventSubscriber } from './EventSubscriber';
-import { near } from './Extensions';
+import { near, octave, toOctave } from './Extensions';
 import Flexinome from './Flexinome';
 import { FitDirection, FitPrecision, IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import Gamepads, { IGamepad } from './Gamepads';
@@ -72,7 +72,7 @@ export {
     Cue, BeatCue, MsCue, ConditionalCue,
     Drums,
     EventSubscriber, IEventSubscriber,
-    near,
+    near, octave, toOctave,
     Flexinome,
     FitDirection, FitPrecision, IPitchContainer, FitPitchOptions,
     Gamepads, IGamepad,

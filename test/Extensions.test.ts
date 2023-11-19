@@ -16,4 +16,19 @@ import '../src/Extensions';
     @test 'near can take string representation of pitch'() {
         expect((2).near('C2')).to.equal(38);
     }
+
+
+    @test 'octave extension returns correct result'() {
+        expect((10).octave).to.equal(-1);
+        expect((17).octave).to.equal(0);
+        expect((24).octave).to.equal(1);
+        expect((37).octave).to.equal(2);
+    }
+
+
+    @test 'toOctave extension returns pitch class but in new octave'() {
+        expect((0).toOctave(1)).to.equal(24);
+        expect((15).toOctave(-1)).to.equal(3);
+        expect((26).toOctave(2)).to.equal(38);
+    }
 }

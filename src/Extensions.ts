@@ -5,6 +5,10 @@ import { safeMod, parsePitch } from './utils';
 declare global {
     interface Number {
         near(target: number | string): number;
+
+        get octave(): number;
+
+        toOctave(targetOctave: number): number;
     }
 }
 
@@ -35,3 +39,25 @@ export function near(target: number | string): number {
     return this + (octaveDiff * 12);
 }
 Number.prototype.near = near;
+
+
+/**
+ * This getter is provided as an extension of the number prototype, so that once you've got a pitch, you can easily identify which octave it's within.
+ * @returns 
+ */
+export function octave(): number {
+    return Math.floor(this / 12) - 1;
+};
+
+Object.defineProperty(Number.prototype, "octave", { get: octave });
+
+
+/**
+ * This function is provided as an extension of the number prototype, so that once you've got a pitch, you can easily translate it over to a particular octave.
+ * @param targetOctave The target octave which the new pitch should be within.
+ * @returns 
+ */
+export function toOctave(targetOctave: number): number {
+    return ((targetOctave + 1) * 12) + safeMod(this, 12);
+}
+Number.prototype.toOctave = toOctave;

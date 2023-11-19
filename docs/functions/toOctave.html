@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>pitch | shimi</title><meta name="description" content="Documentation for shimi"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>toOctave | shimi</title><meta name="description" content="Documentation for shimi"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -11,29 +11,25 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">shimi</a></li>
-<li><a href="pitch.html">pitch</a></li></ul>
-<h1>Function pitch</h1></div>
+<li><a href="toOctave.html">toOctave</a></li></ul>
+<h1>Function toOctave</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures tsd-kind-function">
-<li class="tsd-signature tsd-anchor-link" id="pitch">pitch<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#pitch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="toOctave">to<wbr/>Octave<span class="tsd-signature-symbol">(</span>targetOctave<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#toOctave" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>This function accepts a string representation of a pitch, and returns the MIDI number representation of it.</p>
-<p>An important point to note is that the way shimi uses the term &quot;pitch&quot; isn&#39;t technically correct, but does serve to make things less ambiguous in areas where otherwise things could get confusing. In musical terminology, &quot;pitch&quot; is usually measured in hertz as the frequency at which some instrument is producing sound waves, meanwhile a &quot;note&quot; is a musical sound which has some frequency and duration. In MIDI terminology, &quot;pitch&quot; isn&#39;t really used, and &quot;note&quot; is a value from 0 - 127 which maps to a frequency (usually within the Western tuning system) that the receiving oscillator should resonate at.</p>
-<p>In order to avoid confusion, and since shimi is very much within the MIDI space and so barely touches upon frequencies, &quot;note&quot; keeps its definition from the musical world (see the <a href="https://jamescoyle1989.github.io/shimi/classes/Note.html">Note</a> class). Meanwhile &quot;pitch&quot; refers to the MIDI note number ranging from 0 - 127 that the MIDI specification allows (<a href="https://www.inspiredacoustics.com/en/MIDI_note_numbers_and_center_frequencies">https://www.inspiredacoustics.com/en/MIDI_note_numbers_and_center_frequencies</a>).</p>
+<div class="tsd-comment tsd-typography"><p>This function is provided as an extension of the number prototype, so that once you&#39;ve got a pitch, you can easily translate it over to a particular octave.</p>
 
 <h3>Returns</h3></div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>name: <span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>The name parameter accepts &#39;A&#39;, &#39;B&#39;, ..., &#39;G&#39; to return a value within the lowest octave that MIDI supports (range 0 - 11). </p>
-<p>Accidental symbols ♯, #, ♭, b, ♮, 𝄪 (double sharp), x (also double sharp), 𝄫 (double flat) are also supported, and can be stacked on top of each other, for example: &#39;C♯&#39;, &#39;Dx#&#39;, &#39;F♭♯&#39;.</p>
-<p>A number can also be added to the end of the string to determine which octave the returned value should be in, for example: &#39;C5&#39;, &#39;D#7&#39;, &#39;Ab8&#39;</p>
+<h5>targetOctave: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>The target octave which the new pitch should be within.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in utils.ts:29</li></ul></aside></li></ul></section></div>
+<li>Defined in Extensions.ts:60</li></ul></aside></li></ul></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -169,9 +165,9 @@
 <li class="tsd-kind-type-alias"><a href="../types/FitPrecision.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg>Fit<wbr/>Precision</a></li>
 <li class="tsd-kind-function"><a href="near.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-function)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-64-path"></rect><path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" id="icon-64-text"></path></svg>near</a></li>
 <li class="tsd-kind-function"><a href="octave.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>octave</a></li>
-<li class="current tsd-kind-function"><a href="pitch.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>pitch</a></li>
+<li class="tsd-kind-function"><a href="pitch.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>pitch</a></li>
 <li class="tsd-kind-function"><a href="toHertz.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>to<wbr/>Hertz</a></li>
-<li class="tsd-kind-function"><a href="toOctave.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>to<wbr/>Octave</a></li></ul></nav></div></div>
+<li class="current tsd-kind-function"><a href="toOctave.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>to<wbr/>Octave</a></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>
