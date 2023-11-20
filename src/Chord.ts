@@ -161,16 +161,15 @@ export default class Chord implements IPitchContainer {
      * 
      * Example:
      * ```
-     * new shimi.Chord().addPitches([36, 40, 43]).getPitch(2) => 43
-     * new shimi.Chord().addPitches([36, 40, 43]).getPitch(3) => 48
-     * new shimi.Chord().addPitches([36, 40, 43, 47, 50]).getPitch(5) => 60 (because the chord spans more than 1 octave, we instead skip 2 octaves up)
-     * new shimi.Chord().addPitches([36, 40, 43]).getPitch(-1) => 31
+     * new shimi.Chord().addPitches([36, 40, 43]).getPitchByIndex(2) => 43
+     * new shimi.Chord().addPitches([36, 40, 43]).getPitchByIndex(3) => 48
+     * new shimi.Chord().addPitches([36, 40, 43]).getPitchByIndex(-1) => 31
      * ```
      * 
-     * @param index The index of the pitch withing the chord to fetch
+     * @param index The index of the pitch to fetch within the chord
      * @returns Returns a number representing the pitch at the specified index
      */
-    getPitch(index: number): number {
+    getPitchByIndex(index: number): number {
         index = Math.round(index);
         const octaveShift = Math.floor(index / this.pitches.length);
         index -= octaveShift * this.pitches.length;
