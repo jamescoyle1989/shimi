@@ -154,7 +154,7 @@ export default class Scale implements IPitchContainer {
      * @param rootOctave The octave of the scale root, which the returned pitch is calculated in relation to.
      * @returns 
      */
-    degree(degree: number, rootOctave: number = -1): number {
+    getPitchByDegree(degree: number, rootOctave: number = -1): number {
         degree = Math.round(degree - 1);
         let octaveShift = Math.floor(degree / this.length);
         degree -= octaveShift * this.length;

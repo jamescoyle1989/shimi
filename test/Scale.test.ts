@@ -298,58 +298,58 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale.fitPitch(41.5, {maxMovement: 1})).to.equal(42);
     }
 
-    @test 'degree allows fetching pitch of scale degree with non-zero indexing'() {
+    @test 'getPitchByDegree allows fetching pitch of scale degree with non-zero indexing'() {
         const scale = ScaleTemplate.major.create(7);
-        expect(scale.degree(2)).to.equal(9);
+        expect(scale.getPitchByDegree(2)).to.equal(9);
     }
 
-    @test 'degree maps degrees outside of the scale range to within the scale range'() {
+    @test 'getPitchByDegree maps degrees outside of the scale range to within the scale range'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(0)).to.equal(-1);
-        expect(scale.degree(9)).to.equal(14);
-        expect(scale.degree(-2)).to.equal(-5);
-        expect(scale.degree(12)).to.equal(19);
+        expect(scale.getPitchByDegree(0)).to.equal(-1);
+        expect(scale.getPitchByDegree(9)).to.equal(14);
+        expect(scale.getPitchByDegree(-2)).to.equal(-5);
+        expect(scale.getPitchByDegree(12)).to.equal(19);
     }
 
-    @test 'degree allows 2nd param to specify octave'() {
+    @test 'getPitchByDegree allows 2nd param to specify octave'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(2, 1)).to.equal(26);
+        expect(scale.getPitchByDegree(2, 1)).to.equal(26);
     }
 
-    @test 'degree 2nd param works with octave shifting from first param'() {
+    @test 'getPitchByDegree 2nd param works with octave shifting from first param'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(0, 0)).to.equal(11);
-        expect(scale.degree(9, 1)).to.equal(38);
-        expect(scale.degree(-2, 2)).to.equal(31);
-        expect(scale.degree(12, 3)).to.equal(67);
+        expect(scale.getPitchByDegree(0, 0)).to.equal(11);
+        expect(scale.getPitchByDegree(9, 1)).to.equal(38);
+        expect(scale.getPitchByDegree(-2, 2)).to.equal(31);
+        expect(scale.getPitchByDegree(12, 3)).to.equal(67);
     }
 
-    @test 'degree doesnt cause pitch jumping when moving up from B to C'() {
+    @test 'getPitchByDegree doesnt cause pitch jumping when moving up from B to C'() {
         const scale = ScaleTemplate.major.create(7);
-        expect(scale.degree(3)).to.equal(11);
-        expect(scale.degree(4)).to.equal(12);
+        expect(scale.getPitchByDegree(3)).to.equal(11);
+        expect(scale.getPitchByDegree(4)).to.equal(12);
     }
 
-    @test 'degree(x).toOctave(y) acts the same as degreeInOctave(x, y) used to'() {
+    @test 'getPitchByDegree(x).toOctave(y) acts the same as degreeInOctave(x, y) used to'() {
         const scale = ScaleTemplate.major.create(7);
-        expect(scale.degree(1).toOctave(0)).to.equal(19);
-        expect(scale.degree(2).toOctave(0)).to.equal(21);
-        expect(scale.degree(3).toOctave(0)).to.equal(23);
-        expect(scale.degree(4).toOctave(0)).to.equal(12);
-        expect(scale.degree(5).toOctave(0)).to.equal(14);
-        expect(scale.degree(6).toOctave(0)).to.equal(16);
-        expect(scale.degree(7).toOctave(0)).to.equal(18);
+        expect(scale.getPitchByDegree(1).toOctave(0)).to.equal(19);
+        expect(scale.getPitchByDegree(2).toOctave(0)).to.equal(21);
+        expect(scale.getPitchByDegree(3).toOctave(0)).to.equal(23);
+        expect(scale.getPitchByDegree(4).toOctave(0)).to.equal(12);
+        expect(scale.getPitchByDegree(5).toOctave(0)).to.equal(14);
+        expect(scale.getPitchByDegree(6).toOctave(0)).to.equal(16);
+        expect(scale.getPitchByDegree(7).toOctave(0)).to.equal(18);
 
-        expect(scale.degree(0).toOctave(0)).to.equal(18);
-        expect(scale.degree(-1).toOctave(0)).to.equal(16);
+        expect(scale.getPitchByDegree(0).toOctave(0)).to.equal(18);
+        expect(scale.getPitchByDegree(-1).toOctave(0)).to.equal(16);
 
-        expect(scale.degree(8).toOctave(0)).to.equal(19);
-        expect(scale.degree(9).toOctave(0)).to.equal(21);
+        expect(scale.getPitchByDegree(8).toOctave(0)).to.equal(19);
+        expect(scale.getPitchByDegree(9).toOctave(0)).to.equal(21);
     }
 
-    @test 'degree().near() allows fetching a pitch of the same class near another pitch'() {
+    @test 'getPitchByDegree().near() allows fetching a pitch of the same class near another pitch'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.degree(3).near(50)).to.equal(52);
+        expect(scale.getPitchByDegree(3).near(50)).to.equal(52);
     }
 
     @test 'pitchesInRange returns all pitches in the scale within the given pitch inclusive range'() {
