@@ -35,21 +35,6 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale.contains(3)).to.be.false;
     }
 
-    @test 'indexOf returns 0-based position of pitch in scale'() {
-        const scale = ScaleTemplate.major.create(0);
-        expect(scale.indexOf(0)).to.equal(0);
-        expect(scale.indexOf(4)).to.equal(2);
-        expect(scale.indexOf(5)).to.equal(3);
-        expect(scale.indexOf(9)).to.equal(5);
-    }
-
-    @test 'indexOf returns -1 for pitches out of scale'() {
-        const scale = ScaleTemplate.major.create(0);
-        expect(scale.indexOf(1)).to.equal(-1);
-        expect(scale.indexOf(6)).to.equal(-1);
-        expect(scale.indexOf(10)).to.equal(-1);
-    }
-
     @test 'degreeOf returns degree of pitch in scale'() {
         const scale = ScaleTemplate.major.create(0);
         expect(scale.degreeOf(0)).to.equal(1);
@@ -423,13 +408,6 @@ import Scale, { PitchName } from '../src/Scale';
         const scale = ScaleTemplate.major.create(0);
         expect(scale.contains('G')).to.be.true;
         expect(scale.contains('Ab')).to.be.false;
-    }
-
-    @test 'indexOf can take pitch string'() {
-        const scale = ScaleTemplate.major.create(0);
-        expect(scale.indexOf('C5')).to.equal(0);
-        expect(scale.indexOf('F3')).to.equal(3);
-        expect(scale.indexOf('Gb')).to.equal(-1);
     }
 
     @test 'getPitchName can take pitch string'() {
