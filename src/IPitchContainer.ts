@@ -126,5 +126,13 @@ export interface IPitchContainer {
      * @param pitch The MIDI numerical representation of the pitch to be fitted to the pitches within the container. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param options The options that determine how the pitch is fitted.
      */
-    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number
+    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number;
+
+
+    /** The root pitch within the collection. */
+    get root(): number;
+
+
+    /** The pitches contained within the collection. */
+    get pitches(): Array<number>;
 }

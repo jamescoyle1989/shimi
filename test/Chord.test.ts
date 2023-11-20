@@ -399,4 +399,10 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord.contains(46)).to.be.true;
         expect(chord.contains(53)).to.be.true;
     }
+
+
+    @test 'bass property returns the lowest pitch'() {
+        const chord = new Chord().setRoot(36).addPitches([31, 40]);
+        expect(chord.bass).to.equal(31);
+    }
 }

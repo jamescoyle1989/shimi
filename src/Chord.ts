@@ -44,6 +44,12 @@ export default class Chord implements IPitchContainer {
     private _root: number = null;
 
     /**
+     * The bass note of the chord.
+     */
+    get bass(): number { return Math.min(...this._pitches); }
+
+
+    /**
      * Holds the name of the chord.
      * 
      * Each time a pitch on the chord gets changed, the name property gets wiped out. So long as the static nameGenerator property has been set, then the next time an attempt is made to get the name, it will be automatically recalculated.
