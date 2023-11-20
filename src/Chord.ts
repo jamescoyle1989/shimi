@@ -177,6 +177,83 @@ export default class Chord implements IPitchContainer {
     }
 
     /**
+     * Returns a pitch from the chord based on its degree. To use this, you must have set the chord root.
+     * 
+     * Example:
+     * ```
+     * new shimi.Chord().setRoot(36).addPitches([40, 43]).getPitchByDegree(5) => 43
+     * new shimi.Chord().setRoot(36).addPitches([40, 43]).getPitchByDegree(8) => 48
+     * new shimi.Chord().setRoot(36).addPitches([40, 43]).getPitchByDegree(9) => 50
+     * ```
+     * @param degree The degree of the chord to fetch
+     * @param scale Used to find which pitch to use when the chord doesn't contain the requested degree.
+     * @returns Returns a number representing the pitch at the specified degree.
+     */
+    getPitchByDegree(degree: number, scale?: Scale): number {
+        if (this.root == null)
+            throw Error('Cannot call getPitchByDegree without root being set');
+        degree = Math.round(degree);
+        if (degree == 1)
+            return this.root;
+
+        const getPreferredOrFallbackPitch = (preferred: number, fallback: number): number => {
+            return this.pitches.find(x => x == preferred) ??
+                this.pitches.find(x => x == fallback) ??
+                (this.contains(preferred) ? preferred : null) ??
+                (this.contains(fallback) ? fallback: null);
+        }
+        
+        if (degree == 2) {
+            let output = getPreferredOrFallbackPitch(this.root + 2, this.root + 1);
+            if (output == null) {
+                if (this.getPitchByDegree(3, scale) == this.root + 4)
+                    return this.root + 2;
+                output = scale?.fitPitch(this.root + 2, {preferredDirection: 'DOWN', maxMovement: 1}) ??
+                    this.root + 2;
+            }
+            return output;
+        }
+        if (degree == 3)
+            return getPreferredOrFallbackPitch(this.root + 4, this.root + 3) ??
+                scale?.fitPitch(this.root + 4, {preferredDirection: 'DOWN', maxMovement: 1}) ??
+                this.root + 4;
+        if (degree == 4) {
+            if (this.getPitchByDegree(5, scale) == this.root + 6)
+                return this.root + 5;
+            return getPreferredOrFallbackPitch(this.root + 5, this.root + 6) ??
+                scale?.fitPitch(this.root + 5, {preferredDirection: 'UP', maxMovement: 1}) ??
+                this.root + 5;
+        }
+        if (degree == 5)
+            return getPreferredOrFallbackPitch(this.root + 7, this.root + 6) ??
+                scale?.fitPitch(this.root + 7, {preferredDirection: 'DOWN', maxMovement: 1}) ??
+                this.root + 7;
+        if (degree == 6) {
+            let output = getPreferredOrFallbackPitch(this.root + 9, this.root + 8);
+            if (output == null) {
+                if (this.getPitchByDegree(7, scale) - this.getPitchByDegree(5, scale) == 4)
+                    return this.getPitchByDegree(5, scale) + 2;
+                output = scale?.fitPitch(this.root + 9, {preferredDirection: 'DOWN', maxMovement: 1}) ??
+                    this.root + 9;
+            }
+            return output;
+        }
+        if (degree == 7)
+            return getPreferredOrFallbackPitch(this.root + 10, this.root + 11) ??
+                scale?.fitPitch(this.root + 10, {preferredDirection: 'UP', maxMovement: 1}) ??
+                this.root + 10;
+
+        //If going into chord extension range degrees, create a copy chord object to run the method on
+        //We set the root of the new chord to the same pitch class as this chord's root, but just below the degree we want to find
+        //This way if we have for example a major 3rd & minor 10th, then the method will prefer to take the correct one for each degree
+        const octaveShift = Math.floor((degree - 1) / 7);
+        const newChord = new Chord();
+        newChord._pitches = this._pitches.slice();
+        newChord.setRoot(this.root + (octaveShift * 12));
+        return newChord.getPitchByDegree(degree - (octaveShift * 7), scale);
+    }
+
+    /**
      * Returns true if the chord contains the passed in pitch. The method doesn't care if the pitches are in different octaves.
      * 
      * @param pitch The pitch to check if contained by the chord. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.

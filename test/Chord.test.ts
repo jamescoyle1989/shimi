@@ -259,6 +259,176 @@ Chord.nameGenerator = (chord: Chord) => {
         }
     }
 
+
+    @test 'getPitchByDegree(1) returns root'() {
+        const chord = new Chord().setRoot(12).addPitches([16, 19]);
+        expect(chord.getPitchByDegree(1)).to.equal(12);
+    }
+
+    @test 'getPitchByDegree throws error if root not set'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        expect(() => chord.getPitchByDegree(1)).to.throw();
+    }
+
+    @test 'getPitchByDegree(3) returns major or minor 3rd'() {
+        const chord1 = new Chord().setRoot(12).addPitches([16, 19]);
+        const chord2 = new Chord().setRoot(12).addPitches([15, 19]);
+        expect(chord1.getPitchByDegree(3)).to.equal(16);
+        expect(chord2.getPitchByDegree(3)).to.equal(15);
+    }
+
+    @test 'getPitchByDegree(3) will attempt to use 10th, 17th, etc'() {
+        const chord = new Chord().setRoot(12).addPitches([19, 27]);
+        expect(chord.getPitchByDegree(3)).to.equal(15);
+    }
+
+    @test 'getPitchByDegree(3) falls back to using scale if chord doesnt contain 3rd'() {
+        const scale = ScaleTemplate.naturalMinor.create(0);
+        const chord = new Chord().setRoot(12).addPitch(19);
+        expect(chord.getPitchByDegree(3, scale)).to.equal(15);
+    }
+
+    @test 'getPitchByDegree(3) falls back to major if no 3rd and scale not provided'() {
+        const chord = new Chord().setRoot(12).addPitch(19);
+        expect(chord.getPitchByDegree(3)).to.equal(16);
+    }
+
+    @test 'getPitchByDegree(5) returns perfect or diminished 5th'() {
+        const chord1 = new Chord().setRoot(12).addPitches([15, 19]);
+        const chord2 = new Chord().setRoot(12).addPitches([15, 18]);
+        expect(chord1.getPitchByDegree(5)).to.equal(19);
+        expect(chord2.getPitchByDegree(5)).to.equal(18);
+    }
+
+    @test 'getPitchByDegree(5) will attempt to use 12th, 19th, etc.'() {
+        const chord = new Chord().setRoot(12).addPitches([15, 30]);
+        expect(chord.getPitchByDegree(5)).to.equal(18);
+    }
+
+    @test 'getPitchByDegree(5) falls back to using scale if chord doesnt contain 5th'() {
+        const scale = ScaleTemplate.locrian.create(0);
+        const chord = new Chord().setRoot(12).addPitch(15);
+        expect(chord.getPitchByDegree(5, scale)).to.equal(18);
+    }
+
+    @test 'getPitchByDegree(5) falls back to perfect 5th if no 5th and scale not provided'() {
+        const chord = new Chord().setRoot(12).addPitch(15);
+        expect(chord.getPitchByDegree(5)).to.equal(19);
+    }
+
+    @test 'getPitchByDegree(4) always returns perfect 4th if getPitchByDegree(5) returns tritone'() {
+        const chord = new Chord().setRoot(12).addPitches([15, 18]);
+        expect(chord.getPitchByDegree(4)).to.equal(17);
+    }
+
+    @test 'getPitchByDegree(4) returns perfect or augmented 4th'() {
+        const chord1 = new Chord().setRoot(12).addPitches([15, 17, 19]);
+        const chord2 = new Chord().setRoot(12).addPitches([15, 18, 19]);
+        expect(chord1.getPitchByDegree(4)).to.equal(17);
+        expect(chord2.getPitchByDegree(4)).to.equal(18);
+    }
+
+    @test 'getPitchByDegree(4) will attempt to use 11th, 18th, etc.'() {
+        const chord = new Chord().setRoot(12).addPitches([19, 30]);
+        expect(chord.getPitchByDegree(4)).to.equal(18);
+    }
+
+    @test 'getPitchByDegree(4) falls back to using scale if chord doesnt contain 4th'() {
+        const scale = ScaleTemplate.major.create(2);
+        const chord = new Chord().setRoot(12).addPitch(19);
+        expect(chord.getPitchByDegree(4, scale)).to.equal(18);
+    }
+
+    @test 'getPitchByDegree(4) falls back to using perfect 4th if no 4th and scale not provided'() {
+        const chord = new Chord().setRoot(12);
+        expect(chord.getPitchByDegree(4)).to.equal(17);
+    }
+
+    @test 'getPitchByDegree(2) returns major or minor 2nd'() {
+        const chord1 = new Chord().setRoot(12).addPitches([14, 19]);
+        const chord2 = new Chord().setRoot(12).addPitches([13, 19]);
+        expect(chord1.getPitchByDegree(2)).to.equal(14);
+        expect(chord2.getPitchByDegree(2)).to.equal(13);
+    }
+
+    @test 'getPitchByDegree(2) will attempt to use 9th, 16th, etc.'() {
+        const chord = new Chord().setRoot(12).addPitches([19, 25]);
+        expect(chord.getPitchByDegree(2)).to.equal(13);
+    }
+
+    @test 'getPitchByDegree(2) will always return major 2nd if no 2nd found and getPitchByDegree(3) is major 3rd'() {
+        const chord = new Chord().setRoot(12).addPitches([16, 19]);
+        expect(chord.getPitchByDegree(2)).to.equal(14);
+    }
+
+    @test 'getPitchByDegree(2) falls back to using scale if chord doesnt contain 2nd'() {
+        const scale = ScaleTemplate.phrygian.create(0);
+        const chord = new Chord().setRoot(12).addPitch(15);
+        expect(chord.getPitchByDegree(2, scale)).to.equal(13);
+    }
+
+    @test 'getPitchByDegree(2) falls back to using major 2nd if no 2nd and scale not provided'() {
+        const chord = new Chord().setRoot(12).addPitch(15);
+        expect(chord.getPitchByDegree(2)).to.equal(14);
+    }
+
+    @test 'getPitchByDegree(7) returns major or minor 7th'() {
+        const chord1 = new Chord().setRoot(12).addPitches([14, 19, 23]);
+        const chord2 = new Chord().setRoot(12).addPitches([13, 19, 22]);
+        expect(chord1.getPitchByDegree(7)).to.equal(23);
+        expect(chord2.getPitchByDegree(7)).to.equal(22);
+    }
+
+    @test 'getPitchByDegree(7) will attempt to use 16th, 23th, etc.'() {
+        const chord = new Chord().setRoot(12).addPitches([19, 35]);
+        expect(chord.getPitchByDegree(7)).to.equal(23);
+    }
+
+    @test 'getPitchByDegree(7) falls back to using scale if chord doesnt contain 7th'() {
+        const scale = ScaleTemplate.major.create(0);
+        const chord = new Chord().setRoot(12).addPitch(19);
+        expect(chord.getPitchByDegree(7, scale)).to.equal(23);
+    }
+
+    @test 'getPitchByDegree(7) falls back to minor 7th if no 7th and scale not provided'() {
+        const chord = new Chord().setRoot(12).addPitch(19);
+        expect(chord.getPitchByDegree(7)).to.equal(22);
+    }
+
+    @test 'getPitchByDegree(6) returns major or minor 6th'() {
+        const chord1 = new Chord().setRoot(12).addPitches([14, 19, 21]);
+        const chord2 = new Chord().setRoot(12).addPitches([13, 19, 20]);
+        expect(chord1.getPitchByDegree(6)).to.equal(21);
+        expect(chord2.getPitchByDegree(6)).to.equal(20);
+    }
+
+    @test 'getPitchByDegree(6) will attempt to use 13th, 20th, etc.'() {
+        const chord = new Chord().setRoot(12).addPitches([19, 32]);
+        expect(chord.getPitchByDegree(6)).to.equal(20);
+    }
+
+    @test 'getPitchByDegree(6) will return 5th + 2 if no 6th found and 4 semitones between 5th & 7th'() {
+        const chord = new Chord().setRoot(12).addPitches([15, 18, 22]);
+        expect(chord.getPitchByDegree(6)).to.equal(20);
+    }
+
+    @test 'getPitchByDegree(6) falls back to using scale if chord doesnt contain 6th'() {
+        const scale = ScaleTemplate.naturalMinor.create(0);
+        const chord = new Chord().setRoot(12).addPitch(19);
+        expect(chord.getPitchByDegree(6, scale)).to.equal(20);
+    }
+
+    @test 'getPitchByDegree(6) falls back to using major 6th if no 6th and scale not provided'() {
+        const chord = new Chord().setRoot(12).addPitch(19);
+        expect(chord.getPitchByDegree(6)).to.equal(21);
+    }
+
+    @test 'getPitchByDegree(10) correctly handles differences between major 3rd and minor 10th'() {
+        const chord = new Chord().setRoot(12).addPitches([16, 27]);
+        expect(chord.getPitchByDegree(10)).to.equal(27);
+    }
+
+
     @test 'addPitch places new pitches in ascending order'() {
         const chord = new Chord().addPitches([10, 12]);
         chord.addPitch(11);

@@ -64,7 +64,7 @@ import Clock from '../src/Clock';
 
     @test 'Update creates new notes on the passed in MidiOut'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), 80));
         const metronome = new Metronome(120);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -81,7 +81,7 @@ import Clock from '../src/Clock';
 
     @test 'Update modifies the velocity of existing notes with tweens on them'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), Tween.linear(0, 80)));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), Tween.linear(0, 80)));
         const metronome = new Metronome(60);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -103,7 +103,7 @@ import Clock from '../src/Clock';
 
     @test 'Update creates new notes with tweened velocity at correct starting value'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), Tween.linear(0, 80)));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), Tween.linear(0, 80)));
         const metronome = new Metronome(60);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -117,7 +117,7 @@ import Clock from '../src/Clock';
 
     @test 'Update stops notes which should be ended'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), 80));
         const metronome = new Metronome(120);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -135,7 +135,7 @@ import Clock from '../src/Clock';
 
     @test 'noteModifier gets called for each new note thats created'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), 80));
         const metronome = new Metronome(120);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -157,7 +157,7 @@ import Clock from '../src/Clock';
 
     @test 'finish ends all notes'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), 80));
         const metronome = new Metronome(120);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -175,7 +175,7 @@ import Clock from '../src/Clock';
 
     @test 'update method doesnt fail if trying to play note when no chord set'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), 80));
         const metronome = new Metronome(120);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -199,7 +199,7 @@ import Clock from '../src/Clock';
 
     @test 'changing chord stops all currently playing notes'() {
         const arpeggio = new Arpeggio(4);
-        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitch(0), 80));
+        arpeggio.notes.push(new ArpeggioNote(0, 1, c => c.getPitchByIndex(0), 80));
         const metronome = new Metronome(120);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
@@ -216,7 +216,7 @@ import Clock from '../src/Clock';
 
     @test 'note that lasts entire arpeggio length still gets stopped'() {
         const arpeggio = new Arpeggio(1)
-            .addNote(0, 1, c => c.getPitch(0), 80);
+            .addNote(0, 1, c => c.getPitchByIndex(0), 80);
         const metronome = new Metronome(60);
         const midiOut = new MidiOut(new DummyPort());
         const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
