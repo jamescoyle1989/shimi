@@ -330,21 +330,21 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale.degree(4)).to.equal(12);
     }
 
-    @test 'degreeInOctave returns pitches strictly within the specified octave'() {
+    @test 'degree(x).toOctave(y) acts the same as degreeInOctave(x, y) used to'() {
         const scale = ScaleTemplate.major.create(7);
-        expect(scale.degreeInOctave(1, 0)).to.equal(19);
-        expect(scale.degreeInOctave(2, 0)).to.equal(21);
-        expect(scale.degreeInOctave(3, 0)).to.equal(23);
-        expect(scale.degreeInOctave(4, 0)).to.equal(12);
-        expect(scale.degreeInOctave(5, 0)).to.equal(14);
-        expect(scale.degreeInOctave(6, 0)).to.equal(16);
-        expect(scale.degreeInOctave(7, 0)).to.equal(18);
+        expect(scale.degree(1).toOctave(0)).to.equal(19);
+        expect(scale.degree(2).toOctave(0)).to.equal(21);
+        expect(scale.degree(3).toOctave(0)).to.equal(23);
+        expect(scale.degree(4).toOctave(0)).to.equal(12);
+        expect(scale.degree(5).toOctave(0)).to.equal(14);
+        expect(scale.degree(6).toOctave(0)).to.equal(16);
+        expect(scale.degree(7).toOctave(0)).to.equal(18);
 
-        expect(scale.degreeInOctave(0, 0)).to.equal(18);
-        expect(scale.degreeInOctave(-1, 0)).to.equal(16);
+        expect(scale.degree(0).toOctave(0)).to.equal(18);
+        expect(scale.degree(-1).toOctave(0)).to.equal(16);
 
-        expect(scale.degreeInOctave(8, 0)).to.equal(19);
-        expect(scale.degreeInOctave(9, 0)).to.equal(21);
+        expect(scale.degree(8).toOctave(0)).to.equal(19);
+        expect(scale.degree(9).toOctave(0)).to.equal(21);
     }
 
     @test 'degree().near() allows fetching a pitch of the same class near another pitch'() {

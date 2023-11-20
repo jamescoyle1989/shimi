@@ -165,19 +165,6 @@ export default class Scale implements IPitchContainer {
     }
 
     /**
-     * The degreeInOctave method accepts a numerical scale degree, and returns the numerical pitch value which it corresponds to.
-     * 
-     * The degreeInOctave method will always ensure that the returned value is in the specified octave. This is different from the degree method which returns a pitch relative to a scale root that is in a specific octave.
-     * @param degree The degree of the scale to fetch. This starts counting from root = 1. If the supplied value is < 1, or >= scale.length, then a modulus operation is applied. For example, if the scale has 7 degrees, then `scale.degreeInOctave(9) == scale.degreeInOctave(2)`.
-     * @param octave The octave which the returned pitch should be in (not taking into account octave shifts as described above for the degree parameter).
-     * @returns 
-     */
-    degreeInOctave(degree: number, octave: number = -1): number {
-        const degreePitch = this.pitches[safeMod(degree - 1, this.pitches.length)];
-        return degreePitch + ((octave + 1) * 12);
-    }
-
-    /**
      * The pitchesInRange method takes 2 numerical values, and returns all scale pitches which exist within that range. The search is inclusive of the passed in pitch parameters. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * 
      * Note, if lowPitch > highPitch, then rather than throw an error, lowPitch & highPitch are swapped in their roles.
