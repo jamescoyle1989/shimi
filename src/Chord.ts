@@ -1,6 +1,6 @@
 'use strict';
 
-import { IPitchContainer, FitPitchOptions, FitDirection, FitPrecision } from './IPitchContainer';
+import { IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import Scale from './Scale';
 import { parsePitch, safeMod, sortComparison } from './utils';
 
@@ -264,6 +264,15 @@ export default class Chord implements IPitchContainer {
 
         pitch = safeMod(pitch, 12);
         return this.pitches.find(p => safeMod(p, 12) == pitch) != undefined;
+    }
+
+    /** Modifies the chord in place, transposing the pitches within the chord up/down by the specified number of semitones. */
+    transpose(semitones: number): void {
+        if (this.root != null)
+            this.root = this.root + semitones;
+        for (let i = 0; i < this.pitches.length; i++)
+            this.pitches[i] = this.pitches[i] + semitones;
+        this._name = null;
     }
 
     /** Creates a copy of the chord. */

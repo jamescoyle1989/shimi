@@ -258,6 +258,13 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale1).to.equal(scale2);
     }
 
+    @test 'getTransposedScale returns new scale with different root'() {
+        const scale1 = ScaleTemplate.major.create(0);
+        const scale2 = scale1.getTransposedScale(1);
+        expect(scale2.root).to.equal(1);
+        expect(scale2.template).to.equal(scale1.template);
+    }
+
     @test 'fitPitch retains integers in scale'() {
         const scale = ScaleTemplate.major.create(0);
         expect(scale.fitPitch(40)).to.equal(40);

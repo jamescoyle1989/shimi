@@ -575,4 +575,26 @@ Chord.nameGenerator = (chord: Chord) => {
         const chord = new Chord().setRoot(36).addPitches([31, 40]);
         expect(chord.bass).to.equal(31);
     }
+
+
+    @test 'transpose correctly alters chord root & pitches'() {
+        const chord = new Chord().setRoot(36).addPitches([40, 43]);
+        chord.transpose(5);
+        expect(chord.root).to.equal(41);
+        expect(chord.pitches).to.contain(45);
+        expect(chord.pitches).to.contain(48);
+    }
+
+    @test 'transpose ignores root if it hasnt been set'() {
+        const chord = new Chord().addPitches([36, 40, 43]);
+        chord.transpose(-3);
+        expect(chord.root).to.be.null;
+    }
+
+    @test 'transpose forces name to be recalculated'() {
+        const chord = new Chord().addPitches([36, 39, 43]);
+        expect(chord.name).to.equal('Cm');
+        chord.transpose(7);
+        expect(chord.name).to.equal('Gm');
+    }
 }

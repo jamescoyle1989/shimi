@@ -1,6 +1,6 @@
 'use strict';
 
-import { IPitchContainer, FitPitchOptions, FitDirection } from './IPitchContainer';
+import { IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import ScaleTemplate from './ScaleTemplate';
 import { parsePitch, safeMod, sortComparison } from './utils';
 
@@ -363,6 +363,11 @@ export default class Scale implements IPitchContainer {
     /** Returns a new Scale object whose root is 5 semi-tones above (or 7 semi-tones below) the root of the calling scale. */
     getSubdominantScale(): Scale {
         return new Scale(this.template, this.root + 5);
+    }
+
+    /** Returns a new Scale object whose root is x semi-tones above or below the root of the calling scale. */
+    getTransposedScale(transposition: number): Scale {
+        return new Scale(this.template, this.root + transposition);
     }
 
     /**
