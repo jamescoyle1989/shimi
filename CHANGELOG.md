@@ -31,6 +31,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Scale.degreeInOctave
 
+- Chord add3rd, add5th, add7th, etc. methods
+
 
 ## 2.6.0 (2023-11-10)
 
