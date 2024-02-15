@@ -4,7 +4,7 @@ import { Arpeggio, ArpeggioNote } from './Arpeggio';
 import ButtonInput, { ButtonEvent, ButtonEventData } from './ButtonInput';
 import Chord from './Chord';
 import ChordFinder from './ChordFinder';
-import ChordProgression from './ChordProgression';
+import ChordProgression, { ChordProgressionChord } from './ChordProgression';
 import ChordProgressionPlayer from './ChordProgressionPlayer';
 import { Clip, ClipBend, ClipCC, ClipNote } from './Clip';
 import ClipPlayer from './ClipPlayer';
@@ -52,9 +52,8 @@ export {
     ButtonInput, ButtonEvent, ButtonEventData,
     Chord,
     ChordFinder,
-    ChordProgression, ChordProgressionPlayer,
-    Clip, ClipBend, ClipCC, ClipNote,
-    ClipPlayer,
+    ChordProgression, ChordProgressionChord, ChordProgressionPlayer,
+    Clip, ClipBend, ClipCC, ClipNote, ClipPlayer,
     ClipRecorder, ClipRecorderEvent, ClipRecorderEventData,
     Clock, ClockChildFinishedEvent, ClockChildFinishedEventData,
     Cue,

@@ -151,10 +151,19 @@ import ScaleTemplate from '../src/ScaleTemplate';
         expect(result.name).to.equal('{r}m7');
     }
 
+    @test 'findChordByName can use scale degree to lookup chord'() {
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const result = finder.findChordByName('bIII', ScaleTemplate.major.create('C'));
+        expect(result.shapeName).to.equal('M');
+        expect(result.root).to.equal(15);
+        expect(result.bass).to.equal(15);
+        expect(result.name).to.equal('{r}');
+    }
+
     @test 'getRegexStringFromLookupDataName correctly replaces braces'() {
         const finder = new ChordFinder();
         const result = finder['_getRegexStringFromLookupDataName']('{r}M7');
-        expect(result).to.equal('^(?<r>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)M7$');
+        expect(result).to.equal('^(?<r>(?:[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)|(?:(?:b|#|♭|♯)?(?:i|I|v|V)+))M7$');
     }
 
     @test 'getRegexStringFromLookupDataName throws error if unmatched number of braces'() {
@@ -165,14 +174,15 @@ import ScaleTemplate from '../src/ScaleTemplate';
     @test 'getRegexStringFromLookupDataName correctly handles inversions'() {
         const finder = new ChordFinder();
         const result = finder['_getRegexStringFromLookupDataName']('{r}7/{b}');
-        expect(result).to.equal('^(?<r>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)7\/(?<b>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)$');
+        expect(result).to.equal('^(?<r>(?:[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)|(?:(?:b|#|♭|♯)?(?:i|I|v|V)+))7\/(?<b>(?:[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)|(?:(?:b|#|♭|♯)?(?:i|I|v|V)+))$');
     }
 
     @test '_tryLookupMatchToChordName returns result of successful match'() {
         const finder = new ChordFinder().withDefaultChordLookups();
         const result = finder['_tryLookupMatchToChordName'](
             finder.lookupData.find(x => x.shapeName == 'm9'), 
-            'Ebm9/F'
+            'Ebm9/F',
+            ScaleTemplate.major.create('C')
         );
         expect(result.shapeName).to.equal('m9');
         expect(result.name).to.equal('{r}m9/{b}');
@@ -195,5 +205,26 @@ import ScaleTemplate from '../src/ScaleTemplate';
         expect(chord.pitches[0]).to.equal(14);
         expect(chord.pitches[1]).to.equal(18);
         expect(chord.pitches[2]).to.equal(21);
+    }
+
+    @test 'newChord returns new chord object for roman numerals'() {
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const chord = finder.newChord('iii7', ScaleTemplate.naturalMinor.create('C'));
+        expect(chord.root).to.equal(15);
+        expect(chord.pitches.length).to.equal(4);
+        expect(chord.pitches[0]).to.equal(15);
+        expect(chord.pitches[1]).to.equal(18);
+        expect(chord.pitches[2]).to.equal(22);
+        expect(chord.pitches[3]).to.equal(25);
+    }
+
+    @test 'newChord can handle chord name having bass as roman numerals too'() {
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const chord = finder.newChord('V/ii', ScaleTemplate.major.create('C'));
+        expect(chord.root).to.equal(19);
+        expect(chord.pitches.length).to.equal(3);
+        expect(chord.pitches[0]).to.equal(2);
+        expect(chord.pitches[1]).to.equal(19);
+        expect(chord.pitches[2]).to.equal(23);
     }
 }

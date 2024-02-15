@@ -1,3 +1,5 @@
+import Scale from './Scale';
+
 export function safeMod(value: number, divisor: number): number {
     return ((value % divisor) + divisor) % divisor;
 }
@@ -27,12 +29,26 @@ export function sortComparison<T>(a: T, b: T, accessor: (x: T) => number): numbe
  * @returns 
  */
 export function parsePitch(name: string): number {
+    const internalResult = parsePitchFromStringStart(name);
+    let octave = -1;
+    if (internalResult.parseEndIndex < name.length)
+        octave = Number(name.substring(internalResult.parseEndIndex));
+    if (Number.isNaN(octave))
+        throw new Error(name + ' is not a valid pitch name');
+    return internalResult.pitch + ((octave + 1) * 12);
+}
+
+/**
+ * Internal method called by parsePitch, this will interpret the start of the passed in string as a pitch name up until the first non-valid character is encountered.
+ * @returns Returns an object containing the parsed MIDI pitch number, plus the index of the input at which it stopped parsing the pitch name.
+ */
+export function parsePitchFromStringStart(name: string): { pitch: number, parseEndIndex: number } {
     let output = { C:0, D:2, E:4, F:5, G:7, A:9, B:11 }[name[0]];
     if (output == undefined)
         throw new Error(name + ' is not a valid pitch name');
 
-    let octave = -1;
-    for (let i = 1; i < name.length; i++) {
+    let i = 1;
+    for (; i < name.length; i++) {
         const char = name[i];
         if (char == '♮')
             continue;
@@ -50,15 +66,87 @@ export function parsePitch(name: string): number {
             output -= 2;
             i++;
         }
-        else {
-            octave = Number(name.substring(i));
-            if (Number.isNaN(octave))
-                throw new Error(name + ' is not a valid pitch name');
+        else
             break;
-        }
     }
 
-    return safeMod(output, 12) + ((octave + 1) * 12);
+    return { pitch: safeMod(output, 12), parseEndIndex: i };
+}
+
+
+export function parseRomanNumeralsFromStringStart(numerals: string, scale: Scale): { pitch: number, isMajor: boolean, parseEndIndex: number } {
+    if (!scale)
+        throw Error('scale must be provided');
+    if (scale.length != 7)
+        throw Error('scale provided must have length 7');
+    let parseEndIndex = 0;
+
+    //Read accidentals
+    let accidentalsSum = 0;
+    for (; parseEndIndex < numerals.length; parseEndIndex++) {
+        const char = numerals[parseEndIndex];
+        if (char == 'b' || char == '♭')
+            accidentalsSum -= 1;
+        else if (char == '#' || char == '♯')
+            accidentalsSum += 1;
+        else
+            break;
+    }
+    if (parseEndIndex > 1)
+        throw Error('Expected at most one accidental symbol');
+
+    //Read numerals
+    let numeralsStart = parseEndIndex;
+    const numeralChars = ['i', 'I', 'v', 'V'];
+    for (; parseEndIndex < numerals.length; parseEndIndex++) {
+        const char = numerals[parseEndIndex];
+        if (!numeralChars.includes(char))
+            break;
+    }
+    let pureNumerals = numerals.substring(numeralsStart, parseEndIndex);
+    let isMajor = true;
+    if (pureNumerals == pureNumerals.toLowerCase())
+        isMajor = false;
+    else if (pureNumerals != pureNumerals.toUpperCase())
+        throw Error('Invalid mixed casing of roman numerals');
+    pureNumerals = pureNumerals.toUpperCase();
+
+    let degree = 0;
+    switch (pureNumerals) {
+        case 'I': degree = 1; break;
+        case 'II': degree = 2; break;
+        case 'III': degree = 3; break;
+        case 'IV': degree = 4; break;
+        case 'V': degree = 5; break;
+        case 'VI': degree = 6; break;
+        case 'VII': degree = 7; break;
+        default: throw Error('Unrecognised roman numerals');
+    }
+
+    //Use the scale to determine the actual pitch info
+    let pitch = scale.getPitchByDegree(degree) + accidentalsSum;
+    switch (degree) {
+        case 1: pitch = Math.max(scale.root, Math.min(pitch, scale.root + 1)); break;
+        case 2: pitch = Math.max(scale.root + 1, Math.min(pitch, scale.root + 2)); break;
+        case 3: pitch = Math.max(scale.root + 3, Math.min(pitch, scale.root + 4)); break;
+        case 4: pitch = Math.max(scale.root + 5, Math.min(pitch, scale.root + 6)); break;
+        case 5: pitch = Math.max(scale.root + 6, Math.min(pitch, scale.root + 8)); break;
+        case 6: pitch = Math.max(scale.root + 8, Math.min(pitch, scale.root + 9)); break;
+        case 7: pitch = Math.max(scale.root + 10, Math.min(pitch, scale.root + 11)); break;
+    }
+    
+    return { pitch, isMajor, parseEndIndex };
+}
+
+
+export function parsePitchOrRomanNumeralsFromStringStart(input: string, scale: Scale): { pitch: number, isMajor: boolean, parseEndIndex: number } {
+    try {
+        const output = parsePitchFromStringStart(input);
+        return { pitch: output.pitch, isMajor: null, parseEndIndex: output.parseEndIndex };
+    }
+    catch (ex) {
+        return parseRomanNumeralsFromStringStart(input, scale);
+    }
 }
 
 

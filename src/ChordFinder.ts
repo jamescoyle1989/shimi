@@ -1,6 +1,6 @@
 'use strict';
 
-import { parsePitch, safeMod, sortComparison } from './utils';
+import { parsePitch, parsePitchFromStringStart, parsePitchOrRomanNumeralsFromStringStart, parseRomanNumeralsFromStringStart, safeMod, sortComparison } from './utils';
 import Scale from './Scale';
 import { distinct, mode } from './IterationUtils';
 import Chord from './Chord';
@@ -319,25 +319,51 @@ export default class ChordFinder {
      * @param chordName The name of the chord to look for
      * @returns 
      */
-    findChordByName(chordName: string): ChordLookupResult {
+    findChordByName(chordName: string, scale?: Scale): ChordLookupResult {
+        let chordRoot = 0;
+        let remainingChordName = '';
+        let isMajor: boolean = null;
+        try {
+            const parsedRoot = parsePitchFromStringStart(chordName);
+            chordRoot = parsedRoot.pitch;
+            remainingChordName = chordName.substring(parsedRoot.parseEndIndex);
+        }
+        catch (ex) {
+            if (!!scale) {
+                const parsedRoot = parseRomanNumeralsFromStringStart(chordName, scale);
+                chordRoot = parsedRoot.pitch;
+                remainingChordName = chordName.substring(parsedRoot.parseEndIndex);
+                isMajor = parsedRoot.isMajor;
+                if (!isMajor && !remainingChordName.startsWith('m'))
+                    remainingChordName = 'm' + remainingChordName;
+                chordName = scale.getPitchName(chordRoot) + remainingChordName;
+            }
+            else
+                throw ex;
+        }
+
         //Loop through each lookup, trying to match the pattern of the chord name to the chord lookup info
-        let previousLookup: ChordLookupData = null;
-        for (const lookup of this.lookupData) {
-            //When adding a new chord lookup, it gets added 12 times, for each of the 12 notes
-            //This is a simple optimisation to prevent us from doing 12 times the work that's actually necessary
-            if (previousLookup != null && previousLookup.shapeName == lookup.shapeName && previousLookup.name == lookup.name)
+        for (const lookup of this.lookupData.filter(x => x.root == chordRoot)) {
+            if (isMajor != null) {
+                if (isMajor && !lookup.intervals.includes(4))
+                    continue;
+                else if (!isMajor && !lookup.intervals.includes(3))
+                    continue;
+            }
+            else if (remainingChordName.length > 0 && !remainingChordName.startsWith(lookup.shapeName))
                 continue;
-            const result = this._tryLookupMatchToChordName(lookup, chordName);
+
+            const result = this._tryLookupMatchToChordName(lookup, chordName, scale);
             if (result)
                 return result;
-            previousLookup = lookup;
         }
         return null;
     }
 
     private _tryLookupMatchToChordName(
         lookupData: ChordLookupData, 
-        chordName: string
+        chordName: string,
+        scale: Scale
     ): ChordLookupResult {
         const output = new ChordLookupResult();
         output.shapeName = lookupData.shapeName;
@@ -357,7 +383,7 @@ export default class ChordFinder {
 
         output.root = parsePitch(result.groups.r) + 12;
         if (result.groups.b != undefined)
-            output.bass = parsePitch(result.groups.b);
+            output.bass = parsePitchOrRomanNumeralsFromStringStart(result.groups.b, scale).pitch;
         else
             output.bass = output.root;
 
@@ -381,14 +407,12 @@ export default class ChordFinder {
             const rightBraceIndex = output.indexOf('}');
             if (leftBraceIndex < 0 && rightBraceIndex < 0)
                 break;
-            if ((leftBraceIndex < 0) != (rightBraceIndex < 0))
-                throw new Error(`'${lookupName}' contains unmatched braces`);
-            if (rightBraceIndex < leftBraceIndex)
+            if ((leftBraceIndex < 0) != (rightBraceIndex < 0) || rightBraceIndex < leftBraceIndex)
                 throw new Error(`'${lookupName}' contains unmatched braces`);
 
             const braceContents = output.slice(leftBraceIndex + 1, rightBraceIndex);
             output = output.slice(0, leftBraceIndex) + 
-                `(?<${braceContents}>[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)` +
+                `(?<${braceContents}>(?:[A-G](?:♮|b|#|♭|♯|x|𝄪|𝄫)*)|(?:(?:b|#|♭|♯)?(?:i|I|v|V)+))` +
                 output.slice(rightBraceIndex + 1);
         }
         return '^' + output + '$';
@@ -400,8 +424,8 @@ export default class ChordFinder {
      * @param chordName The name of the chord that we want to create
      * @returns 
      */
-    newChord(chordName: string): Chord {
-        const result = this.findChordByName(chordName);
+    newChord(chordName: string, scale?: Scale): Chord {
+        const result = this.findChordByName(chordName, scale);
         if (result == null)
             return null;
 
