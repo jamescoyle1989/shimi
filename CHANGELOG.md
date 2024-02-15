@@ -8,6 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 3.1.0 (2024-02-15)
+
+### Added
+
+ - support for identifying chords by their roman numerals name relative to a scale
+
+
 ## 3.0.0 (2023-12-29)
 
 ### Added

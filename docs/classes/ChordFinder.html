@@ -148,7 +148,7 @@
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="findChordByName" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Chord<wbr/>By<wbr/>Name</span><a href="#findChordByName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="findChordByName.findChordByName-1">find<wbr/>Chord<wbr/>By<wbr/>Name<span class="tsd-signature-symbol">(</span>chordName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ChordLookupResult.html" class="tsd-signature-type" data-tsd-kind="Class">ChordLookupResult</a><a href="#findChordByName.findChordByName-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="findChordByName.findChordByName-1">find<wbr/>Chord<wbr/>By<wbr/>Name<span class="tsd-signature-symbol">(</span>chordName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, scale<span class="tsd-signature-symbol">?: </span><a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ChordLookupResult.html" class="tsd-signature-type" data-tsd-kind="Class">ChordLookupResult</a><a href="#findChordByName.findChordByName-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Just like the findChord method, this method returns a ChordLookupResult object with details about the best chord fit it could find.
 However, this method performs its lookup by chord name, rather than the individual pitches that are in the chord</p>
@@ -160,14 +160,16 @@ However, this method performs its lookup by chord name, rather than the individu
 <li>
 <h5>chordName: <span class="tsd-signature-type">string</span></h5>
 <div class="tsd-comment tsd-typography"><p>The name of the chord to look for</p>
-</div></li></ul></div>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> scale: <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ChordLookupResult.html" class="tsd-signature-type" data-tsd-kind="Class">ChordLookupResult</a></h4><aside class="tsd-sources">
 <ul>
 <li>Defined in ChordFinder.ts:322</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="newChord" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>new<wbr/>Chord</span><a href="#newChord" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="newChord.newChord-1">new<wbr/>Chord<span class="tsd-signature-symbol">(</span>chordName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a><a href="#newChord.newChord-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="newChord.newChord-1">new<wbr/>Chord<span class="tsd-signature-symbol">(</span>chordName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, scale<span class="tsd-signature-symbol">?: </span><a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a><a href="#newChord.newChord-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Takes a chord name as parameter, and attempts to return a new Chord object which matches the named chord</p>
 
@@ -178,10 +180,12 @@ However, this method performs its lookup by chord name, rather than the individu
 <li>
 <h5>chordName: <span class="tsd-signature-type">string</span></h5>
 <div class="tsd-comment tsd-typography"><p>The name of the chord that we want to create</p>
-</div></li></ul></div>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> scale: <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Chord.html" class="tsd-signature-type" data-tsd-kind="Class">Chord</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ChordFinder.ts:403</li></ul></aside></li></ul></section>
+<li>Defined in ChordFinder.ts:427</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="removeChordLookup" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove<wbr/>Chord<wbr/>Lookup</span><a href="#removeChordLookup" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
