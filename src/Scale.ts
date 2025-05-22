@@ -133,9 +133,10 @@ export default class Scale implements IPitchContainer {
         if (typeof(pitch) == 'string')
             pitch = parsePitch(pitch);
         
-        let output = this._pitchNames[safeMod(pitch, 12)].toString();
+        const pitchName = this._pitchNames[safeMod(pitch, 12)];
+        let output = pitchName.toString();
         if (showOctave)
-            output += Math.floor(pitch / 12) - 1;
+            output += Math.floor((pitch - (pitchName.accidental ?? 0)) / 12) - 1;
         return output;
     }
 

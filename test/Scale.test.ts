@@ -74,6 +74,23 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale.getPitchName(11)).to.equal('B');
     }
 
+    @test 'C# minor has correct octave when getting pitch names'() {
+        const scale = ScaleTemplate.harmonicMinor.create(1);
+        expect(scale.getPitchName(24, true)).to.equal('B♯0');
+        expect(scale.getPitchName(25, true)).to.equal('C♯1');
+        expect(scale.getPitchName(26, true)).to.equal('D♮1');
+        expect(scale.getPitchName(27, true)).to.equal('D♯1');
+        expect(scale.getPitchName(28, true)).to.equal('E1');
+        expect(scale.getPitchName(29, true)).to.equal('F♮1');
+        expect(scale.getPitchName(30, true)).to.equal('F♯1');
+        expect(scale.getPitchName(31, true)).to.equal('G♮1');
+        expect(scale.getPitchName(32, true)).to.equal('G♯1');
+        expect(scale.getPitchName(33, true)).to.equal('A1');
+        expect(scale.getPitchName(34, true)).to.equal('A♯1');
+        expect(scale.getPitchName(35, true)).to.equal('B♮1');
+        expect(scale.getPitchName(36, true)).to.equal('B♯1');
+    }
+
     @test 'Gb major has correct pitch names'() {
         const scale = ScaleTemplate.major.create(6);
         expect(scale.getPitchName(0)).to.equal('C♮');
