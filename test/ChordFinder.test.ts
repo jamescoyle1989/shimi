@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import ChordFinder, { ChordLookupData } from '../src/ChordFinder';
 import ScaleTemplate from '../src/ScaleTemplate';
+import { Chord } from '../src';
 
 
 @suite class ChordFinderTests {
@@ -226,5 +227,22 @@ import ScaleTemplate from '../src/ScaleTemplate';
         expect(chord.pitches[0]).to.equal(2);
         expect(chord.pitches[1]).to.equal(19);
         expect(chord.pitches[2]).to.equal(23);
+    }
+
+    @test 'newChord sets the name of the found chord if Chord.nameGenerator not set'() {
+        Chord.nameGenerator = null;
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const chord = finder.newChord('F#m');
+        expect(chord.root).to.equal(18);
+        expect(chord['_name']).to.equal('F#m');
+    }
+
+    @test 'newChord doesnt set chord name if Chord.nameGenerator is set'() {
+        Chord.nameGenerator = c => 'Ham sandwich';
+        const finder = new ChordFinder().withDefaultChordLookups();
+        const chord = finder.newChord('F#m');
+        expect(chord.root).to.equal(18);
+        expect(chord['_name']).to.be.null;
+        expect(chord.name).to.equal('Ham sandwich');
     }
 }

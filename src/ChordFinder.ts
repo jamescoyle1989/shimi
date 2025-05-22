@@ -432,6 +432,8 @@ export default class ChordFinder {
         const chord = new Chord()
             .addPitches(result.pitches)
             .setRoot(result.root);
+        if (Chord.nameGenerator == null)
+            chord.name = chordName;
         
         return chord;
     }

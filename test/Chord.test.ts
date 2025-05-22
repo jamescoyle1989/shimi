@@ -237,6 +237,12 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord['_name']).to.be.null;
     }
 
+    @test 'name can be set manually'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        chord.name = 'F#m';
+        expect(chord.name).to.equal('F#m');
+    }
+
     @test 'getPitchByIndex returns same as index for 0 - length-1'() {
         const chord = new Chord().addPitches([5, 9, 12, 15]);
         for (let i = 0; i < chord.pitches.length; i++)

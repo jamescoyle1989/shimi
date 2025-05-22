@@ -59,6 +59,7 @@ export default class Chord implements IPitchContainer {
             this._name = Chord.nameGenerator(this);
         return this._name;
     }
+    set name(value: string) { this._name = value; }
     private _name: string = null;
 
     /** 
@@ -69,7 +70,7 @@ export default class Chord implements IPitchContainer {
      * const scale = shimi.ScaleTemplate.major.create(shimi.pitch('Eb'));
      * const finder = new shimi.ChordFinder().withDefaultChordLookups();
      * shimi.Chord.nameGenerator = (chord) => {
-     *     const result = finder.lookupChord(chord.pitches, chord.root, null, scale);
+     *     const result = finder.findChord(chord.pitches, chord.root, null, scale);
      *     if (result == null)
      *         return null;
      *     return result.name
