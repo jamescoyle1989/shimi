@@ -15,7 +15,7 @@ export default class ClockUpdateSource {
     get running(): boolean { return this._running; }
 
     private _webWorker: Worker = null;
-    private _timer: NodeJS.Timer = null;
+    private _timer: NodeJS.Timeout = null;
 
 
     constructor(callback: () => void, msPerTick: number = 5) {
@@ -81,7 +81,7 @@ export default class ClockUpdateSource {
 
     private _stopRunning(): void {
         if (!!this._timer)
-            clearTimeout(this._timer);
+            clearInterval(this._timer);
         if (!!this._webWorker) {
             this._webWorker.terminate();
             this._webWorker.onmessage = null;
