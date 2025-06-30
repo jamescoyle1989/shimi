@@ -48,8 +48,9 @@ Number.prototype.near = near;
 export function octave(): number {
     return Math.floor(this / 12) - 1;
 };
-
-Object.defineProperty(Number.prototype, "octave", { get: octave });
+const num = 0;
+if (num.octave == undefined)
+    Object.defineProperty(Number.prototype, "octave", { get: octave });
 
 
 /**
