@@ -92,13 +92,21 @@ export class FitPitchOptions {
     scale: Scale = null;
 
     /**
+     * An array of pitches that we want to avoid fitting to. By default, this is an empty array
+     */
+    avoid: Array<number> = [];
+
+    /**
      * For normal usage, library users shouldn't need to call the FitPitchOptions constructor. The IPitchContainer.fitPitch method accepts a partial FitPitchOptions declaration. Enabling library users to simply call something like: eMinorChord.fitPitch(66, \{ scale: cMajor, maxMovement: 1 \})
      * 
      * @param init The init parameter is a partial definition of a FitPitchOptions object.
      */
     constructor(init: Partial<FitPitchOptions>) {
-        if (init)
+        if (init) {
             Object.assign(this, init);
+            if (this.avoid == null || this.avoid == undefined)
+                this.avoid = [];
+        }
     }
 }
 
@@ -126,7 +134,11 @@ export interface IPitchContainer {
      * @param pitch The MIDI numerical representation of the pitch to be fitted to the pitches within the container. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
      * @param options The options that determine how the pitch is fitted.
      */
-    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number;
+    fitPitch(
+        pitch: number | string,
+        options?: Partial<FitPitchOptions>,
+        fallbackOptions?: Partial<FitPitchOptions>
+    ): number;
 
 
     /** The root pitch within the collection. */

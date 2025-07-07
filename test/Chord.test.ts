@@ -117,6 +117,19 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord.fitPitch(17.5, {maxMovement: 1})).to.equal(18);
     }
 
+    @test 'fitPitch can avoid particular pitches'() {
+        const chord = new Chord().addPitches([12, 16, 19, 22]);
+        expect(chord.fitPitch(21, {maxMovement: 2, avoid: [22]})).to.equal(19);
+    }
+
+    @test 'fitPitch can support fallback options'() {
+        const chord = new Chord().addPitches([12, 16, 19]);
+        expect(chord.fitPitch(14,
+            {maxMovement: 1, precision: 'TIGHT'},
+            {maxMovement: 2, precision: 'MEDIUM'}
+        )).to.equal(14);
+    }
+
     @test 'fitPitch can do medium fit with scale'() {
         const chord = new Chord().addPitches([12, 16, 19]);
         const scale = ScaleTemplate.major.create(0);

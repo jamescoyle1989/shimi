@@ -449,4 +449,21 @@ import Scale, { PitchName } from '../src/Scale';
         const scale = ScaleTemplate.harmonicMinor.create(0);
         expect(scale.fitPitch('A0')).to.equal(20);
     }
+
+    @test 'fitPitch can avoid specific pitches'() {
+        const scale = ScaleTemplate.major.create('C');
+        expect(
+            scale.fitPitch(61, {preferRoot: true, avoid: [60, 62], maxMovement: 2})
+        ).to.equal(59);
+    }
+
+    @test 'fitPitch can support fallback options'() {
+        const scale = ScaleTemplate.major.create('C');
+        expect(
+            scale.fitPitch(61, 
+                {maxMovement: 1, avoid: [60, 62]},
+                {maxMovement: 1, avoid: [], preferRoot: true}
+            )
+        ).to.equal(60);
+    }
 }

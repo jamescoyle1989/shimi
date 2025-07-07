@@ -390,7 +390,11 @@ export default class Chord implements IPitchContainer {
      * @param options The options allow us to configure how we want the pitch to be fitted to the chord
      * @returns Returns a new pitch number
      */
-    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number {
+    fitPitch(
+        pitch: number | string,
+        options?: Partial<FitPitchOptions>,
+        fallbackOptions?: Partial<FitPitchOptions>
+    ): number {
         if (typeof(pitch) == 'string')
             pitch = parsePitch(pitch);
         
@@ -420,10 +424,12 @@ export default class Chord implements IPitchContainer {
 
         //Enter the main loop of the function, continue while at least one of pitch1 or pitch2 are within the movement range
         while (true) {
-            const pitch1Valid = Math.abs(pitch1 - pitch) <= fullOptions.maxMovement;
-            const pitch2Valid = Math.abs(pitch2 - pitch) <= fullOptions.maxMovement;
-            if (!pitch1Valid && !pitch2Valid)
+            const pitch1InRange = Math.abs(pitch1 - pitch) <= fullOptions.maxMovement;
+            const pitch2InRange = Math.abs(pitch2 - pitch) <= fullOptions.maxMovement;
+            if (!pitch1InRange && !pitch2InRange)
                 break;
+            const pitch1Valid = pitch1InRange && !fullOptions.avoid.includes(pitch1);
+            const pitch2Valid = pitch2InRange && !fullOptions.avoid.includes(pitch2);
             const fit1 = pitch1Valid ? fitFunction(pitch1) : 0;
             const fit2 = pitch2Valid ? fitFunction(pitch2) : 0;
             if (fit1 + fit2 > 0) {
@@ -443,6 +449,9 @@ export default class Chord implements IPitchContainer {
             pitch1 += direction;
             pitch2 -= direction;
         }
+
+        if (!!fallbackOptions)
+            return this.fitPitch(pitch, fallbackOptions);
         return Math.round(pitch);
     }
 

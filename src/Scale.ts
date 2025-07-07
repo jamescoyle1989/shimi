@@ -202,7 +202,11 @@ export default class Scale implements IPitchContainer {
      * @param options The options allow us to configure how we want the pitch to be fitted to the scale.
      * @returns Returns a new pitch number.
      */
-    fitPitch(pitch: number | string, options?: Partial<FitPitchOptions>): number {
+    fitPitch(
+        pitch: number | string,
+        options?: Partial<FitPitchOptions>,
+        fallbackOptions?: Partial<FitPitchOptions>
+    ): number {
         if (typeof(pitch) == 'string')
             pitch = parsePitch(pitch);
         
@@ -228,10 +232,12 @@ export default class Scale implements IPitchContainer {
 
         //Enter the main loop of the function, continue while at least one of pitch1 or pitch2 are within the movement range
         while (true) {
-            const pitch1Valid = Math.abs(pitch1 - pitch) <= options.maxMovement;
-            const pitch2Valid = Math.abs(pitch2 - pitch) <= options.maxMovement;
-            if (!pitch1Valid && !pitch2Valid)
+            const pitch1InRange = Math.abs(pitch1 - pitch) <= options.maxMovement;
+            const pitch2InRange = Math.abs(pitch2 - pitch) <= options.maxMovement;
+            if (!pitch1InRange && !pitch2InRange)
                 break;
+            const pitch1Valid = pitch1InRange && !options.avoid.includes(pitch1);
+            const pitch2Valid = pitch2InRange && !options.avoid.includes(pitch2);
             //If we prefer the root, if either pitch1 or pitch2 are the scale root, then just instantly return that
             if (options.preferRoot) {
                 if (pitch1Valid && safeMod(pitch1, 12) == this.root)
@@ -256,6 +262,9 @@ export default class Scale implements IPitchContainer {
             pitch1 += direction;
             pitch2 -= direction;
         }
+
+        if (!!fallbackOptions)
+            return this.fitPitch(pitch, fallbackOptions);
         return Math.round(pitch);
     }
 
