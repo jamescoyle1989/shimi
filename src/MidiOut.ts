@@ -85,11 +85,18 @@ export default class MidiOut implements IMidiOut, IClockChild {
      * @returns 
      */
     addNote(note: Note): Note {
-        this._notes.push(note);
         if (note.on) {
+            const notesToStop = this.notes.filter(n => n.on && n.pitch == note.pitch && n.channel == note.channel);
+            for (const n of notesToStop) {
+                n.on = false;
+                n.onTracker.accept();
+            }
+            if (notesToStop.length > 0)
+                this.sendMessage(new NoteOffMessage(note.pitch, note.velocity, note.channel));
             this.sendMessage(new NoteOnMessage(note.pitch, note.velocity, note.channel));
             note.onTracker.accept();
         }
+        this._notes.push(note);
         return note;
     }
 

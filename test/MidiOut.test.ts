@@ -7,9 +7,11 @@ import { Clock } from '../src';
 
 export class MockPort {
     data: number[];
+    history: Array<number[]> = [];
 
     send(data: number[]) {
         this.data = data;
+        this.history.push(data);
     }
 }
 
@@ -77,6 +79,19 @@ export class MockPort {
         expect(port.data[0]).to.equal(0x90 + 1);
         expect(port.data[1]).to.equal(60);
         expect(port.data[2]).to.equal(80);
+    }
+
+    @test 'addNote stops existing notes before sending out note on'() {
+        const port = new MockPort();
+        const midiOut = new MidiOut(port);
+        const note1 = midiOut.addNote(new Note(60, 80, 1));
+        const note2 = midiOut.addNote(new Note(60, 90, 1));
+        expect(port.history.length).to.equal(3);
+        expect(port.history[0][0]).to.equal(0x90 + 1);
+        expect(port.history[0][2]).to.equal(note1.velocity);
+        expect(port.history[1][0]).to.equal(0x80 + 1);
+        expect(port.history[2][0]).to.equal(0x90 + 1);
+        expect(port.history[2][2]).to.equal(note2.velocity);
     }
 
     @test 'update sends start messages only if not sent when note added'() {
