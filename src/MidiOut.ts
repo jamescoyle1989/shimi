@@ -86,7 +86,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
      */
     addNote(note: Note): Note {
         if (note.on) {
-            const notesToStop = this.notes.filter(n => n.on && n.pitch == note.pitch && n.channel == note.channel);
+            const notesToStop = this.notes.filter(n => n.on && !n.onTracker.isDirty && n.pitch == note.pitch && n.channel == note.channel);
             for (const n of notesToStop) {
                 n.on = false;
                 n.onTracker.accept();
@@ -154,21 +154,10 @@ export default class MidiOut implements IMidiOut, IClockChild {
         let anyNotesStopped = false;
 
         //Send Note Off events for any stopped notes
-        //Don't actually send the note off message if there is a more recent note that is still on
-        for (let i = 0; i < this._notes.length; i++) {
-            const note = this._notes[i];
+        for (const note of this._notes) {
             if (!note.on) {
                 if (note.onTracker.isDirty) {
-                    let sendNoteOff = true;
-                    for (let j = i + 1; j < this.notes.length; j++) {
-                        const note2 = this.notes[j];
-                        if (note.pitch === note2.pitch && note.channel === note2.channel && note2.on && !note2.onTracker.isDirty) {
-                            sendNoteOff = false;
-                            break;
-                        }
-                    }
-                    if (sendNoteOff)
-                        this.sendMessage(new NoteOffMessage(note.pitch, note.velocity, note.channel));
+                    this.sendMessage(new NoteOffMessage(note.pitch, note.velocity, note.channel));
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;
