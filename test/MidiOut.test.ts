@@ -200,4 +200,22 @@ export class MockPort {
 
         Clock.default = null;
     }
+
+    @test 'Correctly handles new note replacing old one and sending messages in correct order'() {
+        const port = new MockPort();
+        const midiOut = new MidiOut(port);
+        const note1 = midiOut.addNote(new Note(60, 80, 1));
+        midiOut.update(100);
+        expect(note1.on).to.be.true;
+        const note2 = midiOut.addNote(new Note(60, 80, 1));
+        expect(note1.on).to.be.false;
+        midiOut.update(100);
+        note2.stop();
+        midiOut.update(100);
+        expect(port.history.length).to.equal(4);
+        expect(port.history[0][0]).to.equal(0x90 + 1);
+        expect(port.history[1][0]).to.equal(0x80 + 1);
+        expect(port.history[2][0]).to.equal(0x90 + 1);
+        expect(port.history[3][0]).to.equal(0x80 + 1);
+    }
 }
