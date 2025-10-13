@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Added
+
+ - addChildBefore, addChildToStart & addChildToEnd methods added to Clock. Each ensures that child is only ever added once
+
 
 ## 3.2.0 (2025-07-07)
 

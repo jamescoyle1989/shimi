@@ -26,8 +26,8 @@ export default class Clock {
      */
     get msPerTick(): number { return this._updateSource.msPerTick; }
 
-    /** List of objects that get updated by the clock each update cycle. */
-    get children(): Array<IClockChild> { return this._children;}
+    /** List of objects that get updated by the clock each update cycle. It is strongly recommended not to add children directly through this list */
+    get children(): Array<IClockChild> { return this._children; }
     private _children: Array<IClockChild> = [];
 
     private _lastUpdateTime: number;
@@ -68,8 +68,42 @@ export default class Clock {
         return true;
     }
 
-    /** Add a new object to receive clock updates. Returns the object that was added. */
+    private _removeChild(child: IClockChild) {
+        const index = this._children.indexOf(child);
+        if (index >= 0)
+            this._children.splice(index, 1);
+    }
+
+    /** Add a new object to receive clock updates to the end of the list. Returns the object that was added. This function is the same as addChildToEnd */
     addChild(child: IClockChild): IClockChild {
+        return this.addChildToEnd(child);
+    }
+
+    /**
+     * Add a new object to receive clock updates, positioned so it gets updates before the referenced object.
+     * @param child The object to be added to the update list
+     * @param before The object for the child to be added in front of. The function will throw an error if this element can't be found
+     * @returns Returns the added child object.
+     */
+    addChildBefore(child: IClockChild, before: IClockChild): IClockChild {
+        this._removeChild(child);
+        const beforeIndex = this._children.indexOf(before);
+        if (beforeIndex < 0)
+            throw Error('Cannot find index of object to addChildBefore');
+        this._children.splice(beforeIndex, 0, child);
+        return child;
+    }
+
+    /** Add a new object to receive clock updates to the start of the list. Returns the object that was added. */
+    addChildAtStart(child: IClockChild): IClockChild {
+        this._removeChild(child);
+        this._children.unshift(child);
+        return child;
+    }
+
+    /** Add a new object to receive clock updates to the end of the list. Returns the object that was added. */
+    addChildToEnd(child: IClockChild): IClockChild {
+        this._removeChild(child);
         this._children.push(child);
         return child;
     }

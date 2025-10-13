@@ -66,13 +66,35 @@ export class TestClockChild implements IClockChild {
         const clock = new Clock();
         const clockChild = new TestClockChild();
         clockChild.callback = deltaMs => updateCount++;
-        clock.children.push(clockChild);
+        clock.addChild(clockChild);
 
         clock.start();
         expect(updateCount).to.equal(0);
         clock.updateChildren();
         expect(updateCount).to.equal(1);
         clock.stop();
+    }
+
+    @test 'addChildBefore correctly positions new child'() {
+        const clock = new Clock();
+        const clockChild1 = clock.addChild(new TestClockChild());
+        const clockChild2 = clock.addChild(new TestClockChild());
+        const clockChild3 = clock.addChildBefore(new TestClockChild(), clockChild2);
+
+        expect(clock.children.indexOf(clockChild1)).to.equal(0);
+        expect(clock.children.indexOf(clockChild2)).to.equal(2);
+        expect(clock.children.indexOf(clockChild3)).to.equal(1);
+    }
+
+    @test 'addChild removes child if it is already in list'() {
+        const clock = new Clock();
+        const clockChild1 = clock.addChild(new TestClockChild());
+        const clockChild2 = clock.addChild(new TestClockChild());
+        clock.addChild(clockChild1);
+
+        expect(clock.children.length).to.equal(2);
+        expect(clock.children.indexOf(clockChild2)).to.equal(0);
+        expect(clock.children.indexOf(clockChild1)).to.equal(1);
     }
 
     @test 'update removes finished children'() {
@@ -82,7 +104,7 @@ export class TestClockChild implements IClockChild {
         const clockChild = new TestClockChild();
         clockChild.callback = deltaMs => updateCount++;
         clockChild.finish();
-        clock.children.push(clockChild);
+        clock.addChild(clockChild);
 
         clock.start();
         expect(updateCount).to.equal(0);
