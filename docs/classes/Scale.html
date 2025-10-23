@@ -25,7 +25,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/IPitchContainer.html" class="tsd-signature-type" data-tsd-kind="Interface">IPitchContainer</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:40</li></ul></aside>
+<li>Defined in Scale.ts:41</li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -57,6 +57,7 @@
 <a href="Scale.html#getSubdominantScale" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Subdominant<wbr/>Scale</span></a>
 <a href="Scale.html#getTransposedScale" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Transposed<wbr/>Scale</span></a>
 <a href="Scale.html#pitchesInRange" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>pitches<wbr/>In<wbr/>Range</span></a>
+<a href="Scale.html#transposePitch" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>transpose<wbr/>Pitch</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
@@ -78,7 +79,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:74</li></ul></aside></li></ul></section></section>
+<li>Defined in Scale.ts:75</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="length" class="tsd-anchor"></a>
@@ -90,7 +91,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:63</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:64</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="name" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -100,7 +101,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:46</li></ul></aside></li>
+<li>Defined in Scale.ts:47</li></ul></aside></li>
 <li class="tsd-signature" id="name.name-2"><span class="tsd-signature-symbol">set</span> name<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -110,7 +111,7 @@
 <h5>value: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:47</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:48</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="pitches" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pitches</span><a href="#pitches" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -122,7 +123,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Implementation of IPitchContainer.pitches</p>
 <ul>
-<li>Defined in Scale.ts:55</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:56</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="root" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>root</span><a href="#root" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -133,7 +134,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Implementation of IPitchContainer.root</p>
 <ul>
-<li>Defined in Scale.ts:66</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:67</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="template" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>template</span><a href="#template" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -143,7 +144,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ScaleTemplate.html" class="tsd-signature-type" data-tsd-kind="Class">ScaleTemplate</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:59</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:60</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="typeName" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>type<wbr/>Name</span><a href="#typeName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -153,7 +154,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:43</li></ul></aside></li></ul></section></section>
+<li>Defined in Scale.ts:44</li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="contains" class="tsd-anchor"></a>
@@ -174,7 +175,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IPitchContainer.html">IPitchContainer</a>.<a href="../interfaces/IPitchContainer.html#contains">contains</a></p>
 <ul>
-<li>Defined in Scale.ts:97</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:98</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="degreeOf" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>degree<wbr/>Of</span><a href="#degreeOf" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -189,7 +190,7 @@
 <h5>pitch: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:106</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:107</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fitPitch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>fit<wbr/>Pitch</span><a href="#fitPitch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -215,7 +216,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IPitchContainer.html">IPitchContainer</a>.<a href="../interfaces/IPitchContainer.html#fitPitch">fitPitch</a></p>
 <ul>
-<li>Defined in Scale.ts:205</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:206</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getDominantScale" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Dominant<wbr/>Scale</span><a href="#getDominantScale" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -225,7 +226,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:369</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:411</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getParallelScale" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Parallel<wbr/>Scale</span><a href="#getParallelScale" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -244,7 +245,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:403</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:445</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getPitchByDegree" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Pitch<wbr/>By<wbr/>Degree</span><a href="#getPitchByDegree" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -270,7 +271,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:158</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:159</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getPitchName" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Pitch<wbr/>Name</span><a href="#getPitchName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -295,7 +296,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:132</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:133</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getRelativeScale" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Relative<wbr/>Scale</span><a href="#getRelativeScale" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -314,7 +315,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:390</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:432</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getSubdominantScale" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Subdominant<wbr/>Scale</span><a href="#getSubdominantScale" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -324,7 +325,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:374</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:416</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getTransposedScale" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Transposed<wbr/>Scale</span><a href="#getTransposedScale" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -339,7 +340,7 @@
 <h5>transposition: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Scale.html" class="tsd-signature-type" data-tsd-kind="Class">Scale</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:379</li></ul></aside></li></ul></section>
+<li>Defined in Scale.ts:421</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="pitchesInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pitches<wbr/>In<wbr/>Range</span><a href="#pitchesInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -362,7 +363,35 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in Scale.ts:176</li></ul></aside></li></ul></section></section></div>
+<li>Defined in Scale.ts:177</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="transposePitch" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>transpose<wbr/>Pitch</span><a href="#transposePitch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="transposePitch.transposePitch-1">transpose<wbr/>Pitch<span class="tsd-signature-symbol">(</span>pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, degrees<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, resolveCloser<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#transposePitch.transposePitch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns a pitch transposed down the specified number of scale degrees. For example, we might have cMajor.transposePitch(&#39;G4&#39;, -2) =&gt; &#39;E4&#39;
+For pitches which are in the scale, this is very straightforward. For pitches out of the scale, this is slightly more complicated. For example, we have cMajor.transposePitch(&#39;G#&#39;, -3) =&gt; &#39;D#&#39;, since G# is between scale members G &amp; A. If we go 3 steps below then we&#39;re going between D &amp; E, so D#.
+However, for some out-of-scale transpositions, there is no inbetween note where we&#39;re ending up, or there may even be 2 inbetween notes to choose from. In these cases, the resolveCloser parameter comes into play.</p>
+
+<h3>Returns</h3></div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>pitch: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>The pitch that needs to be transposed</p>
+</div></li>
+<li>
+<h5>degrees: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>The number of scale degrees to transpose the pitch by</p>
+</div></li>
+<li>
+<h5>resolveCloser: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+<div class="tsd-comment tsd-typography"><p>This only comes into play in specific scenarios when resolving which pitch to end up on for out-of-scale notes. An example would be in the key of C where D#/Eb is being transposed up one degree. We&#39;re starting between scale members D &amp; E, but there is no pitch between E &amp; F. If we have resolveCloser = true, the transposition will take E (since it&#39;s nearer to the starting pitch), otherwise it will take F</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in Scale.ts:281</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -403,7 +432,8 @@
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Scale.html#getRelativeScale" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Relative<wbr/>Scale</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Scale.html#getSubdominantScale" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Subdominant<wbr/>Scale</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="Scale.html#getTransposedScale" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Transposed<wbr/>Scale</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="Scale.html#pitchesInRange" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>pitches<wbr/>In<wbr/>Range</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="Scale.html#pitchesInRange" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>pitches<wbr/>In<wbr/>Range</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="Scale.html#transposePitch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>transpose<wbr/>Pitch</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

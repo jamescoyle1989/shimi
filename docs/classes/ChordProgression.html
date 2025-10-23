@@ -52,6 +52,7 @@
 <a href="ChordProgression.html#contains" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>contains</span></a>
 <a href="ChordProgression.html#getChordAt" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Chord<wbr/>At</span></a>
 <a href="ChordProgression.html#getChordsInRange" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Chords<wbr/>In<wbr/>Range</span></a>
+<a href="ChordProgression.html#getMainChordInRange" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Main<wbr/>Chord<wbr/>In<wbr/>Range</span></a>
 <a href="ChordProgression.html#getPercent" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Percent</span></a>
 <a href="ChordProgression.html#removeChords" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Chords</span></a>
 </div></section></div></details></section></section>
@@ -226,7 +227,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ChordProgressionChord.html" class="tsd-signature-type" data-tsd-kind="Class">ChordProgressionChord</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in ChordProgression.ts:116</li></ul></aside></li></ul></section>
+<li>Defined in ChordProgression.ts:147</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getChordsInRange" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Chords<wbr/>In<wbr/>Range</span><a href="#getChordsInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -246,6 +247,25 @@
 <h4 class="tsd-returns-title">Returns <a href="ChordProgressionChord.html" class="tsd-signature-type" data-tsd-kind="Class">ChordProgressionChord</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
 <li>Defined in ChordProgression.ts:94</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getMainChordInRange" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Main<wbr/>Chord<wbr/>In<wbr/>Range</span><a href="#getMainChordInRange" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="getMainChordInRange.getMainChordInRange-1">get<wbr/>Main<wbr/>Chord<wbr/>In<wbr/>Range<span class="tsd-signature-symbol">(</span>rangeStart<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, rangeEnd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ChordProgressionChord.html" class="tsd-signature-type" data-tsd-kind="Class">ChordProgressionChord</a><a href="#getMainChordInRange.getMainChordInRange-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the chord that is sustained for the longest duration within the given range.</p>
+<p>If rangeEnd &lt; rangeStart, then it will search for any chords which end after rangeStart, or begin before rangeEnd.</p>
+
+<h3>Returns</h3></div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>rangeStart: <span class="tsd-signature-type">number</span></h5></li>
+<li>
+<h5>rangeEnd: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="ChordProgressionChord.html" class="tsd-signature-type" data-tsd-kind="Class">ChordProgressionChord</a></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in ChordProgression.ts:119</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getPercent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Percent</span><a href="#getPercent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -327,6 +347,7 @@
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="ChordProgression.html#contains" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>contains</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ChordProgression.html#getChordAt" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Chord<wbr/>At</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ChordProgression.html#getChordsInRange" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Chords<wbr/>In<wbr/>Range</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ChordProgression.html#getMainChordInRange" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Main<wbr/>Chord<wbr/>In<wbr/>Range</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="ChordProgression.html#getPercent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Percent</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ChordProgression.html#removeChords" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Chords</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
