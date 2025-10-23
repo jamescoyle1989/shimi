@@ -109,6 +109,37 @@ export default class ChordProgression extends Range {
     }
 
     /**
+     * Returns the chord that is sustained for the longest duration within the given range.
+     * 
+     * If rangeEnd < rangeStart, then it will search for any chords which end after rangeStart, or begin before rangeEnd.
+     * @param rangeStart 
+     * @param rangeEnd 
+     * @returns 
+     */
+    getMainChordInRange(rangeStart: number, rangeEnd: number): ChordProgressionChord {
+        let maxOverlap = 0;
+        let output: ChordProgressionChord = null;
+        for (const chord of this.chords) {
+            let overlap = 0;
+            if (rangeStart <= rangeEnd) {
+                overlap = Math.min(rangeEnd, chord.end) - Math.max(rangeStart, chord.start);
+            }
+            else {
+                overlap = 
+                    Math.min(rangeEnd, chord.end) - Math.min(rangeEnd, chord.start) +
+                    Math.max(rangeStart, chord.end) - Math.max(rangeStart, chord.start);
+            }
+            if (overlap > maxOverlap) {
+                maxOverlap = overlap;
+                output = chord;
+            }
+        }
+        if (maxOverlap == 0)
+            return null;
+        return output;
+    }
+
+    /**
      * Returns the chord that occurs at the given point in time within the chord progression.
      * @param beat The beat of the chord, relative to the start of the chord progression.
      * @returns 

@@ -85,6 +85,26 @@ import Chord from '../src/Chord';
         expect(chordsInRange[2].start).to.equal(12);
     }
 
+    @test 'getMainChordInRange returns most prominent chord in range'() {
+        const chordProgression = new ChordProgression(16)
+            .addChord(0, 4, new Chord().addPitches([12, 16, 19]))
+            .addChord(4, 4, new Chord().addPitches([12, 17, 21]))
+            .addChord(8, 4, new Chord().addPitches([11, 14, 19]))
+            .addChord(12, 4, new Chord().addPitches([12, 16, 19]));
+        expect(chordProgression.getMainChordInRange(0, 6).start).to.equal(0);
+        expect(chordProgression.getMainChordInRange(5, 7).start).to.equal(4);
+        expect(chordProgression.getMainChordInRange(3, 13).start).to.equal(4);
+    }
+
+    @test 'getMainChordInRange handles range that wraps around end/start'() {
+        const chordProgression = new ChordProgression(16)
+            .addChord(0, 4, new Chord().addPitches([12, 16, 19]))
+            .addChord(4, 4, new Chord().addPitches([12, 17, 21]))
+            .addChord(8, 4, new Chord().addPitches([11, 14, 19]))
+            .addChord(12, 4, new Chord().addPitches([12, 16, 19]));
+        expect(chordProgression.getMainChordInRange(13, 5).start).to.equal(0);
+    }
+
     @test 'getChordAt returns the correct chord at the selected point in time'() {
         const chordProgression = new ChordProgression(16)
             .addChord(0, 4, new Chord().addPitches([12, 16, 19]))

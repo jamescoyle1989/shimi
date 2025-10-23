@@ -9,7 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
- - transposePitch function added to Scale class
+ - transposePitch method added to Scale class
+
+ - getMainChordInRange method added to ChordProgression class
 
 
 ## 3.3.0 (2025-10-13)
