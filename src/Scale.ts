@@ -1,5 +1,6 @@
 'use strict';
 
+import { octave } from './Extensions';
 import { IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import ScaleTemplate from './ScaleTemplate';
 import { parsePitch, safeMod, sortComparison } from './utils';
@@ -266,6 +267,47 @@ export default class Scale implements IPitchContainer {
         if (!!fallbackOptions)
             return this.fitPitch(pitch, fallbackOptions);
         return Math.round(pitch);
+    }
+
+    /**
+     * Returns a pitch transposed down the specified number of scale degrees. For example, we might have cMajor.transposePitch('G4', -2) => 'E4'
+     * For pitches which are in the scale, this is very straightforward. For pitches out of the scale, this is slightly more complicated. For example, we have cMajor.transposePitch('G#', -3) => 'D#', since G# is between scale members G & A. If we go 3 steps below then we're going between D & E, so D#.
+     * However, for some out-of-scale transpositions, there is no inbetween note where we're ending up, or there may even be 2 inbetween notes to choose from. In these cases, the resolveCloser parameter comes into play.
+     * @param pitch The pitch that needs to be transposed
+     * @param degrees The number of scale degrees to transpose the pitch by
+     * @param resolveCloser This only comes into play in specific scenarios when resolving which pitch to end up on for out-of-scale notes. An example would be in the key of C where D#/Eb is being transposed up one degree. We're starting between scale members D & E, but there is no pitch between E & F. If we have resolveCloser = true, the transposition will take E (since it's nearer to the starting pitch), otherwise it will take F
+     * @returns 
+     */
+    transposePitch(pitch: number | string, degrees: number, resolveCloser: boolean = true): number {
+        if (typeof(pitch) === 'string')
+            pitch = parsePitch(pitch);
+        if (degrees == 0)
+            return pitch;
+        const direction = ((degrees > 0) ? 1 : -1) * (resolveCloser ? -1 : 1);
+        
+        //Get the nearest pitch which is in the scale
+        let nearestScalePitch = pitch;
+        let nearestScaleDegree = -1;
+        while (true) {
+            nearestScaleDegree = this.degreeOf(nearestScalePitch);
+            if (nearestScaleDegree != -1)
+                break;
+            nearestScalePitch += direction;
+        }
+        const nearestScaleDegreeDistance = Math.abs(nearestScalePitch - pitch);
+
+        let rootOctave = pitch.octave;
+        if (safeMod(pitch, 12) < safeMod(this.root, 12))
+            rootOctave--;
+
+        let transposedPitch = this.getPitchByDegree(nearestScaleDegree + degrees, rootOctave);
+        //If we had to do any steps to get to the nearest scale degree, then walk back those steps
+        for (let i = 0; i < nearestScaleDegreeDistance; i++) {
+            if (this.contains(transposedPitch - direction))
+                break;
+            transposedPitch -= direction;
+        }
+        return transposedPitch;
     }
 
     /**

@@ -354,6 +354,25 @@ import Scale, { PitchName } from '../src/Scale';
         expect(scale.getPitchByDegree(4)).to.equal(12);
     }
 
+    @test 'getPitchByDegree always returns smooth results when moving through successive degrees'() {
+        const scale = ScaleTemplate.major.create(7);
+        expect(scale.getPitchByDegree(-2, 4)).to.equal(62);
+        expect(scale.getPitchByDegree(-1, 4)).to.equal(64);
+        expect(scale.getPitchByDegree(0, 4)).to.equal(66);
+        expect(scale.getPitchByDegree(1, 4)).to.equal(67);
+        expect(scale.getPitchByDegree(2, 4)).to.equal(69);
+        expect(scale.getPitchByDegree(3, 4)).to.equal(71);
+        expect(scale.getPitchByDegree(4, 4)).to.equal(72);
+        expect(scale.getPitchByDegree(5, 4)).to.equal(74);
+        expect(scale.getPitchByDegree(6, 4)).to.equal(76);
+        expect(scale.getPitchByDegree(7, 4)).to.equal(78);
+        expect(scale.getPitchByDegree(8, 4)).to.equal(79);
+        expect(scale.getPitchByDegree(9, 4)).to.equal(81);
+        expect(scale.getPitchByDegree(10, 4)).to.equal(83);
+        expect(scale.getPitchByDegree(11, 4)).to.equal(84);
+        expect(scale.getPitchByDegree(12, 4)).to.equal(86);
+    }
+
     @test 'getPitchByDegree(x).toOctave(y) acts the same as degreeInOctave(x, y) used to'() {
         const scale = ScaleTemplate.major.create(7);
         expect(scale.getPitchByDegree(1).toOctave(0)).to.equal(19);
@@ -465,5 +484,121 @@ import Scale, { PitchName } from '../src/Scale';
                 {maxMovement: 1, avoid: [], preferRoot: true}
             )
         ).to.equal(60);
+    }
+
+    @test 'A harmonic minor transposes 1 degree up correctly'() {
+        const scale = ScaleTemplate.harmonicMinor.create(-3);
+        expect(scale.transposePitch(45, 1, true)).to.equal(47); //A -> B
+        expect(scale.transposePitch(46, 1, true)).to.equal(47); //Bb -> B
+        expect(scale.transposePitch(47, 1, true)).to.equal(48); //B -> C
+        expect(scale.transposePitch(48, 1, true)).to.equal(50); //C -> D
+        expect(scale.transposePitch(49, 1, true)).to.equal(51); //C# -> Eb
+        expect(scale.transposePitch(50, 1, true)).to.equal(52); //D -> E
+        expect(scale.transposePitch(51, 1, true)).to.equal(52); //Eb -> E
+        expect(scale.transposePitch(52, 1, true)).to.equal(53); //E -> F
+        expect(scale.transposePitch(53, 1, true)).to.equal(56); //F -> G#
+        expect(scale.transposePitch(54, 1, true)).to.equal(56); //F# -> G#
+        expect(scale.transposePitch(55, 1, true)).to.equal(56); //G♮ -> G#
+        expect(scale.transposePitch(56, 1, true)).to.equal(57); //G# -> A
+        
+        expect(scale.transposePitch(45, 1, false)).to.equal(47); //A -> B
+        expect(scale.transposePitch(46, 1, false)).to.equal(48); //Bb -> C
+        expect(scale.transposePitch(47, 1, false)).to.equal(48); //B -> C
+        expect(scale.transposePitch(48, 1, false)).to.equal(50); //C -> D
+        expect(scale.transposePitch(49, 1, false)).to.equal(51); //C# -> Eb
+        expect(scale.transposePitch(50, 1, false)).to.equal(52); //D -> E
+        expect(scale.transposePitch(51, 1, false)).to.equal(53); //Eb -> F
+        expect(scale.transposePitch(52, 1, false)).to.equal(53); //E -> F
+        expect(scale.transposePitch(53, 1, false)).to.equal(56); //F -> G#
+        expect(scale.transposePitch(54, 1, false)).to.equal(57); //F# -> A
+        expect(scale.transposePitch(55, 1, false)).to.equal(57); //G♮ -> A
+        expect(scale.transposePitch(56, 1, false)).to.equal(57); //G# -> A
+    }
+
+    @test 'A harmonic minor transposes 2 degrees up correctly'() {
+        const scale = ScaleTemplate.harmonicMinor.create(-3);
+        expect(scale.transposePitch(45, 2, true)).to.equal(48); //A -> C
+        expect(scale.transposePitch(46, 2, true)).to.equal(49); //Bb -> C#
+        expect(scale.transposePitch(47, 2, true)).to.equal(50); //B -> D
+        expect(scale.transposePitch(48, 2, true)).to.equal(52); //C -> E
+        expect(scale.transposePitch(49, 2, true)).to.equal(52); //C# -> E
+        expect(scale.transposePitch(50, 2, true)).to.equal(53); //D -> F
+        expect(scale.transposePitch(51, 2, true)).to.equal(54); //Eb -> F#
+        expect(scale.transposePitch(52, 2, true)).to.equal(56); //E -> G#
+        expect(scale.transposePitch(53, 2, true)).to.equal(57); //F -> A
+        expect(scale.transposePitch(54, 2, true)).to.equal(58); //F# -> Bb
+        expect(scale.transposePitch(55, 2, true)).to.equal(58); //G♮ -> Bb
+        expect(scale.transposePitch(56, 2, true)).to.equal(59); //G# -> B
+        
+        expect(scale.transposePitch(45, 2, false)).to.equal(48); //A -> C
+        expect(scale.transposePitch(46, 2, false)).to.equal(49); //Bb -> C#
+        expect(scale.transposePitch(47, 2, false)).to.equal(50); //B -> D
+        expect(scale.transposePitch(48, 2, false)).to.equal(52); //C -> E
+        expect(scale.transposePitch(49, 2, false)).to.equal(53); //C# -> F
+        expect(scale.transposePitch(50, 2, false)).to.equal(53); //D -> F
+        expect(scale.transposePitch(51, 2, false)).to.equal(55); //Eb -> G
+        expect(scale.transposePitch(52, 2, false)).to.equal(56); //E -> G#
+        expect(scale.transposePitch(53, 2, false)).to.equal(57); //F -> A
+        expect(scale.transposePitch(54, 2, false)).to.equal(58); //F# -> Bb
+        expect(scale.transposePitch(55, 2, false)).to.equal(58); //G♮ -> Bb
+        expect(scale.transposePitch(56, 2, false)).to.equal(59); //G# -> B
+    }
+
+    @test 'A harmonic minor transposes 1 degree down correctly'() {
+        const scale = ScaleTemplate.harmonicMinor.create(-3);
+        expect(scale.transposePitch(45, -1, true)).to.equal(44); //A -> G#
+        expect(scale.transposePitch(46, -1, true)).to.equal(45); //Bb -> A
+        expect(scale.transposePitch(47, -1, true)).to.equal(45); //B -> A
+        expect(scale.transposePitch(48, -1, true)).to.equal(47); //C -> B
+        expect(scale.transposePitch(49, -1, true)).to.equal(48); //C# -> C
+        expect(scale.transposePitch(50, -1, true)).to.equal(48); //D -> C
+        expect(scale.transposePitch(51, -1, true)).to.equal(49); //Eb -> C#
+        expect(scale.transposePitch(52, -1, true)).to.equal(50); //E -> D
+        expect(scale.transposePitch(53, -1, true)).to.equal(52); //F -> E
+        expect(scale.transposePitch(54, -1, true)).to.equal(53); //F# -> F
+        expect(scale.transposePitch(55, -1, true)).to.equal(53); //G♮ -> F
+        expect(scale.transposePitch(56, -1, true)).to.equal(53); //G# -> F
+        
+        expect(scale.transposePitch(45, -1, false)).to.equal(44); //A -> G#
+        expect(scale.transposePitch(46, -1, false)).to.equal(44); //Bb -> G#
+        expect(scale.transposePitch(47, -1, false)).to.equal(45); //B -> A
+        expect(scale.transposePitch(48, -1, false)).to.equal(47); //C -> B
+        expect(scale.transposePitch(49, -1, false)).to.equal(47); //C# -> B
+        expect(scale.transposePitch(50, -1, false)).to.equal(48); //D -> C
+        expect(scale.transposePitch(51, -1, false)).to.equal(49); //Eb -> C#
+        expect(scale.transposePitch(52, -1, false)).to.equal(50); //E -> D
+        expect(scale.transposePitch(53, -1, false)).to.equal(52); //F -> E
+        expect(scale.transposePitch(54, -1, false)).to.equal(52); //F# -> E
+        expect(scale.transposePitch(55, -1, false)).to.equal(52); //G♮ -> E
+        expect(scale.transposePitch(56, -1, false)).to.equal(53); //G# -> F
+    }
+
+    @test 'A harmonic minor transposes 2 degrees down correctly'() {
+        const scale = ScaleTemplate.harmonicMinor.create(-3);
+        expect(scale.transposePitch(45, -2, true)).to.equal(41); //A -> F
+        expect(scale.transposePitch(46, -2, true)).to.equal(43); //Bb -> G
+        expect(scale.transposePitch(47, -2, true)).to.equal(44); //B -> G#
+        expect(scale.transposePitch(48, -2, true)).to.equal(45); //C -> A
+        expect(scale.transposePitch(49, -2, true)).to.equal(46); //C# -> Bb
+        expect(scale.transposePitch(50, -2, true)).to.equal(47); //D -> B
+        expect(scale.transposePitch(51, -2, true)).to.equal(48); //Eb -> C
+        expect(scale.transposePitch(52, -2, true)).to.equal(48); //E -> C
+        expect(scale.transposePitch(53, -2, true)).to.equal(50); //F -> D
+        expect(scale.transposePitch(54, -2, true)).to.equal(51); //F# -> Eb
+        expect(scale.transposePitch(55, -2, true)).to.equal(51); //G♮ -> Eb
+        expect(scale.transposePitch(56, -2, true)).to.equal(52); //G# -> E
+        
+        expect(scale.transposePitch(45, -2, false)).to.equal(41); //A -> F
+        expect(scale.transposePitch(46, -2, false)).to.equal(42); //Bb -> F#
+        expect(scale.transposePitch(47, -2, false)).to.equal(44); //B -> G#
+        expect(scale.transposePitch(48, -2, false)).to.equal(45); //C -> A
+        expect(scale.transposePitch(49, -2, false)).to.equal(46); //C# -> Bb
+        expect(scale.transposePitch(50, -2, false)).to.equal(47); //D -> B
+        expect(scale.transposePitch(51, -2, false)).to.equal(47); //Eb -> B
+        expect(scale.transposePitch(52, -2, false)).to.equal(48); //E -> C
+        expect(scale.transposePitch(53, -2, false)).to.equal(50); //F -> D
+        expect(scale.transposePitch(54, -2, false)).to.equal(51); //F# -> Eb
+        expect(scale.transposePitch(55, -2, false)).to.equal(51); //G♮ -> Eb
+        expect(scale.transposePitch(56, -2, false)).to.equal(52); //G# -> E
     }
 }
