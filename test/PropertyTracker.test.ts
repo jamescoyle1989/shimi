@@ -3,12 +3,6 @@ import { expect } from 'chai';
 import PropertyTracker from '../src/PropertyTracker';
 
 @suite class PropertyTrackerTests {
-    @test 'undefined if no initial value'() {
-        const tracker = new PropertyTracker();
-        expect(tracker.value).to.be.undefined;
-        expect(tracker.oldValue).to.be.undefined;
-    }
-
     @test 'initial value set'() {
         const tracker = new PropertyTracker(5);
         expect(tracker.value).to.equal(5);

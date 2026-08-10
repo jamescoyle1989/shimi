@@ -19,7 +19,7 @@ export default class PropertyTracker<T> {
     /**
      * @param initValue The initial accepted value that the tracker gets instanciated with
      */
-    constructor(initValue?: T) {
+    constructor(initValue: T) {
         this.value = initValue;
         this.oldValue = initValue;
     }

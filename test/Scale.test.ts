@@ -2,6 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import ScaleTemplate from '../src/ScaleTemplate';
 import Scale, { PitchName } from '../src/Scale';
+import { near, toOctave } from '../src/utils';
 
 
 @suite class ScaleTests {
@@ -375,24 +376,24 @@ import Scale, { PitchName } from '../src/Scale';
 
     @test 'getPitchByDegree(x).toOctave(y) acts the same as degreeInOctave(x, y) used to'() {
         const scale = ScaleTemplate.major.create(7);
-        expect(scale.getPitchByDegree(1).toOctave(0)).to.equal(19);
-        expect(scale.getPitchByDegree(2).toOctave(0)).to.equal(21);
-        expect(scale.getPitchByDegree(3).toOctave(0)).to.equal(23);
-        expect(scale.getPitchByDegree(4).toOctave(0)).to.equal(12);
-        expect(scale.getPitchByDegree(5).toOctave(0)).to.equal(14);
-        expect(scale.getPitchByDegree(6).toOctave(0)).to.equal(16);
-        expect(scale.getPitchByDegree(7).toOctave(0)).to.equal(18);
+        expect(toOctave(0, scale.getPitchByDegree(1))).to.equal(19);
+        expect(toOctave(0, scale.getPitchByDegree(2))).to.equal(21);
+        expect(toOctave(0, scale.getPitchByDegree(3))).to.equal(23);
+        expect(toOctave(0, scale.getPitchByDegree(4))).to.equal(12);
+        expect(toOctave(0, scale.getPitchByDegree(5))).to.equal(14);
+        expect(toOctave(0, scale.getPitchByDegree(6))).to.equal(16);
+        expect(toOctave(0, scale.getPitchByDegree(7))).to.equal(18);
 
-        expect(scale.getPitchByDegree(0).toOctave(0)).to.equal(18);
-        expect(scale.getPitchByDegree(-1).toOctave(0)).to.equal(16);
+        expect(toOctave(0, scale.getPitchByDegree(0))).to.equal(18);
+        expect(toOctave(0, scale.getPitchByDegree(-1))).to.equal(16);
 
-        expect(scale.getPitchByDegree(8).toOctave(0)).to.equal(19);
-        expect(scale.getPitchByDegree(9).toOctave(0)).to.equal(21);
+        expect(toOctave(0, scale.getPitchByDegree(8))).to.equal(19);
+        expect(toOctave(0, scale.getPitchByDegree(9))).to.equal(21);
     }
 
     @test 'getPitchByDegree().near() allows fetching a pitch of the same class near another pitch'() {
         const scale = ScaleTemplate.major.create(0);
-        expect(scale.getPitchByDegree(3).near(50)).to.equal(52);
+        expect(near(50, scale.getPitchByDegree(3))).to.equal(52);
     }
 
     @test 'pitchesInRange returns all pitches in the scale within the given pitch inclusive range'() {

@@ -493,8 +493,8 @@ import Tween, { LinearTween } from '../src/Tweens';
         expect(clipNote.duration).to.equal(1);
         expect(clipNote.pitch).to.equal(63);
         expect(clipNote.velocity).to.equal(80);
-        expect(clipNote.channel).to.be.null;
-        expect(clipNote.ref).to.be.null;
+        expect(clipNote.channel).to.equal(-1);
+        expect(clipNote.ref).to.be.empty;
     }
 
     @test 'ClipCC.load loads clip CC data'() {
@@ -503,7 +503,7 @@ import Tween, { LinearTween } from '../src/Tweens';
         expect(clipCC.duration).to.equal(1);
         expect(clipCC.controller).to.equal(30);
         expect(clipCC.value).to.equal(60);
-        expect(clipCC.channel).to.be.null;
+        expect(clipCC.channel).to.equal(-1);
     }
 
     @test 'ClipBend.load loads clip bend data'() {
@@ -511,7 +511,7 @@ import Tween, { LinearTween } from '../src/Tweens';
         expect(clipBend.start).to.equal(2);
         expect(clipBend.duration).to.equal(1);
         expect(clipBend.percent).to.equal(0.5);
-        expect(clipBend.channel).to.be.null;
+        expect(clipBend.channel).to.equal(-1);
     }
 
     @test 'ClipNote.load can handle velocity tweens'() {

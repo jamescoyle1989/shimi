@@ -225,6 +225,18 @@ import Tween, {
         expect(json).to.equal('{"type":"Multi","children":[{"type":"Linear","from":10,"to":20,"weight":1},{"type":"Linear","from":20,"to":0,"weight":2}]}');
     }
 
+    @test 'MultiTween handles update at 100% properly'() {
+        const tween = Tween.linear(10, 20)
+            .then(Tween.linear(20, 40), 1);
+        expect(tween.update(1)).to.equal(40);
+    }
+
+    @test 'MultiTween handles update over 100% properly'() {
+        const tween = Tween.linear(10, 20)
+            .then(Tween.linear(20, 40), 1);
+        expect(tween.update(1.01)).to.equal(40);
+    }
+
     @test 'SineInOutTween serializes properly'() {
         const tween = Tween.sineInOut(10, 20);
         const json = JSON.stringify(tween);

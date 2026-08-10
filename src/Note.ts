@@ -48,7 +48,7 @@ export default class Note {
     private _channel: number;
 
     /** Provides way of identifying notes so they can be easily retrieved later. */
-    ref: string;
+    ref: string = '';
 
     /**
      * @param pitch The MIDI pitch of the note, valid values range from 0 - 127. Can also take pitch names, see the [pitch](../functions/pitch.html) method for more information.
@@ -56,7 +56,7 @@ export default class Note {
      * @param channel Which channel should the note play on, valid values range from 0 - 15.
      * @param ref Provides way of identifying notes so they can be easily retrieved later.
      */
-    constructor(pitch: number | string, velocity: number, channel: number, ref?: string) {
+    constructor(pitch: number | string, velocity: number, channel: number, ref: string = '') {
         this._pitch = (typeof(pitch) == 'string') ? parsePitch(pitch) : pitch;
         this.velocityTracker = new PropertyTracker(Math.round(velocity));
         this.onTracker = new PropertyTracker(false);

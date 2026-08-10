@@ -13,7 +13,7 @@ export default class Range {
      */
     get start(): number { return this._start; }
     set start(value: number) { this._start = value; }
-    private _start: number;
+    private _start: number = 0;
 
     /**
      * The difference between the `start` and `end` values.
@@ -26,7 +26,7 @@ export default class Range {
             throw new Error('Cannot set duration to negative value');
         this._duration = value;
     }
-    private _duration: number;
+    private _duration: number = 0;
 
     /**
      * The value which the range ends at.

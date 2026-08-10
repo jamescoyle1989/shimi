@@ -3,8 +3,8 @@
 import Range from './Range';
 import Note from './Note';
 import Tween, { ITween } from './Tweens';
-import { sum } from './IterationUtils';
 import { parsePitch } from './utils';
+import { sumBy } from 'es-toolkit';
 
 
 /**
@@ -20,7 +20,7 @@ export class ClipNote extends Range {
     /** The MIDI pitch of the note, valid values range from 0 - 127. */
     get pitch(): number { return this._pitch; }
     set pitch(value: number) { this._pitch = value; }
-    private _pitch: number;
+    private _pitch: number = -1;
 
     /**
      * The note's velocity, valid values range from 0 - 127, or an ITween object to allow for values that change over time.
@@ -30,15 +30,15 @@ export class ClipNote extends Range {
      */
     get velocity(): number | ITween { return this._velocity; }
     set velocity(value: number | ITween) { this._velocity = value; }
-    private _velocity: number | ITween;
+    private _velocity: number | ITween = -1;
 
-    /** Which channel to play the note on, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide. */
+    /** Which channel to play the note on, valid values range from 0 - 15, or -1 to allow whatever is playing the clip to decide. */
     get channel(): number { return this._channel; }
     set channel(value: number) { this._channel = value; }
-    private _channel: number = null;
+    private _channel: number = -1;
 
     /** Provides way of identifying notes so they can be easily retrieved later. */
-    ref: string;
+    ref: string = '';
 
     /**
      * @param start What beat within the clip that the note starts on.
@@ -53,8 +53,8 @@ export class ClipNote extends Range {
         duration: number, 
         pitch: number | string, 
         velocity: number | ITween, 
-        channel: number = null,
-        ref: string = null
+        channel: number = -1,
+        ref: string = ''
     ) {
         super(start, duration);
         if (typeof(pitch) == 'string')
@@ -103,7 +103,7 @@ export class ClipNote extends Range {
             pitch: this.pitch,
             velocity: this.velocity
         };
-        if (!!this.channel)
+        if (this.channel >= 0)
             output.channel = this.channel;
         if (!!this.ref)
             output.ref = this.ref;
@@ -141,7 +141,7 @@ export class ClipCC extends Range {
     /** The MIDI controller to modify, valid values range from 0 - 127. */
     get controller(): number { return this._controller; }
     set controller(value: number) { this._controller = value; }
-    private _controller: number;
+    private _controller: number = -1;
 
     /**
      * The value to set, valid values range from 0 - 127, or an ITween object to allow for values that change over time.
@@ -151,12 +151,12 @@ export class ClipCC extends Range {
      */
     get value(): number | ITween { return this._value; }
     set value(value: number | ITween) { this._value = value; }
-    private _value: number | ITween;
+    private _value: number | ITween = -1;
 
-    /** Which channel to send the control change to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide. */
+    /** Which channel to send the control change to, valid values range from 0 - 15, or -1 to allow whatever is playing the clip to decide. */
     get channel(): number { return this._channel; }
     set channel(value: number) { this._channel = value; }
-    private _channel: number = null;
+    private _channel: number = -1;
 
     /**
      * @param start What beat within the clip that the control change starts.
@@ -170,7 +170,7 @@ export class ClipCC extends Range {
         duration: number, 
         controller: number, 
         value: number | ITween, 
-        channel: number = null
+        channel: number = -1
     ) {
         super(start, duration);
         this.controller = controller;
@@ -197,7 +197,7 @@ export class ClipCC extends Range {
             controller: this.controller,
             value: this.value
         };
-        if (!!this.channel)
+        if (this.channel >= 0)
             output.channel = this.channel;
         return output;
     }
@@ -239,12 +239,12 @@ export class ClipBend extends Range {
      */
     get percent(): number | ITween { return this._percent; }
     set percent(value: number | ITween) { this._percent = value; }
-    private _percent: number | ITween;
+    private _percent: number | ITween = 0;
 
-    /** Which channel to send the bend to, valid values range from 0 - 15, or null to allow whatever is playing the clip to decide */
+    /** Which channel to send the bend to, valid values range from 0 - 15, or -1 to allow whatever is playing the clip to decide */
     get channel(): number { return this._channel; }
     set channel(value: number) { this._channel = value; }
-    private _channel: number = null;
+    private _channel: number = -1;
 
     /**
      * @param start What beat within the clip that the bend starts
@@ -256,7 +256,7 @@ export class ClipBend extends Range {
         start: number, 
         duration: number, 
         percent: number | ITween, 
-        channel: number = null
+        channel: number = -1
     ) {
         super(start, duration);
         this.percent = percent;
@@ -280,7 +280,7 @@ export class ClipBend extends Range {
             duration: this.duration,
             percent: this.percent
         };
-        if (!!this.channel)
+        if (this.channel >= 0)
             output.channel = this.channel;
         return output;
     }
@@ -357,8 +357,8 @@ export class Clip extends Range {
         duration: number, 
         pitch: number | string | Array<number | string>, 
         velocity: number | ITween, 
-        channel: number = null,
-        ref: string = null
+        channel: number = -1,
+        ref: string = ''
     ): Clip {
         if (typeof(start) === 'number')
             start = [start];
@@ -385,7 +385,7 @@ export class Clip extends Range {
         duration: number, 
         controller: number, 
         value: number | ITween, 
-        channel: number = null
+        channel: number = -1
     ): Clip {
         if (typeof(start) === 'number')
             start = [start];
@@ -406,7 +406,7 @@ export class Clip extends Range {
         start: number | Array<number>, 
         duration: number, 
         percent: number | ITween, 
-        channel: number = null
+        channel: number = -1
     ): Clip {
         if (typeof(start) === 'number')
             start = [start];
@@ -443,7 +443,7 @@ export class Clip extends Range {
             throw new Error('Quantize rhythm must contain only positive non-zero values');
         
         strength = Math.min(1, Math.max(0, strength));
-        const rhythmLength = sum(rhythm, x => x);
+        const rhythmLength = sumBy(rhythm, x => x);
 
         for (const note of this.notes) {
             let currentBeat = Math.floor(note.start / rhythmLength) * rhythmLength;
@@ -591,9 +591,9 @@ export class Clip extends Range {
     static load(clipData: any): Clip {
         const output = new Clip(clipData.duration);
         output.start = clipData.start;
-        output.notes.push(...clipData.notes.map(x => ClipNote.load(x)));
-        output.controlChanges.push(...clipData.controlChanges.map(x => ClipCC.load(x)));
-        output.bends.push(...clipData.bends.map(x => ClipBend.load(x)));
+        output.notes.push(...clipData.notes.map((x: any) => ClipNote.load(x)));
+        output.controlChanges.push(...clipData.controlChanges.map((x: any) => ClipCC.load(x)));
+        output.bends.push(...clipData.bends.map((x: any) => ClipBend.load(x)));
         return output;
     }
 }

@@ -1,7 +1,7 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { parsePitch, parsePitchFromStringStart, parseRomanNumeralsFromStringStart, toHertz } from '../src/utils';
-import { ScaleTemplate } from '../src';
+import { near, octave, parsePitch, parsePitchFromStringStart, parseRomanNumeralsFromStringStart, toHertz, toOctave } from '../src/utils';
+import ScaleTemplate from '../src/ScaleTemplate';
 
 
 @suite class UtilsTests {
@@ -136,5 +136,33 @@ import { ScaleTemplate } from '../src';
 
     @test 'parseRomanNumeralsFromStringStart throws error if mixed casing in numerals'() {
         expect(() => parseRomanNumeralsFromStringStart('Ii', ScaleTemplate.major.create(0))).to.throw();
+    }
+
+    @test 'near extension returns correct result'() {
+        expect(near(62, 48)).to.equal(60);
+    }
+
+    @test 'When ambiguous, near returns the value closest to the current pitch value'() {
+        expect(near(66, 48)).to.equal(60);
+        expect(near(30, 48)).to.equal(36);
+    }
+
+    @test 'near can take string representation of pitch'() {
+        expect(near('C2', 2)).to.equal(38);
+    }
+
+
+    @test 'octave extension returns correct result'() {
+        expect(octave(10)).to.equal(-1);
+        expect(octave(17)).to.equal(0);
+        expect(octave(24)).to.equal(1);
+        expect(octave(37)).to.equal(2);
+    }
+
+
+    @test 'toOctave extension returns pitch class but in new octave'() {
+        expect(toOctave(1, 0)).to.equal(24);
+        expect(toOctave(-1, 15)).to.equal(3);
+        expect(toOctave(2, 26)).to.equal(38);
     }
 }

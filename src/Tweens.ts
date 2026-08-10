@@ -1,6 +1,6 @@
 'use strict';
 
-import { sum } from "./IterationUtils";
+import { sumBy } from 'es-toolkit';
 
 
 /**
@@ -126,7 +126,8 @@ export class MultiTween implements ITween {
      * @param percent Expects a value ranging from 0 to 1.
      */
     update(percent: number): number {
-        const totalWeight = sum(this._children, x => x.weight);
+        const totalWeight = sumBy(this._children, x => x.weight);
+        
         const weightedPercent = totalWeight * percent;
         let cumulativeWeight = 0;
         for (const child of this._children) {
@@ -136,6 +137,7 @@ export class MultiTween implements ITween {
             }
             cumulativeWeight += child.weight;
         }
+        return this.to;
     }
 
     /**
@@ -287,7 +289,7 @@ export class StepsTween extends LinearTween {
      */
     get steps(): number { return this._steps; }
     set steps(value: number) { this._steps = value; }
-    private _steps: number;
+    private _steps: number = 0;
 
     /**
      * @param from The value to start the tween from.
@@ -837,7 +839,7 @@ export default class Tween {
     static load(tweenData: any) {
         const type = tweenData.type;
         if (type == 'Multi') {
-            const children = tweenData.children.map(x => ({
+            const children = tweenData.children.map((x: any) => ({
                 tween: Tween.load(x),
                 weight: x.weight
             }));

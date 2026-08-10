@@ -74,7 +74,7 @@ export function parsePitchFromStringStart(name: string): { pitch: number, parseE
 }
 
 
-export function parseRomanNumeralsFromStringStart(numerals: string, scale: Scale): { pitch: number, isMajor: boolean, parseEndIndex: number } {
+export function parseRomanNumeralsFromStringStart(numerals: string, scale: Scale): { pitch: number, isMajor: boolean | null, parseEndIndex: number } {
     if (!scale)
         throw Error('scale must be provided');
     if (scale.length != 7)
@@ -100,7 +100,7 @@ export function parseRomanNumeralsFromStringStart(numerals: string, scale: Scale
     const numeralChars = ['i', 'I', 'v', 'V'];
     for (; parseEndIndex < numerals.length; parseEndIndex++) {
         const char = numerals[parseEndIndex];
-        if (!numeralChars.includes(char))
+        if (!numeralChars.find(x => x == char))
             break;
     }
     let pureNumerals = numerals.substring(numeralsStart, parseEndIndex);
@@ -139,7 +139,7 @@ export function parseRomanNumeralsFromStringStart(numerals: string, scale: Scale
 }
 
 
-export function parsePitchOrRomanNumeralsFromStringStart(input: string, scale: Scale): { pitch: number, isMajor: boolean, parseEndIndex: number } {
+export function parsePitchOrRomanNumeralsFromStringStart(input: string, scale: Scale): { pitch: number, isMajor: boolean | null, parseEndIndex: number } {
     try {
         const output = parsePitchFromStringStart(input);
         return { pitch: output.pitch, isMajor: null, parseEndIndex: output.parseEndIndex };
@@ -159,4 +159,52 @@ export function toHertz(pitch: number | string): number {
     if (typeof(pitch) === 'string')
         pitch = parsePitch(pitch);
     return Math.pow(2, ((pitch - 69) / 12)) * 440;
+}
+
+
+/**
+ * This function is provided as an extension of the number prototype, so that once you've got a pitch, you can easily find another pitch of the same pitch class, but within a different octave.
+ * 
+ * For example: `shimi.pitch('C4').near(shimi.pitch('B5'))` will return the same value as if you'd just used `shimi.pitch('C6')`.
+ * 
+ * In the case where the target pitch is exactly halfway between 2 possible pitches, this function will return the one that is closest to the current pitch value. For example: `shimi.pitch('C2').near(shimi.pitch('F#5'))` returns the pitch value for C5 rather than C6.
+ * 
+ * @param target The target pitch which the returned value should be near to
+ * @param pitch The pitch which we want to get near to
+ * @returns 
+ */
+export function near(target: number | string, pitch: number): number {
+    if (typeof(target) === 'string')
+        target = parsePitch(target);
+        
+    let pitchDiff = target - pitch;
+    if (safeMod(pitchDiff, 12) == 6) {
+        if (pitchDiff > 0)
+            pitchDiff--;
+        else
+            pitchDiff++;
+    }
+    const octaveDiff = Math.round(pitchDiff / 12);
+    return pitch + (octaveDiff * 12);
+}
+
+
+/**
+ * This getter is provided as an extension of the number prototype, so that once you've got a pitch, you can easily identify which octave it's within.
+ * @param pitch The pitch which we want to get the octave of
+ * @returns 
+ */
+export function octave(pitch: number): number {
+    return Math.floor(pitch / 12) - 1;
+};
+
+
+/**
+ * This function is provided as an extension of the number prototype, so that once you've got a pitch, you can easily translate it over to a particular octave.
+ * @param targetOctave The target octave which the new pitch should be within.
+ * @param pitch The pitch which we want to move into the target octave
+ * @returns 
+ */
+export function toOctave(targetOctave: number, pitch: number): number {
+    return ((targetOctave + 1) * 12) + safeMod(pitch, 12);
 }

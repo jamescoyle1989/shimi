@@ -24,7 +24,7 @@ export default class ScaleTemplate {
     /** The name of the scale type, e.g. 'Major', 'Harmonic Minor', 'Phrygian', 'My Special Scale', etc. */
     get name(): string { return this._name; }
     set name(value: string) { this._name = value; }
-    private _name: string;
+    private _name: string = '';
 
     /**
      * The shape property defines which notes make up a scale of this type.

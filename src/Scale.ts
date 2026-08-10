@@ -1,18 +1,17 @@
 'use strict';
 
-import { octave } from './Extensions';
 import { IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import ScaleTemplate from './ScaleTemplate';
-import { parsePitch, safeMod, sortComparison } from './utils';
+import { octave, parsePitch, safeMod, sortComparison } from './utils';
 
 
 /** This class is used by the Scale class to hold information about the proper naming of pitches, relative to some specific scale */
 export class PitchName {
     pitch: number;
     letter: string;
-    accidental: number;
+    accidental: number | null = null;
 
-    constructor(pitch: number, letter: string, accidental?: number) {
+    constructor(pitch: number, letter: string, accidental: number | null = null) {
         this.pitch = pitch;
         this.letter = letter;
         this.accidental = accidental;
@@ -46,7 +45,7 @@ export default class Scale implements IPitchContainer {
     /** The name of the scale */
     get name(): string { return this._name; }
     set name(value: string) { this._name = value; }
-    private _name: string;
+    private _name: string = '';
 
     /**
      * The pitches which make up the scale, ordered ascending by scale degree from the scale's root, with each pitch within the range 0 - 11.
@@ -66,7 +65,7 @@ export default class Scale implements IPitchContainer {
     /** The root pitch of the scale. */
     get root(): number { return this.pitches[0]; }
 
-    private _pitchNames: PitchName[];
+    private _pitchNames: PitchName[] = [];
 
     /**
      * @param template The ScaleTemplate object which defines the scale type that this scale uses.
@@ -211,13 +210,13 @@ export default class Scale implements IPitchContainer {
         if (typeof(pitch) == 'string')
             pitch = parsePitch(pitch);
         
-        options = new FitPitchOptions(options);
+        const fullOptions = new FitPitchOptions(options);
 
         //Set direction to either 1 or -1, 1 means prefer upward motion, -1 means prefer downward motion
         let direction = 1;
-        if (options.preferredDirection == 'DOWN')
+        if (fullOptions.preferredDirection == 'DOWN')
             direction = -1;
-        else if (options.preferredDirection == 'RANDOM')
+        else if (fullOptions.preferredDirection == 'RANDOM')
             direction = (Math.random() >= 0.5) ? 1 : -1;
 
         //Set starting positions for pitch1 & pitch2, these will move in opposite directions
@@ -233,14 +232,14 @@ export default class Scale implements IPitchContainer {
 
         //Enter the main loop of the function, continue while at least one of pitch1 or pitch2 are within the movement range
         while (true) {
-            const pitch1InRange = Math.abs(pitch1 - pitch) <= options.maxMovement;
-            const pitch2InRange = Math.abs(pitch2 - pitch) <= options.maxMovement;
+            const pitch1InRange = Math.abs(pitch1 - pitch) <= fullOptions.maxMovement;
+            const pitch2InRange = Math.abs(pitch2 - pitch) <= fullOptions.maxMovement;
             if (!pitch1InRange && !pitch2InRange)
                 break;
-            const pitch1Valid = pitch1InRange && !options.avoid.includes(pitch1);
-            const pitch2Valid = pitch2InRange && !options.avoid.includes(pitch2);
+            const pitch1Valid = pitch1InRange && !fullOptions.avoid.find(x => x == pitch1);
+            const pitch2Valid = pitch2InRange && !fullOptions.avoid.find(x => x == pitch2);
             //If we prefer the root, if either pitch1 or pitch2 are the scale root, then just instantly return that
-            if (options.preferRoot) {
+            if (fullOptions.preferRoot) {
                 if (pitch1Valid && safeMod(pitch1, 12) == this.root)
                     return pitch1;
                 if (pitch2Valid && safeMod(pitch2, 12) == this.root)
@@ -296,7 +295,7 @@ export default class Scale implements IPitchContainer {
         }
         const nearestScaleDegreeDistance = Math.abs(nearestScalePitch - pitch);
 
-        let rootOctave = pitch.octave;
+        let rootOctave = octave(pitch);
         if (safeMod(pitch, 12) < safeMod(this.root, 12))
             rootOctave--;
 
@@ -320,7 +319,7 @@ export default class Scale implements IPitchContainer {
         const scalePreference = ([0, 7, 2, 9, 4, 11].find(x => x == relativeMajorRoot) != undefined) ? 1 : -1;
 
         //Build a 2D array of possible names that can be used for each of the 12 pitches
-        const n = (pitch: number, letter: string, accidental?: number) => new PitchName(pitch, letter, accidental);
+        const n = (pitch: number, letter: string, accidental: number | null) => new PitchName(pitch, letter, accidental);
         const pitchNames = [
             [n(0, 'B', 1), n(0, 'C', 0), n(0, 'D', -2)],    //C
             [n(1, 'B', 2), n(1, 'C', 1), n(1, 'D', -1)],
@@ -351,7 +350,7 @@ export default class Scale implements IPitchContainer {
             //If there's an option to go natural, always take it if it hasn't already been used
             const naturalName = nameOptions.find(x => x.accidental == 0 && this._notInUsedNames(x, results));
             if (naturalName) {
-                results.push(n(pitch, naturalName.letter));
+                results.push(n(pitch, naturalName.letter, null));
                 continue;
             }
 
@@ -366,7 +365,10 @@ export default class Scale implements IPitchContainer {
                     filteredOptions = nameOptions.filter(x => this._matchesPreference(x, preference));
             }
 
-            results.push(filteredOptions.sort((a, b) => sortComparison(a, b, x => Math.abs(x.accidental)))[0]);
+            results.push(filteredOptions
+                .filter(x => x.accidental != null)
+                .sort((a, b) => sortComparison(a, b, x => Math.abs(x.accidental ?? 999)))[0]
+            );
         }
 
         const outOfScalePitches = [...Array(12).keys()].filter(x => scalePitches.find(y => x == y) == undefined);
@@ -376,7 +378,7 @@ export default class Scale implements IPitchContainer {
             //Special rule for leading tone when root is sharp
             //For example, in F# natural minor, the leading tone should be E#, not F
             if (safeMod(pitch - this.root, 12) == 11 && results[0].accidental == 1) {
-                results.push(nameOptions.filter(x => x.accidental > 0)[0]);
+                results.push(nameOptions.filter(x => (x.accidental ?? 0) > 0)[0]);
                 continue;
             }
 
@@ -391,7 +393,7 @@ export default class Scale implements IPitchContainer {
             results.push(
                 nameOptions
                 .filter(x => this._matchesPreference(x, preference))
-                .sort((a, b) => sortComparison(a, b, x => Math.abs(x.accidental)))
+                .sort((a, b) => sortComparison(a, b, x => Math.abs(x.accidental ?? 0)))
                 [0]
             );
         }
@@ -404,7 +406,7 @@ export default class Scale implements IPitchContainer {
     }
 
     private _matchesPreference(name: PitchName, preference: number): boolean {
-        return name.accidental * preference >= 0;
+        return (name.accidental ?? 0) * preference >= 0;
     }
 
     /** Returns a new Scale object whose root is 7 semi-tones above (or 5 semi-tones below) the root of the current scale. */

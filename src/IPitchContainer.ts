@@ -89,7 +89,7 @@ export class FitPitchOptions {
      * 
      * By default, scale is left null.
      */
-    scale: Scale = null;
+    scale: Scale | null = null;
 
     /**
      * An array of pitches that we want to avoid fitting to. By default, this is an empty array
@@ -101,7 +101,7 @@ export class FitPitchOptions {
      * 
      * @param init The init parameter is a partial definition of a FitPitchOptions object.
      */
-    constructor(init: Partial<FitPitchOptions>) {
+    constructor(init?: Partial<FitPitchOptions>) {
         if (init) {
             Object.assign(this, init);
             if (this.avoid == null || this.avoid == undefined)
