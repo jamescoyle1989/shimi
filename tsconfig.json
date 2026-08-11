@@ -2,9 +2,8 @@
 	"compilerOptions": {
 		"module": "esnext",
         "strict": true,
-		"target": "es2015",
+		"target": "es2018",
         "moduleResolution": "node",
-        "ignoreDeprecations": "6.0",
 		"declaration": true,
         "rootDir": "./src",
 		"outDir": "./raw",

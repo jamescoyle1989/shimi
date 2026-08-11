@@ -59,7 +59,7 @@ Chord.nameGenerator = (chord: Chord) => {
         expect(chord.root).to.equal(12);
         chord.removePitches(x => x == 12);
         expect(chord.pitches.length).to.equal(2);
-        expect(chord.root).to.equal(null);
+        expect(chord.root).to.equal(-1);
     }
 
     @test 'setRoot adds pitch if chord doesnt contain root'() {
@@ -607,7 +607,7 @@ Chord.nameGenerator = (chord: Chord) => {
     @test 'transpose ignores root if it hasnt been set'() {
         const chord = new Chord().addPitches([36, 40, 43]);
         chord.transpose(-3);
-        expect(chord.root).to.be.null;
+        expect(chord.root).to.equal(-1);
     }
 
     @test 'transpose forces name to be recalculated'() {

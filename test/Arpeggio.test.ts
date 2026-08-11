@@ -2,7 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import { Arpeggio, ArpeggioNote } from '../src/Arpeggio';
 import Chord from '../src/Chord';
-import { Tween } from '../src';
+import Tween from '../src/Tweens';
 
 
 @suite class ArpeggioTests {

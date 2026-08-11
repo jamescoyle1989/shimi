@@ -1,5 +1,6 @@
 'use strict';
 
+import { sortBy } from 'es-toolkit';
 import { IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import Scale from './Scale';
 import { parsePitch, safeMod, sortComparison } from './utils';
@@ -41,7 +42,7 @@ export default class Chord implements IPitchContainer {
      */
     get root(): number { return this._root; }
     set root(pitch: number) { this.setRoot(pitch); }
-    private _root: number = null;
+    private _root: number = -1;
 
     /**
      * The bass note of the chord.
@@ -54,13 +55,13 @@ export default class Chord implements IPitchContainer {
      * 
      * Each time a pitch on the chord gets changed, the name property gets wiped out. So long as the static nameGenerator property has been set, then the next time an attempt is made to get the name, it will be automatically recalculated.
      */
-    get name(): string {
+    get name(): string | null {
         if (this._name == null && Chord.nameGenerator != null)
             this._name = Chord.nameGenerator(this);
         return this._name;
     }
     set name(value: string) { this._name = value; }
-    private _name: string = null;
+    private _name: string | null = null;
 
     /** 
      * Holds a function which will be used for any chord that needs to recalculate what its name is.
@@ -75,11 +76,11 @@ export default class Chord implements IPitchContainer {
      *         return null;
      *     return result.name
      *         .replace('{r}', scale.getPitchName(result.root))
-     *         .replace('{r}', scale.getPitchName(result.bass));
+     *         .replace('{b}', scale.getPitchName(result.bass));
      * };
      * ```
      */
-    static nameGenerator: (Chord) => string = null;
+    static nameGenerator: ((chord: Chord) => string) | null = null;
     
     constructor() {
     }
@@ -130,8 +131,8 @@ export default class Chord implements IPitchContainer {
         this._pitches = this._pitches.filter(p => !condition(p));
         if (this._pitches.length < beforeCount)
             this._name = null;
-        if (this.root && !this._pitches.find(x => x == this.root))
-            this.root = null;
+        if (!this._pitches.find(x => x == this.root))
+            this.root = -1;
         return this;
     }
 
@@ -146,12 +147,9 @@ export default class Chord implements IPitchContainer {
             pitch = parsePitch(pitch);
         
         if (this._root != pitch) {
-            if (pitch == undefined || pitch == null)
-                this._root = null;
-            else {
-                this._root = pitch;
+            this._root = pitch;
+            if (this._root >= 0)
                 this.addPitch(pitch);
-            }
             this._name = null;
         }
         return this;
@@ -191,13 +189,13 @@ export default class Chord implements IPitchContainer {
      * @returns Returns a number representing the pitch at the specified degree.
      */
     getPitchByDegree(degree: number, scale?: Scale): number {
-        if (this.root == null)
+        if (this.root == -1)
             throw Error('Cannot call getPitchByDegree without root being set');
         degree = Math.round(degree);
         if (degree == 1)
             return this.root;
 
-        const getPreferredOrFallbackPitch = (preferred: number, fallback: number): number => {
+        const getPreferredOrFallbackPitch = (preferred: number, fallback: number): number | null => {
             return this.pitches.find(x => x == preferred) ??
                 this.pitches.find(x => x == fallback) ??
                 (this.contains(preferred) ? preferred : null) ??
@@ -269,7 +267,7 @@ export default class Chord implements IPitchContainer {
 
     /** Modifies the chord in place, transposing the pitches within the chord up/down by the specified number of semitones. */
     transpose(semitones: number): void {
-        if (this.root != null)
+        if (this.root != -1)
             this.root = this.root + semitones;
         for (let i = 0; i < this.pitches.length; i++)
             this.pitches[i] = this.pitches[i] + semitones;
@@ -291,8 +289,8 @@ export default class Chord implements IPitchContainer {
      * @param scale Optional, used to allow for better fitting pitch selection.
      * @returns Returns the chord instance, so that method calls can be chained together.
      */
-    addDegrees(degrees: Array<number>, scale: Scale = null): Chord {
-        if (this.root == null)
+    addDegrees(degrees: Array<number>, scale: Scale | undefined = undefined): Chord {
+        if (this.root == -1)
             throw new Error('You cannot add degrees to the chord before its root has been set');
         
         for (let degree of degrees) {
@@ -334,7 +332,7 @@ export default class Chord implements IPitchContainer {
             if (forceFallback)
                 pitch += degreeAddition.fallback
             else if (
-                scale == null ||
+                !scale ||
                 scale.contains(pitch + degreeAddition.main) ||
                 !scale.contains(pitch + degreeAddition.fallback)
             )
@@ -400,7 +398,7 @@ export default class Chord implements IPitchContainer {
         
         const fullOptions = new FitPitchOptions(options);
 
-        let fitFunction = p => this._isTightFit(p, fullOptions);
+        let fitFunction = (p: number) => this._isTightFit(p, fullOptions);
         if (fullOptions.precision == 'MEDIUM') fitFunction = p => this._isMediumFit(p, fullOptions);
         if (fullOptions.precision == 'LOOSE') fitFunction = p => this._isLooseFit(p, fullOptions);
 
@@ -428,8 +426,8 @@ export default class Chord implements IPitchContainer {
             const pitch2InRange = Math.abs(pitch2 - pitch) <= fullOptions.maxMovement;
             if (!pitch1InRange && !pitch2InRange)
                 break;
-            const pitch1Valid = pitch1InRange && !fullOptions.avoid.includes(pitch1);
-            const pitch2Valid = pitch2InRange && !fullOptions.avoid.includes(pitch2);
+            const pitch1Valid = pitch1InRange && !fullOptions.avoid.find(x => x == pitch1);
+            const pitch2Valid = pitch2InRange && !fullOptions.avoid.find(x => x == pitch2);
             const fit1 = pitch1Valid ? fitFunction(pitch1) : 0;
             const fit2 = pitch2Valid ? fitFunction(pitch2) : 0;
             if (fit1 + fit2 > 0) {

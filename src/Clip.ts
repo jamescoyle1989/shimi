@@ -78,7 +78,7 @@ export class ClipNote extends Range {
             (typeof(this.velocity) == 'number') ? 
                 this.velocity : 
                 this.velocity.update(percent), 
-            this.channel ?? channel,
+            this.channel >= 0 ? this.channel : channel,
             this.ref
         );
     }

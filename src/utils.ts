@@ -139,13 +139,13 @@ export function parseRomanNumeralsFromStringStart(numerals: string, scale: Scale
 }
 
 
-export function parsePitchOrRomanNumeralsFromStringStart(input: string, scale: Scale): { pitch: number, isMajor: boolean | null, parseEndIndex: number } {
+export function parsePitchOrRomanNumeralsFromStringStart(input: string, scale?: Scale): { pitch: number, isMajor: boolean | null, parseEndIndex: number } {
     try {
         const output = parsePitchFromStringStart(input);
         return { pitch: output.pitch, isMajor: null, parseEndIndex: output.parseEndIndex };
     }
     catch (ex) {
-        return parseRomanNumeralsFromStringStart(input, scale);
+        return parseRomanNumeralsFromStringStart(input, scale!);
     }
 }
 

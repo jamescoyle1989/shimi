@@ -2,7 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import ChordFinder, { ChordLookupData } from '../src/ChordFinder';
 import ScaleTemplate from '../src/ScaleTemplate';
-import { Chord } from '../src';
+import Chord from '../src/Chord';
 
 
 @suite class ChordFinderTests {

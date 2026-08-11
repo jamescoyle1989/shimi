@@ -29,12 +29,12 @@ export class ArpeggioNote extends Range {
     /** The note's velocity, valid values range from 0 - 127, or an ITween object to allow for values that change over time. */
     get velocity(): number | ITween { return this._velocity; }
     set velocity(value: number | ITween) { this._velocity = value; }
-    private _velocity: number | ITween;
+    private _velocity: number | ITween = -1;
 
     /** Which channel to play the note on, valid values range from 0 - 15, or null to default to signal that the Arpeggiator's chosen channel should be used. */
     get channel(): number { return this._channel; }
     set channel(value: number) { this._channel = value; }
-    private _channel: number = null;
+    private _channel: number = -1;
 
     /**
      * @param start What beat within the clip that the note starts on
@@ -48,10 +48,10 @@ export class ArpeggioNote extends Range {
         duration: number, 
         pitch: (c: Chord) => number, 
         velocity: number | ITween, 
-        channel: number = null
+        channel: number = -1
     ) {
         super(start, duration);
-        this.pitch = pitch;
+        this._pitch = pitch;
         this.velocity = velocity;
         this.channel = channel;
     }
@@ -63,7 +63,7 @@ export class ArpeggioNote extends Range {
      * @param percent How far into the note we should start from
      * @returns 
      */
-    createNote(chord: Chord, channel: number, percent: number): Note {
+    createNote(chord: Chord, channel: number, percent: number): Note | null {
         if (!chord)
             return null;
         const pitch = this.pitch(chord);
@@ -74,7 +74,7 @@ export class ArpeggioNote extends Range {
             (typeof(this.velocity) == 'number') ? 
                 this.velocity : 
                 this.velocity.update(percent),
-            this.channel ?? channel
+            this.channel >= 0 ? this.channel : channel
         );
     }
 }
@@ -127,7 +127,7 @@ export class Arpeggio extends Range {
         duration: number,
         pitch: (c: Chord) => number, 
         velocity: number | ITween,
-        channel: number = null
+        channel: number = -1
     ): Arpeggio {
         if (typeof(start) === 'number')
             start = [start];

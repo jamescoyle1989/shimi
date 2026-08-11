@@ -2,8 +2,8 @@
 
 import { parsePitch, parsePitchFromStringStart, parsePitchOrRomanNumeralsFromStringStart, parseRomanNumeralsFromStringStart, safeMod, sortComparison } from './utils';
 import Scale from './Scale';
-import { distinct, mode } from './IterationUtils';
 import Chord from './Chord';
+import { uniq } from 'es-toolkit';
 
 
 /**
@@ -38,7 +38,7 @@ export class ChordLookupData {
     //Returns a 12-bit number to represent which pitch classes are present in the passed in array of pitches
     //2^0 = pitches contains C, 2^1 = pitches contains C#, 2^2 = pitches contains D, etc.
     private _getPitchMap(root: number, intervals: number[]): number {
-        const distinctPitches = distinct(intervals.map(x => safeMod(root + x, 12)));
+        const distinctPitches = uniq(intervals.map(x => safeMod(root + x, 12)));
         let output = 0;
         for (let pitch of distinctPitches)
             output += Math.pow(2, pitch);
@@ -198,19 +198,26 @@ export default class ChordFinder {
      * @param scale Optional, the scale which any notes that need to be added to the suggested chord must belong to.
      * @returns If a matching chord is successfully found, then a ChordLookupResult instance is returned with details of the match. Otherwise the method returns null.
      */
-    findChord(pitches: number[], root: number = null, shapeFilter: string[] = null, scale: Scale = null): ChordLookupResult {
+    findChord(
+        pitches: number[],
+        root?: number,
+        shapeFilter?: string[],
+        scale?: Scale
+    ): ChordLookupResult | null {
         if (pitches.length == 0)
             return null;
+        if (root == -1)
+            root = undefined;
         if (root != null && pitches.find(x => x == root) == undefined)
             throw new Error('The root is not contained in the passed in pitches');
-        if (pitches.length == 1 && root == null)
+        if (pitches.length == 1 && root == undefined)
             root = pitches[0];
 
         const chords = this._getAllPotentialChords(pitches, root, shapeFilter, scale);
 
         const pitchMap = this._getPitchMap(pitches);
 
-        let suggestion: {distance: number, chord: ChordLookupData} = null;
+        let suggestion: {distance: number, chord: ChordLookupData} | null = null;
         for (const chord of chords) {
             const distance = this._getPitchMapDistance(chord.pitchMap, pitchMap);
             if (suggestion == null || distance < suggestion.distance || (distance == suggestion.distance && chord.preference > suggestion.chord.preference))
@@ -243,12 +250,17 @@ export default class ChordFinder {
         for (const interval of suggestion.chord.intervals) {
             if (!lookupResult.pitches.find(x => safeMod(x, 12) == safeMod(suggestion.chord.root + interval, 12))) {
                 //Take vote on best pitch to add for interval
-                const votes: number[] = [];
+                const votes = new Map<number, number>();
                 for (const im of intervalMap) {
                     const intervalDiff = interval - im.interval;
-                    votes.push(im.pitch + intervalDiff);
+                    votes.set(im.pitch + intervalDiff, (votes.get(im.pitch + intervalDiff) ?? 0) + 1);
                 }
-                const pitch = mode(votes, x => x);
+                let pitch = -1;
+                for (const voteKey of votes.keys()) {
+                    if ((votes.get(voteKey) ?? 0) > (votes.get(pitch) ?? 0))
+                        pitch = voteKey;
+                }
+
                 lookupResult.pitches.push(pitch);
                 lookupResult.pitchesAdded.push(pitch);
             }
@@ -256,25 +268,30 @@ export default class ChordFinder {
 
         lookupResult.pitches.sort((a, b) => sortComparison(a, b, x => x));
         lookupResult.bass = lookupResult.pitches[0];
-        lookupResult.root = lookupResult.pitches.find(x => safeMod(x, 12) == safeMod(suggestion.chord.root, 12));
+        lookupResult.root = lookupResult.pitches.find(x => safeMod(x, 12) == safeMod(suggestion.chord.root, 12)) ?? -1;
         lookupResult.name = (lookupResult.bass == lookupResult.root) ? suggestion.chord.name : suggestion.chord.inverseName;
         return lookupResult;
     }
 
     //Used by the lookupChord method, just focused on fetching a list of POSSIBLE matches based on initial filtering
-    private _getAllPotentialChords(pitches: number[], root: number = null, shapeFilter: string[] = null, scale: Scale = null): ChordLookupData[] {
+    private _getAllPotentialChords(
+        pitches: number[],
+        root?: number,
+        shapeFilter?: string[],
+        scale?: Scale
+    ): ChordLookupData[] {
         const pitchMap = this._getPitchMap(pitches);
         let chords = this.lookupData;
 
-        if (root != null) {
+        if (root != undefined) {
             root = safeMod(root, 12);
             chords = chords.filter(x => x.root == root);
         }
 
-        if (shapeFilter != null)
+        if (shapeFilter != undefined)
             chords = chords.filter(x => shapeFilter.find(y => y == x.shapeName));
 
-        if (scale != null) {
+        if (scale != undefined) {
             chords = chords.filter(x => {
                 //Keep chords only if the pitches they'd need to add to the input pitches are contained within the passed in scale
                 //Don't worry about whether the pitches passed in are in the scale or not
@@ -291,7 +308,7 @@ export default class ChordFinder {
     //Returns a 12-bit number to represent which pitch classes are present in the passed in array of pitches
     //2^0 = pitches contains C, 2^1 = pitches contains C#, 2^2 = pitches contains D, etc.
     private _getPitchMap(pitches: number[]): number {
-        const distinctPitches = distinct(pitches.map(x => safeMod(x, 12)));
+        const distinctPitches = uniq(pitches.map(x => safeMod(x, 12)));
         let output = 0;
         for (let pitch of distinctPitches)
             output += Math.pow(2, pitch);
@@ -319,10 +336,13 @@ export default class ChordFinder {
      * @param chordName The name of the chord to look for
      * @returns 
      */
-    findChordByName(chordName: string, scale?: Scale): ChordLookupResult {
+    findChordByName(
+        chordName: string,
+        scale?: Scale
+    ): ChordLookupResult | null {
         let chordRoot = 0;
         let remainingChordName = '';
-        let isMajor: boolean = null;
+        let isMajor: boolean | null = null;
         try {
             const parsedRoot = parsePitchFromStringStart(chordName);
             chordRoot = parsedRoot.pitch;
@@ -345,9 +365,9 @@ export default class ChordFinder {
         //Loop through each lookup, trying to match the pattern of the chord name to the chord lookup info
         for (const lookup of this.lookupData.filter(x => x.root == chordRoot)) {
             if (isMajor != null) {
-                if (isMajor && !lookup.intervals.includes(4))
+                if (isMajor && !lookup.intervals.find(x => x == 4))
                     continue;
-                else if (!isMajor && !lookup.intervals.includes(3))
+                else if (!isMajor && !lookup.intervals.find(x => x == 3))
                     continue;
             }
             else if (remainingChordName.length > 0 && !remainingChordName.startsWith(lookup.shapeName))
@@ -363,8 +383,8 @@ export default class ChordFinder {
     private _tryLookupMatchToChordName(
         lookupData: ChordLookupData, 
         chordName: string,
-        scale: Scale
-    ): ChordLookupResult {
+        scale?: Scale
+    ): ChordLookupResult | null {
         const output = new ChordLookupResult();
         output.shapeName = lookupData.shapeName;
 
@@ -381,11 +401,13 @@ export default class ChordFinder {
             output.name = lookupData.inverseName;
         }
 
-        output.root = parsePitch(result.groups.r) + 12;
-        if (result.groups.b != undefined)
-            output.bass = parsePitchOrRomanNumeralsFromStringStart(result.groups.b, scale).pitch;
-        else
-            output.bass = output.root;
+        if (!!result.groups){
+            output.root = parsePitch(result.groups.r) + 12;
+            if (result.groups.b != undefined)
+                output.bass = parsePitchOrRomanNumeralsFromStringStart(result.groups.b, scale).pitch;
+            else
+                output.bass = output.root;
+        }
 
         output.pitches = lookupData.intervals.map(x => x + output.root);
         if (output.bass != output.root) {
@@ -424,7 +446,7 @@ export default class ChordFinder {
      * @param chordName The name of the chord that we want to create
      * @returns 
      */
-    newChord(chordName: string, scale?: Scale): Chord {
+    newChord(chordName: string, scale?: Scale): Chord | null {
         const result = this.findChordByName(chordName, scale);
         if (result == null)
             return null;
