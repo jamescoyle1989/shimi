@@ -72,44 +72,10 @@ class MockSource {
         expect(handler).to.be.instanceOf(ShimiHandler);
     }
 
-    @test 'Can add ref to handlers'() {
-        const evt = new ShimiEvent<ShimiEventData<MockSource>, MockSource>();
-        evt.add(new ShimiHandler(data => {}, 'ref1'));
-        evt.add(new ShimiHandler(data => {}, 'ref2'));
-        expect(evt.handlers.filter(x => x.ref == 'ref1').length).to.equal(1);
-        expect(evt.handlers.filter(x => x.ref == 'ref2').length).to.equal(1);
-        expect(evt.handlers.filter(x => x.ref == 'ref3').length).to.equal(0);
-    }
-
-    @test 'Handler logic doesnt get called if handlers not on'() {
-        const evt = new ShimiEvent<ShimiEventData<MockSource>, MockSource>();
-        const results: number[] = [];
-        evt.add(data => results.push(3));
-        evt.add(new ShimiHandler(data => results.push(7), 'ref2'));
-        evt.add(data => results.push(8));
-        evt.handlers.find(x => x.ref == 'ref2').on = false;
-        evt.trigger(null);
-        expect(results.length).to.equal(2);
-        expect(results[0]).to.equal(3);
-        expect(results[1]).to.equal(8);
-    }
-
-    @test 'Handler supports setting ref through withRef method'() {
-        const handler = new ShimiHandler(data => 1 + 1);
-        expect(handler.ref).to.be.undefined;
-        handler.withRef('Hello');
-        expect(handler.ref).to.equal('Hello');
-    }
-
-    @test 'Handler withRef method returns the handler'() {
-        const handler = new ShimiHandler(data => 1 + 1);
-        expect(handler.withRef('Hello')).to.equal(handler);
-    }
-
     @test 'Event add method returns newly added handler'() {
         const evt = new ShimiEvent<ShimiEventData<MockSource>, MockSource>();
-        const handler = evt.add(data => 1 + 1).withRef('test handler');
+        const handler = evt.add(data => 1 + 1);
         expect(handler).to.not.be.undefined;
-        expect(handler.ref).to.equal('test handler');
+        expect(handler.logic(new ShimiEventData<MockSource>(new MockSource()))).to.equal(2);
     }
 }

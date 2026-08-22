@@ -14,11 +14,14 @@ export default class ClockUpdateSource {
     private _running: boolean = false;
     get running(): boolean { return this._running; }
 
-    private _webWorker: Worker = null;
-    private _timer: NodeJS.Timeout = null;
+    private _webWorker: Worker | null = null;
+    private _timer: number | undefined = undefined;
 
 
-    constructor(callback: () => void, msPerTick: number = 5) {
+    constructor(
+        callback: () => void,
+        msPerTick: number = 5
+    ) {
         if (!callback)
             throw new Error('ClockUpdateSource must take a callback function');
         this._msPerTick = msPerTick;

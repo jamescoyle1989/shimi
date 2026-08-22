@@ -14,7 +14,7 @@ import ShimiEvent, { ShimiEventData } from './ShimiEvent';
 export default class Clock {
 
     /** If set, then classes implementing the IClockChild interface should automatically add themselves to the default clock. */
-    static default: Clock = null;
+    static default: Clock | null = null;
     
     /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
     get typeName(): string { return 'shimi.Clock'; }
@@ -30,9 +30,9 @@ export default class Clock {
     get children(): Array<IClockChild> { return this._children; }
     private _children: Array<IClockChild> = [];
 
-    private _lastUpdateTime: number;
+    private _lastUpdateTime: number = new Date().getTime();
 
-    private _updateSource: ClockUpdateSource = null;
+    private _updateSource: ClockUpdateSource;
 
     private _onUpdateSourceTick: () => void = () => this.updateChildren();
 
@@ -64,7 +64,6 @@ export default class Clock {
     stop(): boolean {
         if (!this._updateSource.stop())
             return false;
-        this._lastUpdateTime = null;
         return true;
     }
 

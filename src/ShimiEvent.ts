@@ -50,8 +50,7 @@ export default class ShimiEvent<TData extends ShimiEventData<TSource>, TSource> 
         for (const handler of this.handlers) {
             if (data?.cancel)
                 break;
-            if (handler.on)
-                handler.logic(data);
+            handler.logic(data);
         }
     }
 }
@@ -65,38 +64,12 @@ export class ShimiHandler<TData extends ShimiEventData<TSource>, TSource> {
     /** The logic to be executed whenever the event that the handler is attached to gets triggered. */
     get logic(): (data: TData) => void { return this._logic; }
     private _logic: (data: TData) => void;
-
-    /** Provides a way of identifying handlers so they can be easily retrieved later. */
-    get ref(): string { return this._ref; }
-    set ref(value: string) { this._ref = value; }
-    private _ref: string;
-
-    /** If false, then the handler should be skipped. */
-    get on(): boolean { return this._on; }
-    set on(value: boolean) { this._on = value; }
-    private _on: boolean = true;
     
     /**
      * @param logic The logic to be executed whenever the event that the handler is attached to gets triggered.
      * @param ref Provides a way of identifying handlers so they can be easily retrieved later.
      */
-    constructor(logic: (data: TData) => void, ref?: string) {
+    constructor(logic: (data: TData) => void) {
         this._logic = logic;
-        this.ref = ref;
-    }
-
-    /**
-     * Provides a way for setting the ref through a chained function call. For example:
-     * 
-     * ```
-     * keyboard.a.pressed.add(data => console.log(data)).withRef('key log');
-     * ```
-     * 
-     * @param ref The ref to set on the object.
-     * @returns The calling object.
-     */
-    withRef(ref: string): ShimiHandler<TData, TSource> {
-        this.ref = ref;
-        return this;
     }
 }
