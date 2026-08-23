@@ -1,27 +1,51 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { MidiAccess } from '../src';
+import MidiAccess from '../src/MidiAccess';
 
 
-function newBaseAccess() {
-    return {
-        inputs: [
-            { name: 'ABC' },
-            { name: 'DEF' },
-            { name: 'GHI' }
-        ],
-        outputs: [
-            { name: 'JKL' },
-            { name: 'MNO' },
-            { name: 'PQR' }
-        ],
+function newBaseAccess(): MIDIAccess {
+    const output = {
+        inputs: new Map<string, MIDIInput>(),
+        outputs: new Map<string, MIDIOutput>(),
         onstatechange: undefined,
         callStateChange: function(name) {
             if (this.onstatechange != undefined)
                 this.onstatechange({port:{name:name}});
         }
-    }
+    } as any;
+    output.inputs.set('ABC', newMIDIInput('ABC'));
+    output.inputs.set('DEF', newMIDIInput('DEF'));
+    output.inputs.set('GHI', newMIDIInput('GHI'));
+
+    output.outputs.set('JKL', newMIDIOutput('JKL'));
+    output.outputs.set('MNO', newMIDIOutput('MNO'));
+    output.outputs.set('PQR', newMIDIOutput('PQR'));
+
+    return output;
 };
+
+function newMIDIInput(name: string): MIDIInput {
+    return {
+        name: name
+    } as any;
+}
+
+function newMIDIOutput(name: string): MIDIOutput {
+    return {
+        name: name
+    } as any;
+}
+
+function callStateChange(access: MIDIAccess, name: string): void {
+    if (access.onstatechange != undefined) {
+        access.onstatechange({
+            port:{
+                name:name
+            } as any
+        } as any);
+    }
+}
+
 
 
 @suite class MidiAccessTests {
@@ -29,7 +53,7 @@ function newBaseAccess() {
         const baseAccess = newBaseAccess();
         const midiAccess = new MidiAccess(baseAccess);
         const outPort = midiAccess.getOutPort('MNO');
-        expect(outPort).to.equal(baseAccess.outputs[1]);
+        expect(outPort).to.equal(baseAccess.outputs.get('MNO'));
     }
 
     @test 'getOutPort returns null if port name not found'() {
@@ -42,7 +66,7 @@ function newBaseAccess() {
         const baseAccess = newBaseAccess();
         const midiAccess = new MidiAccess(baseAccess);
         const inPort = midiAccess.getInPort('GHI');
-        expect(inPort).to.equal(baseAccess.inputs[2]);
+        expect(inPort).to.equal(baseAccess.inputs.get('GHI'));
     }
 
     @test 'getInPort returns null if port name not found'() {
@@ -75,19 +99,7 @@ function newBaseAccess() {
         let portChangeCount = 0;
         midiAccess.portChanged.add(() => portChangeCount++);
         expect(portChangeCount).to.equal(0);
-        baseAccess.callStateChange('hello');
-        expect(portChangeCount).to.equal(1);
-    }
-
-    @test 'detach disconnects from base access'() {
-        const baseAccess = newBaseAccess();
-        const midiAccess = new MidiAccess(baseAccess);
-        let portChangeCount = 0;
-        midiAccess.portChanged.add(() => portChangeCount++);
-        baseAccess.callStateChange('hello');
-        expect(portChangeCount).to.equal(1);
-        midiAccess.detach();
-        baseAccess.callStateChange('hello');
+        callStateChange(baseAccess, 'hello');
         expect(portChangeCount).to.equal(1);
     }
 }

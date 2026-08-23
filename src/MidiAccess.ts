@@ -55,15 +55,15 @@ export default class MidiAccess {
         return new MidiAccess(access);
     }
 
-    private _baseAccess: any;
+    private _baseAccess: MIDIAccess;
 
     /** Please use the `MidiAccess.request()` method instead. */
-    constructor(baseAccess: any) {
+    constructor(baseAccess: MIDIAccess) {
         this._baseAccess = baseAccess;
         this._baseAccess.onstatechange = this._onBaseAccessStateChange;
     }
 
-    private _onBaseAccessStateChange = (port) => {
+    private _onBaseAccessStateChange = (port: any) => {
         this.portChanged.trigger(new MidiAccessPortEventData(this, port));
     };
 
@@ -73,21 +73,13 @@ export default class MidiAccess {
     get portChanged(): MidiAccessPortEvent { return this._portChanged; }
     private _portChanged: MidiAccessPortEvent = new MidiAccessPortEvent();
 
-    /** Disconnects the MidiAccess object from its baseAccess. This is called to free things up for garbage collection. The MidiAccess object is entirely useless after this method has been called on it. */
-    public detach() {
-        if (this._baseAccess) {
-            this._baseAccess.onstatechange = undefined;
-            this._baseAccess = null;
-        }
-    }
-
     /**
      * This method searches through all MIDI out ports for a specific one by name, and returns the port object.
      * @param portName The name of the expected MIDI out port.
      * @returns 
      */
-    public getOutPort(portName: string): any {
-        let output = null;
+    public getOutPort(portName: string): MIDIOutput | null {
+        let output: MIDIOutput | null = null;
         this._baseAccess.outputs.forEach(port => {
             if (port.name === portName)
                 output = port;
@@ -100,8 +92,8 @@ export default class MidiAccess {
      * @param portName The name of the expected MIDI in port.
      * @returns 
      */
-    public getInPort(portName: string): any {
-        let output = null;
+    public getInPort(portName: string): MIDIInput | null {
+        let output: MIDIInput | null = null;
         this._baseAccess.inputs.forEach(port => {
             if (port.name === portName)
                 output = port;
@@ -114,8 +106,11 @@ export default class MidiAccess {
      * @returns 
      */
     public getOutPortNames(): string[] {
-        const output = [];
-        this._baseAccess.outputs.forEach(port => output.push(port.name));
+        const output: Array<string> = [];
+        this._baseAccess.outputs.forEach(port => {
+            if (port.name != null)
+                output.push(port.name)
+        });
         return output;
     }
 
@@ -124,8 +119,11 @@ export default class MidiAccess {
      * @returns 
      */
     public getInPortNames(): string[] {
-        const output = [];
-        this._baseAccess.inputs.forEach(port => output.push(port.name));
+        const output: Array<string> = [];
+        this._baseAccess.inputs.forEach(port => {
+            if (port.name != null)
+                output.push(port.name)
+        });
         return output;
     }
 }
