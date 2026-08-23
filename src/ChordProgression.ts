@@ -116,9 +116,9 @@ export default class ChordProgression extends Range {
      * @param rangeEnd 
      * @returns 
      */
-    getMainChordInRange(rangeStart: number, rangeEnd: number): ChordProgressionChord {
+    getMainChordInRange(rangeStart: number, rangeEnd: number): ChordProgressionChord | null {
         let maxOverlap = 0;
-        let output: ChordProgressionChord = null;
+        let output: ChordProgressionChord | null = null;
         for (const chord of this.chords) {
             let overlap = 0;
             if (rangeStart <= rangeEnd) {
@@ -144,8 +144,8 @@ export default class ChordProgression extends Range {
      * @param beat The beat of the chord, relative to the start of the chord progression.
      * @returns 
      */
-    getChordAt(beat: number): ChordProgressionChord {
+    getChordAt(beat: number): ChordProgressionChord | null {
         beat = safeMod(beat, this.duration);
-        return this.chords.find(x => x.start <= beat && x.end > beat);
+        return this.chords.find(x => x.start <= beat && x.end > beat) ?? null;
     }
 }
