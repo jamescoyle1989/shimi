@@ -16,7 +16,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
     get typeName(): string { return 'shimi.MidiOut'; }
 
     /** The MIDI Out port which data gets sent to, see MidiAccess class. */
-    port: any;
+    port: MIDIOutput;
     
     /**
      * The notes collection consists of notes which have been started, but not ended yet.
@@ -29,7 +29,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
     /** Provides a way of identifying MidiOut so it can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** Returns true if the MidiOut has been instructed to stop everything by the `finish()` method. */
     get isFinished(): boolean { return this._isFinished; }
@@ -40,16 +40,11 @@ export default class MidiOut implements IMidiOut, IClockChild {
     private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /**
-     * Whenever the MidiOut attempts to send MIDI data, it does some validation that there is a MIDI port actually connected. If not then it throws an error.
-     * 
-     * Setting this property to true means that the MidiOut bypasses throwing that error. This can be useful when the MidiOut may regularly be switching outputs that it sends data to, and that it may be valid for it to not be connected to a port at times.
-     */
-    suppressPortValidationErrors: boolean = false;
-
-    /**
      * @param port The MIDI Out port which data gets sent to, see MidiAccess class.
      */
-    constructor(port: any) {
+    constructor(port: MIDIOutput) {
+        if (!port)
+            throw new Error('MidiOut constructor must take a port value');
         this.port = port;
         if (!!Clock.default)
             Clock.default.addChild(this);
@@ -58,7 +53,7 @@ export default class MidiOut implements IMidiOut, IClockChild {
     /** Calling this tells the MidiOut to stop whatever it's doing and that it will no longer be used. */
     finish(): void {
         this._isFinished = true;
-        this.stopNotes(n => true);
+        this.stopNotes();
         this.finished.trigger(new ClockChildFinishedEventData(this));
     }
 
@@ -85,24 +80,12 @@ export default class MidiOut implements IMidiOut, IClockChild {
      * @returns 
      */
     addNote(note: Note): Note {
-        if (note.on) {
-            const notesToStop = this.notes.filter(n => 
-                (
-                    (n.on && !n.onTracker.isDirty)
-                    || (!n.on && n.onTracker.isDirty)
-                )
-                && n.pitch == note.pitch
-                && n.channel == note.channel
-            );
-            for (const n of notesToStop) {
-                n.on = false;
-                n.onTracker.accept();
-            }
-            if (notesToStop.length > 0)
-                this.sendMessage(new NoteOffMessage(note.pitch, note.velocity, note.channel));
-            this.sendMessage(new NoteOnMessage(note.pitch, note.velocity, note.channel));
-            note.onTracker.accept();
-        }
+        if (!note.on)
+            throw new Error('Cannot add a note which is not set to on');
+        
+        this.stopNotes(n => n.pitch == note.pitch && n.channel == note.channel);
+        this.sendMessage(new NoteOnMessage(note.pitch, note.velocity, note.channel));
+        note.onTracker.accept();
         this._notes.push(note);
         return note;
     }
@@ -113,9 +96,13 @@ export default class MidiOut implements IMidiOut, IClockChild {
      */
     stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
-            if (!filter || filter(n))
-                n.stop();
+            if (!filter || filter(n)) {
+                n.on = false;
+                n.onTracker.accept();
+                this.sendMessage(new NoteOffMessage(n.pitch, n.velocity, n.channel));
+            }
         }
+        this._notes = this._notes.filter(n => !!filter && !filter(n));
     }
 
     /**
@@ -124,8 +111,6 @@ export default class MidiOut implements IMidiOut, IClockChild {
      * @returns 
      */
     sendMessage(message: IMidiMessage): boolean {
-        if (!this.validatePort())
-            return false;
         this.port.send(message.toArray());
         return true;
     }
@@ -135,20 +120,9 @@ export default class MidiOut implements IMidiOut, IClockChild {
      * @param data An array of the data to be sent.
      */
     sendRawData(data: number[]): boolean {
-        if (!this.validatePort())
-            return false;
         if (!data || data.length === 0)
             throw new Error('No data specified to send');
         this.port.send(data);
-        return true;
-    }
-
-    private validatePort(): boolean {
-        if (!this.port) {
-            if (this.suppressPortValidationErrors)
-                return false;
-            throw new Error('MidiOut has no port connected');
-        }
         return true;
     }
 
@@ -160,7 +134,6 @@ export default class MidiOut implements IMidiOut, IClockChild {
     update(deltaMs: number): void {
         let anyNotesStopped = false;
 
-        //Send Note Off events for any stopped notes
         for (const note of this._notes) {
             if (!note.on) {
                 if (note.onTracker.isDirty) {
@@ -169,20 +142,9 @@ export default class MidiOut implements IMidiOut, IClockChild {
                 }
                 anyNotesStopped = true;
             }
-        }
-
-        //Send on/pressure change events for changed notes
-        for (const note of this._notes) {
-            if (note.on) {
-                if (note.onTracker.isDirty) {
-                    this.sendMessage(new NoteOnMessage(note.pitch, note.velocity, note.channel));
-                    note.onTracker.accept();
-                    note.velocityTracker.accept();
-                }
-                else if (note.velocityTracker.isDirty) {
-                    this.sendMessage(new NotePressureMessage(note.pitch, note.velocity, note.channel));
-                    note.velocityTracker.accept();
-                }
+            else if (note.on && note.velocityTracker.isDirty) {
+                this.sendMessage(new NotePressureMessage(note.pitch, note.velocity, note.channel));
+                note.velocityTracker.accept();
             }
         }
 
@@ -215,7 +177,7 @@ export interface IMidiOut {
     stopNotes(filter?: (note: Note) => boolean): void;
 
     /**
-     * The sendMessage method allows sending individual messages. This is not recommended to be used for note messages, though still supported. Its primary use is for control changes, bend messages, etc.
+     * The sendMessage method allows sending individual messages. This is not recommended to be used for note on/off messages, though still supported. Its primary use is for control changes, bend messages, etc.
      */
     sendMessage(message: IMidiMessage): void;
 
