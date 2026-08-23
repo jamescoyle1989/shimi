@@ -1,6 +1,6 @@
 'use strict';
 
-import { sum } from './IterationUtils';
+import { sumBy } from "es-toolkit";
 
 
 /**
@@ -16,14 +16,16 @@ export class TimeSigDivision {
     /** The count is how many of note length (as defined by the TimeSig denominator) that this specific beat contains. */
     count: number = 1;
 
-    /** By default this value is null. If set, then this beat has its own specific swing value. */
-    swing: number = null;
+    /** By default this value is -1, meaning to inherit the main timesig swing. If set, then this beat has its own specific swing value. */
+    swing: number = -1;
 
     /**
      * @param count The count is how many of note length (as defined by the TimeSig denominator) that this specific beat contains.
      * @param swing By default this value is null. If set, then this beat has its own specific swing value.
      */
-    constructor(count: number, swing: number = null) {
+    constructor(count: number, swing: number = -1) {
+        if (swing != -1 && (swing < 0 || swing > 1))
+            throw new Error('Invalid swing value');
         this.count = count;
         this.swing = swing;
     }
@@ -65,9 +67,9 @@ export default class TimeSig {
      * 
      * A swing value of 2/3 would give you your classic jazz swing, where the first half of the beat lasts twice as long as the second half. A 0.75 value would be a far stronger swing, with the first half of each beat lasting 3 times as long as the second half.
      * 
-     * A swing value < 0.5 is far more rare, but works along the same principle as positive values, just in the other direction
+     * A swing value < 0.5 is far more rare, but works along the same principle as values > 0.5, just in the other direction
      */
-    swing: number = 0;
+    swing: number = 0.5;
 
     /**
      * 
@@ -107,7 +109,7 @@ export default class TimeSig {
 
     /** Returns the number of quarter notes that one bar would contain under this time signature. */
     get quarterNotesPerBar() {
-        const countSum = sum(this.divisions, x => x.count);
+        const countSum = sumBy(this.divisions, x => x.count);
         const multiplier = 4 / this.denominator;
         return countSum * multiplier;
     }
@@ -118,8 +120,8 @@ export default class TimeSig {
      * @param swing Optional parameter, if not provided, then the TimeSig's swing value will be used.
      * @returns 
      */
-    applySwing(position: number, swing: number = null): number {
-        let swingAmount = swing ?? this.swing;
+    applySwing(position: number, swing: number = -1): number {
+        let swingAmount = (swing == -1) ? this.swing : swing;
         if (swingAmount == 0)
             return position;
         
@@ -151,7 +153,7 @@ export default class TimeSig {
                 beat++;
             }
             else {
-                let swingAmount = division.swing ?? this.swing;
+                let swingAmount = (division.swing == -1) ? this.swing : division.swing;
                 if (swingAmount == 0)
                     beat += quarterNote / division.count;
                 else {
@@ -184,7 +186,7 @@ export default class TimeSig {
                 beat--;
             }
             else {
-                let swingAmount = division.swing ?? this.swing;
+                let swingAmount = (division.swing == -1) ? this.swing : division.swing;
                 if (swingAmount == 0.5)
                     quarterNote += beat * division.count;
                 else {

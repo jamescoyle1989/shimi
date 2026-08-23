@@ -15,9 +15,9 @@ import TimeSig from '../src/TimeSig';
         expect(timeSig.divisions[1].count).to.equal(1.5);
         expect(timeSig.divisions[1].swing).to.equal(0.666);
         expect(timeSig.divisions[2].count).to.equal(1);
-        expect(timeSig.divisions[2].swing).to.equal(null);
+        expect(timeSig.divisions[2].swing).to.equal(-1);
         expect(timeSig.divisions[3].count).to.equal(1);
-        expect(timeSig.divisions[3].swing).to.equal(null);
+        expect(timeSig.divisions[3].swing).to.equal(-1);
     }
 
     @test 'constructor validates denominator'() {

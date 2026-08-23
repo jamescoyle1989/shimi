@@ -2,12 +2,12 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import TimeSig from '../src/TimeSig';
 import Metronome from '../src/Metronome';
-import { Clock } from '../src';
+import Clock from '../src/Clock';
 
 
 @suite class MetronomeTests {
     @test 'atBarBeat returns correct values'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         expect(m.atBarBeat(0)).to.be.true;
         expect(m.atBarBeat(3.9)).to.be.false;
         expect(m.atBarBeat(0.01)).to.be.false;
@@ -19,7 +19,7 @@ import { Clock } from '../src';
     }
 
     @test 'atBarQuarterNote returns correct values'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         expect(m.atBarQuarterNote(0)).to.be.true;
         expect(m.atBarQuarterNote(3.9)).to.be.false;
         expect(m.atBarQuarterNote(0.01)).to.be.false;
@@ -31,7 +31,7 @@ import { Clock } from '../src';
     }
 
     @test 'update increases beat and quarter note values'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         expect(m.barBeat).to.equal(0);
         expect(m.totalBeat).to.equal(0);
         expect(m.barQuarterNote).to.equal(0);
@@ -44,7 +44,7 @@ import { Clock } from '../src';
     }
 
     @test 'update increases bar number'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         expect(m.bar).to.equal(1);
         m.update(500);
         expect(m.bar).to.equal(1);
@@ -71,7 +71,7 @@ import { Clock } from '../src';
     }
 
     @test 'update doesnt do anything if metronome not enabled'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         m.enabled = false;
         m.update(500);
         expect(m.barBeat).to.equal(0);
@@ -104,13 +104,13 @@ import { Clock } from '../src';
     }
 
     @test 'constructor throws error if no tempo provided'() {
-        expect(() => { const m = new Metronome(undefined); }).to.throw();
-        expect(() => { const m = new Metronome(null); }).to.throw();
-        expect(() => { const m = new Metronome(0); }).to.throw();
+        expect(() => { const m = new Metronome(undefined, TimeSig.commonTime()); }).to.throw();
+        expect(() => { const m = new Metronome(null, TimeSig.commonTime()); }).to.throw();
+        expect(() => { const m = new Metronome(0, TimeSig.commonTime()); }).to.throw();
     }
 
     @test 'constructor throws error if negative tempo provided'() {
-        expect(() => { const m = new Metronome(-1); }).to.throw();
+        expect(() => { const m = new Metronome(-1, TimeSig.commonTime()); }).to.throw();
     }
 
     @test 'zero or negative tempoMultiplier throws error'() {
@@ -145,7 +145,7 @@ import { Clock } from '../src';
     }
 
     @test 'setSongPosition triggers positionChanged event'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         let positionChangedCount = 0;
         m.positionChanged.add(() => positionChangedCount++);
         m.setSongPosition(10);
@@ -153,7 +153,7 @@ import { Clock } from '../src';
     }
 
     @test 'First update triggers started event'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         let startedMessagesCount = 0;
         m.started.add(() => startedMessagesCount++);
         m.update(10);
@@ -161,7 +161,7 @@ import { Clock } from '../src';
     }
 
     @test 'Setting enabled = false triggers stopped event'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         let stopMessageCount = 0;
         m.stopped.add(() => stopMessageCount++);
         m.update(500);
@@ -173,7 +173,7 @@ import { Clock } from '../src';
     }
 
     @test 'Setting enabled = true triggers continued event'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         let continueMessageCount = 0;
         m.continued.add(() => continueMessageCount++);
         m.update(500);
@@ -186,64 +186,64 @@ import { Clock } from '../src';
     }
 
     @test 'atBarBeatMultiple returns 0 if at bar start'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         expect(m.atBarBeatMultiple(0.5)).to.equal(0);
     }
 
     @test 'atBarBeatMultiple returns -1 if not on division'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(250);
         expect(m.atBarBeatMultiple(0.5)).to.equal(-1);
     }
 
     @test 'atBarBeatMultiple returns multiple recently behind current beat'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(1950);
         m.update(100);
         expect(m.atBarBeatMultiple(1)).to.equal(2);
     }
 
     @test 'atBarBeatMultiple returns most recent multiple if many fall within update window'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(1400);
         m.update(700);
         expect(m.atBarBeatMultiple(0.5)).to.equal(4);
     }
 
     @test 'atBarBeatMultiple handles wrapping around bar lines'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(3700);
         m.update(400);
         expect(m.atBarBeatMultiple(1)).to.equal(0);
     }
 
     @test 'atBarQuarterNoteMultiple returns 0 if at bar start'() {
-        const m = new Metronome(120);
+        const m = new Metronome(120, TimeSig.commonTime());
         expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(0);
     }
 
     @test 'atBarQuarterNoteMultiple returns -1 if not on division'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(250);
         expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(-1);
     }
 
     @test 'atBarQuarterNoteMultiple returns multiple recently behind current beat'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(1950);
         m.update(100);
         expect(m.atBarQuarterNoteMultiple(1)).to.equal(2);
     }
 
     @test 'atBarQuarterNoteMultiple returns most recent multiple if many fall within update window'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(1400);
         m.update(700);
         expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(4);
     }
 
     @test 'atBarQuarterNoteMultiple handles wrapping around bar lines'() {
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         m.update(3700);
         m.update(400);
         expect(m.atBarQuarterNoteMultiple(1)).to.equal(0);
@@ -251,7 +251,7 @@ import { Clock } from '../src';
 
     @test 'finished event gets fired'() {
         //Setup
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
         let testVar = 0;
         m.finished.add(() => testVar = 3);
 
@@ -261,7 +261,7 @@ import { Clock } from '../src';
 
     @test 'Automatically adds itself to default clock if set'() {
         Clock.default = new Clock();
-        const m = new Metronome(60);
+        const m = new Metronome(60, TimeSig.commonTime());
 
         expect(Clock.default.children).to.contain(m);
 
