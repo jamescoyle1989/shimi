@@ -42,7 +42,7 @@ export default class ClipPlayer implements IClockChild {
     /** Provides a way of identifying a clip player so that it can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** The metronome which the player uses for tracking passed beats. */
     get metronome(): IMetronome { return this._metronome; }
@@ -64,10 +64,10 @@ export default class ClipPlayer implements IClockChild {
     set startBeat(value: number) { this._startBeat = value; }
     private _startBeat: number = 0;
 
-    /** How many beats should have passed before the clip player stops. The default value is null, meaning the ClipPlayer never stops, and continually loops playback of the clip. */
+    /** How many beats should have passed before the clip player stops. The default value is -1, meaning the ClipPlayer never stops, and continually loops playback of the clip. */
     get beatCount(): number { return this._beatCount; }
     set beatCount(value: number) { this._beatCount = value; }
-    private _beatCount: number = null;
+    private _beatCount: number = -1;
 
     /**
      * If not running, then the player won't do anything with each update cycle. This allows a way to temporarily pause playback of the clip, without having to remove it from the clock.
@@ -88,7 +88,7 @@ export default class ClipPlayer implements IClockChild {
      */
     get noteModifier(): ((note: Note) => void) { return this._noteModifier; }
     set noteModifier(value: ((note: Note) => void)) { this._noteModifier = value; }
-    private _noteModifier: (note: Note) => void;
+    private _noteModifier: (note: Note) => void = n => {};
 
     /** How many beats have passed since the clip player started. */
     get beatsPassed(): number { return this._beatsPassed; }
@@ -131,15 +131,17 @@ export default class ClipPlayer implements IClockChild {
 
     private _notes: Note[] = [];
 
+    private _clipNotes: Map<Note, ClipNote> = new Map<Note, ClipNote>();
+
     /**
      * @param clip The clip to play.
      * @param metronome The metronome which the player uses for tracking passed beats.
      * @param midiOut The IMidiOut which MIDI data generated from the clip gets sent to.
      */
     constructor(clip: Clip, metronome: IMetronome, midiOut: IMidiOut) {
-        this.clip = clip;
-        this.metronome = metronome;
-        this.midiOut = midiOut;
+        this._clip = clip;
+        this._metronome = metronome;
+        this._midiOut = midiOut;
         if (!!Clock.default)
             Clock.default.addChild(this);
     }
@@ -185,7 +187,7 @@ export default class ClipPlayer implements IClockChild {
 
         //Update beatsPassed, if it's greater or equal to beatCount, then the player is finished
         this._beatsPassed += beatDiff;
-        if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount) {
+        if (this.beatCount != -1 && this.beatsPassed >= this.beatCount) {
             this.finish();
             return;
         }
@@ -193,11 +195,18 @@ export default class ClipPlayer implements IClockChild {
         //Loop through each existing note that the player has started
         //Stop notes that need to end, and update velocity of any others need it
         for (const note of this._notes) {
-            const clipNote: ClipNote = note['clipNote'];
-            if (!clipNote.contains(newClipBeat) || !this.clip.notes.find(x => x === clipNote))
+            const clipNote = this._clipNotes.get(note);
+            if (!clipNote) {
                 note.stop();
-            else if (typeof(clipNote.velocity) != 'number')
-                note.velocity = clipNote.velocity.update((newClipBeat - clipNote.start) / clipNote.duration);
+            }
+            else {
+                if (!clipNote.contains(newClipBeat) || !this.clip.notes.find(x => x === clipNote)) {
+                    note.stop();
+                    this._clipNotes.delete(note);
+                }
+                else if (typeof(clipNote.velocity) != 'number')
+                    note.velocity = clipNote.velocity.update((newClipBeat - clipNote.start) / clipNote.duration);
+            }
         }
         this._notes = this._notes.filter(n => n.on);
 
@@ -206,7 +215,7 @@ export default class ClipPlayer implements IClockChild {
         if (!this.muteNotes) {
             for (const clipNote of this.clip.getNotesStartingInRange(oldClipBeat, newClipBeat)) {
                 const note = clipNote.createNote(this.channel, (newClipBeat - clipNote.start) / clipNote.duration);
-                note['clipNote'] = clipNote;
+                this._clipNotes.set(note, clipNote);
                 if (this.noteModifier)
                     this.noteModifier(note);
                 this._notes.push(note);
@@ -225,7 +234,7 @@ export default class ClipPlayer implements IClockChild {
                     (typeof(clipCC.value) == 'number') ? 
                         clipCC.value :    
                         clipCC.value.update(Math.min(1, (newClipBeat - clipCC.start) / clipCC.duration)), 
-                    clipCC.channel ?? this.channel
+                    (clipCC.channel == -1) ? this.channel : clipCC.channel
                 ));
             }
         }
@@ -240,7 +249,7 @@ export default class ClipPlayer implements IClockChild {
                     (typeof(clipBend.percent) == 'number') ?
                         clipBend.percent :
                         clipBend.percent.update(Math.min(1, (newClipBeat - clipBend.start) / clipBend.duration)),
-                    clipBend.channel ?? this.channel
+                    (clipBend.channel == -1) ? this.channel : clipBend.channel
                 ));
             }
         }
@@ -272,5 +281,6 @@ export default class ClipPlayer implements IClockChild {
         for (const note of this._notes)
             note.stop();
         this._notes = [];
+        this._clipNotes.clear();
     }
 }
