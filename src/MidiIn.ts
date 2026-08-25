@@ -47,15 +47,16 @@ export default class MidiIn implements IMidiIn {
      * 
      * Setting this property automatically unsubscribes from any previously connected MIDI port, and also automatically subscribes to the newly set MIDI port.
      */
-    get port(): any { return this._port; }
-    set port(value) {
+    get port(): MIDIInput { return this._port; }
+    set port(value: MIDIInput) {
+        if (!value)
+            throw new Error('port must be set to an actual value');
         if (this._port)
-            this._port.onmidimessage = undefined;
+            this._port.onmidimessage = null;
         this._port = value;
-        if (this._port)
-            this._port.onmidimessage = (message) => this._receiveMessage(message);
+        this._port.onmidimessage = (message) => this._receiveMessage(message);
     }
-    private _port: any;
+    private _port: MIDIInput;
 
     /** The noteOff property can be subscribed to, to receive all Note Off messages that pass through the MidiIn object. */
     get noteOff(): MidiInEvent<messages.NoteOffMessage> { return this._noteOff; }
@@ -108,12 +109,15 @@ export default class MidiIn implements IMidiIn {
     /**
      * @param port The MIDI port which data gets received from, see the MidiAccess class.
      */
-    constructor(port?: any) {
+    constructor(port: MIDIInput) {
+        if (!port)
+            throw new Error('MidiIn constructor must take a port value');
         this.port = port;
+        this._port = port;  //Added this line just so typescript will recognise that the port isn't left undefined
     }
 
     //Used for handling running status messages
-    private _previousStatus: number = null;
+    private _previousStatus: number = -1;
 
     private _receiveMessage(message: any): void {
         this.receiveData(message.data);

@@ -1,13 +1,23 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { MockPort } from './MidiOut.test';
 import MidiIn from '../src/MidiIn';
 import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage, PitchBendMessage, ProgramChangeMessage, SongPositionMessage } from '../src/MidiMessages';
 
 
+class MockPort {
+    data: number[];
+    history: Array<number[]> = [];
+
+    send(data: number[]) {
+        this.data = data;
+        this.history.push(data);
+    }
+}
+
+
 @suite class MidiInTests {
     @test 'receiveData for note off message triggers noteOff event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.noteOff.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0x90 + 2, 65, 45]);
@@ -21,7 +31,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData for note on message triggers noteOn event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.noteOn.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0x90 + 2, 65, 45]);
@@ -35,7 +45,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData for note pressure message triggers notePressure event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.notePressure.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0xA0 + 5, 87, 15]);
@@ -48,7 +58,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData for control change message triggers controlChange event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.controlChange.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0xB0 + 5, 44, 78]);
@@ -61,7 +71,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData for program change message triggers programChange event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.programChange.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0xC0 + 7, 78]);
@@ -73,7 +83,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData for channel pressure message triggers channelPressure event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.channelPressure.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0xD0 + 8, 99]);
@@ -85,7 +95,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData for pitch bend message triggers pitchBend event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.pitchBend.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0xE0 + 2, 0x00, 0x60]);
@@ -97,7 +107,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData for song position message triggers songPosition event'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const midiMessages: any[] = [];
         midiIn.songPosition.add(data => midiMessages.push(data.message));
         midiIn.receiveData([0xF2, 57, 96]);
@@ -109,7 +119,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
 
     @test 'port.onmidimessage results in receiveData being called'() {
         const port = new MockPort();
-        const midiIn = new MidiIn(port);
+        const midiIn = new MidiIn(port as any);
         const midiMessages: any[] = [];
         midiIn.noteOn.add(data => midiMessages.push(data.message));
         port['onmidimessage']({data:[0x90 + 2, 65, 45]});
@@ -121,17 +131,14 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
         expect(message.channel).to.equal(2);
     }
 
-    @test 'constructor can handle no port being passed in'() {
-        const midiIn = new MidiIn();
-    }
-
     @test 'port can be changed and onmidimessage still works'() {
-        const port = new MockPort();
-        const midiIn = new MidiIn();
-        midiIn.port = port;
+        const port1 = new MockPort();
+        const port2 = new MockPort();
+        const midiIn = new MidiIn(port1 as any);
+        midiIn.port = port2 as any;
         const midiMessages: any[] = [];
         midiIn.noteOn.add(data => midiMessages.push(data.message));
-        port['onmidimessage']({data:[0x90 + 2, 65, 45]});
+        port2['onmidimessage']({data:[0x90 + 2, 65, 45]});
         expect(midiMessages.length).to.equal(1);
         expect(midiMessages[0]).to.be.instanceOf(NoteOnMessage);
         const message: NoteOnMessage = midiMessages[0];
@@ -142,13 +149,13 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
 
     @test 'Updating port removes onmidimessage from old port'() {
         const port = new MockPort();
-        const midiIn = new MidiIn(port);
-        midiIn.port = null;
-        expect(port['onmidimessage']).to.be.undefined;
+        const midiIn = new MidiIn(port as any);
+        midiIn.port = new MockPort as any;
+        expect(port['onmidimessage']).to.be.null;
     }
 
     @test 'receiveData can send out tick events'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         let tickCount = 0;
         midiIn.tick.add(data => tickCount++);
         expect(tickCount).to.equal(0);
@@ -158,7 +165,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData keeps track of running state'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const noteOnMessages = [];
         midiIn.noteOn.add(m => noteOnMessages.push(m.message));
         midiIn.receiveData([0x91, 5, 6]);
@@ -173,7 +180,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData triggers start'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const messages = [];
         midiIn.start.add(m => messages.push(m.message));
         midiIn.receiveData([0xF2])
@@ -181,7 +188,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData triggers continue'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const messages = [];
         midiIn.continue.add(m => messages.push(m.message));
         midiIn.receiveData([0xF3])
@@ -189,7 +196,7 @@ import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMes
     }
 
     @test 'receiveData triggers stop'() {
-        const midiIn = new MidiIn(new MockPort());
+        const midiIn = new MidiIn(new MockPort() as any);
         const messages = [];
         midiIn.stop.add(m => messages.push(m.message));
         midiIn.receiveData([0xF4])
