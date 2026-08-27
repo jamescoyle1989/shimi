@@ -2,13 +2,15 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import TickSender from '../src/TickSender';
 import Metronome from '../src/Metronome';
-import { Clock, MidiBus } from '../src';
 import { SongPositionMessage } from '../src/MidiMessages';
+import Clock from '../src/Clock';
+import MidiBus from '../src/MidiBus';
+import TimeSig from '../src/TimeSig';
 
 
 @suite class TickSenderTests {
     @test 'TickSender requires metronome and midi output be passed in to constructor'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         expect(() => new TickSender(null, null)).to.throw();
         expect(() => new TickSender(metronome, null)).to.throw();
@@ -17,7 +19,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'TickSender stores metronome and midi output'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome, midiOut);
         expect(tickSender.metronome).to.equal(metronome);
@@ -26,22 +28,22 @@ import { SongPositionMessage } from '../src/MidiMessages';
 
     @test 'TickSender can be added to clock'() {
         const clock = new Clock();
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome, midiOut);
         clock.addChild(tickSender);
     }
 
     @test 'TickSender constructor optionally stores ticksPerQuarterNote'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         expect(new TickSender(metronome, midiOut).ticksPerQuarterNote).to.equal(24);
         expect(new TickSender(metronome, midiOut, 48).ticksPerQuarterNote).to.equal(48);
     }
 
     @test 'Metronome value can be changed'() {
-        const metronome1 = new Metronome(120);
-        const metronome2 = new Metronome(130);
+        const metronome1 = new Metronome(120, TimeSig.commonTime());
+        const metronome2 = new Metronome(130, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome1, midiOut);
         tickSender.metronome = metronome2;
@@ -49,14 +51,14 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'Metronome cant be set falsy'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome, midiOut);
         expect(() => tickSender.metronome = null).to.throw();
     }
 
     @test 'MidiOut value can be changed'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut1 = new MidiBus();
         const midiOut2 = new MidiBus();
         const tickSender = new TickSender(metronome, midiOut1);
@@ -65,14 +67,14 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'MidiOut cant be set falsy'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome, midiOut);
         expect(() => tickSender.midiOut = null).to.throw();
     }
 
     @test 'update sends out tick messages'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         const midiOut = new MidiBus();
         let counter = 0;
         midiOut.tick.add(() => counter++);
@@ -83,7 +85,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'TickSender subscribes to metronome positionChanged event'() {
-        const metronome = new Metronome(100);
+        const metronome = new Metronome(100, TimeSig.commonTime());
         const midiOut = new MidiBus();
         expect(metronome.positionChanged.handlers.length).to.equal(0);
         const tickSender = new TickSender(metronome, midiOut);
@@ -91,8 +93,8 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'TickSender unsubscribes from metronome positionChanged if metronome changed'() {
-        const metronome1 = new Metronome(100);
-        const metronome2 = new Metronome(120);
+        const metronome1 = new Metronome(100, TimeSig.commonTime());
+        const metronome2 = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome1, midiOut);
         expect(metronome1.positionChanged.handlers.length).to.equal(1);
@@ -106,7 +108,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
         const ticksPerQuarterNote = 24;
         const newQuarterNotePosition = 10;
         
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         new TickSender(metronome, midiOut, ticksPerQuarterNote);
         const messages = [];
@@ -118,7 +120,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'TickSender sends start message when metronome first updated'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         let startCount = 0;
         midiOut.start.add(() => startCount++);
@@ -129,7 +131,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'TickSender sends stop message when metronome disabled'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         let stopCount = 0;
         midiOut.stop.add(() => stopCount++);
@@ -142,7 +144,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'TickSender sends continue message when metronome enabled'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         metronome.enabled = false;
         const midiOut = new MidiBus();
         let continueCount = 0;
@@ -156,7 +158,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
     }
 
     @test 'Multiple cycle update test'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         const midiOut = new MidiBus();
         let tickCount = 0;
         midiOut.tick.add(() => tickCount++);
@@ -188,7 +190,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
 
     @test 'finished event gets fired'() {
         //Setup
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome, midiOut);
         let testVar = 0;
@@ -200,7 +202,7 @@ import { SongPositionMessage } from '../src/MidiMessages';
 
     @test 'Automatically adds itself to default clock if set'() {
         Clock.default = new Clock();
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiOut = new MidiBus();
         const tickSender = new TickSender(metronome, midiOut);
 

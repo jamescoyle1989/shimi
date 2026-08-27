@@ -5,7 +5,7 @@ import MidiOut from '../src/MidiOut';
 import Note from '../src/Note';
 import Clock from '../src/Clock';
 
-export class MockPort {
+class MockPort {
     data: number[];
     history: Array<number[]> = [];
 

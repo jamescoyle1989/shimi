@@ -48,7 +48,7 @@ export default class TickSender implements IClockChild {
             throw new Error('ticksPerQuarterNote must be greater than 0');
         this._ticksPerQuarterNote = value;
     }
-    private _ticksPerQuarterNote: number;
+    private _ticksPerQuarterNote: number = 24;
 
 
     /**
@@ -58,7 +58,9 @@ export default class TickSender implements IClockChild {
      */
     constructor(metronome: IMetronome, midiOut: IMidiOut, ticksPerQuarterNote: number = 24) {
         this.metronome = metronome;
+        this._metronome = metronome;
         this.midiOut = midiOut;
+        this._midiOut = midiOut;
         this.ticksPerQuarterNote = ticksPerQuarterNote;
         if (!!Clock.default)
             Clock.default.addChild(this);
@@ -100,7 +102,7 @@ export default class TickSender implements IClockChild {
     /** Provides a way of identifying tick senders so they can be easily retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /**
      * Provides a way for setting the ref through a chained function call. For example:
@@ -132,7 +134,7 @@ export default class TickSender implements IClockChild {
     }
     
     /**
-     * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
+     * This method is intended to be called by a clock to provide regular updates. It shouldn't be called by consumers of the library.
      * @param msDelta How many milliseconds have passed since the last update cycle.
      * @returns 
      */
@@ -141,9 +143,8 @@ export default class TickSender implements IClockChild {
         const newQN = this.metronome.totalQuarterNoteTracker.value;
         const qnsPerTick = 1 / this.ticksPerQuarterNote;
 
-        //qnsPerTick divides each quarter note into n equal segments
         //This sets us back to the end of the segment which the previous update would have left us off at
-        let tracker = Math.floor(oldQN) + (Math.floor((oldQN % 1) / qnsPerTick) * qnsPerTick);
+        let tracker = Math.floor(oldQN) + (Math.floor((oldQN % 1) * this.ticksPerQuarterNote) / this.ticksPerQuarterNote);
         while (true) {
             tracker += qnsPerTick;
             if (tracker >= newQN)

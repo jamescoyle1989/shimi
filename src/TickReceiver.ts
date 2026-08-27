@@ -46,12 +46,14 @@ export default class TickReceiver implements IClockChild {
             throw new Error('ticksPerQuarterNote must be greater than 0');
         this._ticksPerQuarterNote = value;
     }
-    private _ticksPerQuarterNote: number;
+    private _ticksPerQuarterNote: number = 24;
 
     
     constructor(midiIn: IMidiIn, metronome: IMetronome, ticksPerQuarterNote: number = 24) {
         this.midiIn = midiIn;
+        this._midiIn = midiIn;
         this.metronome = metronome;
+        this._metronome = metronome;
         this.ticksPerQuarterNote = ticksPerQuarterNote;
         if (!!Clock.default)
             Clock.default.addChild(this);
@@ -78,7 +80,7 @@ export default class TickReceiver implements IClockChild {
     /** Provides a way of identifying TickReceivers so they can be easily retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /**
      * Provides a way for setting the ref through a chained function call. For example:
@@ -112,7 +114,7 @@ export default class TickReceiver implements IClockChild {
     }
     
     /**
-     * This method is intended to be called by a clock to provide regular updates. It should be called by consumers of the library.
+     * This method is intended to be called by a clock to provide regular updates. It shouldn't be called by consumers of the library.
      * @param msDelta How many milliseconds have passed since the last update cycle.
      * @returns 
      */
