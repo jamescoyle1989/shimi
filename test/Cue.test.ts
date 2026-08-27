@@ -1,15 +1,13 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import DummyPort from './DummyPort';
 import Cue from '../src/Cue';
 import Metronome from '../src/Metronome';
-import MidiOut from '../src/MidiOut';
-import { Clock } from '../src';
+import Clock from '../src/Clock';
+import TimeSig from '../src/TimeSig';
 
 
 @suite class CueTests {
     @test 'MsCue executes action after msCount has passed'() {
-        const midiOut = new MidiOut(new DummyPort());
         let updateValue: number = 0;
         const cue = Cue.afterMs(100, () => updateValue = 59);
         cue.update(80);
@@ -21,7 +19,6 @@ import { Clock } from '../src';
     }
 
     @test 'MsCue finishes after msCount has passed'() {
-        const midiOut = new MidiOut(new DummyPort());
         let updateValue: number = 0;
         const cue = Cue.afterMs(100, () => updateValue = 59);
         cue.update(80);
@@ -31,7 +28,6 @@ import { Clock } from '../src';
     }
 
     @test 'ConditionCue executes action once condition is met'() {
-        const midiOut = new MidiOut(new DummyPort());
         let trigger: boolean = false;
         let updateValue: number = 0;
         const cue = Cue.when(() => trigger, () => updateValue = 59);
@@ -43,7 +39,6 @@ import { Clock } from '../src';
     }
 
     @test 'ConditionCue finishes once condition is met'() {
-        const midiOut = new MidiOut(new DummyPort());
         let trigger: boolean = false;
         let updateValue: number = 0;
         const cue = Cue.when(() => trigger, () => updateValue = 59);
@@ -55,8 +50,7 @@ import { Clock } from '../src';
     }
 
     @test 'BeatCue executes action after beatCount has passed'() {
-        const metronome = new Metronome(60);
-        const midiOut = new MidiOut(new DummyPort());
+        const metronome = new Metronome(60, TimeSig.commonTime());
         let updateValue: number = 0;
         const cue = Cue.afterBeats(metronome, 1, () => updateValue = 59);
 
@@ -69,8 +63,7 @@ import { Clock } from '../src';
     }
 
     @test 'BeatCue finishes after beatCount has passed'() {
-        const metronome = new Metronome(60);
-        const midiOut = new MidiOut(new DummyPort());
+        const metronome = new Metronome(60, TimeSig.commonTime());
         let updateValue: number = 0;
         const cue = Cue.afterBeats(metronome, 1, () => updateValue = 59);
 
@@ -84,8 +77,7 @@ import { Clock } from '../src';
 
     @test 'finished event gets fired'() {
         //Setup
-        const metronome = new Metronome(60);
-        const midiOut = new MidiOut(new DummyPort());
+        const metronome = new Metronome(60, TimeSig.commonTime());
         let updateValue: number = 0;
         const cue = Cue.afterBeats(metronome, 1, () => updateValue = 59);
         let testVar = 0;
