@@ -80,7 +80,7 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     get stop(): MidiInEvent<messages.StopMessage> { return this._stop; }
     private _stop: MidiInEvent<messages.StopMessage> = new MidiInEvent<messages.StopMessage>();
 
-    private _previousStatus: number = null;
+    private _previousStatus: number = -1;
 
     receiveData(data: number[]): void {
         if (data.length == 0)
@@ -94,7 +94,7 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
         if (data[0] >= 128)
             this._previousStatus = data[0];
         else {
-            if (this._previousStatus)
+            if (this._previousStatus >= 0)
                 data.unshift(this._previousStatus);
             else
                 return;
@@ -144,15 +144,25 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     private _notes: Array<Note> = [];
 
     addNote(note: Note): Note {
+        if (!note.on)
+            throw new Error('Cannot add a note which is not set to on');
+
+        this.stopNotes(n => n.pitch == note.pitch && n.channel == note.channel);
+        this.sendMessage(new messages.NoteOnMessage(note.pitch, note.velocity, note.channel));
+        note.onTracker.accept();
         this._notes.push(note);
         return note;
     }
 
     stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
-            if (!filter || filter(n))
-                n.stop();
+            if (!filter || filter(n)) {
+                n.on = false;
+                n.onTracker.accept();
+                this.sendMessage(new messages.NoteOffMessage(n.pitch, n.velocity, n.channel));
+            }
         }
+        this._notes = this._notes.filter(n => !!filter && !filter(n));
     }
 
     /** Sends data from the passed in MIDI message to the connected MIDI port */
@@ -217,7 +227,7 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     /** Provides a way of identifying MidiBus so it can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** Returns true if the MidiBus has been instructed to stop everything by the `finish()` method. */
     get isFinished(): boolean { return this._isFinished; }
@@ -257,40 +267,17 @@ export default class MidiBus implements IMidiIn, IMidiOut, IClockChild {
     update(deltaMs: number): void {
         let anyNotesStopped = false;
 
-        //Send Note Off events for any stopped notes
-        //Don't actually send the note off message if there is a more recent note that is still on
-        for (let i = 0; i < this._notes.length; i++) {
-            const note = this._notes[i];
+        for (const note of this._notes) {
             if (!note.on) {
                 if (note.onTracker.isDirty) {
-                    let sendNoteOff = true;
-                    for (let j = i + 1; j < this.notes.length; j++) {
-                        const note2 = this.notes[j];
-                        if (note.pitch === note2.pitch && note.channel === note2.channel && note2.on && !note2.onTracker.isDirty) {
-                            sendNoteOff = false;
-                            break;
-                        }
-                    }
-                    if (sendNoteOff)
-                        this.sendMessage(new messages.NoteOffMessage(note.pitch, note.velocity, note.channel));
+                    this.sendMessage(new messages.NoteOffMessage(note.pitch, note.velocity, note.channel));
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;
             }
-        }
-
-        //Send on/pressure change events for changed notes
-        for (const note of this._notes) {
-            if (note.on) {
-                if (note.onTracker.isDirty) {
-                    this.sendMessage(new messages.NoteOnMessage(note.pitch, note.velocity, note.channel));
-                    note.onTracker.accept();
-                    note.velocityTracker.accept();
-                }
-                else if (note.velocityTracker.isDirty) {
-                    this.sendMessage(new messages.NotePressureMessage(note.pitch, note.velocity, note.channel));
-                    note.velocityTracker.accept();
-                }
+            else if (note.on && note.velocityTracker.isDirty) {
+                this.sendMessage(new messages.NotePressureMessage(note.pitch, note.velocity, note.channel));
+                note.velocityTracker.accept();
             }
         }
 

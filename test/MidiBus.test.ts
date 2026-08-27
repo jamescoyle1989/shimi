@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import MidiBus from '../src/MidiBus';
 import { ChannelPressureMessage, ControlChangeMessage, NoteOffMessage, NoteOnMessage, NotePressureMessage, PitchBendMessage, ProgramChangeMessage } from '../src/MidiMessages';
 import Note from '../src/Note';
-import { Clock } from '../src';
+import Clock from '../src/Clock';
 
 
 @suite class MidiBusTests {
@@ -108,13 +108,13 @@ import { Clock } from '../src';
         expect(note2.on).to.be.true;
     }
 
-    @test 'stop doesnt remove notes'() {
+    @test 'stopNotes removes notes'() {
         const midiBus = new MidiBus();
         midiBus.addNote(new Note(60, 80, 1));
         midiBus.addNote(new Note(62, 80, 1));
         expect(midiBus.notes.length).to.equal(2);
         midiBus.stopNotes(n => n.pitch == 60);
-        expect(midiBus.notes.length).to.equal(2);
+        expect(midiBus.notes.length).to.equal(1);
     }
 
     @test 'update removes stopped notes'() {
@@ -136,32 +136,6 @@ import { Clock } from '../src';
         midiBus.update(5);
         expect(midiMessages.length).to.equal(1);
         const message: NoteOffMessage = midiMessages[0];
-        expect(message.channel).to.equal(1);
-        expect(message.pitch).to.equal(60);
-        expect(message.velocity).to.equal(80);
-    }
-
-    @test 'update doesnt send stop message if it would end a running note'() {
-        const midiBus = new MidiBus();
-        const midiMessages: any[] = [];
-        midiBus.noteOff.add(data => midiMessages.push(data.message));
-        const note1 = midiBus.addNote(new Note(60, 80, 1));
-        const note2 = midiBus.addNote(new Note(60, 80, 1));
-        note1.onTracker.accept();
-        note1.on = false;
-        note2.onTracker.accept();
-        midiBus.update(5);
-        expect(midiMessages.length).to.equal(0);
-    }
-
-    @test 'update sends start messages'() {
-        const midiBus = new MidiBus();
-        const midiMessages: any[] = [];
-        midiBus.noteOn.add(data => midiMessages.push(data.message));
-        midiBus.addNote(new Note(60, 80, 1));
-        midiBus.update(5);
-        expect(midiMessages.length).to.equal(1);
-        const message: NoteOnMessage = midiMessages[0];
         expect(message.channel).to.equal(1);
         expect(message.pitch).to.equal(60);
         expect(message.velocity).to.equal(80);
