@@ -21,7 +21,7 @@ export default class Gamepads implements IClockChild {
     private _unmatched: IGamepad[] = [];
 
     // The gamepads which have been matched to an input
-    private _matched: IGamepad[] = [ null, null, null, null ];
+    private _matched: (IGamepad | null)[] = [ null, null, null, null ];
 
     /** The collection of shimi gamepads which have been matched up to incoming gamepad data. */
     get activeGamepads(): IGamepad[] { return this._matched.filter(x => x !== null); }
@@ -103,7 +103,7 @@ export default class Gamepads implements IClockChild {
     /** Provides a way of identifying keyboards so they can be easily retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** Returns true if the `finish()` method has been called. */
     get isFinished(): boolean { return this._isFinished; }

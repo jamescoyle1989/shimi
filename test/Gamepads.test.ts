@@ -2,7 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Gamepads from '../src/Gamepads';
 import PS4Controller from '../src/PS4Controller';
-import { Clock } from '../src';
+import Clock from '../src/Clock';
 
 
 function getTestInputs(): any[] {
