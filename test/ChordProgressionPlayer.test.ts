@@ -3,7 +3,9 @@ import { expect } from 'chai';
 import ChordProgression from '../src/ChordProgression';
 import Chord from '../src/Chord';
 import ChordProgressionPlayer from '../src/ChordProgressionPlayer';
-import { Clock, Metronome } from '../src';
+import Clock from '../src/Clock';
+import Metronome from '../src/Metronome';
+import TimeSig from '../src/TimeSig';
 
 
 const chordProgression1 = new ChordProgression(16)
@@ -20,7 +22,7 @@ const chordProgression2 = new ChordProgression(16)
 
 @suite class ChordProgressionPlayerTests {
     @test 'Update triggers chordChanged event when starting if chord at beginning'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const player = new ChordProgressionPlayer(chordProgression1, metronome);
         let chordChangeData = [];
         player.chordChanged.add(data => chordChangeData.push(data));
@@ -31,7 +33,7 @@ const chordProgression2 = new ChordProgression(16)
     }
 
     @test 'Update doesnt trigger chordChanged event when starting if no chord at start'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const player = new ChordProgressionPlayer(chordProgression2, metronome);
         let chordChangeData = [];
         player.chordChanged.add(data => chordChangeData.push(data));
@@ -41,7 +43,7 @@ const chordProgression2 = new ChordProgression(16)
     }
 
     @test 'Update takes into account startBeat'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const player = new ChordProgressionPlayer(chordProgression1, metronome);
         player.startBeat = 4;
         let chordChangeData = [];
@@ -53,7 +55,7 @@ const chordProgression2 = new ChordProgression(16)
     }
 
     @test 'Update makes player quit once beat count reached'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         const player = new ChordProgressionPlayer(chordProgression1, metronome);
         player.beatCount = 1;
         metronome.update(500);
@@ -65,7 +67,7 @@ const chordProgression2 = new ChordProgression(16)
     }
 
     @test 'Update takes into account speed'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         const player = new ChordProgressionPlayer(chordProgression1, metronome);
         player.speed = 4;
         metronome.update(1000);
@@ -74,14 +76,14 @@ const chordProgression2 = new ChordProgression(16)
     }
 
     @test 'withRef sets ref value'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const player = new ChordProgressionPlayer(chordProgression1, metronome).withRef('Testy test');
         expect(player.ref).to.equal('Testy test');
     }
 
     @test 'finished event gets fired'() {
         //Setup
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const player = new ChordProgressionPlayer(chordProgression2, metronome);
         let testVar = 0;
         player.finished.add(() => testVar = 3);

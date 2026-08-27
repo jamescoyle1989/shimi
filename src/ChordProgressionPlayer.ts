@@ -13,10 +13,10 @@ import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChil
  * @category Chords & Scales
  */
 export class ChordEventData<TSource> extends ShimiEventData<TSource> {
-    get chord(): Chord { return this._chord; }
-    private _chord: Chord;
+    get chord(): Chord | null { return this._chord; }
+    private _chord: Chord | null;
 
-    constructor(source: TSource, chord: Chord) {
+    constructor(source: TSource, chord: Chord | null) {
         super(source);
         this._chord = chord;
     }
@@ -45,7 +45,7 @@ export default class ChordProgressionPlayer implements IClockChild {
     get typeName(): string { return 'shimi.ChordProgressionPlayer'; }
 
     /** The chord progression to play */
-    get chordProgression(): ChordProgression { return this._chordProgression; }
+    get chordProgression(): ChordProgression  { return this._chordProgression; }
     set chordProgression(value: ChordProgression) {
         if (this._chordProgression === value)
             return;
@@ -68,10 +68,10 @@ export default class ChordProgressionPlayer implements IClockChild {
     set startBeat(value: number) { this._startBeat = value; }
     private _startBeat: number = 0;
 
-    /** How many beats should have passed before the chord progression player stops. The default value is null, meaning the chord progression player never stops, and continually loops playback of the chord progression. */
+    /** How many beats should have passed before the chord progression player stops. The default value is -1, meaning the chord progression player never stops, and continually loops playback of the chord progression. */
     get beatCount(): number { return this._beatCount; }
     set beatCount(value: number) { this._beatCount = value; }
-    private _beatCount: number = null;
+    private _beatCount: number = -1;
 
     /** How many beats have passed since the chord progression player started. */
     get beatsPassed(): number { return this._beatsPassed; }
@@ -80,7 +80,7 @@ export default class ChordProgressionPlayer implements IClockChild {
     /** Provides a way of identifying a chord progression player so that it can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** Returns true if the chord progression player has finished playing its chord progression. */
     get isFinished(): boolean { return this._isFinished; }
@@ -91,8 +91,8 @@ export default class ChordProgressionPlayer implements IClockChild {
     private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
     /** Returns the chord that is currently being played. */
-    get currentChord(): ChordProgressionChord { return this._currentChord; }
-    private _currentChord: ChordProgressionChord;
+    get currentChord(): ChordProgressionChord | null { return this._currentChord; }
+    private _currentChord: ChordProgressionChord | null = null;
 
     /**
      * The chordChanged event dispatches a new event data object each time the current chord changes.
@@ -107,7 +107,9 @@ export default class ChordProgressionPlayer implements IClockChild {
      */
     constructor(chordProgression: ChordProgression, metronome: IMetronome) {
         this.chordProgression = chordProgression;
+        this._chordProgression = chordProgression;
         this.metronome = metronome;
+        this._metronome = metronome;
         if (!!Clock.default)
             Clock.default.addChild(this);
     }
@@ -125,7 +127,7 @@ export default class ChordProgressionPlayer implements IClockChild {
         const newBeatsPassed = this.beatsPassed + beatDiff;
         const newProgBeat = (this.startBeat + newBeatsPassed) % this.chordProgression.duration;
         this._beatsPassed += beatDiff;
-        if (typeof(this.beatCount) == 'number' && this.beatsPassed >= this.beatCount) {
+        if (this.beatCount >= 0 && this.beatsPassed >= this.beatCount) {
             this.finish();
             return;
         }
@@ -133,7 +135,7 @@ export default class ChordProgressionPlayer implements IClockChild {
         const newCPC = this.chordProgression.getChordAt(newProgBeat);
         if (newCPC !== this.currentChord) {
             this._currentChord = newCPC;
-            this.chordChanged.trigger(new ChordEventData(this, newCPC?.chord));
+            this.chordChanged.trigger(new ChordEventData(this, newCPC?.chord ?? null));
         }
     }
 
