@@ -131,7 +131,9 @@ export default class ClipRecorder implements IClockChild {
      */
     constructor(metronome: IMetronome, midiIn: IMidiIn) {
         this.metronome = metronome;
+        this._metronome = metronome;
         this.midiIn = midiIn;
+        this._midiIn = midiIn;
         if (!!Clock.default)
             Clock.default.addChild(this);
     }
@@ -197,7 +199,7 @@ export default class ClipRecorder implements IClockChild {
     /** Provides a way of identifying recorders so they can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /**
      * This method is intended to be called by a clock to provide regular updates. It should not be called by consumers of the library.

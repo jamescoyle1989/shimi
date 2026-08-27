@@ -1,20 +1,29 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import DummyPort from './DummyPort';
 import ClipRecorder from '../src/ClipRecorder';
 import Metronome from '../src/Metronome';
 import MidiIn from '../src/MidiIn';
 import MidiBus from '../src/MidiBus';
 import * as messages from '../src/MidiMessages';
 import { Clip } from '../src/Clip';
-import { Clock } from '../src';
+import Clock from '../src/Clock';
+import TimeSig from '../src/TimeSig';
+
+
+class DummyPort {
+    messages: Array<Array<number>> = [];
+
+    send(message: Array<number>): void {
+        this.messages.push(message);
+    }
+}
 
 
 @suite class ClipRecorderTests {
     @test 'Changing beatCount changes the clip duration'() {
         const clipRecorder = new ClipRecorder(
-            new Metronome(120), 
-            new MidiIn(new DummyPort())
+            new Metronome(120, TimeSig.commonTime()), 
+            new MidiIn(new DummyPort() as any)
         );
         expect(clipRecorder.beatCount).to.equal(4);
         expect(clipRecorder['_clip'].duration).to.equal(4);
@@ -25,8 +34,8 @@ import { Clock } from '../src';
 
     @test 'Changing beatCount to null changes the clip duration to 0'() {
         const clipRecorder = new ClipRecorder(
-            new Metronome(120), 
-            new MidiIn(new DummyPort())
+            new Metronome(120, TimeSig.commonTime()), 
+            new MidiIn(new DummyPort() as any)
         );
         expect(clipRecorder.beatCount).to.equal(4);
         expect(clipRecorder['_clip'].duration).to.equal(4);
@@ -36,10 +45,10 @@ import { Clock } from '../src';
     }
 
     @test 'Update doesnt do anything if isFinished is true'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const clipRecorder = new ClipRecorder(
             metronome, 
-            new MidiIn(new DummyPort())
+            new MidiIn(new DummyPort() as any)
         );
         expect(clipRecorder.isFinished).to.be.false;
         //Update metronome so it has some difference between old and new beat values
@@ -53,14 +62,14 @@ import { Clock } from '../src';
     @test 'Update doesnt do anything if metronome isnt set'() {
         const clipRecorder = new ClipRecorder(
             null,
-            new MidiIn(new DummyPort())
+            new MidiIn(new DummyPort() as any)
         );
         clipRecorder.update(10);
         expect(clipRecorder.beatsPassed).to.equal(0);
     }
 
     @test 'Update doesnt do anything if midiIn isnt set'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const clipRecorder = new ClipRecorder(
             metronome,
             null
@@ -71,10 +80,10 @@ import { Clock } from '../src';
     }
 
     @test 'Update increases beatsPassed property'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const clipRecorder = new ClipRecorder(
             metronome, 
-            new MidiIn(new DummyPort())
+            new MidiIn(new DummyPort() as any)
         );
         metronome.update(10);
         expect(clipRecorder.beatsPassed).to.equal(0);
@@ -83,10 +92,10 @@ import { Clock } from '../src';
     }
 
     @test 'Update sets isFinished if beatsPassed exceeds beatCount'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const clipRecorder = new ClipRecorder(
             metronome, 
-            new MidiIn(new DummyPort())
+            new MidiIn(new DummyPort() as any)
         );
         metronome.update(2010);
         expect(clipRecorder.isFinished).to.be.false;
@@ -95,7 +104,7 @@ import { Clock } from '../src';
     }
 
     @test 'New notes get recorded'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         metronome.update(500);
@@ -113,7 +122,7 @@ import { Clock } from '../src';
     }
 
     @test 'When the recording ends, all outstanding notes get added'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         metronome.update(1500);
@@ -131,7 +140,7 @@ import { Clock } from '../src';
     }
 
     @test 'Control changes get recorded'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         metronome.update(500);
@@ -146,7 +155,7 @@ import { Clock } from '../src';
     }
 
     @test 'Pitch bends get recorded'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         metronome.update(500);
@@ -160,7 +169,7 @@ import { Clock } from '../src';
     }
 
     @test 'newClip event gets dispatched once recording is finished'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         const recordedClips: Clip[] = [];
@@ -187,7 +196,7 @@ import { Clock } from '../src';
     }
 
     @test 'New notes get recorded properly when beatCount is null'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         clipRecorder.beatCount = null;
@@ -206,7 +215,7 @@ import { Clock } from '../src';
     }
 
     @test 'Clip duration gets set to beatsPassed property if beatCount is null'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         clipRecorder.beatCount = null;
@@ -220,7 +229,7 @@ import { Clock } from '../src';
     }
 
     @test 'ClipRecorder stops listening for messages once its finished'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, midiBus);
         clipRecorder.finish();
@@ -229,7 +238,7 @@ import { Clock } from '../src';
     }
 
     @test 'MidiIn events wont be resubscribed to once the recorder has finished'() {
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const midiBus = new MidiBus();
         const clipRecorder = new ClipRecorder(metronome, null);
         clipRecorder.finish();
@@ -240,7 +249,7 @@ import { Clock } from '../src';
 
     @test 'finished event gets fired'() {
         //Setup
-        const metronome = new Metronome(120);
+        const metronome = new Metronome(120, TimeSig.commonTime());
         const clipRecorder = new ClipRecorder(metronome, null);
         let testVar = 0;
         clipRecorder.finished.add(() => testVar = 3);
