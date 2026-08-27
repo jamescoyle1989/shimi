@@ -2,7 +2,8 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Metronome from '../src/Metronome';
 import Repeat from '../src/Repeat';
-import { Clock } from '../src';
+import Clock from '../src/Clock';
+import TimeSig from '../src/TimeSig';
 
 
 @suite class RepeatTests {
@@ -41,7 +42,7 @@ import { Clock } from '../src';
     }
 
     @test 'BeatRepeat executes action until beatCount has passed'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         let updateValue: number = 0;
         const repeat = Repeat.forBeats(metronome, 1, () => updateValue++);
 
@@ -87,7 +88,7 @@ import { Clock } from '../src';
     }
 
     @test 'BeatRepeat includes ms action arg'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         let updateValue: number = 0;
         const repeat = Repeat.forBeats(metronome, 4, args => updateValue = args.ms);
 
@@ -98,7 +99,7 @@ import { Clock } from '../src';
     }
 
     @test 'BeatRepeat includes percent action arg'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         let updateValue: number = 0;
         const repeat = Repeat.forBeats(metronome, 4, args => updateValue = args.percent);
 
@@ -111,7 +112,7 @@ import { Clock } from '../src';
     }
 
     @test 'BeatRepeat includes beat action arg'() {
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         let updateValue: number = 0;
         const repeat = Repeat.forBeats(metronome, 4, args => updateValue = args.beat);
 
@@ -125,7 +126,7 @@ import { Clock } from '../src';
 
     @test 'finished event gets fired'() {
         //Setup
-        const metronome = new Metronome(60);
+        const metronome = new Metronome(60, TimeSig.commonTime());
         const repeat = Repeat.forBeats(metronome, 4, args => {});
         let testVar = 0;
         repeat.finished.add(() => testVar = 3);

@@ -11,7 +11,7 @@ class RepeatBase<TArgs> implements IClockChild {
     /** Provides a way of identifying repeats so they can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** Signifies whether the Repeat has stopped. */
     get isFinished(): boolean { return this._isFinished; }
