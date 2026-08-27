@@ -3,7 +3,7 @@
 import { Arpeggio, ArpeggioNote } from './Arpeggio';
 import Chord from './Chord';
 import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
-import { Note } from './index';
+import Note from './Note';
 import { IMetronome } from './Metronome';
 import { IMidiOut } from './MidiOut';
 import PropertyTracker from './PropertyTracker';
@@ -27,12 +27,12 @@ export default class Arpeggiator implements IClockChild {
     private _arpeggio: Arpeggio;
 
     /** Which chord to play. Setting this will cause all currently playing notes to stop. */
-    get chord(): Chord { return this._chord; }
-    set chord(value: Chord) {
+    get chord(): Chord | null { return this._chord; }
+    set chord(value: Chord | null) {
         this._chord = value;
         this._endAllNotes();
     }
-    private _chord: Chord;
+    private _chord: Chord | null = null;
 
     /** The default channel for arpeggiated notes to be played on. */
     get channel(): number { return this._channel; }
@@ -42,7 +42,7 @@ export default class Arpeggiator implements IClockChild {
     /** Provides a way of identifying arpeggiators so they can easily be retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** The metronome which the player uses for tracking beat timings */
     get metronome(): IMetronome { return this._metronome; }
@@ -81,7 +81,7 @@ export default class Arpeggiator implements IClockChild {
      */
     get noteModifier(): ((note: Note) => void) { return this._noteModifier; }
     set noteModifier(value: ((note: Note) => void)) { this._noteModifier = value; }
-    private _noteModifier: (note: Note) => void;
+    private _noteModifier: (note: Note) => void = n => {};
 
     /** Signifies whether the arpeggiator has stopped. */
     get isFinished(): boolean { return this._isFinished; }
@@ -93,10 +93,15 @@ export default class Arpeggiator implements IClockChild {
 
     private _notes: Note[] = [];
 
+    private _arpNotes: Map<Note, ArpeggioNote> = new Map<Note, ArpeggioNote>();
+
     constructor(arpeggio: Arpeggio, metronome: IMetronome, midiOut: IMidiOut) {
         this.arpeggio = arpeggio;
+        this._arpeggio = arpeggio;
         this.metronome = metronome;
+        this._metronome = metronome;
         this.midiOut = midiOut;
+        this._midiOut = midiOut;
         if (!!Clock.default)
             Clock.default.addChild(this);
     }
@@ -126,22 +131,29 @@ export default class Arpeggiator implements IClockChild {
         //Loop through each existing note that the arpeggiator has started
         //Stop notes that need to end
         for (const note of this._notes) {
-            const arpNote: ArpeggioNote = note['arpNote'];
-            if (!arpNote.contains(newArpeggioBeat) || newArpeggioBeat < oldArpeggioBeat)
+            const arpNote = this._arpNotes.get(note);
+            if (!arpNote) {
                 note.stop();
-            else if (typeof(arpNote.velocity) != 'number')
-                note.velocity = arpNote.velocity.update((newArpeggioBeat - arpNote.start) / arpNote.duration);
+            }
+            else {
+                if (!arpNote.contains(newArpeggioBeat) || newArpeggioBeat < oldArpeggioBeat) {
+                    note.stop();
+                    this._arpNotes.delete(note);
+                }
+                else if (typeof(arpNote.velocity) != 'number')
+                    note.velocity = arpNote.velocity.update((newArpeggioBeat - arpNote.start) / arpNote.duration);
+            }
         }
         this._notes = this._notes.filter(n => n.on);
 
-        //Loop through each clip note in the current range and add a new note for each one
+        //Loop through each arp note in the current range and add a new note for each one
         //Store the clipNote that each note came from, so we can track down notes when it's time to stop them
         if (this.chord) {
             for (const arpNote of this.arpeggio.getNotesStartingInRange(oldArpeggioBeat, newArpeggioBeat)) {
                 const note = arpNote.createNote(this.chord, this.channel, (newArpeggioBeat - arpNote.start) / arpNote.duration);
                 if (!note)
                     continue;
-                note['arpNote'] = arpNote;
+                this._arpNotes.set(note, arpNote);
                 if (this.noteModifier)
                     this.noteModifier(note);
                 this._notes.push(note);
