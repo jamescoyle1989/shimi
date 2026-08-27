@@ -22,7 +22,7 @@ export default class Keyboard implements IClockChild {
     /** Provides a way of identifying keyboards so they can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** If true, then the keyboard has been deactivated and marked for disposal. */
     get isFinished(): boolean { return this._isFinished; }
@@ -653,7 +653,7 @@ export default class Keyboard implements IClockChild {
             case 'Numpad0': return this.numpad0;
             case 'NumpadDecimal': return this.numpadDecimal;
         }
-        return null;
+        throw new Error('Unrecognised event: ' + eventCode);
     }
 
     /**

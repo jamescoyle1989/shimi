@@ -12,14 +12,14 @@ export interface IEventSubscriber {
      * @param eventName The event to subscribe to.
      * @param handler The function to be called when the event is fired. The expected function definition will depend upon which event is being subscribed to.
      */
-    subscribe(eventName: string, handler: any);
+    subscribe(eventName: string, handler: any): void;
 
     /**
      * Remove a subscription to some event by name.
      * @param eventName The event to unsubscribe from.
      * @param handler The function to be called when the event is fired. The expected function definition will depend upon which event is being subscribed to.
      */
-    unsubscribe(eventName: string, handler: any);
+    unsubscribe(eventName: string, handler: any): void;
 }
 
 
@@ -42,7 +42,7 @@ export default class EventSubscriber implements IEventSubscriber {
      * @param eventName The event to subscribe to.
      * @param handler The function to be called when the event is fired. The expected function definition will depend upon which event is being subscribed to.
      */
-    subscribe(eventName: string, handler: any) {
+    subscribe(eventName: string, handler: any): void {
         this.target.addEventListener(eventName, handler);
     }
 
@@ -51,7 +51,7 @@ export default class EventSubscriber implements IEventSubscriber {
      * @param eventName The event to unsubscribe from.
      * @param handler The function to be called when the event is fired. The expected function definition will depend upon which event is being subscribed to.
      */
-    unsubscribe(eventName: string, handler: any) {
+    unsubscribe(eventName: string, handler: any): void {
         this.target.removeEventListener(eventName, handler);
     }
 }

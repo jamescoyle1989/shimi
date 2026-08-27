@@ -1,8 +1,21 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import Keyboard from '../src/Keyboard';
-import TestEventSubscriber from './TestEventSubscriber';
-import { Clock } from '../src';
+import { IEventSubscriber } from '../src/EventSubscriber';
+import Clock from '../src/Clock';
+
+
+class TestEventSubscriber implements IEventSubscriber {
+    log: Array<{name: string, handler: any, subscribed: boolean}> = [];
+    
+    subscribe(eventName: string, handler: any) {
+        this.log.push({name: eventName, handler: handler, subscribed: true});
+    }
+
+    unsubscribe(eventName: string, handler: any) {
+        this.log.push({name: eventName, handler: handler, subscribed: false});
+    }
+}
 
 
 @suite class KeyboardTests {
