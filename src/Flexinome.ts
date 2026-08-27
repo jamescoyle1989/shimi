@@ -62,9 +62,9 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
     /** Provides a way of identifying flexinomes so they can be easily retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
-    private _timeSig: PropertyTracker<TimeSig> = new PropertyTracker();
+    private _timeSig: PropertyTracker<TimeSig> = new PropertyTracker(TimeSig.commonTime());
     /** Get the current flexinome time signature. */
     get timeSig(): TimeSig { return this._timeSig.oldValue; }
     /**
@@ -150,12 +150,9 @@ export default class Flexinome extends MetronomeBase implements IMetronome, IClo
      * @param tempo The tempo to run the flexinome at.
      * @param timeSig The time signature for the flexinome to use. If not provided then the flexinome defaults to common time (4/4).
      */
-    constructor(tempo: number, timeSig: TimeSig = null) {
+    constructor(tempo: number, timeSig: TimeSig) {
         super();
-        if (timeSig)
-            this.timeSig = timeSig;
-        else
-            this.timeSig = TimeSig.commonTime();
+        this.timeSig = timeSig;
         this._timeSig.accept();
         this.tempo = tempo;
         if (!!Clock.default)

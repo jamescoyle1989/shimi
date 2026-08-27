@@ -2,7 +2,7 @@ import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
 import TimeSig from '../src/TimeSig';
 import Flexinome from '../src/Flexinome';
-import { Clock } from '../src';
+import Clock from '../src/Clock';
 
 
 @suite class FlexinomeTests {
@@ -130,7 +130,7 @@ import { Clock } from '../src';
     }
 
     @test 'setSongPosition triggers positionChanged event'() {
-        const m = new Flexinome(120);
+        const m = new Flexinome(120, TimeSig.commonTime());
         let positionChangedCount = 0;
         m.positionChanged.add(() => positionChangedCount++);
         m.setSongPosition(10);
@@ -138,7 +138,7 @@ import { Clock } from '../src';
     }
 
     @test 'First update triggers started event'() {
-        const m = new Flexinome(120);
+        const m = new Flexinome(120, TimeSig.commonTime());
         let startedMessagesCount = 0;
         m.started.add(() => startedMessagesCount++);
         m.update(10);
@@ -146,7 +146,7 @@ import { Clock } from '../src';
     }
 
     @test 'Setting enabled = false triggers stopped event'() {
-        const m = new Flexinome(120);
+        const m = new Flexinome(120, TimeSig.commonTime());
         let stopMessageCount = 0;
         m.stopped.add(() => stopMessageCount++);
         m.update(500);
@@ -158,7 +158,7 @@ import { Clock } from '../src';
     }
 
     @test 'Setting enabled = true triggers continued event'() {
-        const m = new Flexinome(120);
+        const m = new Flexinome(120, TimeSig.commonTime());
         let continueMessageCount = 0;
         m.continued.add(() => continueMessageCount++);
         m.update(500);
@@ -171,64 +171,64 @@ import { Clock } from '../src';
     }
 
     @test 'atBarBeatMultiple returns 0 if at bar start'() {
-        const m = new Flexinome(120);
+        const m = new Flexinome(120, TimeSig.commonTime());
         expect(m.atBarBeatMultiple(0.5)).to.equal(0);
     }
 
     @test 'atBarBeatMultiple returns -1 if not on division'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(250);
         expect(m.atBarBeatMultiple(0.5)).to.equal(-1);
     }
 
     @test 'atBarBeatMultiple returns multiple recently behind current beat'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(1950);
         m.update(100);
         expect(m.atBarBeatMultiple(1)).to.equal(2);
     }
 
     @test 'atBarBeatMultiple returns most recent multiple if many fall within update window'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(1400);
         m.update(700);
         expect(m.atBarBeatMultiple(0.5)).to.equal(4);
     }
 
     @test 'atBarBeatMultiple handles wrapping around bar lines'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(3700);
         m.update(400);
         expect(m.atBarBeatMultiple(1)).to.equal(0);
     }
 
     @test 'atBarQuarterNoteMultiple returns 0 if at bar start'() {
-        const m = new Flexinome(120);
+        const m = new Flexinome(120, TimeSig.commonTime());
         expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(0);
     }
 
     @test 'atBarQuarterNoteMultiple returns -1 if not on division'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(250);
         expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(-1);
     }
 
     @test 'atBarQuarterNoteMultiple returns multiple recently behind current beat'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(1950);
         m.update(100);
         expect(m.atBarQuarterNoteMultiple(1)).to.equal(2);
     }
 
     @test 'atBarQuarterNoteMultiple returns most recent multiple if many fall within update window'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(1400);
         m.update(700);
         expect(m.atBarQuarterNoteMultiple(0.5)).to.equal(4);
     }
 
     @test 'atBarQuarterNoteMultiple handles wrapping around bar lines'() {
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         m.update(3700);
         m.update(400);
         expect(m.atBarQuarterNoteMultiple(1)).to.equal(0);
@@ -236,7 +236,7 @@ import { Clock } from '../src';
 
     @test 'finished event gets fired'() {
         //Setup
-        const m = new Flexinome(60);
+        const m = new Flexinome(60, TimeSig.commonTime());
         let testVar = 0;
         m.finished.add(() => testVar = 3);
 
@@ -246,7 +246,7 @@ import { Clock } from '../src';
 
     @test 'Automatically adds itself to default clock if set'() {
         Clock.default = new Clock();
-        const metronome = new Flexinome(120);
+        const metronome = new Flexinome(120, TimeSig.commonTime());
 
         expect(Clock.default.children).to.contain(metronome);
 
