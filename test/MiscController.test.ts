@@ -34,25 +34,12 @@ import MiscController from '../src/MiscController';
         )).to.throw();
     }
 
-    @test 'MiscController constructor adds member variables for the added buttons and axes'() {
+    @test 'MiscController allows fetching buttons & axes by name '() {
         const controller = new MiscController(
             ['x', 'y', 'z'],
             ['a', 'b', 'c']
         );
-        expect(controller['x']).to.not.be.undefined;
-        expect(controller['x'].value).to.equal(0);
-        expect(controller['a']).to.not.be.undefined;
-        expect(controller['a'].value).to.equal(0);
-    }
-
-    @test 'MiscController throws an error if button or axis name is not undefined at instanciation'() {
-        expect(() => new MiscController(
-            ['update'],
-            []
-        )).to.throw();
-        expect(() => new MiscController(
-            [],
-            ['canMatch']
-        )).to.throw();
+        expect(controller.getButton('x').value).to.equal(0);
+        expect(controller.getAxis('a').value).to.equal(0);
     }
 }

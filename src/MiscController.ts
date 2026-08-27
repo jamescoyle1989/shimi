@@ -16,12 +16,22 @@ export default class MiscController implements IGamepad {
     get typeName(): string { return 'shimi.MiscController'; }
 
     /** The collection of all buttons on the gamepad. */
-    get buttons(): ButtonInput[] { return this._buttons; }
+    get buttons(): ButtonInput[] { return this._buttons }
+    private _buttonsMap: Map<string, ButtonInput> = new Map<string, ButtonInput>();
     private _buttons: ButtonInput[];
+
+    getButton(name: string): ButtonInput | null {
+        return this._buttonsMap.get(name) ?? null;
+    }
 
     /** The collection of all axes on the gamepad. */
     get axes(): SliderInput[] { return this._axes; }
+    private _axesMap: Map<string, SliderInput> = new Map<string, SliderInput>();
     private _axes: SliderInput[];
+
+    getAxis(name: string): SliderInput | null {
+        return this._axesMap.get(name) ?? null;
+    }
 
     /**
      * @param buttonNames The collection of button names which will be used for representing the incoming button data. The button names should be unique, and listed in the order which they will match to button indices. The number of button names defines the number of button states that the MiscController expects to receive with each update.
@@ -50,16 +60,10 @@ export default class MiscController implements IGamepad {
         this._buttons = buttonNames.map(x => new ButtonInput(x));
         this._axes = axisNames.map(x => new SliderInput(x));
 
-        for (const button of this.buttons) {
-            if (this[button.name] != undefined)
-                throw new Error(`Cannot use'${button.name}' as a button name.`);
-            this[button.name] = button;
-        }
-        for (const axis of this.axes) {
-            if (this[axis.name] != undefined)
-                throw new Error(`Cannot use'${axis.name}' as an axis name.`);
-            this[axis.name] = axis;
-        }
+        for (const button of this.buttons)
+            this._buttonsMap.set(button.name, button);
+        for (const axis of this.axes)
+            this._axesMap.set(axis.name, axis);
     }
 
     /**
