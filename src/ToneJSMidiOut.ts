@@ -97,9 +97,9 @@ export class ToneJSMidiOutChannel {
     }
 
     /**
-     * This property is null by default, but can take a function value which gets called every time the channel receives a new control change message.
+     * Takes a function value which gets called every time the channel receives a new control change message.
      */
-    onControlChange: (controlChange: messages.ControlChangeMessage, target: any) => void = null;
+    onControlChange: (controlChange: messages.ControlChangeMessage, target: any) => void = (cc, t) => {};
 }
 
 
@@ -117,8 +117,8 @@ export default class ToneJSMidiOut implements IMidiOut, IClockChild {
     /**
      * The collection of channels that MIDI data can be sent out to. Each channel that's being used should hold a reference to a ToneJS instrument object.
      */
-    get channels(): Array<ToneJSMidiOutChannel> { return this._channels; }
-    private _channels: Array<ToneJSMidiOutChannel> = [
+    get channels(): Array<ToneJSMidiOutChannel | null> { return this._channels; }
+    private _channels: Array<ToneJSMidiOutChannel | null> = [
         null, null, null, null,
         null, null, null, null,
         null, null, null, null,
@@ -170,6 +170,15 @@ export default class ToneJSMidiOut implements IMidiOut, IClockChild {
             this._channels[channel] = null;
     }
 
+    getChannel(channel: number): ToneJSMidiOutChannel {
+        if (channel < 0 || channel > 15)
+            throw new Error('Channel must be numbered 0 - 15');
+        const output = this._channels[channel];
+        if (!output)
+            throw new Error('No instrument set on channel ' + channel);
+        return output;
+    }
+
 
     //IMidiOut implementation start
 
@@ -191,15 +200,17 @@ export default class ToneJSMidiOut implements IMidiOut, IClockChild {
      * @returns The note that was added
      */
     addNote(note: Note): Note {
-        const channelObj = this._channels[note.channel];
-        if (!channelObj)
-            return;
+        const channelObj = this.getChannel(note.channel);
+        if (!note.on)
+            throw new Error('Cannot add a note which is not set to on');
 
+        if (channelObj.isPolyphonic)
+            this.stopNotes(n => n.pitch == note.pitch && n.channel == note.channel);
+        else
+            this.stopNotes(n => n.channel == note.channel);
+        channelObj.onNoteStart(note);
+        note.onTracker.accept();
         this._notes.push(note);
-        if (note.on) {
-            channelObj.onNoteStart(note);
-            note.onTracker.accept();
-        }
         return note;
     }
 
@@ -210,9 +221,14 @@ export default class ToneJSMidiOut implements IMidiOut, IClockChild {
      */
     stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
-            if (!filter || filter(n))
-                n.stop();
+            if (!filter || filter(n)) {
+                n.on = false;
+                n.onTracker.accept();
+                const channelObj = this.getChannel(n.channel);
+                channelObj.onNoteStop(n);
+            }
         }
+        this._notes = this._notes.filter(n => !!filter && !filter(n));
     }
 
 
@@ -266,7 +282,7 @@ export default class ToneJSMidiOut implements IMidiOut, IClockChild {
      */
     sendRawData(data: number[]): boolean {
         if (data.length == 0)
-            return;
+            return false;
 
         const messageId = Math.floor(data[0] / 16) * 16;
         const channel = data[0] - messageId;
@@ -293,28 +309,17 @@ export default class ToneJSMidiOut implements IMidiOut, IClockChild {
     update(deltaMs: number): void {
         let anyNotesStopped = false;
 
-        for (let i = 0; i < this._notes.length; i++) {
-            const note = this._notes[i];
+        for (const note of this._notes) {
             if (!note.on) {
                 if (note.onTracker.isDirty) {
-                    let sendNoteOff = true;
-                    const channelObj = this._channels[note.channel];
-                    if (channelObj) {
-                        for (let j = i + 1; j < this.notes.length; j++) {
-                            const note2 = this.notes[j];
-                            if (note.channel == note2.channel && note2.on && !note2.onTracker.isDirty) {
-                                if (!channelObj.isPolyphonic || note.pitch == note2.pitch) {
-                                    sendNoteOff = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (sendNoteOff)
-                        channelObj.onNoteStop(note);
+                    this.stopNotes(n => n.pitch == note.pitch && n.channel == note.channel);
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;
+            }
+            else if (note.on && note.velocityTracker.isDirty) {
+                this.sendMessage(new messages.NotePressureMessage(note.pitch, note.velocity, note.channel));
+                note.velocityTracker.accept();
             }
         }
 
@@ -340,7 +345,7 @@ export default class ToneJSMidiOut implements IMidiOut, IClockChild {
     /** Provides a way of identifying a clip player so that it can be easily retrieved later. */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /**
      * Provides a way for setting the ref through a chained function call. For example:

@@ -1,8 +1,10 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai'
-import { Clock, ControlChangeMessage, Note, NoteOffMessage, NoteOnMessage, PitchBendMessage } from '../src';
+import { ControlChangeMessage, NoteOffMessage, NoteOnMessage, PitchBendMessage } from '../src/MidiMessages';
 import ToneJSMidiOut from '../src/ToneJSMidiOut';
 import { parsePitch } from '../src/utils';
+import Clock from '../src/Clock';
+import Note from '../src/Note';
 
 
 class ToneTest {
@@ -112,13 +114,11 @@ class TestPolySynth extends TestBaseSynth {
         expect(target1.messages[0]).to.equal('triggerAttack(262, now, 0.63)');
     }
 
-    @test 'addNote does nothing if nothing set for note channel'() {
+    @test 'addNote throws error if nothing set for note channel'() {
         const midiOut = new ToneJSMidiOut(new ToneTest());
         const target = new TestMonoSynth();
         midiOut.setChannel(0, target);
-        midiOut.addNote(new Note(40, 80, 2));
-        expect(midiOut.notes.length).to.equal(0);
-        expect(target.messages.length).to.equal(0);
+        expect(() => midiOut.addNote(new Note(40, 80, 2))).to.throw();
     }
 
     @test 'New channel automatically gets configured to be polyphonic based on target name'() {
@@ -167,26 +167,24 @@ class TestPolySynth extends TestBaseSynth {
         expect(target.messages[1]).to.equal('triggerRelease(440, now)');
     }
 
-    @test 'stopNotes causes all notes to be stopped on next update'() {
+    @test 'stopNotes causes all notes to be stopped immediately'() {
         const midiOut = new ToneJSMidiOut(new ToneTest());
         const target = new TestPolySynth('PolySynth');
         midiOut.setChannel(0, target);
         midiOut.addNote(new Note('A4', 127, 0));
         midiOut.addNote(new Note('B4', 127, 0));
-        midiOut.stopNotes();
         expect(target.messages.length).to.equal(2);
-        midiOut.update(1);
+        midiOut.stopNotes();
         expect(target.messages.length).to.equal(4);
         expect(target.messages[2]).to.equal('triggerRelease(440, now)');
         expect(target.messages[3]).to.equal('triggerRelease(494, now)');
     }
 
-    @test 'sendMessage for NoteOnMessage creates new note if for valid channel'() {
+    @test 'sendMessage for NoteOnMessage creates new note'() {
         const midiOut = new ToneJSMidiOut(new ToneTest());
         const target = new TestPolySynth('PolySynth');
         midiOut.setChannel(0, target);
         midiOut.sendMessage(new NoteOnMessage('A4', 127, 0));
-        midiOut.sendMessage(new NoteOnMessage('B4', 127, 1));
         expect(midiOut.notes.length).to.equal(1);
         expect(midiOut.notes[0].pitch).to.equal(parsePitch('A4'));
         expect(target.messages.length).to.equal(1);
@@ -285,40 +283,36 @@ class TestPolySynth extends TestBaseSynth {
         expect(midiOut.channels[0].parent).to.equal(midiOut);
     }
 
-    @test 'Stopped notes on monophonic synth have no effect if another note started more recently'() {
+    @test 'addNote will stop all existing notes for monophonic synths'() {
         const midiOut = new ToneJSMidiOut(new ToneTest());
         const synth = new TestMonoSynth();
         midiOut.setChannel(0, synth);
+
         const note1 = midiOut.addNote(new Note('C4', 127, 0));
-        midiOut.update(10);
-        const note2 = midiOut.addNote(new Note('G4', 127, 0));
-        midiOut.update(10);
-        note1.stop();
-        midiOut.update(10);
-        note2.stop();
-        midiOut.update(10);
-        expect(synth.messages.length).to.equal(3);
+        expect(synth.messages.length).to.equal(1);
         expect(synth.messages[0]).to.equal('triggerAttack(262, now, 1.00)');
-        expect(synth.messages[1]).to.equal('triggerAttack(392, now, 1.00)');
-        expect(synth.messages[2]).to.equal('triggerRelease(now)');
+
+        const note2 = midiOut.addNote(new Note('G4', 127, 0));
+        expect(synth.messages.length).to.equal(3);
+        expect(synth.messages[1]).to.equal('triggerRelease(now)');
+        expect(synth.messages[2]).to.equal('triggerAttack(392, now, 1.00)');
+        expect(note1.on).to.be.false;
     }
 
-    @test 'Stopped notes on polyphonic synth have no effect if another note of same pitch started more recently'() {
+    @test 'New note with same pitch as existing one stops old note on polyphonic synth'() {
         const midiOut = new ToneJSMidiOut(new ToneTest());
         const synth = new TestPolySynth('Sampler');
         midiOut.setChannel(0, synth);
+
         const note1 = midiOut.addNote(new Note('A4', 127, 0));
-        midiOut.update(10);
-        const note2 = midiOut.addNote(new Note('A4', 127, 0));
-        midiOut.update(10);
-        note1.stop();
-        midiOut.update(10);
-        note2.stop();
-        midiOut.update(10);
-        expect(synth.messages.length).to.equal(3);
+        expect(synth.messages.length).to.equal(1);
         expect(synth.messages[0]).to.equal('triggerAttack(440, now, 1.00)');
-        expect(synth.messages[1]).to.equal('triggerAttack(440, now, 1.00)');
-        expect(synth.messages[2]).to.equal('triggerRelease(440, now)');
+
+        const note2 = midiOut.addNote(new Note('A4', 127, 0));
+        expect(synth.messages.length).to.equal(3);
+        expect(synth.messages[1]).to.equal('triggerRelease(440, now)');
+        expect(synth.messages[2]).to.equal('triggerAttack(440, now, 1.00)');
+        expect(note1.on).to.be.false;
     }
 
     @test 'Overlapping stopped notes work normally on poly synth when pitches are different'() {
