@@ -52,5 +52,8 @@
     "tone": {
       "optional": true
     }
+  },
+  "dependencies": {
+    "es-toolkit": "^1.50.0"
   }
 }

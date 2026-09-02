@@ -13,7 +13,6 @@ import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData } from './C
 import Cue from './Cue';
 import Drums from './Drums';
 import EventSubscriber from './EventSubscriber';
-import './Extensions';
 import Flexinome from './Flexinome';
 import { FitDirection, FitPrecision } from './IPitchContainer';
 import Gamepads from './Gamepads';
@@ -32,7 +31,6 @@ import MidiOut from './MidiOut';
 import MiscController from './MiscController';
 import Note from './Note';
 import { parsePitch as pitch } from './utils';
-import PitchFitter from './PitchFitter';
 import PropertyTracker from './PropertyTracker';
 import PS4Controller from './PS4Controller';
 import Repeat from './Repeat';
@@ -75,7 +73,6 @@ export {
     MiscController,
     Note,
     pitch,
-    PitchFitter,
     PropertyTracker,
     PS4Controller,
     Repeat,
