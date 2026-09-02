@@ -30,7 +30,7 @@ import {
 import MidiOut from './MidiOut';
 import MiscController from './MiscController';
 import Note from './Note';
-import { parsePitch as pitch } from './utils';
+import { parsePitch as pitch, near, octave, toOctave } from './utils';
 import PropertyTracker from './PropertyTracker';
 import PS4Controller from './PS4Controller';
 import Repeat from './Repeat';
@@ -72,7 +72,7 @@ export {
     MidiOut,
     MiscController,
     Note,
-    pitch,
+    pitch, near, octave, toOctave,
     PropertyTracker,
     PS4Controller,
     Repeat,

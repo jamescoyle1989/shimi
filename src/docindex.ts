@@ -16,7 +16,6 @@ import Clock, { IClockChild, ClockChildFinishedEvent, ClockChildFinishedEventDat
 import Cue, { BeatCue, MsCue, ConditionalCue } from './Cue';
 import Drums from './Drums';
 import EventSubscriber, { IEventSubscriber } from './EventSubscriber';
-import { near, octave, toOctave } from './Extensions';
 import Flexinome from './Flexinome';
 import { FitDirection, FitPrecision, IPitchContainer, FitPitchOptions } from './IPitchContainer';
 import Gamepads, { IGamepad } from './Gamepads';
@@ -34,8 +33,7 @@ import {
 import MidiOut, { IMidiOut } from './MidiOut';
 import MiscController from './MiscController';
 import Note from './Note';
-import { parsePitch as pitch, toHertz } from './utils';
-import PitchFitter from './PitchFitter';
+import { parsePitch as pitch, toHertz, near, octave, toOctave } from './utils';
 import PropertyTracker from './PropertyTracker';
 import PS4Controller from './PS4Controller';
 import Range from './Range';
@@ -72,7 +70,6 @@ export {
     Cue, BeatCue, MsCue, ConditionalCue,
     Drums,
     EventSubscriber, IEventSubscriber,
-    near, octave, toOctave,
     Flexinome,
     FitDirection, FitPrecision, IPitchContainer, FitPitchOptions,
     Gamepads, IGamepad,
@@ -88,8 +85,7 @@ export {
     MidiOut, IMidiOut,
     MiscController,
     Note,
-    pitch, toHertz,
-    PitchFitter,
+    pitch, toHertz, near, octave, toOctave,
     PropertyTracker,
     PS4Controller,
     Range,

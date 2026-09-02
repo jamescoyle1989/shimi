@@ -79,7 +79,7 @@ export default class ClockUpdateSource {
     }
 
     private _setInterval(): void {
-        this._timer = setInterval(this.callback, this.msPerTick);
+        this._timer = setInterval(this.callback, this.msPerTick) as unknown as number;
     }
 
     private _stopRunning(): void {

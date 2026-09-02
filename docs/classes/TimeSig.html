@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">TimeSig</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:38</li></ul></aside>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L40">TimeSig.ts:40</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -75,7 +75,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="TimeSig.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSig</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:80</li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L82">TimeSig.ts:82</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="denominator" class="tsd-anchor"></a>
@@ -85,7 +85,7 @@
 <p>As far as I can tell, &#39;denominator&#39; isn&#39;t the proper name for this, but there also doesn&#39;t seem to be a well agreed upon actual proper name for it, so denominator is what we&#39;re going with.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:61</li></ul></aside></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L63">TimeSig.ts:63</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="divisions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>divisions</span><a href="#divisions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">divisions<span class="tsd-signature-symbol">:</span> <a href="TimeSigDivision.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSigDivision</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
@@ -96,16 +96,16 @@
 <p>If working in 7/8, then <code>denominator = 8</code>, and we might have <code>divisions = [2, 2, 3]</code>. The 8 for denominator means we&#39;re counting in eighth notes. The divisions array means that we have 3 beats per bar, the first 2 are each 2 eighth notes long, and the 3rd is 3 eighth notes long.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:54</li></ul></aside></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L56">TimeSig.ts:56</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="swing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>swing</span><a href="#swing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">swing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+<div class="tsd-signature">swing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0.5</span></div>
 <div class="tsd-comment tsd-typography"><p>The swing property defines how long the first half of each beat lasts compared to the second half. The default value for this is 0.5, meaning that there&#39;s no swing, and both halfs of the beat are evenly divided. The valid values for this range from 0 to 1, where 1 means that the first half of the beat takes up the entire beat length, and 0 means that the second half of the beat takes up the entire beat length.</p>
 <p>A swing value of 2/3 would give you your classic jazz swing, where the first half of the beat lasts twice as long as the second half. A 0.75 value would be a far stronger swing, with the first half of each beat lasting 3 times as long as the second half.</p>
-<p>A swing value &lt; 0.5 is far more rare, but works along the same principle as positive values, just in the other direction</p>
+<p>A swing value &lt; 0.5 is far more rare, but works along the same principle as values &gt; 0.5, just in the other direction</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:70</li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L72">TimeSig.ts:72</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="beatsPerBar" class="tsd-anchor"></a>
@@ -117,7 +117,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:106</li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L108">TimeSig.ts:108</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="quarterNotesPerBar" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>quarter<wbr/>Notes<wbr/>Per<wbr/>Bar</span><a href="#quarterNotesPerBar" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -127,7 +127,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:109</li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L111">TimeSig.ts:111</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="typeName" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>type<wbr/>Name</span><a href="#typeName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -137,7 +137,7 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:41</li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L43">TimeSig.ts:43</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="applySwing" class="tsd-anchor"></a>
@@ -156,12 +156,12 @@
 <div class="tsd-comment tsd-typography"><p>The position to apply swing to.</p>
 </div></li>
 <li>
-<h5>swing: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = null</span></h5>
+<h5>swing: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></h5>
 <div class="tsd-comment tsd-typography"><p>Optional parameter, if not provided, then the TimeSig&#39;s swing value will be used.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:121</li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L123">TimeSig.ts:123</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="beatToQuarterNote" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>beat<wbr/>To<wbr/>Quarter<wbr/>Note</span><a href="#beatToQuarterNote" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -176,7 +176,7 @@
 <h5>beat: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:174</li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L176">TimeSig.ts:176</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="quarterNoteToBeat" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>quarter<wbr/>Note<wbr/>To<wbr/>Beat</span><a href="#quarterNoteToBeat" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -191,7 +191,7 @@
 <h5>quarterNote: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:141</li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L143">TimeSig.ts:143</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="commonTime" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>common<wbr/>Time</span><a href="#commonTime" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -210,7 +210,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="TimeSig.html" class="tsd-signature-type" data-tsd-kind="Class">TimeSig</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in TimeSig.ts:214</li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/jamescoyle1989/shimi/blob/29cbfef/src/TimeSig.ts#L216">TimeSig.ts:216</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
