@@ -78,12 +78,18 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
     /** The AudioContext instance which the WebAudioMidiOut is operating within. */
     get audioContext() { return this._audioContext; }
     
-    private _channels: Array<WebAudioMidiOutChannel> = [
+    private _channels: Array<WebAudioMidiOutChannel | null> = [
         null,null,null,null,
         null,null,null,null,
         null,null,null,null,
         null,null,null,null
     ];
+
+    private _oscillators: Map<Note, OscillatorNode> = new Map<Note, OscillatorNode>();
+
+    getOscillator(note: Note): OscillatorNode | undefined {
+        return this._oscillators.get(note);
+    }
 
     /**
      * @param audioContext The AudioContext instance which the WebAudioMidiOut is operating within.
@@ -124,6 +130,15 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
         return this;
     }
 
+    getChannel(channel: number): WebAudioMidiOutChannel {
+        if (channel < 0 || channel > 15)
+            throw new Error('Channel must be numbered 0 - 15');
+        const output = this._channels[channel];
+        if (!output)
+            throw new Error('No instrument set on channel ' + channel);
+        return output;
+    }
+
 
     //IMidiOut implementation start
 
@@ -143,11 +158,14 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
      * @returns 
      */
     addNote(note: Note): Note {
+        const channelObj = this.getChannel(note.channel);
+        if (!note.on)
+            throw new Error('Cannot add a note which is not set to on');
+
+        this.stopNotes(n => n.pitch == note.pitch && n.channel == note.channel);
+        this._createOscillator(note);
+        note.onTracker.accept();
         this._notes.push(note);
-        if (note.on) {
-            this._createOscillator(note);
-            note.onTracker.accept();
-        }
         return note;
     }
 
@@ -158,9 +176,9 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
     stopNotes(filter?: (note: Note) => boolean): void {
         for (const n of this._notes) {
             if (!filter || filter(n)) {
-                n['oscillator'].stop();
-                delete n['oscillator'];
-                n.stop();
+                n.on = false;
+                n.onTracker.accept();
+                this._stopOscillator(n);
             }
         }
         this._notes = this._notes.filter(n => n.on);
@@ -186,7 +204,7 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
     }
 
     //Used for handling running status messages
-    private _previousStatus: number = null;
+    private _previousStatus: number = -1;
 
     /**
      * Receives a byte-array representation of a MIDI message. The method interprets the message into an IMidiMessage object, and calls the `WebAudioMidiOut.sendMessage` method with it.
@@ -199,7 +217,7 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
         if (data[0] >= 128)
             this._previousStatus = data[0];
         else {
-            if (this._previousStatus)
+            if (this._previousStatus >= 0)
                 data.unshift(this._previousStatus)
             else
                 return;
@@ -231,7 +249,7 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
     /** Provides a way of identifying a WebAudioMidiOut so it can be easily retrieved later */
     get ref(): string { return this._ref; }
     set ref(value: string) { this._ref = value; }
-    private _ref: string;
+    private _ref: string = '';
 
     /** Returns true if the WebAudioMidiOut has been instructed to stop everything by the `finish()` method. */
     get isFinished(): boolean { return this._isFinished; }
@@ -249,15 +267,17 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
     update(deltaMs: number): void {
         let anyNotesStopped = false;
 
-        for (let i = 0; i < this._notes.length; i++) {
-            const note = this._notes[i];
+        for (const note of this._notes) {
             if (!note.on) {
                 if (note.onTracker.isDirty) {
-                    note['oscillator'].stop();
-                    delete note['oscillator'];
+                    this.stopNotes(n => n.pitch == note.pitch && n.channel == note.channel);
                     note.onTracker.accept();
                 }
                 anyNotesStopped = true;
+            }
+            else if (note.on && note.velocityTracker.isDirty) {
+                this.sendMessage(new messages.NotePressureMessage(note.pitch, note.velocity, note.channel));
+                note.velocityTracker.accept();
             }
         }
 
@@ -290,7 +310,16 @@ export default class WebAudioMidiOut implements IMidiOut, IClockChild {
     //IClockChild implementation end
 
     private _createOscillator(note: Note) {
-        const channel = this._channels[note.channel];
-        note['oscillator'] = channel.createOscillator(toHertz(note.pitch));
+        const channel = this.getChannel(note.channel);
+        const osc = channel.createOscillator(toHertz(note.pitch));
+        this._oscillators.set(note, osc);
+    }
+
+    private _stopOscillator(note: Note) {
+        const osc = this._oscillators.get(note);
+        if (!osc)
+            return;
+        osc.stop();
+        this._oscillators.delete(note);
     }
 }

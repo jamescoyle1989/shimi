@@ -1,7 +1,9 @@
 import { suite, test } from '@testdeck/mocha';
 import { expect } from 'chai';
-import { Clock, Note, NoteOffMessage, NoteOnMessage } from '../src';
+import { NoteOffMessage, NoteOnMessage } from '../src/MidiMessages';
 import WebAudioMidiOut, {WebAudioMidiOutChannel} from '../src/WebAudioMidiOut';
+import Clock from '../src/Clock';
+import Note from '../src/Note';
 
 
 class DummyAudioContext {
@@ -42,9 +44,9 @@ class DummyAudioContext {
         const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note = new Note(70, 38, 2);
         expect(note.on).to.be.true;
-        expect(note['oscillator']).to.be.undefined;
+        expect(synth.getOscillator(note)).to.be.undefined;
         synth.addNote(note);
-        expect(note['oscillator']).to.be.not.undefined;
+        expect(synth.getOscillator(note)).to.be.not.undefined;
     }
 
     @test 'oscillator stops on update if note is turned off'() {
@@ -52,10 +54,10 @@ class DummyAudioContext {
         const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note = new Note(57, 89, 8);
         synth.addNote(note);
-        expect(note['oscillator']).to.be.not.undefined;
+        expect(synth.getOscillator(note)).to.be.not.undefined;
         note.on = false;
         synth.update(10);
-        expect(note['oscillator']).to.be.undefined;
+        expect(synth.getOscillator(note)).to.be.undefined;
     }
 
     @test 'stopNotes ends notes'() {
@@ -90,25 +92,23 @@ class DummyAudioContext {
         expect(synth['_channels'][5].gain).to.equal(1);
     }
 
-    @test 'when stopping a note, it doesnt matter if another one already started'() {
+    @test 'starting a note will stop any pre-existing similar notes'() {
         const audioContext: any = new DummyAudioContext();
         const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note1 = synth.addNote(new Note(60, 80, 1));
+        expect(synth.getOscillator(note1)).to.be.not.undefined;
         const note2 = synth.addNote(new Note(60, 80, 1));
-        expect(note1['oscillator']).to.be.not.undefined;
-        expect(note2['oscillator']).to.be.not.undefined;
-        note1.stop();
-        synth.update(10);
-        expect(note1['oscillator']).to.be.undefined;
+        expect(synth.getOscillator(note2)).to.be.not.undefined;
+        expect(synth.getOscillator(note1)).to.be.undefined;
     }
 
     @test 'finish stops all active notes'() {
         const audioContext: any = new DummyAudioContext();
         const synth = new WebAudioMidiOut(audioContext).withDefaultChannels();
         const note = synth.addNote(new Note(60, 80, 1));
-        expect(note['oscillator']).to.be.not.undefined;
+        expect(synth.getOscillator(note)).to.be.not.undefined;
         synth.finish();
-        expect(note['oscillator']).to.be.undefined;
+        expect(synth.getOscillator(note)).to.be.undefined;
     }
 
     @test 'finish sets isFinished to true'() {
