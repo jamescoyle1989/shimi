@@ -1,6 +1,6 @@
 'use strict';
 
-import { Arpeggio, ArpeggioNote } from './Arpeggio';
+import { Arpeggio, ArpeggioAction, ArpeggioNote } from './Arpeggio';
 import Chord from './Chord';
 import Clock, { ClockChildFinishedEvent, ClockChildFinishedEventData, IClockChild } from './Clock';
 import Note from './Note';
@@ -91,9 +91,9 @@ export default class Arpeggiator implements IClockChild {
     get finished(): ClockChildFinishedEvent { return this._finished; }
     private _finished: ClockChildFinishedEvent = new ClockChildFinishedEvent();
 
-    private _notes: Note[] = [];
-
     private _arpNotes: Map<Note, ArpeggioNote> = new Map<Note, ArpeggioNote>();
+
+    private _arpActions: Map<Note, ArpeggioAction> = new Map<Note, ArpeggioAction>();
 
     constructor(arpeggio: Arpeggio, metronome: IMetronome, midiOut: IMidiOut) {
         this.arpeggio = arpeggio;
@@ -130,21 +130,20 @@ export default class Arpeggiator implements IClockChild {
 
         //Loop through each existing note that the arpeggiator has started
         //Stop notes that need to end
-        for (const note of this._notes) {
-            const arpNote = this._arpNotes.get(note);
-            if (!arpNote) {
+        this._arpNotes.forEach((arpNote, note) => {
+            if (!arpNote.contains(newArpeggioBeat) || newArpeggioBeat < oldArpeggioBeat) {
                 note.stop();
+                this._arpNotes.delete(note);
             }
-            else {
-                if (!arpNote.contains(newArpeggioBeat) || newArpeggioBeat < oldArpeggioBeat) {
-                    note.stop();
-                    this._arpNotes.delete(note);
-                }
-                else if (typeof(arpNote.velocity) != 'number')
-                    note.velocity = arpNote.velocity.update((newArpeggioBeat - arpNote.start) / arpNote.duration);
+            else if (typeof(arpNote.velocity) != 'number')
+                note.velocity = arpNote.velocity.update((newArpeggioBeat - arpNote.start) / arpNote.duration);
+        });
+        this._arpActions.forEach((arpAction, note) => {
+            if (!arpAction.contains(newArpeggioBeat) || newArpeggioBeat < oldArpeggioBeat) {
+                note.stop();
+                this._arpNotes.delete(note);
             }
-        }
-        this._notes = this._notes.filter(n => n.on);
+        });
 
         //Loop through each arp note in the current range and add a new note for each one
         //Store the clipNote that each note came from, so we can track down notes when it's time to stop them
@@ -156,10 +155,19 @@ export default class Arpeggiator implements IClockChild {
                 this._arpNotes.set(note, arpNote);
                 if (this.noteModifier)
                     this.noteModifier(note);
-                this._notes.push(note);
                 this.midiOut.addNote(note);
             }
+            for (const arpAction of this.arpeggio.getActionsStartingInRange(oldArpeggioBeat, newArpeggioBeat)) {
+                arpAction.run(this.chord, this.channel, n => this._startActionNote(n, arpAction));
+            }
         }
+    }
+
+    private _startActionNote(note: Note, arpeggioAction: ArpeggioAction): void {
+        this._arpActions.set(note, arpeggioAction);
+        if (this.noteModifier)
+            this.noteModifier(note);
+        this.midiOut.addNote(note);
     }
 
     /** Calling this tells the arpeggiator to stop whatever it's doing and that it will no longer be used. */
@@ -185,8 +193,13 @@ export default class Arpeggiator implements IClockChild {
     }
 
     private _endAllNotes(): void {
-        for (const note of this._notes)
+        this._arpNotes.forEach((arpNote, note) => {
             note.stop();
-        this._notes = [];
+        });
+        this._arpActions.forEach((arpAction, note) => {
+            note.stop();
+        });
+        this._arpNotes.clear();
+        this._arpActions.clear();
     }
 }

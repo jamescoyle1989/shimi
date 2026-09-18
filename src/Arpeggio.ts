@@ -81,6 +81,42 @@ export class ArpeggioNote extends Range {
 
 
 /**
+ * Each ArpeggioAction object contains a function which will be run when the action's start time is reached. This is used for creation of dynamic arpeggio logic in response to the current chord. When the ArpeggioAction's duration ends, all notes which were created by it should be automatically stopped.
+ */
+export class ArpeggioAction extends Range {
+
+    /** Returns the name of this type. This can be used rather than instanceof which is sometimes unreliable. */
+    get typeName(): string { return 'shimi.ArpeggioAction'; }
+
+    /**
+     * Stores a function that takes the chord, arpeggiator channel, and a callback for creating new notes as parameters.
+     * The function is evaluated whenever the ArpeggioAction is deemed ready to play by a running Arpeggiator.
+     */
+    get action(): (chord: Chord, channel: number, startNote: (note: Note) => void) => void { return this._action; }
+    private _action: (chord: Chord, channel: number, startNote: (note: Note) => void) => void;
+
+    /**
+     * 
+     * @param start What beat within the clip that the action starts on
+     * @param duration How many beats the action lasts for
+     * @param action The action to perform, taking a chord object as parameter
+     */
+    constructor(
+        start: number,
+        duration: number,
+        action: (chord: Chord, channel: number, startNote: (note: Note) => void) => void
+    ) {
+        super(start, duration);
+        this._action = action;
+    }
+
+    run(chord: Chord, channel: number, startNote: (note: Note) => void): void {
+        this.action(chord, channel, startNote);
+    }
+}
+
+
+/**
  * The Shimi Arpeggio object can contain a collection of ArpeggioNote objects.
  * 
  * Once an Arpeggio has been defined, it can be passed into an Arpeggiator object to be played.
@@ -105,6 +141,9 @@ export class Arpeggio extends Range {
 
     /** The collection of notes that make up the arpeggio shape. */
     notes: ArpeggioNote[] = [];
+
+    /** The collection of actions that the arpeggio triggers */
+    actions: ArpeggioAction[] = [];
 
     /**
      * @param duration How many beats the arpeggio pattern will span before repeating.
@@ -137,6 +176,19 @@ export class Arpeggio extends Range {
         return this;
     }
 
+    addAction(
+        start: number | Array<number>,
+        duration: number,
+        action: (chord: Chord, channel: number, startNote: (note: Note) => void) => void
+    ): Arpeggio {
+        if (typeof(start) == 'number')
+            start = [start];
+        for (const s of start)
+            this.actions.push(new ArpeggioAction(s, duration, action));
+
+        return this;
+    }
+
     /**
      * Mainly intended for use by the Arpeggiator. Returns the collection of ArpeggioNote objects which start within the given beat range.
      * @param start The beat to start searching from.
@@ -165,5 +217,35 @@ export class Arpeggio extends Range {
             return this.notes.filter(x => x.end >= start && x.end < end);
         else
             return this.notes.filter(x => x.end >= start || x.end < end);
+    }
+
+    /**
+     * Mainly intended for use by the Arpeggiator. Returns the collection of ArpeggioAction objects which start within the given beat range.
+     * @param start The beat to start searching from.
+     * @param end The beat to end the search at.
+     * @returns 
+     */
+    getActionsStartingInRange(start: number, end: number): ArpeggioAction[] {
+        //It's better to compare >= to start & < to end
+        //otherwise anything set to trigger on 0 would always be skipped
+        if (start <= end)
+            return this.actions.filter(x => x.start >= start && x.start < end);
+        else
+            return this.actions.filter(x => x.start >= start || x.start < end);
+    }
+
+    /**
+     * Mainly intended for use by the Arpeggiator. Returns the collection of ArpeggioAction objects which end within the given beat range.
+     * @param start The beat to start searching from.
+     * @param end The beat to end the search at.
+     * @returns 
+     */
+    getActionsEndingInRange(start: number, end: number): ArpeggioAction[] {
+        //It's better to compare >= to start & < to end
+        //otherwise anything set to trigger on 0 would always be skipped
+        if (start <= end)
+            return this.actions.filter(x => x.end >= start && x.end < end);
+        else
+            return this.actions.filter(x => x.end >= start || x.end < end);
     }
 }

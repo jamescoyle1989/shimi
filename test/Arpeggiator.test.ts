@@ -8,6 +8,7 @@ import Chord from '../src/Chord';
 import Tween from '../src/Tweens';
 import Clock from '../src/Clock';
 import TimeSig from '../src/TimeSig';
+import { Note } from '../src';
 
 
 class DummyPort {
@@ -248,5 +249,30 @@ class DummyPort {
         expect(Clock.default.children).to.contain(arpeggiator);
 
         Clock.default = null;
+    }
+
+    @test 'Update correctly handles arpeggio actions'() {
+        const arpeggio = new Arpeggio(2)
+            .addAction(0, 1, (c, ch, startNote) => {
+                c.pitches.map(p => startNote(new Note(p, 80, ch)))
+            });
+        const metronome = new Metronome(60, TimeSig.commonTime());
+        const midiOut = new MidiOut(new DummyPort() as any);
+        const arpeggiator = new Arpeggiator(arpeggio, metronome, midiOut);
+        arpeggiator.chord = new Chord().addPitches([36, 40, 43]);
+
+        metronome.update(500);
+        arpeggiator.update(500);
+        expect(midiOut.notes.length).to.equal(3);
+        expect(midiOut.notes[0].pitch).to.equal(36);
+        expect(midiOut.notes[1].pitch).to.equal(40);
+        expect(midiOut.notes[2].pitch).to.equal(43);
+
+        metronome.update(600);
+        arpeggiator.update(600);
+        expect(midiOut.notes.length).to.equal(3);
+        expect(midiOut.notes[0].on).to.be.false;
+        expect(midiOut.notes[1].on).to.be.false;
+        expect(midiOut.notes[2].on).to.be.false;
     }
 }
