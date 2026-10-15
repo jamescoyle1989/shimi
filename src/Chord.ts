@@ -60,7 +60,7 @@ export default class Chord implements IPitchContainer {
             this._name = Chord.nameGenerator(this);
         return this._name;
     }
-    set name(value: string) { this._name = value; }
+    set name(value: string | null) { this._name = value; }
     private _name: string | null = null;
 
     /** 
@@ -80,7 +80,7 @@ export default class Chord implements IPitchContainer {
      * };
      * ```
      */
-    static nameGenerator: ((chord: Chord) => string) | null = null;
+    static nameGenerator: ((chord: Chord) => string | null) | null = null;
     
     constructor() {
     }

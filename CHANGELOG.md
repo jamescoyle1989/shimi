@@ -8,6 +8,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 
+## 4.0.1 (2026-10-14)
+
+### Added
+
+ - support for 6 & m6 chords in the default chord finder setup
+
+### Fixed
+
+ - support for the chord name generator to return null values
+
+
+## 4.0.0 (2026-09-01)
+
+### Changed
+
+ - minor changes all over the interface to comply with strict mode
+
+
 ## 3.4.0 (2025-10-23)
 
 ### Added

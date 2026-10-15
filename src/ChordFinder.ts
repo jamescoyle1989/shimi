@@ -171,6 +171,8 @@ export default class ChordFinder {
         this.addChordLookup('sus4', [0, 5, 7], '{r}sus4', '{r}sus4/{b}', 6);
         this.addChordLookup('dim7', [0, 3, 6, 9], '{r}dim7', '{r}dim7/{b}', 5);
         this.addChordLookup('m7♭5', [0, 3, 6, 10], '{r}m7♭5', '{r}m7♭5/{b}', 5);
+        this.addChordLookup('6', [0, 4, 7, 9], '{r}6', '{r}6/{b}', 4);
+        this.addChordLookup('m6', [0, 3, 7, 9], '{r}m6', '{r}m6/{b}', 4);
         this.addChordLookup('M9', [0, 4, 7, 11, 14], '{r}M9', '{r}M9/{b}', 4);
         this.addChordLookup('9', [0, 4, 7, 10, 14], '{r}9', '{r}9/{b}', 4);
         this.addChordLookup('m9', [0, 3, 7, 10, 14], '{r}m9', '{r}m9/{b}', 4);

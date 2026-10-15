@@ -143,6 +143,20 @@ import Chord from '../src/Chord';
         expect(result.name).to.equal('{r}m');
     }
 
+    @test 'lookupChord can distinguish between m7 & 6 chords'() {
+        const suggester = new ChordFinder().withDefaultChordLookups();
+        expect(suggester.findChord([0, 3, 7, 10], null, null, null).shapeName).to.equal('m7');
+        expect(suggester.findChord([0, 3, 7, 10], 0, null, null).shapeName).to.equal('m7');
+        expect(suggester.findChord([0, 3, 7, 10], 3, null, null).shapeName).to.equal('6');
+    }
+
+    @test 'lookupChord can distinguish between m7b5 & m6 chords'() {
+        const suggester = new ChordFinder().withDefaultChordLookups();
+        expect(suggester.findChord([0, 3, 6, 10], null, null, null).shapeName).to.equal('m7♭5');
+        expect(suggester.findChord([0, 3, 6, 10], 0, null, null).shapeName).to.equal('m7♭5');
+        expect(suggester.findChord([0, 3, 6, 10], 3, null, null).shapeName).to.equal('m6');
+    }
+
     @test 'findChordByName allows looking up chord by string'() {
         const finder = new ChordFinder().withDefaultChordLookups();
         const result = finder.findChordByName('F#m7');
